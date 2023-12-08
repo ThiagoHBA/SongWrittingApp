@@ -46,6 +46,8 @@
 		00F2F2832B2390B00008F6F5 /* LoadTokenEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */; };
 		00F2F2862B23930A0008F6F5 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */; };
 		00F2F2882B23944D0008F6F5 /* SecureClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2872B23944D0008F6F5 /* SecureClientImpl.swift */; };
+		00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F28E2B2399CA0008F6F5 /* DataError.swift */; };
+		00F2F2922B239A350008F6F5 /* InfraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2912B239A350008F6F5 /* InfraError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,6 +197,8 @@
 		00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTokenEndpoint.swift; sourceTree = "<group>"; };
 		00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		00F2F2872B23944D0008F6F5 /* SecureClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureClientImpl.swift; sourceTree = "<group>"; };
+		00F2F28E2B2399CA0008F6F5 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
+		00F2F2912B239A350008F6F5 /* InfraError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +320,7 @@
 		00F2F1FC2B2380000008F6F5 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				00F2F28D2B2399B80008F6F5 /* Error */,
 				00F2F2842B2392F00008F6F5 /* Entities */,
 				00F2F27F2B2390300008F6F5 /* Handlers */,
 				00F2F21E2B2382410008F6F5 /* API */,
@@ -405,6 +410,7 @@
 		00F2F2332B238D620008F6F5 /* Infra */ = {
 			isa = PBXGroup;
 			children = (
+				00F2F2902B239A2F0008F6F5 /* Error */,
 				00F2F2472B238D780008F6F5 /* Client */,
 			);
 			path = Infra;
@@ -470,6 +476,22 @@
 				00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		00F2F28D2B2399B80008F6F5 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F28E2B2399CA0008F6F5 /* DataError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		00F2F2902B239A2F0008F6F5 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2912B239A350008F6F5 /* InfraError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -735,6 +757,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */,
 				00F2F2232B2382790008F6F5 /* GetReferencesEndpoint.swift in Sources */,
 				00F2F2202B23824E0008F6F5 /* Endpoint.swift in Sources */,
 				00F2F2812B23903D0008F6F5 /* AuthorizationHandler.swift in Sources */,
@@ -763,6 +786,7 @@
 			files = (
 				00F2F2492B238D820008F6F5 /* NetworkClientImpl.swift in Sources */,
 				00F2F2882B23944D0008F6F5 /* SecureClientImpl.swift in Sources */,
+				00F2F2922B239A350008F6F5 /* InfraError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,10 +16,12 @@ public final class AuthorizationHandler {
         self.secureClient = secureClient
     }
     
-    public func loadToken(completion: (Result<AccessTokenResponse, Error>) -> Void ) {
+    public func loadToken(
+        completion: @escaping (Result<AccessTokenResponse, Error>) -> Void
+    ) {
         let authString = "\(Constants.clientID):\(Constants.clientSecret)"
         guard let authBytes = authString.data(using: .utf8) else {
-            // Throw error
+            completion(.failure(DataError.unableToCreateToken))
             return
         }
         let authBase64 = authBytes.base64EncodedString()
@@ -34,13 +36,16 @@ public final class AuthorizationHandler {
             switch result {
                 case .success(let data):
                     do {
-                        let token = try JSONDecoder().decode(AccessTokenResponse.self, from: data)
-                        print(token.accessToken)
+                        let token = try JSONDecoder().decode(
+                            AccessTokenResponse.self,
+                            from: data
+                        )
+                        completion(.success(token))
                     } catch {
-                        print(error.localizedDescription)
+                        completion(.failure(DataError.decodingError))
                     }
                 case .failure(let error):
-                    print("REQUEST FAIL: \(error.localizedDescription)")
+                    completion(.failure(error))
             }
         }
     }
