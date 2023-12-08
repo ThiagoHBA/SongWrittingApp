@@ -10,9 +10,9 @@ import Domain
 
 public class ReferencesServiceImpl: ReferencesService {
     let networkClient: NetworkClient
-    let secureClient: SecureClient
+    let secureClient: SecurePersistenceClient
     
-    public init(networkClient: NetworkClient, secureClient: SecureClient) {
+    public init(networkClient: NetworkClient, secureClient: SecurePersistenceClient) {
         self.networkClient = networkClient
         self.secureClient = secureClient
     }

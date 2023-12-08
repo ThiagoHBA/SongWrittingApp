@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol SecureClient {
+public protocol SecurePersistenceClient {
     
 }

@@ -8,6 +8,6 @@
 import Foundation
 import Data
 
-public final class SecureClientImpl: SecureClient {
+public final class SecureClientImpl: SecurePersistenceClient {
     public init() {}
 }
