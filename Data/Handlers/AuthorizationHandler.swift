@@ -16,14 +16,19 @@ public final class AuthorizationHandler {
         self.secureClient = secureClient
     }
     
-    public func loadToken() {
+    public func loadToken(completion: (Result<AccessTokenResponse, Error>) -> Void ) {
         let authString = "\(Constants.clientID):\(Constants.clientSecret)"
         guard let authBytes = authString.data(using: .utf8) else {
             // Throw error
             return
         }
         let authBase64 = authBytes.base64EncodedString()
-        let endpoint = LoadTokenEndpoint(headers: ["Authorization": authBase64])
+        let endpoint = LoadTokenEndpoint(
+            headers: [
+                "Authorization": "Basic \(authBase64)",
+                "Content-Type": "application/x-www-form-urlencoded"
+            ]
+        )
         
         networkClient.makeRequest(endpoint) { result in
             switch result {

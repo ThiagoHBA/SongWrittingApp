@@ -23,7 +23,9 @@ class ViewController: UIViewController {
             secureClient: secureClient
         )
         
-        authorizationHandler.loadToken()
+        authorizationHandler.loadToken { result in
+            
+        }
 //        let useCase = LoadReferencesUseCase(service: , input: )
     }
 

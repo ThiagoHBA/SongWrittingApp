@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct AccessTokenResponse: Decodable {
-    let accessToken: String
-    let tokenType: String
-    let expiresIn: Int
+public struct AccessTokenResponse: Decodable {
+    public let accessToken: String
+    public let tokenType: String
+    public let expiresIn: Int
 
     enum CodingKeys: String, CodingKey {
         case accessToken = "access_token"

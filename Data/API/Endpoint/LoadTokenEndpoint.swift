@@ -8,7 +8,7 @@
 import Foundation
 
 struct LoadTokenEndpoint: Endpoint {
-    var body: Data? = nil
+    var body: Data?
     var httpMethod: HTTPMethod? = .post
     var communicationProtocol: CommunicationProtocol = .HTTPS
     var headers: [String : String]
@@ -23,5 +23,6 @@ struct LoadTokenEndpoint: Endpoint {
     
     init(headers: [String: String]) {
         self.headers = headers
+        self.body = "grant_type=client_credentials".data(using: .utf8)
     }
 }
