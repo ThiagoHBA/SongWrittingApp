@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AccessTokenResponse: Decodable {
+public struct AccessTokenResponse: DataEntity, Decodable {
     public let accessToken: String
     public let tokenType: String
     public let expiresIn: Int
@@ -16,5 +16,12 @@ public struct AccessTokenResponse: Decodable {
         case accessToken = "access_token"
         case tokenType = "token_type"
         case expiresIn = "expires_in"
+    }
+    
+    static func loadFromData(_ data: Data) throws -> AccessTokenResponse {
+        return try JSONDecoder().decode(
+            AccessTokenResponse.self,
+            from: data
+        )
     }
 }

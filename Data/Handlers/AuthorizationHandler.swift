@@ -36,10 +36,7 @@ public final class AuthorizationHandler {
             switch result {
                 case .success(let data):
                     do {
-                        let token = try JSONDecoder().decode(
-                            AccessTokenResponse.self,
-                            from: data
-                        )
+                        let token = try AccessTokenResponse.loadFromData(data)
                         completion(.success(token))
                     } catch {
                         completion(.failure(DataError.decodingError))

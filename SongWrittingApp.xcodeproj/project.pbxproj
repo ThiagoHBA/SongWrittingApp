@@ -48,6 +48,7 @@
 		00F2F2882B23944D0008F6F5 /* SecureClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2872B23944D0008F6F5 /* SecureClientImpl.swift */; };
 		00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F28E2B2399CA0008F6F5 /* DataError.swift */; };
 		00F2F2922B239A350008F6F5 /* InfraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2912B239A350008F6F5 /* InfraError.swift */; };
+		00F2F2952B239D460008F6F5 /* DataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2942B239D460008F6F5 /* DataEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,7 @@
 		00F2F2872B23944D0008F6F5 /* SecureClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureClientImpl.swift; sourceTree = "<group>"; };
 		00F2F28E2B2399CA0008F6F5 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		00F2F2912B239A350008F6F5 /* InfraError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraError.swift; sourceTree = "<group>"; };
+		00F2F2942B239D460008F6F5 /* DataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -473,6 +475,7 @@
 		00F2F2842B2392F00008F6F5 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				00F2F2932B239D3E0008F6F5 /* Protocol */,
 				00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */,
 			);
 			path = Entities;
@@ -492,6 +495,14 @@
 				00F2F2912B239A350008F6F5 /* InfraError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		00F2F2932B239D3E0008F6F5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2942B239D460008F6F5 /* DataEntity.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -764,6 +775,7 @@
 				00F2F2862B23930A0008F6F5 /* AccessTokenResponse.swift in Sources */,
 				00F2F21D2B2381650008F6F5 /* SecureClient.swift in Sources */,
 				00F2F2832B2390B00008F6F5 /* LoadTokenEndpoint.swift in Sources */,
+				00F2F2952B239D460008F6F5 /* DataEntity.swift in Sources */,
 				00F2F21B2B2381280008F6F5 /* NetworkClient.swift in Sources */,
 				00F2F2122B23801B0008F6F5 /* ReferencesServiceImpl.swift in Sources */,
 				00F2F2252B2382D00008F6F5 /* Constants.swift in Sources */,
