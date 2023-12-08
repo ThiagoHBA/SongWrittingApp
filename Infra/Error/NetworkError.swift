@@ -7,14 +7,14 @@
 
 import Foundation
 
-internal enum InfraError: LocalizedError {
+internal enum NetworkError: LocalizedError {
     case unableToCreateURL
     case transportError
     case httpError(Int)
     case decodingError
 }
 
-extension InfraError {
+extension NetworkError {
     var errorDescription: String? {
         switch self {
             case .unableToCreateURL:

@@ -47,8 +47,9 @@
 		00F2F2862B23930A0008F6F5 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */; };
 		00F2F2882B23944D0008F6F5 /* SecurePersistenceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */; };
 		00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F28E2B2399CA0008F6F5 /* DataError.swift */; };
-		00F2F2922B239A350008F6F5 /* InfraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2912B239A350008F6F5 /* InfraError.swift */; };
+		00F2F2922B239A350008F6F5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2912B239A350008F6F5 /* NetworkError.swift */; };
 		00F2F2952B239D460008F6F5 /* DataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2942B239D460008F6F5 /* DataEntity.swift */; };
+		00F2F2992B23A6720008F6F5 /* SecurePersistenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,8 +200,9 @@
 		00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
 		00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePersistenceClientImpl.swift; sourceTree = "<group>"; };
 		00F2F28E2B2399CA0008F6F5 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
-		00F2F2912B239A350008F6F5 /* InfraError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraError.swift; sourceTree = "<group>"; };
+		00F2F2912B239A350008F6F5 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		00F2F2942B239D460008F6F5 /* DataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntity.swift; sourceTree = "<group>"; };
+		00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePersistenceError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -492,7 +494,8 @@
 		00F2F2902B239A2F0008F6F5 /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				00F2F2912B239A350008F6F5 /* InfraError.swift */,
+				00F2F2912B239A350008F6F5 /* NetworkError.swift */,
+				00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -797,8 +800,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				00F2F2492B238D820008F6F5 /* NetworkClientImpl.swift in Sources */,
+				00F2F2992B23A6720008F6F5 /* SecurePersistenceError.swift in Sources */,
 				00F2F2882B23944D0008F6F5 /* SecurePersistenceClientImpl.swift in Sources */,
-				00F2F2922B239A350008F6F5 /* InfraError.swift in Sources */,
+				00F2F2922B239A350008F6F5 /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
