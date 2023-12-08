@@ -17,11 +17,11 @@ public final class AuthorizationHandler {
     }
     
     public func loadToken(
-        completion: @escaping (Result<AccessTokenResponse, Error>) -> Void
+        completion: @escaping (Error?) -> Void
     ) {
         let authString = "\(Constants.clientID):\(Constants.clientSecret)"
         guard let authBytes = authString.data(using: .utf8) else {
-            completion(.failure(DataError.unableToCreateToken))
+            completion(DataError.unableToCreateToken)
             return
         }
         let authBase64 = authBytes.base64EncodedString()
@@ -32,17 +32,20 @@ public final class AuthorizationHandler {
             ]
         )
         
-        networkClient.makeRequest(endpoint) { result in
+        networkClient.makeRequest(endpoint) { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
                 case .success(let data):
                     do {
                         let token = try AccessTokenResponse.loadFromData(data)
-                        completion(.success(token))
+                        try self.secureClient.saveData(data)
+                        completion(nil)
                     } catch {
-                        completion(.failure(DataError.decodingError))
+                        completion(error)
                     }
                 case .failure(let error):
-                    completion(.failure(error))
+                    completion(error)
             }
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 public protocol SecurePersistenceClient {
     var server: String { get }
     
-    func saveData(account: String, dataToSave: Data) throws
+    func saveData(_ data: Data) throws
     func getData() throws -> Data
     func deleteData() throws 
 }

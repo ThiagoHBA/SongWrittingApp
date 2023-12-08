@@ -10,30 +10,37 @@ import Data
 import Infra
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        self.view.backgroundColor = .red
-        let networkClient = NetworkClientImpl()
-        let secureClient = SecureClientImpl()
-        
-        let authorizationHandler = AuthorizationHandler(
+    let networkClient = NetworkClientImpl()
+    let secureClient = SecureClientImpl()
+    
+    let authorizationHandler: AuthorizationHandler
+    
+    init() {
+        self.authorizationHandler = .init(
             networkClient: networkClient,
             secureClient: secureClient
         )
-        
-        authorizationHandler.loadToken { result in
-            switch result {
-                case .success(let token):
-                    print(token.accessToken)
-                case .failure(let error):
-                    print(error.localizedDescription)
-            }
-        }
-//        let useCase = LoadReferencesUseCase(service: , input: )
+        super.init(nibName: nil, bundle: nil)
     }
+    
+    required init?(coder: NSCoder) { nil }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .red
 
-
+        try! secureClient.deleteData()
+        
+        authorizationHandler.loadToken { [weak self] error in
+            guard let self = self else { return }
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+    
+            let secureTokenData = try! secureClient.getData()
+            let token = try! AccessTokenResponse.loadFromData(secureTokenData)
+        }
+    }
 }
 

@@ -11,12 +11,11 @@ import Data
 public final class SecureClientImpl: SecurePersistenceClient {
     public init() {}
     
-    public func saveData(account: String, dataToSave: Data) throws {
+    public func saveData(_ data: Data) throws {
         let query: [String: Any] = [
             kSecClass as String: kSecClassInternetPassword,
-            kSecAttrAccount as String: account,
             kSecAttrServer as String: server,
-            kSecValueData as String: dataToSave
+            kSecValueData as String: data
         ]
         
         let status = SecItemAdd(query as CFDictionary, nil)
