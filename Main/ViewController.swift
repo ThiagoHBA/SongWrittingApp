@@ -24,7 +24,12 @@ class ViewController: UIViewController {
         )
         
         authorizationHandler.loadToken { result in
-            
+            switch result {
+                case .success(let token):
+                    print(token.accessToken)
+                case .failure(let error):
+                    print(error.localizedDescription)
+            }
         }
 //        let useCase = LoadReferencesUseCase(service: , input: )
     }

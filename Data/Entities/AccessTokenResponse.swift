@@ -17,11 +17,4 @@ public struct AccessTokenResponse: DataEntity, Decodable {
         case tokenType = "token_type"
         case expiresIn = "expires_in"
     }
-    
-    static func loadFromData(_ data: Data) throws -> AccessTokenResponse {
-        return try JSONDecoder().decode(
-            AccessTokenResponse.self,
-            from: data
-        )
-    }
 }
