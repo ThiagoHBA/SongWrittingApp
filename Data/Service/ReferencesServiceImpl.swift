@@ -15,8 +15,8 @@ public class ReferencesServiceImpl: ReferencesService {
         self.networkClient = networkClient
     }
     
-    public func loadReferences(_ request: ReferenceRequest) {
-        let endpoint = GetReferencesEndpoint(request: request)
+    public func loadReferences(_ keywords: String) {
+        let endpoint = GetReferencesEndpoint(keywords: keywords)
         
         networkClient.makeRequest(endpoint) { result in
             switch result {

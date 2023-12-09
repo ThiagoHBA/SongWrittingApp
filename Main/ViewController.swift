@@ -33,7 +33,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .red
-        referenceImpl.loadReferences(ReferenceRequest(keywords: "ACDC"))
 //        try! secureClient.deleteData()
 //        
 //        authorizationHandler.loadTokenOnStorage { [weak self] error in

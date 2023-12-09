@@ -21,9 +21,9 @@ struct GetReferencesEndpoint: Endpoint {
     }
     var queries: [URLQueryItem]
     
-    init(request: ReferenceRequest, headers: [String: String] = [:]) {
+    init(keywords: String, headers: [String: String] = [:]) {
         self.queries = [
-            .init(name: "q", value: request.keywords),
+            .init(name: "q", value: keywords),
             .init(name: "type", value: "album")
         ]
         self.headers = headers

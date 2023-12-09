@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol ReferencesService {
-    func loadReferences(_ request: ReferenceRequest)
+    func loadReferences(_ keywords: String)
 }
