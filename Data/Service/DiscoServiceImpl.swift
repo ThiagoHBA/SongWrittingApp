@@ -23,7 +23,7 @@ public final class DiscoServiceImpl: DiscoService {
     
     public func createDisco(
         name: String,
-        image: String,
+        image: Data,
         completion: @escaping (Result<Disco, Error>) -> Void
     ) {
         let newDisco = Disco(id: UUID(), name: name, coverImage: image)

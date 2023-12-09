@@ -12,9 +12,8 @@ import XCTest
 final class ReferencesServiceTests: XCTestCase {
 
     func test_loadReferences_should_call_network_client() {
-        let (sut, (network, _)) = makeSUT()
-        let request = ReferenceRequest(keywords: "any request")
-        sut.loadReferences(request)
+        let (sut, (network)) = makeSUT()
+        sut.loadReferences("any request")
         XCTAssertEqual(network.makeRequestCalled, 1)
     }
 
@@ -23,18 +22,13 @@ final class ReferencesServiceTests: XCTestCase {
 extension ReferencesServiceTests {
     typealias SutAndDoubles = (
         sut: ReferencesServiceImpl,
-        doubles: (
-            networkSpy: NetworkClientSpy,
-            secureSpy: SecureClientSpy
-        )
+        doubles: (NetworkClientSpy)
     )
     func makeSUT() -> SutAndDoubles {
         let networkSpy = NetworkClientSpy()
-        let secureSpy = SecureClientSpy()
         let sut = ReferencesServiceImpl(
-            networkClient: networkSpy,
-            secureClient: secureSpy
+            networkClient: networkSpy
         )
-        return (sut, (networkSpy, secureSpy))
+        return (sut, (networkSpy))
     }
 }

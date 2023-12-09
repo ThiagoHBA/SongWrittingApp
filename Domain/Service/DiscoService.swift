@@ -10,7 +10,7 @@ import Foundation
 public protocol DiscoService {
     func createDisco(
         name: String,
-        image: String,
+        image: Data,
         completion: @escaping (Result<Disco, Error>) -> Void
     )
 }

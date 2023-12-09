@@ -9,9 +9,9 @@ import Foundation
 
 public struct Record: Equatable {
     public let tag: InstrumentTag
-    public let audio: String
+    public let audio: Data
     
-    public init(tag: InstrumentTag, audio: String) {
+    public init(tag: InstrumentTag, audio: Data) {
         self.tag = tag
         self.audio = audio
     }
