@@ -8,9 +8,9 @@
 import Foundation
 
 public final class CreateNewDiscoUseCase: UseCase {
-    var service: DiscoService
-    var output: [CreateNewDiscoUseCaseOutput]?
-    var input: CreateNewDiscoUseCaseInput?
+    let service: DiscoService
+    public var output: [CreateNewDiscoUseCaseOutput]?
+    public var input: CreateNewDiscoUseCaseInput?
     
     public init(service: DiscoService) {
         self.service = service

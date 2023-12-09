@@ -11,7 +11,7 @@ protocol UseCase {
     associatedtype Gateway
     associatedtype UseCaseOutput
     associatedtype UseCaseInput
-    var service: Gateway { get set }
+    var service: Gateway { get }
     var output: UseCaseOutput? { get set }
     var input: UseCaseInput? { get set }
     init(service: Gateway)

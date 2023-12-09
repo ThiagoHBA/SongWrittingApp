@@ -73,6 +73,9 @@
 		00F2F2E92B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2E82B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift */; };
 		00F2F2EB2B24D4830008F6F5 /* LoadReferencesUseCaseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2EA2B24D4830008F6F5 /* LoadReferencesUseCaseInput.swift */; };
 		00F2F2F22B24DBF40008F6F5 /* DiscoServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2F12B24DBF40008F6F5 /* DiscoServiceImpl.swift */; };
+		00F2F2F72B24E0BB0008F6F5 /* DiscoListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */; };
+		00F2F2F92B24E0D40008F6F5 /* DiscoListPresentationLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */; };
+		00F2F2FB2B24E1660008F6F5 /* DiscoListDisplayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,6 +276,9 @@
 		00F2F2E82B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewDiscoUseCaseInput.swift; sourceTree = "<group>"; };
 		00F2F2EA2B24D4830008F6F5 /* LoadReferencesUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadReferencesUseCaseInput.swift; sourceTree = "<group>"; };
 		00F2F2F12B24DBF40008F6F5 /* DiscoServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceImpl.swift; sourceTree = "<group>"; };
+		00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresenter.swift; sourceTree = "<group>"; };
+		00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresentationLogic.swift; sourceTree = "<group>"; };
+		00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListDisplayLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -633,6 +639,7 @@
 		00F2F2A82B24CD020008F6F5 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				00F2F2F52B24E0AC0008F6F5 /* DiscoList */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -702,6 +709,16 @@
 				00F2F2DB2B24CFAD0008F6F5 /* AddNewRecordToSessionUseCase.swift */,
 			);
 			path = AddNewRecordToSession;
+			sourceTree = "<group>";
+		};
+		00F2F2F52B24E0AC0008F6F5 /* DiscoList */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */,
+				00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */,
+				00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */,
+			);
+			path = DiscoList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -927,6 +944,7 @@
 					};
 					00F2F2A62B24CD020008F6F5 = {
 						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
 					};
 					00F2F2AD2B24CD020008F6F5 = {
 						CreatedOnToolsVersion = 15.0;
@@ -1110,6 +1128,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F2F2FB2B24E1660008F6F5 /* DiscoListDisplayLogic.swift in Sources */,
+				00F2F2F92B24E0D40008F6F5 /* DiscoListPresentationLogic.swift in Sources */,
+				00F2F2F72B24E0BB0008F6F5 /* DiscoListPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1678,6 +1699,7 @@
 		00F2F2B72B24CD030008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1704,6 +1726,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1713,6 +1736,7 @@
 		00F2F2B82B24CD030008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1748,6 +1772,7 @@
 		00F2F2BA2B24CD030008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -1765,6 +1790,7 @@
 		00F2F2BB2B24CD030008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
