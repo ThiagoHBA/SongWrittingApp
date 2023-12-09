@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal enum NetworkError: LocalizedError {
+public enum NetworkError: LocalizedError, Equatable {
     case unableToCreateURL
     case transportError
     case httpError(Int)
@@ -15,7 +15,7 @@ internal enum NetworkError: LocalizedError {
 }
 
 extension NetworkError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
             case .unableToCreateURL:
                 return "Não foi possível estabeler conexão com o servidor"

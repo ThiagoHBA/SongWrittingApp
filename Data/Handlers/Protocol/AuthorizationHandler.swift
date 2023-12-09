@@ -11,4 +11,6 @@ public protocol AuthorizationHandler {
     func loadToken (
         completion: @escaping (Result<AccessTokenResponse,TokenError>) -> Void
     )
+    
+    func clearCachedTokenIfExists() 
 }

@@ -7,8 +7,14 @@
 
 import Foundation
 
-public enum TokenError: Error {
+public enum TokenError: LocalizedError {
     case unableToCreateToken
     case needToRefresh
     case requestError(Error)
+}
+
+extension TokenError {
+    public var errorDescription: String? {
+        return "Não foi possível realizar a autenticação com o servidor, reinicie o aplicativo e tente novamente!"
+    }
 }

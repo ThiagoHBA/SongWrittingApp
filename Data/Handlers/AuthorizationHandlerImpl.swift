@@ -55,6 +55,12 @@ public final class AuthorizationHandlerImpl: AuthorizationHandler {
         }
     }
     
+    public func clearCachedTokenIfExists() {
+        if let _ = getCachedToken() {
+            try? secureClient.deleteData()
+        }
+    }
+    
     private func getCachedToken() -> AccessTokenResponse? {
         guard let tokenData = try? secureClient.getData() else { return nil }
         do {
