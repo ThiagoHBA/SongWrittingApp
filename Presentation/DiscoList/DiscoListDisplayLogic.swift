@@ -11,7 +11,7 @@ import Domain
 public protocol DiscoListDisplayLogic {
     func startLoading()
     func hideLoading()
-    func showDiscos(_ discos: [Disco])
-    func showNewDisco(_ disco: Disco)
+    func showDiscos(_ discos: [DiscoListViewEntity])
+    func showNewDisco(_ disco: DiscoListViewEntity)
     func showError(_ title: String, _ description: String)
 }

@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import Domain
 import Presentation
 
 public class DiscoListViewController: UIViewController {
     let presenter: DiscoListPresentationLogic
-    private var discos: [Disco] = [Disco]()
+    private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
     
     let titleLabel: UILabel = {
        let label = UILabel()
@@ -43,11 +42,11 @@ extension DiscoListViewController: DiscoListDisplayLogic {
         
     }
     
-    public func showDiscos(_ discos: [Domain.Disco]) {
+    public func showDiscos(_ discos: [DiscoListViewEntity]) {
         
     }
     
-    public func showNewDisco(_ disco: Domain.Disco) {
+    public func showNewDisco(_ disco: DiscoListViewEntity) {
         
     }
     

@@ -40,7 +40,7 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
 extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func successfullyCreateDisco(_ disco: Disco) {
         view?.hideLoading()
-        view?.showNewDisco(disco)
+        view?.showNewDisco(DiscoListViewEntity(from: disco))
     }
     
     public func errorWhileCreatingDisco(_ error: Error) {
@@ -53,7 +53,7 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
 extension DiscoListPresenter: GetDiscosUseCaseOutput {
     public func successfullyLoadDiscos(_ discos: [Disco]) {
         view?.hideLoading()
-        view?.showDiscos(discos)
+        view?.showDiscos(discos.map { DiscoListViewEntity(from: $0) })
     }
     
     public func errorWhileLoadingDiscos(_ error: Error) {
