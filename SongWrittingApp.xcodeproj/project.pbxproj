@@ -57,6 +57,11 @@
 		00F2F2B42B24CD030008F6F5 /* PresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2B32B24CD030008F6F5 /* PresentationTests.swift */; };
 		00F2F2BC2B24CD150008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
 		00F2F2BD2B24CD150008F6F5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00F2F2C22B24CD370008F6F5 /* Disco.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2C12B24CD370008F6F5 /* Disco.swift */; };
+		00F2F2C42B24CD870008F6F5 /* DiscoProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2C32B24CD870008F6F5 /* DiscoProfile.swift */; };
+		00F2F2C62B24CDAF0008F6F5 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2C52B24CDAF0008F6F5 /* Section.swift */; };
+		00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2C72B24CDD30008F6F5 /* AlbumReference.swift */; };
+		00F2F2CA2B24CDFE0008F6F5 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2C92B24CDFE0008F6F5 /* Record.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -241,6 +246,11 @@
 		00F2F2A72B24CD020008F6F5 /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2AE2B24CD020008F6F5 /* PresentationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PresentationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2B32B24CD030008F6F5 /* PresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationTests.swift; sourceTree = "<group>"; };
+		00F2F2C12B24CD370008F6F5 /* Disco.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disco.swift; sourceTree = "<group>"; };
+		00F2F2C32B24CD870008F6F5 /* DiscoProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfile.swift; sourceTree = "<group>"; };
+		00F2F2C52B24CDAF0008F6F5 /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		00F2F2C72B24CDD30008F6F5 /* AlbumReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumReference.swift; sourceTree = "<group>"; };
+		00F2F2C92B24CDFE0008F6F5 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -375,6 +385,11 @@
 			isa = PBXGroup;
 			children = (
 				00F2F1F42B237F9F0008F6F5 /* ReferenceRequest.swift */,
+				00F2F2C12B24CD370008F6F5 /* Disco.swift */,
+				00F2F2C32B24CD870008F6F5 /* DiscoProfile.swift */,
+				00F2F2C52B24CDAF0008F6F5 /* Section.swift */,
+				00F2F2C72B24CDD30008F6F5 /* AlbumReference.swift */,
+				00F2F2C92B24CDFE0008F6F5 /* Record.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -920,9 +935,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */,
+				00F2F2C22B24CD370008F6F5 /* Disco.swift in Sources */,
 				00F2F1EF2B2373D50008F6F5 /* LoadReferencesUseCase.swift in Sources */,
 				00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */,
+				00F2F2C62B24CDAF0008F6F5 /* Section.swift in Sources */,
 				00F2F1F52B237F9F0008F6F5 /* ReferenceRequest.swift in Sources */,
+				00F2F2CA2B24CDFE0008F6F5 /* Record.swift in Sources */,
+				00F2F2C42B24CD870008F6F5 /* DiscoProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
