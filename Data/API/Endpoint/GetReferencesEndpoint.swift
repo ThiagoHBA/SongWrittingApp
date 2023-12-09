@@ -19,9 +19,11 @@ struct GetReferencesEndpoint: Endpoint {
         return "/v1/search/"
     }
     
+    var headers: [String : String]
     var queries: [URLQueryItem]
     
-    init(request: ReferenceRequest) {
+    init(request: ReferenceRequest, headers: [String: String]) {
         self.queries = [.init(name: "q", value: request.keywords)]
+        self.headers = headers
     }
 }

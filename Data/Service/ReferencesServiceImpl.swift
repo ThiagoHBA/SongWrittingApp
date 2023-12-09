@@ -18,15 +18,27 @@ public class ReferencesServiceImpl: ReferencesService {
     }
     
     public func loadReferences(_ request: ReferenceRequest) {
-        let enpoint = GetReferencesEndpoint(request: request)
-        
-        networkClient.makeRequest(enpoint) { result in
-            switch result {
+        do {
+            let tokenData = try secureClient.getData()
+            let token = try JSONDecoder().decode(AccessTokenResponse.self, from: tokenData)
+            
+            let enpoint = GetReferencesEndpoint(
+                request: request,
+                headers: [
+                    "Authorization": "\(token.tokenType) \(token.accessToken)"
+                ]
+            )
+            
+            networkClient.makeRequest(enpoint) { result in
+                switch result {
                 case .success(let data):
                     print("Receiving data: \(data)")
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
+                }
             }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

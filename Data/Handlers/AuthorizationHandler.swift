@@ -38,7 +38,6 @@ public final class AuthorizationHandler {
             switch result {
                 case .success(let data):
                     do {
-                        let token = try AccessTokenResponse.loadFromData(data)
                         try self.secureClient.saveData(data)
                         completion(nil)
                     } catch {
