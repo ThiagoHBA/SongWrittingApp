@@ -9,7 +9,7 @@ import Foundation
 
 public final class GetDiscosUseCase: UseCase {
     let service: DiscoService
-    public var output: GetDiscosUseCaseOutput?
+    public var output: [GetDiscosUseCaseOutput]?
     public var input: Any?
     
     public init(service: DiscoService) {
@@ -22,9 +22,9 @@ public final class GetDiscosUseCase: UseCase {
             
             switch result {
                 case .success(let discoList):
-                    self.output?.successfullyLoadDiscos(discoList)
+                    self.output?.forEach { $0.successfullyLoadDiscos(discoList) }
                 case .failure(let error):
-                    self.output?.errorWhileLoadingDiscos(error)
+                    self.output?.forEach { $0.errorWhileLoadingDiscos(error) }
             }
         }
     }

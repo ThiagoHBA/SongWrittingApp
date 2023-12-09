@@ -34,7 +34,33 @@ public class DiscoListViewController: UIViewController {
     }
 }
 
+extension DiscoListViewController: DiscoListDisplayLogic {
+    public func startLoading() {
+        
+    }
+    
+    public func hideLoading() {
+        
+    }
+    
+    public func showDiscos(_ discos: [Domain.Disco]) {
+        
+    }
+    
+    public func showNewDisco(_ disco: Domain.Disco) {
+        
+    }
+    
+    public func showError(_ title: String, _ description: String) {
+        
+    }
+}
+
 extension DiscoListViewController: ViewCoding {
+    func additionalConfiguration() {
+        self.view.backgroundColor = .systemBackground
+    }
+    
     func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),

@@ -12,9 +12,9 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
     
-    var view: DiscoListDisplayLogic?
+    public var view: DiscoListDisplayLogic?
     
-    init(
+    public init(
         getDiscosUseCase: GetDiscosUseCase,
         createNewDiscoUseCase: CreateNewDiscoUseCase
     ) {
