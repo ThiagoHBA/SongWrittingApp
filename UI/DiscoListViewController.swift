@@ -6,24 +6,43 @@
 //
 
 import UIKit
+import Domain
+import Presentation
 
-class DiscoListViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+public class DiscoListViewController: UIViewController {
+    let presenter: DiscoListPresentationLogic
+    private var discos: [Disco] = [Disco]()
+    
+    let titleLabel: UILabel = {
+       let label = UILabel()
+        label.text = "Discos"
+        label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    public init(presenter: DiscoListPresentationLogic) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    required init?(coder: NSCoder) { nil }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        buildLayout()
     }
-    */
+}
 
+extension DiscoListViewController: ViewCoding {
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        ])
+    }
+    
+    func addViewInHierarchy() {
+        view.addSubview(titleLabel)
+    }
 }

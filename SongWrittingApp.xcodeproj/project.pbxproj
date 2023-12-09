@@ -85,6 +85,9 @@
 		00F2F31E2B24E7370008F6F5 /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2A72B24CD020008F6F5 /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00F2F3222B24E75B0008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
 		00F2F3232B24E75B0008F6F5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00F2F32A2B24E8060008F6F5 /* ViewCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F3292B24E8060008F6F5 /* ViewCoding.swift */; };
+		00F2F32B2B24E8650008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
+		00F2F32C2B24E8650008F6F5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +189,13 @@
 			remoteGlobalIDString = 00F2F1E52B2373B70008F6F5;
 			remoteInfo = Domain;
 		};
+		00F2F32D2B24E8650008F6F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00F2F1C22B2373980008F6F5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00F2F1E52B2373B70008F6F5;
+			remoteInfo = Domain;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -253,6 +263,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				00F2F32C2B24E8650008F6F5 /* Domain.framework in Embed Frameworks */,
 				00F2F31E2B24E7370008F6F5 /* Presentation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -337,6 +348,7 @@
 		00F2F30D2B24E7080008F6F5 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F3122B24E7080008F6F5 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
 		00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewController.swift; sourceTree = "<group>"; };
+		00F2F3292B24E8060008F6F5 /* ViewCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +424,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F2F32B2B24E8650008F6F5 /* Domain.framework in Frameworks */,
 				00F2F31D2B24E7370008F6F5 /* Presentation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -813,6 +826,7 @@
 		00F2F3072B24E7080008F6F5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				00F2F3272B24E7EE0008F6F5 /* Resources */,
 				00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */,
 			);
 			path = UI;
@@ -824,6 +838,22 @@
 				00F2F3122B24E7080008F6F5 /* UITests.swift */,
 			);
 			path = UITests;
+			sourceTree = "<group>";
+		};
+		00F2F3272B24E7EE0008F6F5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F3282B24E7F70008F6F5 /* Protocol */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		00F2F3282B24E7F70008F6F5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F3292B24E8060008F6F5 /* ViewCoding.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1039,6 +1069,7 @@
 			);
 			dependencies = (
 				00F2F3202B24E7370008F6F5 /* PBXTargetDependency */,
+				00F2F32E2B24E8650008F6F5 /* PBXTargetDependency */,
 			);
 			name = UI;
 			productName = UI;
@@ -1323,6 +1354,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00F2F32A2B24E8060008F6F5 /* ViewCoding.swift in Sources */,
 				00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1410,6 +1442,11 @@
 			isa = PBXTargetDependency;
 			target = 00F2F1E52B2373B70008F6F5 /* Domain */;
 			targetProxy = 00F2F3242B24E75C0008F6F5 /* PBXContainerItemProxy */;
+		};
+		00F2F32E2B24E8650008F6F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00F2F1E52B2373B70008F6F5 /* Domain */;
+			targetProxy = 00F2F32D2B24E8650008F6F5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
