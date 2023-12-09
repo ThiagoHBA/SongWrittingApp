@@ -17,6 +17,15 @@ public final class GetDiscosUseCase: UseCase {
     }
     
     public func execute() {
-
+        service.loadDiscos { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+                case .success(let discoList):
+                    self.output?.successfullyLoadDiscos(discoList)
+                case .failure(let error):
+                    self.output?.errorWhileLoadingDiscos(error)
+            }
+        }
     }
 }
