@@ -14,7 +14,7 @@ public class DiscoListViewController: UIViewController {
     
     let titleLabel: UILabel = {
        let label = UILabel()
-        label.text = "Discos"
+        label.text = "Seus Discos"
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -41,8 +41,10 @@ public class DiscoListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
-        presenter.createDisco(name: "White Album", image: UIImage(systemName: "star")!.pngData()!)
-        presenter.loadDiscos()
+        presenter.createDisco(name: "White Album", image: UIImage(systemName: "photo.fill")!.pngData()!)
+        presenter.createDisco(name: "Let it be", image: UIImage(systemName: "photo.fill")!.pngData()!)
+        presenter.createDisco(name: "Revolver", image: UIImage(systemName: "photo.fill")!.pngData()!)
+//        presenter.loadDiscos()
     }
 }
 
@@ -81,9 +83,12 @@ extension DiscoListViewController: ViewCoding {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            titleLabel.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor,
+                constant: 32
+            ),
             
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -113,9 +118,12 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.textLabel?.text = discos[indexPath.row].name
-        
+        cell.configure(with: discos[indexPath.row])
         return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return DiscoTableViewCell.heigth
     }
     
 }
