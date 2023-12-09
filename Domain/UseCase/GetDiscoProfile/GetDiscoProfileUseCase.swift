@@ -1,5 +1,5 @@
 //
-//  GetDiscoProfile.swift
+//  GetDiscoProfileUseCase.swift
 //  Domain
 //
 //  Created by Thiago Henrique on 09/12/23.
