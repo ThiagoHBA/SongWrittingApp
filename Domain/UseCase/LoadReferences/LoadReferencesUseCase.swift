@@ -9,14 +9,14 @@ import Foundation
 
 public final class LoadReferencesUseCase {
     let service: ReferencesService
-    let input: ReferenceRequest
+    let input: LoadReferencesUseCaseInput
     
-    public init(service: ReferencesService, input: ReferenceRequest) {
+    public init(service: ReferencesService, input: LoadReferencesUseCaseInput) {
         self.service = service
         self.input = input
     }
     
     public func execute() {
-        service.loadReferences(input)
+        service.loadReferences(input.keywords)
     }
 }
