@@ -25,7 +25,7 @@ struct DiscoListFactory {
         )
         let viewController = DiscoListViewController(presenter: presenter)
         
-        // Memory Leaks
+        // Possible Retain Cicle
         createNewDiscoUseCase.output = [presenter]
         getDiscosUseCase.output = [presenter]
         presenter.view = viewController

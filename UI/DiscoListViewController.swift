@@ -20,6 +20,17 @@ public class DiscoListViewController: UIViewController {
         return label
     }()
     
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(
+            DiscoTableViewCell.self,
+            forCellReuseIdentifier: DiscoTableViewCell.identifier
+        )
+        tableView.showsVerticalScrollIndicator = true
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     public init(presenter: DiscoListPresentationLogic) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -30,44 +41,81 @@ public class DiscoListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        presenter.createDisco(name: "White Album", image: UIImage(systemName: "star")!.pngData()!)
+        presenter.loadDiscos()
     }
 }
 
 extension DiscoListViewController: DiscoListDisplayLogic {
     public func startLoading() {
-        
+        print("Starting Load")
     }
     
     public func hideLoading() {
-        
+        print("Hiding Load")
     }
     
     public func showDiscos(_ discos: [DiscoListViewEntity]) {
-        
+        self.discos = discos
+        tableView.reloadData()
     }
     
     public func showNewDisco(_ disco: DiscoListViewEntity) {
-        
+        print("New Disco created")
+        self.discos.append(disco)
+        self.showDiscos(discos)
     }
     
     public func showError(_ title: String, _ description: String) {
-        
+        print("Erro: \(title): \(description)")
     }
 }
 
 extension DiscoListViewController: ViewCoding {
     func additionalConfiguration() {
         self.view.backgroundColor = .systemBackground
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
     func addViewInHierarchy() {
         view.addSubview(titleLabel)
+        view.addSubview(tableView)
     }
+}
+
+//MARK: TableView Datasource/Delegate Conformance
+extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return discos.count
+    }
+    
+    public func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: DiscoTableViewCell.identifier,
+            for: indexPath
+        ) as? DiscoTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        cell.textLabel?.text = discos[indexPath.row].name
+        
+        return cell
+    }
+    
 }
