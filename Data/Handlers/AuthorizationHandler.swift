@@ -16,9 +16,7 @@ public final class AuthorizationHandler {
         self.secureClient = secureClient
     }
     
-    public func loadToken(
-        completion: @escaping (Error?) -> Void
-    ) {
+    public func loadTokenOnStorage(completion: @escaping (Error?) -> Void) {
         let authString = "\(Constants.clientID):\(Constants.clientSecret)"
         guard let authBytes = authString.data(using: .utf8) else {
             completion(DataError.unableToCreateToken)
