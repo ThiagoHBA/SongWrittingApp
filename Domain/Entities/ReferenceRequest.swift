@@ -9,4 +9,8 @@ import Foundation
 
 public struct ReferenceRequest {
     public let keywords: String
+    
+    public init(keywords: String) {
+        self.keywords = keywords
+    }
 }

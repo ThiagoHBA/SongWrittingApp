@@ -13,7 +13,7 @@ public protocol Endpoint {
     var path: String { get }
     var httpMethod: HTTPMethod? { get }
     var body: Data? { get set }
-    var headers: [String: String] { get }
+    var headers: [String: String] { get set }
     var queries: [URLQueryItem] { get }
 }
 

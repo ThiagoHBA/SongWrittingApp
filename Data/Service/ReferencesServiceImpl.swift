@@ -10,35 +10,21 @@ import Domain
 
 public class ReferencesServiceImpl: ReferencesService {
     let networkClient: NetworkClient
-    let secureClient: SecurePersistenceClient
     
-    public init(networkClient: NetworkClient, secureClient: SecurePersistenceClient) {
+    public init(networkClient: NetworkClient) {
         self.networkClient = networkClient
-        self.secureClient = secureClient
     }
     
     public func loadReferences(_ request: ReferenceRequest) {
-        do {
-            let tokenData = try secureClient.getData()
-            let token = try JSONDecoder().decode(AccessTokenResponse.self, from: tokenData)
-            
-            let enpoint = GetReferencesEndpoint(
-                request: request,
-                headers: [
-                    "Authorization": "\(token.tokenType) \(token.accessToken)"
-                ]
-            )
-            
-            networkClient.makeRequest(enpoint) { result in
-                switch result {
-                case .success(let data):
-                    print("Receiving data: \(data)")
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
+        let endpoint = GetReferencesEndpoint(request: request)
+        
+        networkClient.makeRequest(endpoint) { result in
+            switch result {
+            case .success(let data):
+                print("Receiving data: \(data)")
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
             }
-        } catch {
-            print(error.localizedDescription)
         }
     }
 }

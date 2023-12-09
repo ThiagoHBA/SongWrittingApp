@@ -8,7 +8,6 @@
 import Foundation
 
 internal enum DataError: LocalizedError {
-    case unableToCreateToken
     case decodingError
 }
 
@@ -17,8 +16,6 @@ extension DataError {
         switch self {
             case .decodingError:
                 return "Não foi possível mapear as informações do servidor"
-            case .unableToCreateToken:
-                return "Ocorreu um problema ao realizar autenticação com o servidor"
         }
     }
 }

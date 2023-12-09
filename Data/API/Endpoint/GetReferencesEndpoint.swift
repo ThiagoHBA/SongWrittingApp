@@ -9,6 +9,7 @@ import Foundation
 import Domain
 
 struct GetReferencesEndpoint: Endpoint {
+    var headers: [String : String]
     var body: Data? = nil
     var httpMethod: HTTPMethod? = .get
     var communicationProtocol: CommunicationProtocol = .HTTPS
@@ -18,12 +19,13 @@ struct GetReferencesEndpoint: Endpoint {
     var path: String {
         return "/v1/search/"
     }
-    
-    var headers: [String : String]
     var queries: [URLQueryItem]
     
-    init(request: ReferenceRequest, headers: [String: String]) {
-        self.queries = [.init(name: "q", value: request.keywords)]
+    init(request: ReferenceRequest, headers: [String: String] = [:]) {
+        self.queries = [
+            .init(name: "q", value: request.keywords),
+            .init(name: "type", value: "album")
+        ]
         self.headers = headers
     }
 }
