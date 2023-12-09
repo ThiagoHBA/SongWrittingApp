@@ -9,7 +9,7 @@ import Foundation
 
 public final class CreateNewDiscoUseCase: UseCase {
     var service: DiscoService
-    var output: CreateNewDiscoUseCaseOutput?
+    var output: [CreateNewDiscoUseCaseOutput]?
     var input: CreateNewDiscoUseCaseInput?
     
     public init(service: DiscoService) {
@@ -17,6 +17,17 @@ public final class CreateNewDiscoUseCase: UseCase {
     }
     
     public func execute() {
-        
+        assert(input != nil)
+        guard let input = input else { return }
+
+        service.createDisco(name: input.name, image: input.image) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let disco):
+                    self.output?.forEach { $0.successfullyCreateDisco(disco)}
+                case .failure(let error):
+                    self.output?.forEach { $0.errorWhileCreatingDisco(error)}
+            }
+        }
     }
 }
