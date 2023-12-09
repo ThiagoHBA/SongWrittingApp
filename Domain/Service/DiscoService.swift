@@ -13,4 +13,6 @@ public protocol DiscoService {
         image: Data,
         completion: @escaping (Result<Disco, Error>) -> Void
     )
+    
+    func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void)
 }

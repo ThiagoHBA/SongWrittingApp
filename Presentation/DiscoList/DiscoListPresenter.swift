@@ -10,14 +10,21 @@ import Domain
 
 public final class DiscoListPresenter: DiscoListPresentationLogic {
     let createNewDiscoUseCase: CreateNewDiscoUseCase
+    let getDiscosUseCase: GetDiscosUseCase
+    
     var view: DiscoListDisplayLogic?
     
-    init(createNewDiscoUseCase: CreateNewDiscoUseCase) {
+    init(
+        getDiscosUseCase: GetDiscosUseCase,
+        createNewDiscoUseCase: CreateNewDiscoUseCase
+    ) {
+        self.getDiscosUseCase = getDiscosUseCase
         self.createNewDiscoUseCase = createNewDiscoUseCase
     }
     
     public func loadDiscos() {
-        
+        view?.startLoading()
+        getDiscosUseCase.execute()
     }
     
     public func createDisco(name: String, image: Data) {
@@ -29,6 +36,7 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
     }
 }
 
+// MARK: - Create Disco Output
 extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func successfullyCreateDisco(_ disco: Disco) {
         view?.hideLoading()
@@ -36,6 +44,19 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     }
     
     public func errorWhileCreatingDisco(_ error: Error) {
+        view?.hideLoading()
+        view?.showError("Erro!", error.localizedDescription)
+    }
+}
+
+// MARK: - Get Discos Output
+extension DiscoListPresenter: GetDiscosUseCaseOutput {
+    public func successfullyLoadDiscos(_ discos: [Disco]) {
+        view?.hideLoading()
+        view?.showDiscos(discos)
+    }
+    
+    public func errorWhileLoadingDiscos(_ error: Error) {
         view?.hideLoading()
         view?.showError("Erro!", error.localizedDescription)
     }

@@ -30,4 +30,8 @@ public final class DiscoServiceImpl: DiscoService {
         memoryDatabase.discos.append(newDisco)
         completion(.success(newDisco))
     }
+    
+    public func loadDiscos(completion: @escaping (Result<[Domain.Disco], Error>) -> Void) {
+        completion(.success(memoryDatabase.discos))
+    }
 }
