@@ -10,7 +10,98 @@ import Domain
 @testable import Presentation
 
 final class DiscoListPresenterTests: XCTestCase {
+    func test_presentLoading_when_called_should_call_view_correctly() {
+        let (sut, (viewSpy, _, _, _)) = makeSUT()
+        sut.presentLoading()
+        XCTAssertEqual(viewSpy.receivedMessages, [.startLoading])
+    }
+    
+    func test_presentCreateDiscoError_when_called_should_call_view_correctly() {
+        let (sut, (viewSpy, _, _, _)) = makeSUT()
+        sut.presentCreateDiscoError(.emptyName)
+        viewSpy.hideOverlaysCompletion!()
+        
+        XCTAssertEqual(
+            viewSpy.receivedMessages,
+            [
+                .hideOverlays,
+                .createDiscoError(
+                    "Erro!",
+                    DiscoListError.CreateDiscoError.emptyName.localizedDescription
+                )
+            ]
+        )
+    }
+    
+    func test_when_service_create_disco_should_call_view_correctly() {
+        let (_, (viewSpy, serviceSpy, _, createUseCase)) = makeSUT()
+        let inputDisco = Disco(id: UUID(), name: "any", coverImage: Data())
+        
+        createUseCase.input = .init(name: "any", image: Data())
+        createUseCase.execute()
+        serviceSpy.createDiscoCompletion!(.success(inputDisco))
+        viewSpy.hideOverlaysCompletion!()
 
+        XCTAssertEqual(
+            viewSpy.receivedMessages, [
+                .hideLoading,
+                .hideOverlays,
+                .showNewDisco(DiscoListViewEntity(from: inputDisco))
+            ]
+        )
+    }
+    
+    func test_when_service_throw_error_while_creating_disco_should_call_view_correctly() {
+        let (_, (viewSpy, serviceSpy, _, createUseCase)) = makeSUT()
+        let inputError = NSError(domain: "any error", code: 0)
+        
+        createUseCase.input = .init(name: "any", image: Data())
+        createUseCase.execute()
+        serviceSpy.createDiscoCompletion!(.failure(inputError))
+        viewSpy.hideOverlaysCompletion!()
+
+        XCTAssertEqual(
+            viewSpy.receivedMessages, [
+                .hideLoading,
+                .hideOverlays,
+                .createDiscoError("Erro!", inputError.localizedDescription)
+            ]
+        )
+    }
+    
+    func test_when_service_load_disco_should_call_view_correctly() {
+        let (_, (viewSpy, serviceSpy, getUseCase, _)) = makeSUT()
+        let inputDiscoList = [
+            Disco(id: UUID(), name: "any", coverImage: Data()),
+            Disco(id: UUID(), name: "any2", coverImage: Data()),
+            Disco(id: UUID(), name: "any3", coverImage: Data())
+        ]
+        
+        getUseCase.execute()
+        serviceSpy.loadDiscosCompletion!(.success(inputDiscoList))
+
+        XCTAssertEqual(
+            viewSpy.receivedMessages, [
+                .hideLoading,
+                .showDiscos(inputDiscoList.map { DiscoListViewEntity(from: $0) })
+            ]
+        )
+    }
+    
+    func test_when_service_throw_error_while_fetching_discos_should_call_view_correctly() {
+        let (_, (viewSpy, serviceSpy, getUseCase, _)) = makeSUT()
+        let inputError = NSError(domain: "any error", code: 0)
+        
+        getUseCase.execute()
+        serviceSpy.loadDiscosCompletion!(.failure(inputError))
+
+        XCTAssertEqual(
+            viewSpy.receivedMessages, [
+                .hideLoading,
+                .loadDiscoError("Erro!", inputError.localizedDescription)
+            ]
+        )
+    }
 }
 
 extension DiscoListPresenterTests: Testing {
@@ -18,7 +109,9 @@ extension DiscoListPresenterTests: Testing {
         sut: DiscoListPresenter,
         doubles: (
             DiscoListViewSpy,
-            DiscoListServiceSpy
+            DiscoListServiceSpy,
+            GetDiscosUseCase,
+            CreateNewDiscoUseCase
         )
     )
     
@@ -33,6 +126,6 @@ extension DiscoListPresenterTests: Testing {
         createDiscoUseCase.output = [sut]
         sut.view = viewSpy
         
-        return (sut, (viewSpy, serviceSpy))
+        return (sut, (viewSpy, serviceSpy, getDiscosUseCase, createDiscoUseCase))
     }
 }

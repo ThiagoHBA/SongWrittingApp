@@ -39,6 +39,8 @@ final class DiscoListViewSpy {
             }
         }
     }
+    
+    var hideOverlaysCompletion: (() -> Void)?
 }
 
 extension DiscoListViewSpy: DiscoListDisplayLogic {
@@ -51,7 +53,8 @@ extension DiscoListViewSpy: DiscoListDisplayLogic {
     }
     
     func hideOverlays(completion: (() -> Void)?) {
-        receivedMessages.append(.hideLoading)
+        receivedMessages.append(.hideOverlays)
+        hideOverlaysCompletion = completion
     }
     
     func showDiscos(_ discos: [DiscoListViewEntity]) {
