@@ -22,6 +22,9 @@ public final class DiscoListViewRouter: DiscoProfileRouter {
     }
 
     public func showProfile(of disco: DiscoListViewEntity) {
-        navigationController.pushViewController(discoProfileViewController(disco), animated: false)
+        navigationController.pushViewController(
+            discoProfileViewController(disco),
+            animated: true
+        )
     }
 }
