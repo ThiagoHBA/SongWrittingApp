@@ -10,6 +10,8 @@ import Domain
 
 public final class DiscoListInteractor: DiscoListBusinessLogic {
     public var presenter: DiscoListPresentationLogic?
+    public var router: DiscoProfileRouter?
+    
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
     
@@ -35,6 +37,7 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
     }
     
     public func showProfile(of disco: DiscoListViewEntity) {
+        router?.showProfile(of: disco)
 //        let profile = DiscoProfile(
 //            disco: disco.mapToDomain(),
 //            references: [],

@@ -8,17 +8,17 @@
 import UIKit
 import Presentation
 
-class DiscoProfileViewController: UIViewController {
+public class DiscoProfileViewController: UIViewController {
     let disco: DiscoListViewEntity
     
-    init(disco: DiscoListViewEntity) {
+    public init(disco: DiscoListViewEntity) {
         self.disco = disco
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) { nil }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.

@@ -57,6 +57,7 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
         let sheet = CreateDiscoViewController()
         sheet.sheetPresentationController?.detents = [ .medium() ]
         sheet.createDiscoTapped = interactor.createDisco
+//        navigationController?.pushViewController(sheet, animated: true)
         present(sheet, animated: true)
     }
 }

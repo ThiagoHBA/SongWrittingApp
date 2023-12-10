@@ -11,9 +11,10 @@ import Data
 import Domain
 import Presentation
 import UI
+import UIKit
 
 struct DiscoListFactory {
-    static func make() -> DiscoListViewController {
+    static func make(navigationController: UINavigationController) -> DiscoListViewController {
         let networkClient = NetworkClientImpl()
         let discoService = DiscoServiceImpl(networkClient: networkClient)
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: discoService)
@@ -23,13 +24,18 @@ struct DiscoListFactory {
             getDiscosUseCase: getDiscosUseCase,
             createNewDiscoUseCase: createNewDiscoUseCase
         )
-        
         let presenter = DiscoListPresenter()
         let viewController = DiscoListViewController(interactor: interactor)
         
-        // Possible Retain Cicle
+        let router = DiscoListViewRouter(
+            navigationController: navigationController,
+            discoProfileViewController: DiscoProfileFactory.make
+        )
+        
         createNewDiscoUseCase.output = [presenter]
         getDiscosUseCase.output = [presenter]
+        // Retain Cicle: I -> P -> V -> I
+        interactor.router = router
         interactor.presenter = presenter
         presenter.view = viewController
         
