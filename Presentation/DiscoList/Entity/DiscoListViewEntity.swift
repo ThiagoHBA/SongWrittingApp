@@ -24,4 +24,8 @@ public struct DiscoListViewEntity {
         self.name = disco.name
         self.coverImage = disco.coverImage
     }
+    
+    internal func mapToDomain() -> Disco {
+        return Disco(id: id, name: name, coverImage: coverImage)
+    }
 }

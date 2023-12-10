@@ -9,7 +9,7 @@ import UIKit
 import Presentation
 
 public class DiscoListViewController: UIViewController, AlertPresentable {
-    let presenter: DiscoListPresentationLogic
+    let interactor: DiscoListBusinessLogic
     private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
     
     let titleLabel: UILabel = {
@@ -41,8 +41,8 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
         return tableView
     }()
     
-    public init(presenter: DiscoListPresentationLogic) {
-        self.presenter = presenter
+    public init(interactor: DiscoListBusinessLogic) {
+        self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +56,7 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
     @objc func addDiscoButtonTapped() {
         let sheet = CreateDiscoViewController()
         sheet.sheetPresentationController?.detents = [ .medium() ]
-        sheet.createDiscoTapped = presenter.createDisco
+        sheet.createDiscoTapped = interactor.createDisco
         present(sheet, animated: true)
     }
 }
@@ -155,4 +155,8 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         return DiscoTableViewCell.heigth
     }
     
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedDisco = discos[indexPath.row]
+        interactor.showProfile(of: selectedDisco)
+    }
 }
