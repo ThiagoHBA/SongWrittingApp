@@ -62,10 +62,6 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
 }
 
 extension DiscoListViewController: DiscoListDisplayLogic {
-    public func navigateToDiscoProfile(with data: DiscoProfileViewEntity) {
-        
-    }
-    
     public func createDiscoError(_ title: String, _ description: String) {
         showAlert(title: title, message: description) { [weak self] action in
             self?.addDiscoButtonTapped()
