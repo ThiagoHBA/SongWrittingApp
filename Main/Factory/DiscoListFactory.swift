@@ -19,15 +19,18 @@ struct DiscoListFactory {
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: discoService)
         let getDiscosUseCase = GetDiscosUseCase(service: discoService)
         
-        let presenter = DiscoListPresenter(
+        let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
             createNewDiscoUseCase: createNewDiscoUseCase
         )
-        let viewController = DiscoListViewController(presenter: presenter)
+        
+        let presenter = DiscoListPresenter()
+        let viewController = DiscoListViewController(interactor: interactor)
         
         // Possible Retain Cicle
         createNewDiscoUseCase.output = [presenter]
         getDiscosUseCase.output = [presenter]
+        interactor.presenter = presenter
         presenter.view = viewController
         
         return viewController
