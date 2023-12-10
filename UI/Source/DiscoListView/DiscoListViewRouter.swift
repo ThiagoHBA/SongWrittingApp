@@ -9,7 +9,7 @@ import Foundation
 import Presentation
 import UIKit
 
-public final class DiscoListViewRouter: DiscoProfileRouter {
+public final class DiscoListViewRouter: DiscoListRouterLogic {
     let navigationController: UINavigationController
     let discoProfileViewController: (DiscoListViewEntity) -> DiscoProfileViewController
     

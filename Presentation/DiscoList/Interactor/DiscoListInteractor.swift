@@ -10,7 +10,7 @@ import Domain
 
 public final class DiscoListInteractor: DiscoListBusinessLogic {
     public var presenter: DiscoListPresentationLogic?
-    public var router: DiscoProfileRouter?
+    public var router: DiscoListRouterLogic?
     
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
@@ -38,11 +38,6 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
     
     public func showProfile(of disco: DiscoListViewEntity) {
         router?.showProfile(of: disco)
-//        let profile = DiscoProfile(
-//            disco: disco.mapToDomain(),
-//            references: [],
-//            section: []
-//        )
     }
 }
 
@@ -50,18 +45,12 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
 extension DiscoListInteractor {
     private func discoIsValid(_ name: String, _ image: Data) -> Bool {
         if name == "" {
-            presenter?.presentCreateDiscoError(
-                "Campos Vazios", 
-                "O campo nome não pode ser vazio"
-            )
+            presenter?.presentCreateDiscoError(DiscoListError.CreateDiscoError.emptyName)
             return false
         }
         
         if image == Data() {
-            presenter?.presentCreateDiscoError(
-                "Campos Vazios",
-                "O Disco precisa de uma imagem"
-            )
+            presenter?.presentCreateDiscoError(DiscoListError.CreateDiscoError.emptyImage)
             return false
         }
         return true

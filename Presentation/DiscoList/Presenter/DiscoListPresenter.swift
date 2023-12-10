@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public final class DiscoListPresenter: DiscoListPresentationLogic {    
+public final class DiscoListPresenter: DiscoListPresentationLogic {
     public var view: DiscoListDisplayLogic?
     
     public init() {}
@@ -17,9 +17,12 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
         view?.startLoading()
     }
     
-    public func presentCreateDiscoError(_ title: String, _ description: String) {
+    public func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
         view?.hideOverlays { [weak self] in
-            self?.view?.createDiscoError(title, description)
+            self?.view?.createDiscoError(
+                DiscoListError.CreateDiscoError.errorTitle, 
+                error.localizedDescription
+            )
         }
     }
 }
@@ -36,7 +39,10 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func errorWhileCreatingDisco(_ error: Error) {
         view?.hideLoading()
         view?.hideOverlays { [weak self] in
-            self?.view?.createDiscoError("Erro!", error.localizedDescription)
+            self?.view?.createDiscoError(
+                DiscoListError.CreateDiscoError.errorTitle,
+                error.localizedDescription
+            )
         }
     }
 }
@@ -50,7 +56,10 @@ extension DiscoListPresenter: GetDiscosUseCaseOutput {
     
     public func errorWhileLoadingDiscos(_ error: Error) {
         view?.hideLoading()
-        view?.loadDiscoError("Erro!", error.localizedDescription)
+        view?.loadDiscoError(
+            DiscoListError.LoadDiscoError.errorTitle,
+            error.localizedDescription
+        )
     }
 }
 
