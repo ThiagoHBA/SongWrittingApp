@@ -12,16 +12,19 @@ public struct AlbumReferenceViewEntity {
     public let name: String
     public let artist: String
     public let releaseDate: String
+    public let coverImage: Data
     
-    public init(name: String, artist: String, releaseDate: String) {
+    public init(name: String, artist: String, releaseDate: String, coverImage: Data) {
         self.name = name
         self.artist = artist
         self.releaseDate = releaseDate
+        self.coverImage = coverImage
     }
     
     internal init(from domain: AlbumReference) {
         self.name = domain.name
         self.artist = domain.artist
         self.releaseDate = domain.releaseDate
+        self.coverImage = domain.coverImage
     }
 }
