@@ -26,7 +26,7 @@ final class DiscoListPresenterTests: XCTestCase {
             [
                 .hideOverlays,
                 .createDiscoError(
-                    "Erro!",
+                    DiscoListError.CreateDiscoError.errorTitle,
                     DiscoListError.CreateDiscoError.emptyName.localizedDescription
                 )
             ]
@@ -64,7 +64,10 @@ final class DiscoListPresenterTests: XCTestCase {
             viewSpy.receivedMessages, [
                 .hideLoading,
                 .hideOverlays,
-                .createDiscoError("Erro!", inputError.localizedDescription)
+                .createDiscoError(
+                    DiscoListError.CreateDiscoError.errorTitle,
+                    inputError.localizedDescription
+                )
             ]
         )
     }

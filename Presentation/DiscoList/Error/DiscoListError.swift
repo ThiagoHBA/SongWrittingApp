@@ -7,9 +7,7 @@
 
 import Foundation
 
-public enum DiscoListError: LocalizedError {
-    case emptyFields(CreateDiscoError)
-    
+public enum DiscoListError: Error {
     public enum CreateDiscoError: LocalizedError {
         case emptyName
         case emptyImage
@@ -22,15 +20,9 @@ public enum DiscoListError: LocalizedError {
                     return "O Disco precisa de uma imagem"
             }
         }
-    }
-}
-
-extension DiscoListError {
-    public var errorDescription: String? {
-        switch self {
-            
-        case .emptyFields(let discoError):
-            return "Campos Vazios: \(discoError.localizedDescription)"
+        
+        static var errorTitle: String {
+            return "Campos Vazios"
         }
     }
 }

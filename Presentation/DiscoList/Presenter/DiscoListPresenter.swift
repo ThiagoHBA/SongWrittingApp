@@ -19,7 +19,10 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
     
     public func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
         view?.hideOverlays { [weak self] in
-            self?.view?.createDiscoError("Erro!", error.localizedDescription)
+            self?.view?.createDiscoError(
+                DiscoListError.CreateDiscoError.errorTitle, 
+                error.localizedDescription
+            )
         }
     }
 }
@@ -36,7 +39,10 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func errorWhileCreatingDisco(_ error: Error) {
         view?.hideLoading()
         view?.hideOverlays { [weak self] in
-            self?.view?.createDiscoError("Erro!", error.localizedDescription)
+            self?.view?.createDiscoError(
+                DiscoListError.CreateDiscoError.errorTitle,
+                error.localizedDescription
+            )
         }
     }
 }
