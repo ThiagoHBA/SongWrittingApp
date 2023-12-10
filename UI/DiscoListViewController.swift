@@ -13,11 +13,21 @@ public class DiscoListViewController: UIViewController {
     private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
     
     let titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Seus Discos"
         label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var addDiscoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.addTarget(self, action: #selector(addDiscoButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     let tableView: UITableView = {
@@ -41,10 +51,12 @@ public class DiscoListViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
-        presenter.createDisco(name: "White Album", image: UIImage(systemName: "photo.fill")!.pngData()!)
-        presenter.createDisco(name: "Let it be", image: UIImage(systemName: "photo.fill")!.pngData()!)
-        presenter.createDisco(name: "Revolver", image: UIImage(systemName: "photo.fill")!.pngData()!)
-//        presenter.loadDiscos()
+    }
+    
+    @objc func addDiscoButtonTapped() {
+        let sheet = CreateDiscoViewController()
+        sheet.sheetPresentationController?.detents = [ .medium() ]
+        present(sheet, animated: true)
     }
 }
 
@@ -88,6 +100,11 @@ extension DiscoListViewController: ViewCoding {
                 constant: 32
             ),
             
+            addDiscoButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            addDiscoButton.widthAnchor.constraint(equalToConstant: 40),
+            addDiscoButton.heightAnchor.constraint(equalToConstant: 40),
+            addDiscoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -98,6 +115,7 @@ extension DiscoListViewController: ViewCoding {
     func addViewInHierarchy() {
         view.addSubview(titleLabel)
         view.addSubview(tableView)
+        view.addSubview(addDiscoButton)
     }
 }
 
