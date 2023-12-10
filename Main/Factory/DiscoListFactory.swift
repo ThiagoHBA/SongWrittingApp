@@ -33,11 +33,50 @@ struct DiscoListFactory {
         
         createNewDiscoUseCase.output = [presenter]
         getDiscosUseCase.output = [presenter]
+        
         // Retain Cicle: I -> P -> V -> I
         interactor.router = router
         interactor.presenter = presenter
-        presenter.view = viewController
+        presenter.view = WeakReferenceProxy(viewController)
         
         return viewController
+    }
+}
+
+extension WeakReferenceProxy: DiscoListDisplayLogic where T: DiscoListDisplayLogic {
+    func startLoading() {
+        assert(self.instance != nil)
+        self.instance?.startLoading()
+    }
+    
+    func hideLoading() {
+        assert(self.instance != nil)
+        self.instance?.hideLoading()
+    }
+    
+    func hideOverlays(completion: (() -> Void)?) {
+        assert(self.instance != nil)
+        self.instance?.hideOverlays(completion: completion)
+    }
+    
+    func showDiscos(_ discos: [Presentation.DiscoListViewEntity]) {
+        assert(self.instance != nil)
+        self.instance?.showDiscos(discos)
+    }
+    
+    func showNewDisco(_ disco: Presentation.DiscoListViewEntity) {
+        assert(self.instance != nil)
+        self.instance?.showNewDisco(disco)
+    }
+    
+    func createDiscoError(_ title: String, _ description: String) {
+        assert(self.instance != nil)
+        self.instance?.createDiscoError(title, description)
+
+    }
+    
+    func loadDiscoError(_ title: String, _ description: String) {
+        assert(self.instance != nil)
+        self.instance?.loadDiscoError(title, description)
     }
 }

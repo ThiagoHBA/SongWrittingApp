@@ -35,6 +35,7 @@
 		00B97B992B264A3F00934E4A /* DiscoListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B982B264A3F00934E4A /* DiscoListError.swift */; };
 		00B97B9B2B264F2300934E4A /* DiscoListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9A2B264F2300934E4A /* DiscoListPresenterTests.swift */; };
 		00B97B9D2B26513800934E4A /* DiscoListViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9C2B26513800934E4A /* DiscoListViewSpy.swift */; };
+		00B97BA02B2660BD00934E4A /* WeakReferenceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* LoadReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -350,6 +351,7 @@
 		00B97B982B264A3F00934E4A /* DiscoListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListError.swift; sourceTree = "<group>"; };
 		00B97B9A2B264F2300934E4A /* DiscoListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresenterTests.swift; sourceTree = "<group>"; };
 		00B97B9C2B26513800934E4A /* DiscoListViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewSpy.swift; sourceTree = "<group>"; };
+		00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceProxy.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -652,6 +654,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		00B97B9E2B2660B300934E4A /* Proxy */ = {
+			isa = PBXGroup;
+			children = (
+				00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */,
+			);
+			path = Proxy;
+			sourceTree = "<group>";
+		};
 		00F2F1C12B2373980008F6F5 = {
 			isa = PBXGroup;
 			children = (
@@ -856,6 +866,7 @@
 		00F2F2582B238ECF0008F6F5 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				00B97B9E2B2660B300934E4A /* Proxy */,
 				00F2F32F2B24E9A50008F6F5 /* Factory */,
 				00F2F29D2B2409BD0008F6F5 /* Auth */,
 				00F2F26C2B238F2A0008F6F5 /* Resource */,
@@ -1568,6 +1579,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00F2F25A2B238ECF0008F6F5 /* AppDelegate.swift in Sources */,
+				00B97BA02B2660BD00934E4A /* WeakReferenceProxy.swift in Sources */,
 				00B97B762B26252200934E4A /* DiscoProfileFactory.swift in Sources */,
 				00F2F25C2B238ECF0008F6F5 /* SceneDelegate.swift in Sources */,
 				00F2F3312B24E9B60008F6F5 /* DiscoListFactory.swift in Sources */,
