@@ -20,7 +20,7 @@ public class DiscoProfileViewController: UIViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        self.view.backgroundColor = .red
         // Do any additional setup after loading the view.
     }
 }
