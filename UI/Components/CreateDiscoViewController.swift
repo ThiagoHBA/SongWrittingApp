@@ -139,7 +139,7 @@ extension CreateDiscoViewController: PHPickerViewControllerDelegate {
                     if let selectedImage = image as? UIImage{
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
-                            self.discoImage.setImage(selectedImage, for: .normal)
+                            self.discoImage.setImage(selectedImage.fixOrientation(), for: .normal)
                         }
                     }
                 }
