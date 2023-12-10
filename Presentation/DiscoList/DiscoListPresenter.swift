@@ -12,9 +12,9 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
     
-    var view: DiscoListDisplayLogic?
+    public var view: DiscoListDisplayLogic?
     
-    init(
+    public init(
         getDiscosUseCase: GetDiscosUseCase,
         createNewDiscoUseCase: CreateNewDiscoUseCase
     ) {
@@ -40,12 +40,16 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
 extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func successfullyCreateDisco(_ disco: Disco) {
         view?.hideLoading()
-        view?.showNewDisco(disco)
+        view?.hideOverlays { [weak self] in
+            self?.view?.showNewDisco(DiscoListViewEntity(from: disco))
+        }
     }
     
     public func errorWhileCreatingDisco(_ error: Error) {
         view?.hideLoading()
-        view?.showError("Erro!", error.localizedDescription)
+        view?.hideOverlays { [weak self] in
+            self?.view?.createDiscoError("Erro!", error.localizedDescription)
+        }
     }
 }
 
@@ -53,12 +57,12 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
 extension DiscoListPresenter: GetDiscosUseCaseOutput {
     public func successfullyLoadDiscos(_ discos: [Disco]) {
         view?.hideLoading()
-        view?.showDiscos(discos)
+        view?.showDiscos(discos.map { DiscoListViewEntity(from: $0) })
     }
     
     public func errorWhileLoadingDiscos(_ error: Error) {
         view?.hideLoading()
-        view?.showError("Erro!", error.localizedDescription)
+        view?.loadDiscoError("Erro!", error.localizedDescription)
     }
 }
 
@@ -66,12 +70,16 @@ extension DiscoListPresenter: GetDiscosUseCaseOutput {
 extension DiscoListPresenter {
     private func discoIsValid(_ name: String, _ image: Data) -> Bool {
         if name == "" {
-            view?.showError("Campos Vazios", "O campo nome não pode ser vazio")
+            view?.hideOverlays { [weak self] in
+                self?.view?.createDiscoError("Campos Vazios", "O campo nome não pode ser vazio")
+            }
             return false
         }
         
         if image == Data() {
-            view?.showError("Compos Vazios", "O Disco precisa de uma imagem")
+            view?.hideOverlays { [weak self] in
+                self?.view?.createDiscoError("Compos Vazios", "O Disco precisa de uma imagem")
+            }
             return false
         }
         return true
