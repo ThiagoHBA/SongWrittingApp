@@ -478,6 +478,23 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		00B97B512B256CCE00934E4A /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				00B97B522B256CD300934E4A /* DiscoListView */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		00B97B522B256CD300934E4A /* DiscoListView */ = {
+			isa = PBXGroup;
+			children = (
+				00B97B102B24FA5300934E4A /* Components */,
+				00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */,
+			);
+			path = DiscoListView;
+			sourceTree = "<group>";
+		};
 		00F2F1C12B2373980008F6F5 = {
 			isa = PBXGroup;
 			children = (
@@ -865,10 +882,9 @@
 		00F2F3072B24E7080008F6F5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				00B97B512B256CCE00934E4A /* Source */,
 				00B97B4E2B256A5B00934E4A /* Extension */,
-				00B97B102B24FA5300934E4A /* Components */,
 				00F2F3272B24E7EE0008F6F5 /* Resources */,
-				00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
