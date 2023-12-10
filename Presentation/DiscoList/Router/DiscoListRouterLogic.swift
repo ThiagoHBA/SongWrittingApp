@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol DiscoProfileRouter {
+public protocol DiscoListRouterLogic {
     func showProfile(of disco: DiscoListViewEntity)
 }

@@ -10,7 +10,7 @@ import Domain
 
 public final class DiscoListInteractor: DiscoListBusinessLogic {
     public var presenter: DiscoListPresentationLogic?
-    public var router: DiscoProfileRouter?
+    public var router: DiscoListRouterLogic?
     
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
