@@ -10,6 +10,24 @@ import Domain
 @testable import Presentation
 
 final class DiscoListInteractorTests: XCTestCase {
+    func test_loadDiscos_when_called_should_call_loading_on_presenter() {
+        let (sut, (presenterSpy, _, _)) = makeSUT()
+        sut.loadDiscos()
+        XCTAssertEqual(presenterSpy.receivedMessages, [.presentLoading])
+    }
+    
+    func test_loadDiscos_when_called_should_call_usecase() {
+        let (sut, (_, _, serviceSpy)) = makeSUT()
+        sut.loadDiscos()
+        XCTAssertEqual(serviceSpy.receivedMessages, [.loadDiscos])
+    }
+    
+    func test_createDisco_should_call_presenter_when_name_invalid() {
+        let (sut, (presenterSpy, _, _)) = makeSUT()
+        let expectedError = DiscoListError.CreateDiscoError.emptyName
+        sut.createDisco(name: "", image: Data())
+        XCTAssertEqual(presenterSpy.receivedMessages, [.presentCreateDiscoError(expectedError)])
+    }
     
 }
 
@@ -19,14 +37,14 @@ extension DiscoListInteractorTests: Testing {
         doubles: (
             DiscoListPresenterSpy,
             DiscoListRouterSpy,
-            DiscoListServiceStub
+            DiscoListServiceSpy
         )
     )
     
     func makeSUT() -> SutAndDoubles {
-        let serviceStub = DiscoListServiceStub()
-        let getDiscosUseCase = GetDiscosUseCase(service: serviceStub)
-        let createNewDiscoUseCase = CreateNewDiscoUseCase(service: serviceStub)
+        let serviceSpy = DiscoListServiceSpy()
+        let getDiscosUseCase = GetDiscosUseCase(service: serviceSpy)
+        let createNewDiscoUseCase = CreateNewDiscoUseCase(service: serviceSpy)
         let presenterSpy = DiscoListPresenterSpy()
         let routerSpy = DiscoListRouterSpy()
         let sut = DiscoListInteractor(
@@ -37,6 +55,6 @@ extension DiscoListInteractorTests: Testing {
         sut.presenter = presenterSpy
         sut.router = routerSpy
         
-        return (sut, (presenterSpy, routerSpy, serviceStub))
+        return (sut, (presenterSpy, routerSpy, serviceSpy))
     }
 }

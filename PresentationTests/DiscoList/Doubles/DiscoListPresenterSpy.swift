@@ -8,12 +8,30 @@
 import Foundation
 @testable import Presentation
 
-final class DiscoListPresenterSpy: DiscoListPresentationLogic {
-    func presentLoading() {
+final class DiscoListPresenterSpy {
+    private(set) var receivedMessages: [Message] = [Message]()
     
+    enum Message: Equatable, CustomStringConvertible {
+        case presentLoading
+        case presentCreateDiscoError(DiscoListError.CreateDiscoError)
+        
+        var description: String {
+            switch self {
+                case .presentLoading:
+                    return "presentLoading Called"
+                case .presentCreateDiscoError(let error):
+                    return "presentCreateDiscoError Called with data: \(error.localizedDescription)"
+            }
+        }
+    }
+}
+
+extension DiscoListPresenterSpy: DiscoListPresentationLogic {
+    func presentLoading() {
+        receivedMessages.append(.presentLoading)
     }
     
-    func presentCreateDiscoError(_ title: String, _ description: String) {
-        
+    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
+        receivedMessages.append(.presentCreateDiscoError(error))
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public final class DiscoListPresenter: DiscoListPresentationLogic {    
+public final class DiscoListPresenter: DiscoListPresentationLogic {
     public var view: DiscoListDisplayLogic?
     
     public init() {}
@@ -17,9 +17,9 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
         view?.startLoading()
     }
     
-    public func presentCreateDiscoError(_ title: String, _ description: String) {
+    public func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
         view?.hideOverlays { [weak self] in
-            self?.view?.createDiscoError(title, description)
+            self?.view?.createDiscoError("Erro!", error.localizedDescription)
         }
     }
 }

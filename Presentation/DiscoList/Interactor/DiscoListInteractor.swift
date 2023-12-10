@@ -50,18 +50,12 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
 extension DiscoListInteractor {
     private func discoIsValid(_ name: String, _ image: Data) -> Bool {
         if name == "" {
-            presenter?.presentCreateDiscoError(
-                "Campos Vazios", 
-                "O campo nome não pode ser vazio"
-            )
+            presenter?.presentCreateDiscoError(DiscoListError.CreateDiscoError.emptyName)
             return false
         }
         
         if image == Data() {
-            presenter?.presentCreateDiscoError(
-                "Campos Vazios",
-                "O Disco precisa de uma imagem"
-            )
+            presenter?.presentCreateDiscoError(DiscoListError.CreateDiscoError.emptyImage)
             return false
         }
         return true

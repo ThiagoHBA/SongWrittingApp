@@ -10,5 +10,5 @@ import Domain
 
 public protocol DiscoListPresentationLogic {
     func presentLoading()
-    func presentCreateDiscoError(_ title: String, _ description: String)
+    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError)
 }
