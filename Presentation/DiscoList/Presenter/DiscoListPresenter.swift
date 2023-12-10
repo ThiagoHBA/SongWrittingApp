@@ -56,7 +56,10 @@ extension DiscoListPresenter: GetDiscosUseCaseOutput {
     
     public func errorWhileLoadingDiscos(_ error: Error) {
         view?.hideLoading()
-        view?.loadDiscoError("Erro!", error.localizedDescription)
+        view?.loadDiscoError(
+            DiscoListError.LoadDiscoError.errorTitle,
+            error.localizedDescription
+        )
     }
 }
 

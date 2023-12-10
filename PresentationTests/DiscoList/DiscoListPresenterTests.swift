@@ -53,7 +53,7 @@ final class DiscoListPresenterTests: XCTestCase {
     
     func test_when_service_throw_error_while_creating_disco_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, _, createUseCase)) = makeSUT()
-        let inputError = NSError(domain: "any error", code: 0)
+        let inputError = DiscoListError.CreateDiscoError.emptyName
         
         createUseCase.input = .init(name: "any", image: Data())
         createUseCase.execute()
@@ -93,7 +93,7 @@ final class DiscoListPresenterTests: XCTestCase {
     
     func test_when_service_throw_error_while_fetching_discos_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, getUseCase, _)) = makeSUT()
-        let inputError = NSError(domain: "any error", code: 0)
+        let inputError = DiscoListError.CreateDiscoError.emptyImage
         
         getUseCase.execute()
         serviceSpy.loadDiscosCompletion!(.failure(inputError))
@@ -101,7 +101,10 @@ final class DiscoListPresenterTests: XCTestCase {
         XCTAssertEqual(
             viewSpy.receivedMessages, [
                 .hideLoading,
-                .loadDiscoError("Erro!", inputError.localizedDescription)
+                .loadDiscoError(
+                    DiscoListError.LoadDiscoError.errorTitle,
+                    inputError.localizedDescription
+                )
             ]
         )
     }

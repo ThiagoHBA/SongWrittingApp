@@ -25,4 +25,10 @@ public enum DiscoListError: Error {
             return "Campos Vazios"
         }
     }
+    
+    public enum LoadDiscoError {
+        static var errorTitle: String {
+            return "Erro ao carregar discos"
+        }
+    }
 }
