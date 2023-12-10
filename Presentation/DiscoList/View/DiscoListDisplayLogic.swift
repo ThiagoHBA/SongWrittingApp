@@ -16,4 +16,5 @@ public protocol DiscoListDisplayLogic {
     func showNewDisco(_ disco: DiscoListViewEntity)
     func createDiscoError(_ title: String, _ description: String)
     func loadDiscoError(_ title: String, _ description: String)
+    func navigateToDiscoProfile(with data: DiscoProfileViewEntity)
 }

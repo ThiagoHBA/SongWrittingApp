@@ -34,6 +34,24 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
         createNewDiscoUseCase.input = .init(name: name, image: image)
         createNewDiscoUseCase.execute()
     }
+    
+    public func showProfile(of disco: DiscoListViewEntity) {
+        //get data
+        view?.startLoading()
+        view?.hideLoading()
+        let profile = DiscoProfile(
+            disco: disco.mapToDomain(),
+            references: [],
+            section: []
+        )
+        view?.hideOverlays(completion: { [weak self] in
+                self?.view?.navigateToDiscoProfile(
+                    with: DiscoProfileViewEntity(from: profile)
+                )
+            }
+        )
+    }
+
 }
 
 // MARK: - Create Disco Output

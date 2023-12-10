@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import Domain
 
 public protocol DiscoListPresentationLogic {
     func loadDiscos()
     func createDisco(name: String, image: Data)
+    func showProfile(of disco: DiscoListViewEntity)
 }
