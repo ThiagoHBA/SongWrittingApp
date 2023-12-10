@@ -11,10 +11,12 @@ public struct AlbumReference: Equatable {
     public let name: String
     public let artist: String
     public let releaseDate: String
+    public let coverImage: Data
     
-    public init(name: String, artist: String, releaseDate: String) {
+    public init(name: String, artist: String, releaseDate: String, coverImage: Data) {
         self.name = name
         self.artist = artist
         self.releaseDate = releaseDate
+        self.coverImage = coverImage
     }
 }
