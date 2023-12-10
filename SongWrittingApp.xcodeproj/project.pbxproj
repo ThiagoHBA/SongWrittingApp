@@ -11,6 +11,7 @@
 		00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */; };
 		00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4C2B255DD100934E4A /* AlertPresentable.swift */; };
 		00B97B502B256A6200934E4A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4F2B256A6200934E4A /* UIImageExtension.swift */; };
+		00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B542B256D9800934E4A /* DiscoProfileViewController.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* LoadReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -302,6 +303,7 @@
 		00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscoViewController.swift; sourceTree = "<group>"; };
 		00B97B4C2B255DD100934E4A /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 		00B97B4F2B256A6200934E4A /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		00B97B542B256D9800934E4A /* DiscoProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewController.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -481,6 +483,7 @@
 		00B97B512B256CCE00934E4A /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				00B97B532B256D6300934E4A /* DiscoProfileView */,
 				00B97B522B256CD300934E4A /* DiscoListView */,
 			);
 			path = Source;
@@ -493,6 +496,32 @@
 				00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */,
 			);
 			path = DiscoListView;
+			sourceTree = "<group>";
+		};
+		00B97B532B256D6300934E4A /* DiscoProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				00B97B542B256D9800934E4A /* DiscoProfileViewController.swift */,
+			);
+			path = DiscoProfileView;
+			sourceTree = "<group>";
+		};
+		00B97B5B2B257F0200934E4A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */,
+				00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		00B97B5C2B257F1700934E4A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */,
+				00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		00F2F1C12B2373980008F6F5 = {
@@ -863,10 +892,8 @@
 		00F2F2F52B24E0AC0008F6F5 /* DiscoList */ = {
 			isa = PBXGroup;
 			children = (
-				00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */,
-				00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */,
-				00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */,
-				00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */,
+				00B97B5C2B257F1700934E4A /* View */,
+				00B97B5B2B257F0200934E4A /* Presenter */,
 			);
 			path = DiscoList;
 			sourceTree = "<group>";
@@ -1428,6 +1455,7 @@
 				00B97B502B256A6200934E4A /* UIImageExtension.swift in Sources */,
 				00F2F32A2B24E8060008F6F5 /* ViewCoding.swift in Sources */,
 				00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */,
+				00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -155,4 +155,14 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         return DiscoTableViewCell.heigth
     }
     
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedDisco = discos[indexPath.row]
+        navigateToProfile(with: selectedDisco)
+    }
+}
+
+extension DiscoListViewController {
+    func navigateToProfile(with disco: DiscoListViewEntity) {
+        
+    }
 }
