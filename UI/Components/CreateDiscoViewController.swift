@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class CreateDiscoViewController: UIViewController {
     var createDiscoTapped: ((String, Data) -> Void)?
@@ -18,17 +19,18 @@ class CreateDiscoViewController: UIViewController {
         return label
     }()
     
-    let discoImage: UIButton = {
-        var configuration = UIButton.Configuration.filled()
-        configuration.baseBackgroundColor = .gray.withAlphaComponent(0.5)
-        configuration.image = UIImage(
-            systemName: "photo.on.rectangle.angled"
-        )!.applyingSymbolConfiguration(.init(pointSize: 64))
-        
-        configuration.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
-        
-        let button = UIButton(configuration: configuration)
+    private lazy var discoImage: UIButton = {
+        let button = UIButton()
+        button.setImage(
+            UIImage(
+                systemName:"photo.on.rectangle.angled"
+            )!.applyingSymbolConfiguration(.init(pointSize: 64)),
+            for: .normal
+        )
+        button.backgroundColor = .gray.withAlphaComponent(0.5)
+        button.imageView?.contentMode = .scaleAspectFill
         button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(pickImageButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -64,11 +66,24 @@ class CreateDiscoViewController: UIViewController {
         buildLayout()
     }
     
+    func configureImagePicker(){
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        let pickerViewController = PHPickerViewController(configuration: configuration)
+        pickerViewController.delegate = self
+        present(pickerViewController, animated: true)
+    }
+    
     @objc func buttonTapped() {
         if nameField.text == nil { nameField.text = "" }
         let name = nameField.text!
         let imageData = discoImage.imageView!.image!.pngData()!
         self.createDiscoTapped?(name, imageData)
+    }
+    
+    @objc func pickImageButton() {
+        configureImagePicker()
     }
 }
 
@@ -108,5 +123,27 @@ extension CreateDiscoViewController: ViewCoding {
         view.addSubview(nameLabel)
         view.addSubview(nameField)
         view.addSubview(createButton)
+    }
+}
+
+extension CreateDiscoViewController: PHPickerViewControllerDelegate {
+    func picker(
+        _ picker: PHPickerViewController,
+        didFinishPicking results: [PHPickerResult]
+    ) {
+        picker.dismiss(animated: true)
+        if let itemprovider = results.first?.itemProvider {
+            if itemprovider.canLoadObject(ofClass: UIImage.self) {
+                itemprovider.loadObject(ofClass: UIImage.self) { image , error  in
+                    if error != nil { return }
+                    if let selectedImage = image as? UIImage{
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self = self else { return }
+                            self.discoImage.setImage(selectedImage, for: .normal)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
