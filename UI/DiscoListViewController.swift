@@ -8,7 +8,7 @@
 import UIKit
 import Presentation
 
-public class DiscoListViewController: UIViewController {
+public class DiscoListViewController: UIViewController, AlertPresentable {
     let presenter: DiscoListPresentationLogic
     private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
     
@@ -65,8 +65,18 @@ public class DiscoListViewController: UIViewController {
 }
 
 extension DiscoListViewController: DiscoListDisplayLogic {
-    public func hideOverlays() {
-        dismiss(animated: true)
+    public func createDiscoError(_ title: String, _ description: String) {
+        showAlert(title: title, message: description) { [weak self] action in
+            self?.addDiscoButtonTapped()
+        }
+    }
+    
+    public func loadDiscoError(_ title: String, _ description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+    
+    public func hideOverlays(completion: (() -> Void)?) {
+        dismiss(animated: true, completion: completion)
     }
     
     public func startLoading() {
@@ -86,10 +96,6 @@ extension DiscoListViewController: DiscoListDisplayLogic {
         print("New Disco created")
         self.discos.append(disco)
         self.showDiscos(discos)
-    }
-    
-    public func showError(_ title: String, _ description: String) {
-        print("Erro: \(title): \(description)")
     }
 }
 
