@@ -13,14 +13,11 @@ private struct MemoryDiscoDatabase {
     var profiles: [DiscoProfile] = []
 }
 
-public final class DiscoServiceImpl: DiscoService {
+public final class DiscoServiceFromMemory: DiscoService {
     private var memoryDatabase = MemoryDiscoDatabase()
-    let networkClient: NetworkClient
     
-    public init(networkClient: NetworkClient) {
-        self.networkClient = networkClient
-    }
-    
+    public init() { }
+
     public func createDisco(
         name: String,
         image: Data,
