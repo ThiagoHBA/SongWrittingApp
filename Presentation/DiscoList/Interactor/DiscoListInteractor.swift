@@ -9,10 +9,9 @@ import Foundation
 import Domain
 
 public final class DiscoListInteractor: DiscoListBusinessLogic {
+    public var presenter: DiscoListPresentationLogic?
     let createNewDiscoUseCase: CreateNewDiscoUseCase
     let getDiscosUseCase: GetDiscosUseCase
-    
-    public var presenter: DiscoListPresentationLogic?
     
     public init(
         getDiscosUseCase: GetDiscosUseCase,
@@ -36,11 +35,11 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
     }
     
     public func showProfile(of disco: DiscoListViewEntity) {
-        let profile = DiscoProfile(
-            disco: disco.mapToDomain(),
-            references: [],
-            section: []
-        )
+//        let profile = DiscoProfile(
+//            disco: disco.mapToDomain(),
+//            references: [],
+//            section: []
+//        )
     }
 }
 
