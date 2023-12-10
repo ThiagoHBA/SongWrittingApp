@@ -55,10 +55,11 @@ extension DiscoTableViewCell: ViewCoding {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             banner.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            banner.heightAnchor.constraint(equalToConstant: DiscoTableViewCell.heigth - 60.0),
+            banner.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            banner.heightAnchor.constraint(equalToConstant: DiscoTableViewCell.heigth - 80.0),
             banner.widthAnchor.constraint(equalToConstant: 180),
             
-            discoTitle.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: 12),
+            discoTitle.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: 6),
             discoTitle.centerXAnchor.constraint(equalTo: banner.centerXAnchor)
         ])
     }
