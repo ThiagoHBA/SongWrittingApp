@@ -8,6 +8,8 @@
 import UIKit
 
 class CreateDiscoViewController: UIViewController {
+    var createDiscoTapped: ((String, Data) -> Void)?
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Novo Disco"
@@ -47,11 +49,12 @@ class CreateDiscoViewController: UIViewController {
         return textField
     }()
     
-    let createButton: UIButton = {
+    private lazy var createButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
         button.setTitle("Criar Disco", for: .normal)
         button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -60,11 +63,18 @@ class CreateDiscoViewController: UIViewController {
         super.viewDidLoad()
         buildLayout()
     }
+    
+    @objc func buttonTapped() {
+        if nameField.text == nil { nameField.text = "" }
+        let name = nameField.text!
+        let imageData = discoImage.imageView!.image!.pngData()!
+        self.createDiscoTapped?(name, imageData)
+    }
 }
 
 extension CreateDiscoViewController: ViewCoding {
     func additionalConfiguration() {
-        view.backgroundColor = .systemBackground.withAlphaComponent(0.8)
+        view.backgroundColor = .systemBackground
     }
     
     func setupConstraints() {
@@ -74,10 +84,10 @@ extension CreateDiscoViewController: ViewCoding {
             
             discoImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 32),
             discoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            discoImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-            discoImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4),
+            discoImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            discoImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.35),
             
-            nameLabel.topAnchor.constraint(equalTo: discoImage.bottomAnchor, constant: 14),
+            nameLabel.topAnchor.constraint(equalTo: discoImage.bottomAnchor, constant: 18),
             nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
             nameField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 6),

@@ -56,6 +56,8 @@ public class DiscoListViewController: UIViewController {
     @objc func addDiscoButtonTapped() {
         let sheet = CreateDiscoViewController()
         sheet.sheetPresentationController?.detents = [ .medium() ]
+        //RETAIN CICLE
+        sheet.createDiscoTapped = presenter.createDisco
         present(sheet, animated: true)
     }
 }
