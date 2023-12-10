@@ -12,13 +12,13 @@ final class DiscoListServiceSpy {
     private(set) var receivedMessages: [Message] = [Message]()
     
     enum Message: Equatable, CustomStringConvertible {
-        case createDisco
+        case createDisco(String, Data)
         case loadDiscos
         
         var description: String {
             switch self {
-                case .createDisco:
-                    return "createDisco Called"
+                case .createDisco(let name, let image):
+                    return "createDisco Called with data: \(name), \(image)"
                 case .loadDiscos:
                     return "loadDiscos Called"
             }
@@ -28,7 +28,7 @@ final class DiscoListServiceSpy {
 
 extension DiscoListServiceSpy: DiscoService {
     func createDisco(name: String, image: Data, completion: @escaping (Result<Disco, Error>) -> Void) {
-        receivedMessages.append(.createDisco)
+        receivedMessages.append(.createDisco(name, image))
     }
     
     func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void) {

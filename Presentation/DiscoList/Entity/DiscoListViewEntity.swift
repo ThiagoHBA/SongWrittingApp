@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct DiscoListViewEntity {
+public struct DiscoListViewEntity: Equatable {
     public let id: UUID
     public let name: String
     public let coverImage: Data

@@ -38,11 +38,6 @@ public final class DiscoListInteractor: DiscoListBusinessLogic {
     
     public func showProfile(of disco: DiscoListViewEntity) {
         router?.showProfile(of: disco)
-//        let profile = DiscoProfile(
-//            disco: disco.mapToDomain(),
-//            references: [],
-//            section: []
-//        )
     }
 }
 
