@@ -57,12 +57,18 @@ public class DiscoListViewController: UIViewController {
         let sheet = CreateDiscoViewController()
         sheet.sheetPresentationController?.detents = [ .medium() ]
         //RETAIN CICLE
-        sheet.createDiscoTapped = presenter.createDisco
+        sheet.createDiscoTapped = { [weak self] name, image in
+            self?.presenter.createDisco(name: name, image: image)
+        }
         present(sheet, animated: true)
     }
 }
 
 extension DiscoListViewController: DiscoListDisplayLogic {
+    public func hideOverlays() {
+        dismiss(animated: true)
+    }
+    
     public func startLoading() {
         print("Starting Load")
     }

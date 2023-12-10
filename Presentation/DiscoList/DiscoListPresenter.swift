@@ -40,11 +40,13 @@ public final class DiscoListPresenter: DiscoListPresentationLogic {
 extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
     public func successfullyCreateDisco(_ disco: Disco) {
         view?.hideLoading()
+        view?.hideOverlays()
         view?.showNewDisco(DiscoListViewEntity(from: disco))
     }
     
     public func errorWhileCreatingDisco(_ error: Error) {
         view?.hideLoading()
+        view?.hideOverlays()
         view?.showError("Erro!", error.localizedDescription)
     }
 }
