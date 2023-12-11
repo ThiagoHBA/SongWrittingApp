@@ -43,6 +43,7 @@
 		00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */; };
 		00B97BB42B26A37B00934E4A /* DiscoProfileBusinessRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BB32B26A37B00934E4A /* DiscoProfileBusinessRule.swift */; };
 		00B97BB62B26A3B000934E4A /* DiscoProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BB52B26A3B000934E4A /* DiscoProfileInteractor.swift */; };
+		00B97BB82B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BB72B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -366,6 +367,7 @@
 		00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		00B97BB32B26A37B00934E4A /* DiscoProfileBusinessRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileBusinessRule.swift; sourceTree = "<group>"; };
 		00B97BB52B26A3B000934E4A /* DiscoProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileInteractor.swift; sourceTree = "<group>"; };
+		00B97BB72B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCaseOutput.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 			children = (
 				00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */,
 				00F2F2EA2B24D4830008F6F5 /* SearchReferencesUseCaseInput.swift */,
+				00B97BB72B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift */,
 			);
 			path = SearchReferences;
 			sourceTree = "<group>";
@@ -1544,6 +1547,7 @@
 				00F2F2DF2B24D02C0008F6F5 /* UseCase.swift in Sources */,
 				00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */,
 				00F2F2E32B24D3760008F6F5 /* CreateNewDiscoUseCaseOutput.swift in Sources */,
+				00B97BB82B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift in Sources */,
 				00F2F2D42B24CF640008F6F5 /* DeleteDiscoUseCase.swift in Sources */,
 				00F2F2C22B24CD370008F6F5 /* Disco.swift in Sources */,
 				00F2F2E92B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift in Sources */,

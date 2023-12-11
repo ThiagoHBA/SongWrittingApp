@@ -9,16 +9,25 @@ import Foundation
 
 public final class SearchReferencesUseCase {
     let service: ReferencesService
-    let input: SearchReferencesUseCaseInput
+    var input: SearchReferencesUseCaseInput?
+    var output: [SearchReferencesUseCaseOutput]?
     
-    public init(service: ReferencesService, input: SearchReferencesUseCaseInput) {
+    public init(service: ReferencesService) {
         self.service = service
-        self.input = input
     }
     
     public func execute() {
-        service.loadReferences(input.keywords) { result in
-//            switch result
+        assert(input != nil)
+        guard let input = input else { return }
+        
+        service.loadReferences(input.keywords) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let data):
+                    output?.forEach { $0.didFindedReferences(data) }
+                case .failure(let error):
+                    output?.forEach { $0.errorWhileFindingReferences(error) }
+            }
         }
     }
 }
