@@ -21,6 +21,13 @@ public struct RecordViewEntity: Equatable {
         self.tag = InstrumentTagViewEntity(from: domain.tag)
         self.audio = domain.audio
     }
+    
+    func toDomain() -> Record {
+        return Record(
+            tag: tag.toDomain(),
+            audio: audio
+        )
+    }
 }
 
 public enum InstrumentTagViewEntity: String {
@@ -42,6 +49,21 @@ public enum InstrumentTagViewEntity: String {
                 self = .bass
             case .custom(_):
                 self = .custom
+        }
+    }
+    
+    func toDomain() -> InstrumentTag {
+        switch self {
+            case .guitar:
+                return .guitar
+            case .vocal:
+                return .vocal
+            case .drums:
+                return .drums
+            case .bass:
+                return .bass
+            case .custom:
+                return .custom("")
         }
     }
 }

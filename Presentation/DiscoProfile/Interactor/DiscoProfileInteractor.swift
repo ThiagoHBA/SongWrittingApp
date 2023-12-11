@@ -12,17 +12,20 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     let searchReferencesUseCase: SearchReferencesUseCase
     let getDiscoProfileUseCase: GetDiscoProfileUseCase
     let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
+    let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     
     public var presenter: DiscoProfilePresentationLogic?
     
     public init(
         searchReferencesUseCase: SearchReferencesUseCase,
         getDiscoProfileUseCase: GetDiscoProfileUseCase,
-        addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
+        addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase,
+        addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     ) {
         self.searchReferencesUseCase = searchReferencesUseCase
         self.getDiscoProfileUseCase = getDiscoProfileUseCase
         self.addDiscoNewReferenceUseCase = addDiscoNewReferenceUseCase
+        self.addNewSectionToDiscoUseCase = addNewSectionToDiscoUseCase
     }
     
     public func searchNewReferences(keywords: String) {
@@ -47,5 +50,13 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
             newReferences: references.map { $0.mapToDomain() }
         )
         addDiscoNewReferenceUseCase.execute()
+    }
+    
+    public func addNewSection(for disco: DiscoListViewEntity, section: SectionViewEntity) {
+        presenter?.presentLoading()
+        addNewSectionToDiscoUseCase.input = .init(
+            disco: disco.mapToDomain(),
+            section: section.mapToDomain()
+        )
     }
 }

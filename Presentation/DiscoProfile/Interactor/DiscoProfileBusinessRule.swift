@@ -11,4 +11,5 @@ public protocol DiscoProfileBusinessRule {
     func searchNewReferences(keywords: String)
     func loadProfile(for disco: DiscoListViewEntity)
     func addNewReferences(for disco: DiscoListViewEntity, references: [AlbumReferenceViewEntity])
+    func addNewSection(for disco: DiscoListViewEntity, section: SectionViewEntity)
 }
