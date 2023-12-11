@@ -31,18 +31,21 @@ struct DiscoProfileFactory {
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
+        let addNewSectionUseCase = AddNewSectionToDiscoUseCase(service: discoService)
         
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: searchReferencesUseCase,
             getDiscoProfileUseCase: getDiscoProfileUseCase,
-            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase
+            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase,
+            addNewSectionToDiscoUseCase: addNewSectionUseCase
         )
         let viewController = DiscoProfileViewController(disco: data, interactor: interactor)
         
         searchReferencesUseCase.output = [presenter]
         getDiscoProfileUseCase.output = [presenter]
         addDiscoNewReferencesUseCase.output = [presenter]
+        addNewSectionUseCase.output = [presenter]
         
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
@@ -52,6 +55,16 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func updateSections(_ sections: [SectionViewEntity]) {
+        assert(self.instance != nil)
+        self.instance?.updateSections(sections)
+    }
+    
+    func addingSectionError(_ title: String, description: String) {
+        assert(self.instance != nil)
+        self.instance?.addingSectionError(title, description: description)
+    }
+    
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         assert(self.instance != nil)
         self.instance?.updateReferences(references)

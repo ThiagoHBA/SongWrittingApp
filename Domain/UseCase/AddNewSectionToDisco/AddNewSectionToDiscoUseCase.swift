@@ -12,7 +12,7 @@ public final class AddNewSectionToDiscoUseCase: UseCase {
     public var input: AddNewSectionToDiscoUseCaseInput?
     public var output: [AddNewSectionToDiscoUseCaseOutput]?
     
-    init(service: DiscoService) {
+    public init(service: DiscoService) {
         self.service = service
     }
     
