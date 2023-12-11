@@ -8,6 +8,7 @@
 import UIKit
 import Presentation
 import AVFAudio
+import AVFoundation
 
 class RecordTableViewCell: UITableViewCell {
     static let identifier = "RecordTableViewCell"
@@ -29,9 +30,13 @@ class RecordTableViewCell: UITableViewCell {
             frame: .zero,
             player: audioPlayer ?? AVAudioPlayer()
         )
-        customPlayer.playButtonTapped = {}
+        customPlayer.playButtonTapped = { [weak self] in
+            self?.audioPlayer?.play()
+        }
         customPlayer.translatesAutoresizingMaskIntoConstraints = false
-//        customPlayer.pauseButtonTapepd = presenter.pauseAudio
+        customPlayer.pauseButtonTapepd = { [weak self] in
+            self?.audioPlayer?.pause()
+        }
         return customPlayer
     }()
     
@@ -43,11 +48,18 @@ class RecordTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) { nil }
     
     func configure(with record: RecordViewEntity) {
-        self.audioPlayer = try? AVAudioPlayer(contentsOf: record.audio)
+        configureAudioPlayer(record.audio)
         self.recordImage.image = defineImageForTag(record.tag)
     }
     
-    func defineImageForTag(_ tag: InstrumentTagViewEntity) -> UIImage {
+    private func configureAudioPlayer(_ recordURL: URL) {
+        guard let audioData = try? Data(contentsOf: recordURL) else { return }
+        audioPlayer = try? AVAudioPlayer(data: audioData)
+        audioPlayer?.numberOfLoops = 0
+        recordComponent.player = audioPlayer ?? AVAudioPlayer()
+    }
+    
+    private func defineImageForTag(_ tag: InstrumentTagViewEntity) -> UIImage {
         switch tag {
             case .guitar:
                 return UIImage(systemName: "guitars.fill")!

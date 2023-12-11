@@ -13,7 +13,7 @@ import UniformTypeIdentifiers
 class CustomPickerController: UIDocumentPickerViewController {
     var section: SectionViewEntity?
     
-    override init(forOpeningContentTypes contentTypes: [UTType], asCopy: Bool = false) {
+    override init(forOpeningContentTypes contentTypes: [UTType], asCopy: Bool = true) {
         super.init(forOpeningContentTypes: contentTypes, asCopy: asCopy)
     }
     

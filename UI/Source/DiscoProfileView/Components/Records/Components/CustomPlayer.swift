@@ -38,6 +38,7 @@ class CustomPlayer: UIView {
         slider.setThumbImage(UIImage(), for: .normal)
         slider.thumbTintColor = .systemBlue
         slider.isContinuous = false
+        slider.isUserInteractionEnabled = false
         slider.addTarget(self, action: #selector(didBeginDraggingSlider), for: .touchDown)
         slider.addTarget(self, action: #selector(didEndDraggingSlider), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
