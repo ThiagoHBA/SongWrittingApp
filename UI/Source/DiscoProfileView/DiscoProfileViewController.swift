@@ -218,6 +218,10 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
+    public func updateSections(_ sections: [SectionViewEntity]) {
+        
+    }
+    
     public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
@@ -242,6 +246,10 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
     
     public func loadingProfileError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+    
+    public func addingSectionError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: nil)
     }
     

@@ -13,7 +13,9 @@ public protocol DiscoProfileDisplayLogic {
     func showReferences(_ references: [AlbumReferenceViewEntity])
     func showProfile(_ profile: DiscoProfileViewEntity)
     func updateReferences(_ references: [AlbumReferenceViewEntity])
+    func updateSections(_ sections: [SectionViewEntity])
     func addingReferencesError(_ title: String, description: String)
+    func addingSectionError(_ title: String, description: String)
     func loadingProfileError(_ title: String, description: String)
 }
 

@@ -53,3 +53,15 @@ extension DiscoProfilePresenter: AddDiscoNewReferenceUseCaseOutput {
         view?.addingReferencesError("Erro!", description: error.localizedDescription)
     }
 }
+
+extension DiscoProfilePresenter: AddNewSectionToDiscoUseCaseOutput {
+    public func successfullyAddedSectionToDisco(_ disco: DiscoProfile) {
+        view?.hideLoading()
+        view?.updateSections(disco.section.map { SectionViewEntity(from: $0)})
+    }
+    
+    public func errorWhileAddingSectionToDisco(_ error: Error) {
+        view?.hideLoading()
+        view?.addingSectionError("Erro!", description: error.localizedDescription)
+    }
+}
