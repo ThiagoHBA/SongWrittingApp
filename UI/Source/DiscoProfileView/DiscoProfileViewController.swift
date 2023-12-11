@@ -56,10 +56,15 @@ public class DiscoProfileViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        interactor.loadProfile(for: disco)
     }
     
     func addReferenceTapped() {
         present(referenceViewController, animated: true)
+    }
+    
+    func configure(with profile: DiscoProfileViewEntity) {
+        referenceSection.references = profile.references
     }
 }
 
@@ -122,7 +127,7 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     public func showProfile(_ profile: DiscoProfileViewEntity) {
-        
+        configure(with: profile)
     }
     
     public func addingReferencesError(_ title: String, description: String) {
