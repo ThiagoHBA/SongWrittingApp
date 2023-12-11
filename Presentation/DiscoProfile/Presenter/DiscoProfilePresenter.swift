@@ -16,10 +16,6 @@ public final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
     public func presentLoading() {
         view?.startLoading()
     }
-    
-    public func presentReferences() {
-        
-    }
 }
 
 extension DiscoProfilePresenter: SearchReferencesUseCaseOutput {
@@ -44,6 +40,16 @@ extension DiscoProfilePresenter: GetDiscoProfileUseCaseOutput {
         view?.hideLoading()
         view?.loadingProfileError("Erro!", description: error.localizedDescription)
     }
+}
+
+extension DiscoProfilePresenter: AddDiscoNewReferenceUseCaseOutput {
+    public func successfullyAddNewReferences(to disco:Disco, references: [AlbumReference]) {
+        view?.hideLoading()
+        view?.updateReferences(references.map { AlbumReferenceViewEntity(from: $0) })
+    }
     
-    
+    public func errorWhileAddingNewReferences(_ error: Error) {
+        view?.hideLoading()
+        view?.addingReferencesError("Erro!", description: error.localizedDescription)
+    }
 }

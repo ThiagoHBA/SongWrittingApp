@@ -12,11 +12,11 @@ public final class AddDiscoNewReferenceUseCase {
     public var output: [AddDiscoNewReferenceUseCaseOutput]?
     public var input: AddDiscoNewReferenceInput?
     
-    init(service: DiscoService) {
+    public init(service: DiscoService) {
         self.service = service
     }
     
-    func execute() {
+    public func execute() {
         assert(input != nil)
         guard let input = input else { return }
         

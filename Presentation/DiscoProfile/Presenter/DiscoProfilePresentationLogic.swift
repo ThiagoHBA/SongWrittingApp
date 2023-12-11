@@ -9,5 +9,4 @@ import Foundation
 
 public protocol DiscoProfilePresentationLogic {
     func presentLoading()
-    func presentReferences()
 }

@@ -27,4 +27,13 @@ public struct AlbumReferenceViewEntity: Equatable {
         self.releaseDate = domain.releaseDate
         self.coverImage = URL(string: domain.coverImage)
     }
+    
+    func mapToDomain() -> AlbumReference {
+        return AlbumReference(
+            name: name,
+            artist: artist,
+            releaseDate: releaseDate,
+            coverImage: coverImage?.absoluteString ?? ""
+        )
+    }
 }
