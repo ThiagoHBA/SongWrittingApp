@@ -17,6 +17,11 @@ public struct SectionDataEntity: DataEntity, Codable {
         self.records = records
     }
     
+    internal init(from domain: Section) {
+        self.identifer = domain.identifer
+        self.records = domain.records.map { RecordDataEntity(from: $0) }
+    }
+    
     public func toDomain() -> Section {
         return Section(
             identifer: identifer,

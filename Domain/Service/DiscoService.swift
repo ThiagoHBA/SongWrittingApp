@@ -26,4 +26,10 @@ public protocol DiscoService {
         references: [AlbumReference],
         completion: @escaping (Result<DiscoProfile, Error>) -> Void
     )
+    
+    func addNewSection(
+        _ disco: Disco,
+        _ section: Section,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
 }
