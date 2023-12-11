@@ -10,7 +10,7 @@ import Domain
 
 public struct SectionDataEntity: DataEntity, Codable {
     public let identifer: String
-    public let records: [RecordDataEntity]
+    public var records: [RecordDataEntity]
     
     public init(identifer: String, records: [RecordDataEntity]) {
         self.identifer = identifer

@@ -32,4 +32,10 @@ public protocol DiscoService {
         _ section: Section,
         completion: @escaping (Result<DiscoProfile, Error>) -> Void
     )
+    
+    func addNewRecord(
+        _ disco: Disco,
+        _ section: Section,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
 }
