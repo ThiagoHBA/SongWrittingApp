@@ -145,8 +145,6 @@ public class DiscoProfileViewController: UIViewController {
         document.delegate = self
         document.allowsMultipleSelection = false
         present(document, animated: true)
-        
-        print("Add record to index: \(sender.tag)")
     }
 }
 
