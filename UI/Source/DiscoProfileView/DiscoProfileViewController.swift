@@ -9,6 +9,7 @@ import UIKit
 import Presentation
 
 public class DiscoProfileViewController: UIViewController {
+    private var discoProfile: DiscoProfileViewEntity?
     let interactor: DiscoProfileBusinessRule
     let disco: DiscoListViewEntity
     
@@ -86,6 +87,8 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func configure(with profile: DiscoProfileViewEntity) {
+//        discoProfile = profile
+        
         referenceSection.references = profile.references
     }
     
@@ -102,6 +105,29 @@ extension DiscoProfileViewController: ViewCoding {
         
         banner.image = UIImage(data: disco.coverImage)!
         projectName.text = disco.name
+        
+        self.discoProfile = DiscoProfileViewEntity(disco: disco, references: [], section: [])
+        
+        self.discoProfile?.section = [
+            .init(identifer: "Introdução", records: [
+                .init(tag: "", audio: Data()), .init(tag: "", audio: Data())
+            ]),
+            .init(identifer: "Verso", records: [
+                .init(tag: "", audio: Data()),
+                .init(tag: "", audio: Data()),
+                .init(tag: "", audio: Data())
+            ]),
+            .init(identifer: "Pré Refrão", records: [
+                .init(tag: "", audio: Data()),
+                .init(tag: "", audio: Data()),
+                .init(tag: "", audio: Data()),
+                .init(tag: "", audio: Data())
+            ])
+        ]
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func setupConstraints() {
@@ -148,12 +174,21 @@ extension DiscoProfileViewController: AlertPresentable {}
 
 //MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        print(discoProfile?.section.count ?? 0)
+        return discoProfile?.section.count ?? 0
+    }
+    
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 36
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return discoProfile?.section[section].records.count ?? 0
+    }
+    
+    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return discoProfile?.section[section].identifer
     }
     
     public func tableView(
