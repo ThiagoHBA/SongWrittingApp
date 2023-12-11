@@ -9,7 +9,13 @@ import UIKit
 import Presentation
 
 public class DiscoProfileViewController: UIViewController {
-    private var discoProfile: DiscoProfileViewEntity?
+    private var discoProfile: DiscoProfileViewEntity? {
+        didSet {
+            if let profile = discoProfile, profile.section.isEmpty {
+                emptyStateLabel.removeFromSuperview()
+            }
+        }
+    }
     let interactor: DiscoProfileBusinessRule
     let disco: DiscoListViewEntity
     
@@ -58,6 +64,16 @@ public class DiscoProfileViewController: UIViewController {
         return tableView
     }()
     
+    let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Você ainda não adicionou nenhuma seção! Adicione uma seção clicando no icone de adicionar seção acima"
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
@@ -95,7 +111,13 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func addSectionTapped() {
-        
+        discoProfile = DiscoProfileViewEntity(disco: disco, references: [], section: [])
+        discoProfile?.section = [
+            .init(identifer: "Intro", records: [])
+        ]
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -107,30 +129,6 @@ extension DiscoProfileViewController: ViewCoding {
         
         banner.image = UIImage(data: disco.coverImage)!
         projectName.text = disco.name
-        
-        self.discoProfile = DiscoProfileViewEntity(disco: disco, references: [], section: [])
-        
-        self.discoProfile?.section = [
-            .init(identifer: "Introdução", records: [
-                .init(tag: .vocal, audio: Data()),
-                .init(tag: .guitar, audio: Data())
-            ]),
-            .init(identifer: "Verso", records: [
-                .init(tag: .guitar, audio: Data()),
-                .init(tag: .bass, audio: Data()),
-                .init(tag: .drums, audio: Data())
-            ]),
-            .init(identifer: "Pré Refrão", records: [
-                .init(tag: .vocal, audio: Data()),
-                .init(tag: .bass, audio: Data()),
-                .init(tag: .drums, audio: Data()),
-                .init(tag: .guitar, audio: Data())
-            ])
-        ]
-        
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
     }
     
     func setupConstraints() {
@@ -156,6 +154,10 @@ extension DiscoProfileViewController: ViewCoding {
             addButton.heightAnchor.constraint(equalToConstant: 28),
             addButton.widthAnchor.constraint(equalToConstant: 32),
             
+            emptyStateLabel.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 80),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            
             tableView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 6),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -170,6 +172,7 @@ extension DiscoProfileViewController: ViewCoding {
         view.addSubview(referenceSection)
         view.addSubview(sectionLabel)
         view.addSubview(addButton)
+        view.addSubview(emptyStateLabel)
     }
 }
 
