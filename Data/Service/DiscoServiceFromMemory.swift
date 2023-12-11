@@ -8,20 +8,20 @@
 import Foundation
 import Domain
 
-internal class InMemoryDatabase {
+public class InMemoryDatabase {
+    public static let instance = InMemoryDatabase()
+    
     var discos: [DiscoDataEntity] = []
     var profiles: [DiscoProfileDataEntity] = []
+    
+    public init () {}
 }
 
 public final class DiscoServiceFromMemory: DiscoService {
     private var memoryDatabase: InMemoryDatabase
     
-    internal init(memoryDatabase: InMemoryDatabase = InMemoryDatabase()) {
+    public init(memoryDatabase: InMemoryDatabase = InMemoryDatabase.instance) {
         self.memoryDatabase = memoryDatabase
-    }
-    
-    public init() {
-        self.memoryDatabase = InMemoryDatabase()
     }
 
     public func createDisco(
