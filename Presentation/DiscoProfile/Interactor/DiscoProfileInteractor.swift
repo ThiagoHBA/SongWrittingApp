@@ -13,6 +13,7 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     let getDiscoProfileUseCase: GetDiscoProfileUseCase
     let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
     let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
+    let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
     
     public var presenter: DiscoProfilePresentationLogic?
     
@@ -20,12 +21,14 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
         searchReferencesUseCase: SearchReferencesUseCase,
         getDiscoProfileUseCase: GetDiscoProfileUseCase,
         addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase,
-        addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
+        addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase,
+        addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
     ) {
         self.searchReferencesUseCase = searchReferencesUseCase
         self.getDiscoProfileUseCase = getDiscoProfileUseCase
         self.addDiscoNewReferenceUseCase = addDiscoNewReferenceUseCase
         self.addNewSectionToDiscoUseCase = addNewSectionToDiscoUseCase
+        self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
     }
     
     public func searchNewReferences(keywords: String) {
@@ -60,6 +63,15 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
             section: section.mapToDomain()
         )
         addNewSectionToDiscoUseCase.execute()
+    }
+    
+    public func addNewRecord(in disco: DiscoListViewEntity, to section: SectionViewEntity) {
+        presenter?.presentLoading()
+        addNewRecordToSessionUseCase.input = .init(
+            disco: disco.mapToDomain(),
+            section: section.mapToDomain()
+        )
+        addNewRecordToSessionUseCase.execute()
     }
 }
 

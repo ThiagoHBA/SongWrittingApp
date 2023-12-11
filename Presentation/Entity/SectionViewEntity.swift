@@ -10,7 +10,7 @@ import Domain
 
 public struct SectionViewEntity {
     public let identifer: String
-    public let records: [RecordViewEntity]
+    public var records: [RecordViewEntity]
     
     public init(identifer: String, records: [RecordViewEntity]) {
         self.identifer = identifer

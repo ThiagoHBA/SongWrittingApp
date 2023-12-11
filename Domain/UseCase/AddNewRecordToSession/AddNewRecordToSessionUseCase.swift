@@ -8,8 +8,8 @@
 import Foundation
 
 public final class AddNewRecordToSessionUseCase: UseCase {
-    var input: AddNewRecordToSessionUseCaseInput?
-    var output: [AddNewRecordToSessionUseCaseOutput]?
+    public var input: AddNewRecordToSessionUseCaseInput?
+    public var output: [AddNewRecordToSessionUseCaseOutput]?
     let service: DiscoService
     
     public init(service: DiscoService) {

@@ -11,7 +11,7 @@ import AVFAudio
 
 class RecordTableViewCell: UITableViewCell {
     static let identifier = "RecordTableViewCell"
-    static let heigth = 80.0
+    static let heigth = 90.0
     private var audioPlayer: AVAudioPlayer?
     
     private let recordImage: UIImageView = {
@@ -43,7 +43,7 @@ class RecordTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) { nil }
     
     func configure(with record: RecordViewEntity) {
-        self.audioPlayer = try? AVAudioPlayer(data: record.audio)
+        self.audioPlayer = try? AVAudioPlayer(contentsOf: record.audio)
         self.recordImage.image = defineImageForTag(record.tag)
     }
     
@@ -68,10 +68,10 @@ extension RecordTableViewCell: ViewCoding {
         NSLayoutConstraint.activate([
             recordImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             recordImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            recordImage.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth - 20),
-            recordImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.15),
+            recordImage.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth * 0.5),
+            recordImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.13),
             
-            recordComponent.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
+            recordComponent.trailingAnchor.constraint(equalTo: trailingAnchor),
             recordComponent.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth - 26),
             recordComponent.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.76),
             recordComponent.centerYAnchor.constraint(equalTo: centerYAnchor)

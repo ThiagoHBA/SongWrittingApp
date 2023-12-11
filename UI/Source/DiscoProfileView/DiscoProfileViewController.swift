@@ -138,7 +138,10 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     @objc func addNewRecordToSection(_ sender: UIButton) {
-        let document = UIDocumentPickerViewController(forOpeningContentTypes: [.audio])
+        guard let section = discoProfile?.section[sender.tag] else { return }
+        
+        let document = CustomPickerController(forOpeningContentTypes: [.audio])
+        document.section = section
         document.delegate = self
         document.allowsMultipleSelection = false
         present(document, animated: true)
@@ -237,6 +240,10 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         return button
     }
     
+    public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 46
+    }
+    
     public func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -315,5 +322,16 @@ extension DiscoProfileViewController: UIDocumentPickerDelegate {
         didPickDocumentsAt urls: [URL]
     ) {
         guard let url = urls.first else { return }
+        guard let customPicker = controller as? CustomPickerController else { return }
+        guard var section = customPicker.section else { return }
+        section.records.append(.init(tag: .custom, audio: url))
+        
+        interactor.addNewRecord(
+            in: disco, 
+            to: SectionViewEntity(
+                identifer: section.identifer,
+                records: section.records
+            )
+        )
      }
 }

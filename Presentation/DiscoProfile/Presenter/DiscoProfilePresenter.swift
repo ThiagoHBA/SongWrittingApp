@@ -73,3 +73,17 @@ extension DiscoProfilePresenter: AddNewSectionToDiscoUseCaseOutput {
         view?.addingSectionError("Erro!", description: error.localizedDescription)
     }
 }
+
+extension DiscoProfilePresenter: AddNewRecordToSessionUseCaseOutput {
+    public func successfullyAddedNewRecordToSection(_ profile: DiscoProfile) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            guard let self = self else { return }
+            view?.updateSections(profile.section.map { SectionViewEntity(from: $0) })
+        }
+    }
+    
+    public func errorWhileAddingNewRecordToSection(_ error: Error) {
+        
+    }
+}

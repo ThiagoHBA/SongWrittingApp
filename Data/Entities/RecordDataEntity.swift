@@ -10,9 +10,9 @@ import Domain
 
 public struct RecordDataEntity: DataEntity, Codable {
     public let tag: InstrumentTagDataEntity
-    public let audio: Data
+    public let audio: URL
     
-    public init(tag: InstrumentTagDataEntity, audio: Data) {
+    public init(tag: InstrumentTagDataEntity, audio: URL) {
         self.tag = tag
         self.audio = audio
     }

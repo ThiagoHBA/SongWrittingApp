@@ -12,4 +12,5 @@ public protocol DiscoProfileBusinessRule {
     func loadProfile(for disco: DiscoListViewEntity)
     func addNewReferences(for disco: DiscoListViewEntity, references: [AlbumReferenceViewEntity])
     func addNewSection(for disco: DiscoListViewEntity, section: SectionViewEntity)
+    func addNewRecord(in disco: DiscoListViewEntity, to section: SectionViewEntity)
 }

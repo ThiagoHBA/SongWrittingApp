@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AddNewRecordToSessionUseCaseOutput {
+public protocol AddNewRecordToSessionUseCaseOutput {
     func successfullyAddedNewRecordToSection(_ profile: DiscoProfile)
     func errorWhileAddingNewRecordToSection(_ error: Error)
 }

@@ -10,9 +10,9 @@ import Domain
 
 public struct RecordViewEntity: Equatable {
     public var tag: InstrumentTagViewEntity
-    public let audio: Data
+    public let audio: URL
     
-    public init(tag: InstrumentTagViewEntity, audio: Data) {
+    public init(tag: InstrumentTagViewEntity, audio: URL) {
         self.tag = tag
         self.audio = audio
     }

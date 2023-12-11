@@ -32,21 +32,27 @@ struct DiscoProfileFactory {
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
         let addNewSectionUseCase = AddNewSectionToDiscoUseCase(service: discoService)
+        let addNewRecordToSectionUseCase = AddNewRecordToSessionUseCase(service: discoService)
         
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: searchReferencesUseCase,
             getDiscoProfileUseCase: getDiscoProfileUseCase,
             addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase,
-            addNewSectionToDiscoUseCase: addNewSectionUseCase
+            addNewSectionToDiscoUseCase: addNewSectionUseCase,
+            addNewRecordToSessionUseCase: addNewRecordToSectionUseCase
         )
         let viewController = DiscoProfileViewController(disco: data, interactor: interactor)
         
+        
+        // MARK: - UseCase Outputs
         searchReferencesUseCase.output = [presenter]
         getDiscoProfileUseCase.output = [presenter]
         addDiscoNewReferencesUseCase.output = [presenter]
         addNewSectionUseCase.output = [presenter]
+        addNewRecordToSectionUseCase.output = [presenter]
         
+        // MARK: - Propety Composition
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
     
