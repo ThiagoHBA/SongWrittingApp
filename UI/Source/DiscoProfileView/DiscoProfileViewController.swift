@@ -32,6 +32,21 @@ public class DiscoProfileViewController: UIViewController {
         return section
     }()
     
+    let sectionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Seções"
+        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var addButton: AddButtonComponent = {
+        let button = AddButtonComponent()
+        button.didTapped = addSectionTapped
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +88,10 @@ public class DiscoProfileViewController: UIViewController {
     func configure(with profile: DiscoProfileViewEntity) {
         referenceSection.references = profile.references
     }
+    
+    func addSectionTapped() {
+        
+    }
 }
 
 extension DiscoProfileViewController: ViewCoding {
@@ -98,7 +117,20 @@ extension DiscoProfileViewController: ViewCoding {
             referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 20),
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15)
+            referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15),
+            
+            sectionLabel.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: 42),
+            sectionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
+            
+            addButton.centerYAnchor.constraint(equalTo: sectionLabel.centerYAnchor),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            addButton.heightAnchor.constraint(equalToConstant: 28),
+            addButton.widthAnchor.constraint(equalToConstant: 32),
+            
+            tableView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 6),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -107,6 +139,8 @@ extension DiscoProfileViewController: ViewCoding {
         view.addSubview(banner)
         view.addSubview(projectName)
         view.addSubview(referenceSection)
+        view.addSubview(sectionLabel)
+        view.addSubview(addButton)
     }
 }
 
@@ -114,15 +148,21 @@ extension DiscoProfileViewController: AlertPresentable {}
 
 //MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 36
+    }
+    
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 10
     }
     
     public func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = UITableViewCell()
+        cell.textLabel?.text = "Title"
+        return cell
     }
 }
 
