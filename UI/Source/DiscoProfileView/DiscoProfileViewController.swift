@@ -101,7 +101,6 @@ public class DiscoProfileViewController: UIViewController {
                 )
             )
         }
-        sheet.sheetPresentationController?.detents = [ .medium() ]
         return sheet
     }()
     
@@ -129,6 +128,12 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func addSectionTapped() {
+        addNewSectionViewController.sectionField.text = ""
+        addNewSectionViewController.sheetPresentationController?.detents = [
+            .custom{ context in
+                return context.maximumDetentValue * 0.3
+            }
+        ]
         present(addNewSectionViewController, animated: true)
     }
     
@@ -289,7 +294,9 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
     
     public func addingSectionError(_ title: String, description: String) {
-        showAlert(title: title, message: description, dismissed: nil)
+        showAlert(title: title, message: description, dismissed: { [weak self] _ in
+            self?.addSectionTapped()
+        })
     }
     
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
