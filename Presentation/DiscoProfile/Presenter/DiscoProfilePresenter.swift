@@ -16,6 +16,12 @@ public final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
     public func presentLoading() {
         view?.startLoading()
     }
+    
+    public func presentCreateSectionError(_ error: DiscoProfileError.CreateSectionError) {
+        view?.hideOverlays { [weak self] in
+            self?.view?.addingSectionError("Erro!", description: error.localizedDescription)
+        }
+    }
 }
 
 extension DiscoProfilePresenter: SearchReferencesUseCaseOutput {
@@ -51,5 +57,33 @@ extension DiscoProfilePresenter: AddDiscoNewReferenceUseCaseOutput {
     public func errorWhileAddingNewReferences(_ error: Error) {
         view?.hideLoading()
         view?.addingReferencesError("Erro!", description: error.localizedDescription)
+    }
+}
+
+extension DiscoProfilePresenter: AddNewSectionToDiscoUseCaseOutput {
+    public func successfullyAddedSectionToDisco(_ disco: DiscoProfile) {
+        view?.hideLoading()
+        view?.hideOverlays(completion: { [weak self] in
+            self?.view?.updateSections(disco.section.map { SectionViewEntity(from: $0)})
+        })
+    }
+    
+    public func errorWhileAddingSectionToDisco(_ error: Error) {
+        view?.hideLoading()
+        view?.addingSectionError("Erro!", description: error.localizedDescription)
+    }
+}
+
+extension DiscoProfilePresenter: AddNewRecordToSessionUseCaseOutput {
+    public func successfullyAddedNewRecordToSection(_ profile: DiscoProfile) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            guard let self = self else { return }
+            view?.updateSections(profile.section.map { SectionViewEntity(from: $0) })
+        }
+    }
+    
+    public func errorWhileAddingNewRecordToSection(_ error: Error) {
+        
     }
 }

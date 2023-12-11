@@ -19,7 +19,17 @@ class SelectedReferenceListModel: ObservableObject {
 }
 
 class AddReferencesViewController: UIViewController {
-    private var loadedReferences: [AlbumReferenceViewEntity] = []
+    private var loadedReferences: [AlbumReferenceViewEntity] = [] {
+        didSet {
+            if loadedReferences.isEmpty {
+                emptyStateLabel.isHidden = false
+                resultLabel.isHidden = true
+            } else {
+                resultLabel.isHidden = false
+                emptyStateLabel.isHidden = true
+            }
+        }
+    }
     private var selectedReferences: [AlbumReferenceViewEntity] = [] {
         didSet { updateSelectedReferenceItems(newItems: selectedReferences) }
     }
@@ -53,6 +63,7 @@ class AddReferencesViewController: UIViewController {
     let resultLabel: UILabel = {
         let label = UILabel()
         label.text = "Resultados"
+        label.isHidden = true
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -66,6 +77,16 @@ class AddReferencesViewController: UIViewController {
         )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }()
+    
+    let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Nenhuma referência por aqui!"
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     lazy var selectedReferencesList: UIView = {
@@ -135,6 +156,9 @@ extension AddReferencesViewController: ViewCoding {
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             resultLabel.topAnchor.constraint(equalTo: selectedReferencesList.bottomAnchor, constant: 24),
             
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             referencesList.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 12),
             referencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             referencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -148,6 +172,7 @@ extension AddReferencesViewController: ViewCoding {
         view.addSubview(referencesList)
         view.addSubview(selectedReferencesList)
         view.addSubview(navBar)
+        view.addSubview(emptyStateLabel)
     }
 }
 

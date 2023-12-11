@@ -11,7 +11,7 @@ import Domain
 public struct DiscoProfileViewEntity {
     public let disco: DiscoListViewEntity
     public let references: [AlbumReferenceViewEntity]
-    public let section: [SectionViewEntity]
+    public var section: [SectionViewEntity]
     
     public init(
         disco: DiscoListViewEntity,

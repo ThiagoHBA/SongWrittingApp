@@ -35,12 +35,9 @@ class ReferencesSectionView: UIView {
         return label
     }()
     
-    lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.contentVerticalAlignment = .fill
-        button.contentHorizontalAlignment = .fill
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    lazy var addButton: AddButtonComponent = {
+        let button = AddButtonComponent()
+        button.didTapped = { [weak self] in self?.addReferenceTapped?() }
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -68,10 +65,6 @@ class ReferencesSectionView: UIView {
         itemModel.items = newItems.map {
             IdentifiableItem(image: $0.coverImage)
         }
-    }
-    
-    @objc func buttonTapped() {
-        addReferenceTapped?()
     }
 }
 

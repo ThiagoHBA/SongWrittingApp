@@ -10,7 +10,7 @@ import Domain
 
 public struct SectionViewEntity {
     public let identifer: String
-    public let records: [RecordViewEntity]
+    public var records: [RecordViewEntity]
     
     public init(identifer: String, records: [RecordViewEntity]) {
         self.identifer = identifer
@@ -20,6 +20,13 @@ public struct SectionViewEntity {
     internal init(from domain: Section) {
         self.identifer = domain.identifer
         self.records = domain.records.map { RecordViewEntity(from: $0) }
+    }
+    
+    public func mapToDomain() -> Section {
+        return Section(
+            identifer: identifer,
+            records: records.map { $0.toDomain() }
+        )
     }
 }
 

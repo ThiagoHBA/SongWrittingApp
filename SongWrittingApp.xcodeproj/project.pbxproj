@@ -52,6 +52,17 @@
 		00B97BC72B27541900934E4A /* GetDiscoProfileUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BC62B27541900934E4A /* GetDiscoProfileUseCaseOutput.swift */; };
 		00B97BC92B275AB200934E4A /* AddDiscoNewReferenceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BC82B275AB200934E4A /* AddDiscoNewReferenceInput.swift */; };
 		00B97BCB2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BCA2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift */; };
+		00B97BCD2B276C0200934E4A /* AddButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */; };
+		00B97BD12B27754B00934E4A /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */; };
+		00B97BD42B27874000934E4A /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD32B27874000934E4A /* CustomPlayer.swift */; };
+		00B97BD62B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD52B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift */; };
+		00B97BD82B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD72B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift */; };
+		00B97BDB2B279FCB00934E4A /* AddSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */; };
+		00B97BDE2B27A46C00934E4A /* DiscoProfileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */; };
+		00B97BE02B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */; };
+		00B97BE22B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */; };
+		00B97BE52B27B84F00934E4A /* AddRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE42B27B84F00934E4A /* AddRecordsViewController.swift */; };
+		00B97BE72B27C56200934E4A /* CustomPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE62B27C56200934E4A /* CustomPickerController.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -384,6 +395,17 @@
 		00B97BC62B27541900934E4A /* GetDiscoProfileUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDiscoProfileUseCaseOutput.swift; sourceTree = "<group>"; };
 		00B97BC82B275AB200934E4A /* AddDiscoNewReferenceInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiscoNewReferenceInput.swift; sourceTree = "<group>"; };
 		00B97BCA2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiscoNewReferenceUseCaseOutput.swift; sourceTree = "<group>"; };
+		00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonComponent.swift; sourceTree = "<group>"; };
+		00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
+		00B97BD32B27874000934E4A /* CustomPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
+		00B97BD52B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSectionToDiscoUseCaseInput.swift; sourceTree = "<group>"; };
+		00B97BD72B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSectionToDiscoUseCaseOutput.swift; sourceTree = "<group>"; };
+		00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewController.swift; sourceTree = "<group>"; };
+		00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileError.swift; sourceTree = "<group>"; };
+		00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordToSessionUseCaseInput.swift; sourceTree = "<group>"; };
+		00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordToSessionUseCaseOutput.swift; sourceTree = "<group>"; };
+		00B97BE42B27B84F00934E4A /* AddRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecordsViewController.swift; sourceTree = "<group>"; };
+		00B97BE62B27C56200934E4A /* CustomPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerController.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -699,11 +721,11 @@
 		00B97BA12B2673EB00934E4A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */,
-				00B97BA92B2681CC00934E4A /* ReferenceListView.swift */,
-				00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */,
-				00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */,
-				00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */,
+				00B97BCF2B27752500934E4A /* Records */,
+				00B97BCE2B27751C00934E4A /* References */,
+				00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */,
+				00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */,
+				00B97BE62B27C56200934E4A /* CustomPickerController.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -711,6 +733,7 @@
 		00B97BB12B26A36D00934E4A /* DiscoProfile */ = {
 			isa = PBXGroup;
 			children = (
+				00B97BDC2B27A46300934E4A /* Error */,
 				00B97BBE2B26B1A200934E4A /* View */,
 				00B97BB92B26B14000934E4A /* Presenter */,
 				00B97BB22B26A37200934E4A /* Interactor */,
@@ -742,6 +765,44 @@
 				00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		00B97BCE2B27751C00934E4A /* References */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */,
+				00B97BA92B2681CC00934E4A /* ReferenceListView.swift */,
+				00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */,
+				00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */,
+				00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */,
+			);
+			path = References;
+			sourceTree = "<group>";
+		};
+		00B97BCF2B27752500934E4A /* Records */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BD22B27870E00934E4A /* Components */,
+				00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */,
+				00B97BE42B27B84F00934E4A /* AddRecordsViewController.swift */,
+			);
+			path = Records;
+			sourceTree = "<group>";
+		};
+		00B97BD22B27870E00934E4A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BD32B27874000934E4A /* CustomPlayer.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		00B97BDC2B27A46300934E4A /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		00F2F1C12B2373980008F6F5 = {
@@ -1111,6 +1172,8 @@
 			isa = PBXGroup;
 			children = (
 				00F2F2D92B24CF980008F6F5 /* AddNewSectionToDiscoUseCase.swift */,
+				00B97BD52B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift */,
+				00B97BD72B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift */,
 			);
 			path = AddNewSectionToDisco;
 			sourceTree = "<group>";
@@ -1119,6 +1182,8 @@
 			isa = PBXGroup;
 			children = (
 				00F2F2DB2B24CFAD0008F6F5 /* AddNewRecordToSessionUseCase.swift */,
+				00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */,
+				00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */,
 			);
 			path = AddNewRecordToSession;
 			sourceTree = "<group>";
@@ -1586,8 +1651,10 @@
 				00F2F2E12B24D3020008F6F5 /* DiscoService.swift in Sources */,
 				00F2F2DF2B24D02C0008F6F5 /* UseCase.swift in Sources */,
 				00B97BCB2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift in Sources */,
+				00B97BE02B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift in Sources */,
 				00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */,
 				00F2F2E32B24D3760008F6F5 /* CreateNewDiscoUseCaseOutput.swift in Sources */,
+				00B97BE22B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift in Sources */,
 				00B97BB82B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift in Sources */,
 				00B97BC52B2753E000934E4A /* GetDiscoProfileUseCaseInput.swift in Sources */,
 				00F2F2D42B24CF640008F6F5 /* DeleteDiscoUseCase.swift in Sources */,
@@ -1595,10 +1662,12 @@
 				00F2F2E92B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift in Sources */,
 				00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */,
 				00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */,
+				00B97BD82B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift in Sources */,
 				00F2F2C62B24CDAF0008F6F5 /* Section.swift in Sources */,
 				00F2F2EB2B24D4830008F6F5 /* SearchReferencesUseCaseInput.swift in Sources */,
 				00B97BC92B275AB200934E4A /* AddDiscoNewReferenceInput.swift in Sources */,
 				00B97BC72B27541900934E4A /* GetDiscoProfileUseCaseOutput.swift in Sources */,
+				00B97BD62B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift in Sources */,
 				00F2F2CA2B24CDFE0008F6F5 /* Record.swift in Sources */,
 				00F2F2D12B24CF540008F6F5 /* GetDiscosUseCase.swift in Sources */,
 				00F2F2DA2B24CF980008F6F5 /* AddNewSectionToDiscoUseCase.swift in Sources */,
@@ -1697,6 +1766,7 @@
 				00B97BBB2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift in Sources */,
 				00F2F33B2B24F4AB0008F6F5 /* DiscoListViewEntity.swift in Sources */,
 				00F2F2F72B24E0BB0008F6F5 /* DiscoListPresenter.swift in Sources */,
+				00B97BDE2B27A46C00934E4A /* DiscoProfileError.swift in Sources */,
 				00B97BB42B26A37B00934E4A /* DiscoProfileBusinessRule.swift in Sources */,
 				00B97B662B260C5E00934E4A /* AlbumReferenceViewEntity.swift in Sources */,
 				00B97B642B260B5200934E4A /* DiscoProfileViewEntity.swift in Sources */,
@@ -1723,16 +1793,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				00B97B122B24FAB100934E4A /* DiscoTableViewCell.swift in Sources */,
+				00B97BD42B27874000934E4A /* CustomPlayer.swift in Sources */,
 				00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */,
 				00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */,
+				00B97BCD2B276C0200934E4A /* AddButtonComponent.swift in Sources */,
 				00B97B502B256A6200934E4A /* UIImageExtension.swift in Sources */,
 				00F2F32A2B24E8060008F6F5 /* ViewCoding.swift in Sources */,
+				00B97BD12B27754B00934E4A /* RecordTableViewCell.swift in Sources */,
+				00B97BE52B27B84F00934E4A /* AddRecordsViewController.swift in Sources */,
 				00B97BAE2B269CFD00934E4A /* FindedReferenceTableViewCell.swift in Sources */,
 				00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */,
 				00B97BAC2B26927200934E4A /* AddReferencesViewController.swift in Sources */,
 				00B97BC22B26C54D00934E4A /* SelectedReferenceListView.swift in Sources */,
 				00B97B712B26225300934E4A /* DiscoListViewRouter.swift in Sources */,
 				00B97BAA2B2681CC00934E4A /* ReferenceListView.swift in Sources */,
+				00B97BDB2B279FCB00934E4A /* AddSectionViewController.swift in Sources */,
+				00B97BE72B27C56200934E4A /* CustomPickerController.swift in Sources */,
 				00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */,
 				00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */,
 				00B97BA52B26742E00934E4A /* ReferencesSectionView.swift in Sources */,

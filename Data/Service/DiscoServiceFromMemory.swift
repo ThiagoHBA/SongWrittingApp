@@ -42,11 +42,7 @@ public final class DiscoServiceFromMemory: DiscoService {
         for disco: Disco,
         completion: @escaping (Result<DiscoProfile, Error>) -> Void
     ) {
-        guard let profileIndex = memoryDatabase.profiles.firstIndex(
-            where: {
-                $0.disco.id == disco.id
-            }
-        ) else {
+        guard let profileIndex = findProfileIndex(to: disco) else {
             let newProfile = DiscoProfileDataEntity(
                 disco: DiscoDataEntity(from: disco),
                 references: .init(albums: .init(items: [])),
@@ -65,11 +61,7 @@ public final class DiscoServiceFromMemory: DiscoService {
         references: [AlbumReference],
         completion: @escaping (Result<DiscoProfile, Error>) -> Void
     ) {
-        guard let profileIndex = memoryDatabase.profiles.firstIndex(
-            where: {
-                $0.disco.id == disco.id
-            }
-        ) else {
+        guard let profileIndex = findProfileIndex(to: disco) else {
             completion(.failure(DataError.cantFindDisco))
             return
         }
@@ -79,5 +71,62 @@ public final class DiscoServiceFromMemory: DiscoService {
         )
         
         completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
+    
+    public func addNewSection(
+        _ disco: Disco,
+        _ section: Section,
+        completion: @escaping (Result<DiscoProfile, Error>
+        ) -> Void) {
+        guard let profileIndex = findProfileIndex(to: disco) else {
+            completion(.failure(DataError.cantFindDisco))
+            return
+        }
+        
+        memoryDatabase.profiles[profileIndex].section.append(
+            SectionDataEntity(from: section)
+        )
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
+    
+    public func addNewRecord(
+        _ disco: Disco,
+        _ section: Section,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
+        guard let profileIndex = findProfileIndex(to: disco) else {
+            completion(.failure(DataError.cantFindDisco))
+            return
+        }
+        let profile = memoryDatabase.profiles[profileIndex]
+        
+        guard let sectionIndex = findSectionIndex(in: profile, section: section) else {
+            completion(.failure(DataError.cantFindDisco))
+            return
+        }
+        
+        memoryDatabase.profiles[profileIndex].section[sectionIndex].records = section.records.map {
+            RecordDataEntity(from: $0)
+        }
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
+    
+    private func findSectionIndex(in profile: DiscoProfileDataEntity, section: Section) -> Int? {
+        guard let sectionIndex = profile.section.firstIndex(
+            where: {
+                $0.identifer == section.identifer
+            }
+        ) else { return nil }
+        return sectionIndex
+    }
+    
+    private func findProfileIndex(to disco: Disco) -> Int? {
+         return memoryDatabase.profiles.firstIndex(
+            where: {
+                $0.disco.id == disco.id
+            }
+        )
     }
 }

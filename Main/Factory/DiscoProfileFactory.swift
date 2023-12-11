@@ -31,19 +31,28 @@ struct DiscoProfileFactory {
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
+        let addNewSectionUseCase = AddNewSectionToDiscoUseCase(service: discoService)
+        let addNewRecordToSectionUseCase = AddNewRecordToSessionUseCase(service: discoService)
         
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: searchReferencesUseCase,
             getDiscoProfileUseCase: getDiscoProfileUseCase,
-            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase
+            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase,
+            addNewSectionToDiscoUseCase: addNewSectionUseCase,
+            addNewRecordToSessionUseCase: addNewRecordToSectionUseCase
         )
         let viewController = DiscoProfileViewController(disco: data, interactor: interactor)
         
+        
+        // MARK: - UseCase Outputs
         searchReferencesUseCase.output = [presenter]
         getDiscoProfileUseCase.output = [presenter]
         addDiscoNewReferencesUseCase.output = [presenter]
+        addNewSectionUseCase.output = [presenter]
+        addNewRecordToSectionUseCase.output = [presenter]
         
+        // MARK: - Propety Composition
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
     
@@ -52,6 +61,21 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func hideOverlays(completion: (() -> Void)?) {
+        assert(self.instance != nil)
+        self.instance?.hideOverlays(completion: completion)
+    }
+    
+    func updateSections(_ sections: [SectionViewEntity]) {
+        assert(self.instance != nil)
+        self.instance?.updateSections(sections)
+    }
+    
+    func addingSectionError(_ title: String, description: String) {
+        assert(self.instance != nil)
+        self.instance?.addingSectionError(title, description: description)
+    }
+    
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         assert(self.instance != nil)
         self.instance?.updateReferences(references)
