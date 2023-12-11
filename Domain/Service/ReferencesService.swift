@@ -8,5 +8,8 @@
 import Foundation
 
 public protocol ReferencesService {
-    func loadReferences(_ keywords: String)
+    func loadReferences(
+        _ keywords: String,
+        completion: @escaping (Result<[AlbumReference], Error>) -> Void
+    )
 }

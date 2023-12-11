@@ -59,7 +59,7 @@ class FindedReferenceTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) { nil }
     
     func configure(with data: AlbumReferenceViewEntity) {
-        banner.load(url: data.coverImage)
+        if let bannerURL = data.coverImage { banner.load(url: bannerURL) }
         discoTitle.text = data.name
         artistName.text = data.artist
         discoReleaseDate.text = data.releaseDate

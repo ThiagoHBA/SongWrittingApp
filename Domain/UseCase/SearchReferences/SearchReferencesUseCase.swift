@@ -17,6 +17,8 @@ public final class SearchReferencesUseCase {
     }
     
     public func execute() {
-        service.loadReferences(input.keywords)
+        service.loadReferences(input.keywords) { result in
+//            switch result
+        }
     }
 }

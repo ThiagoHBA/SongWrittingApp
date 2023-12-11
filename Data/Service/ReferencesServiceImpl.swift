@@ -14,16 +14,24 @@ public class ReferencesServiceImpl: ReferencesService {
     public init(networkClient: NetworkClient) {
         self.networkClient = networkClient
     }
-    
-    public func loadReferences(_ keywords: String) {
+
+    public func loadReferences(
+        _ keywords: String,
+        completion: @escaping (Result<[AlbumReference], Error>) -> Void
+    ) {
         let endpoint = GetReferencesEndpoint(keywords: keywords)
         
         networkClient.makeRequest(endpoint) { result in
             switch result {
-            case .success(let data):
-                print("Receiving data: \(data)")
-            case .failure(let error):
-                print("Error: \(error.localizedDescription)")
+                case .success(let data):
+                    do {
+                        let dataEntity = try AlbumReferenceDataEntity.loadFromData(data)
+                        completion(.success(dataEntity.toDomain()))
+                    } catch {
+                        completion(.failure(DataError.decodingError))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
             }
         }
     }
