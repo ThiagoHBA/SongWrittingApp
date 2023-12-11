@@ -98,7 +98,7 @@ extension DiscoListViewController: DiscoListDisplayLogic {
 
 extension DiscoListViewController: ViewCoding {
     func additionalConfiguration() {
-        self.view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBackground
         tableView.delegate = self
         tableView.dataSource = self
     }

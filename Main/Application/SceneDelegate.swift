@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Presentation
 import UI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -19,10 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController()
-        let viewController = DiscoListFactory.make(navigationController: navigationController)
-        navigationController.setViewControllers([viewController], animated: false)
-        window?.rootViewController = navigationController
+//        let navigationController = UINavigationController()
+//        let viewController = DiscoListFactory.make(navigationController: navigationController)
+//        navigationController.setViewControllers([viewController], animated: false)
+        let entity = DiscoListViewEntity(
+            id: UUID(),
+            name: "Projeto 01",
+            coverImage: UIImage(named: "vinil_image_example")!.pngData()!
+        )
+        window?.rootViewController = DiscoProfileFactory.make(with: entity)
+        //navigationController
         window?.makeKeyAndVisible()
     }
 
