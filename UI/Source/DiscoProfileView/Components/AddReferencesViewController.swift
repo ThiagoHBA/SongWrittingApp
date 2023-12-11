@@ -93,6 +93,7 @@ extension AddReferencesViewController: UISearchBarDelegate {
                 searchReference?(searchText)
             } else {
                 loadedReferences = []
+                referencesList.reloadData()
             }
         }
     }
