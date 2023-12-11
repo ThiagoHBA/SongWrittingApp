@@ -138,6 +138,11 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     @objc func addNewRecordToSection(_ sender: UIButton) {
+        let document = UIDocumentPickerViewController(forOpeningContentTypes: [.audio])
+        document.delegate = self
+        document.allowsMultipleSelection = false
+        present(document, animated: true)
+        
         print("Add record to index: \(sender.tag)")
     }
 }
@@ -302,4 +307,13 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
         self.referenceViewController.updateReferenceItems(references)
     }
+}
+
+extension DiscoProfileViewController: UIDocumentPickerDelegate {
+    public func documentPicker(
+        _ controller: UIDocumentPickerViewController,
+        didPickDocumentsAt urls: [URL]
+    ) {
+        guard let url = urls.first else { return }
+     }
 }
