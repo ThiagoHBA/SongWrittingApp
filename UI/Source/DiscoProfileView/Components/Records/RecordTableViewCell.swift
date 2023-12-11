@@ -7,10 +7,12 @@
 
 import UIKit
 import Presentation
+import AVFAudio
 
 class RecordTableViewCell: UITableViewCell {
     static let identifier = "RecordTableViewCell"
     static let heigth = 80.0
+    private var audioPlayer = AVAudioPlayer()
     
     private let recordImage: UIImageView = {
         let imageView = UIImageView()
@@ -22,11 +24,14 @@ class RecordTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private let recordComponent: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var recordComponent: CustomPlayer = {
+        let customPlayer = CustomPlayer(frame: .zero, player: audioPlayer)
+        customPlayer.playButtonTapped = {
+            print("Play tapped")
+        }
+        customPlayer.translatesAutoresizingMaskIntoConstraints = false
+//        customPlayer.pauseButtonTapepd = presenter.pauseAudio
+        return customPlayer
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -66,13 +71,13 @@ extension RecordTableViewCell: ViewCoding {
             
             recordComponent.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
             recordComponent.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth - 26),
-            recordComponent.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.74),
+            recordComponent.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.76),
             recordComponent.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
     func addViewInHierarchy() {
-        addSubview(recordImage)
-        addSubview(recordComponent)
+        contentView.addSubview(recordImage)
+        contentView.addSubview(recordComponent)
     }
 }

@@ -91,8 +91,6 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func configure(with profile: DiscoProfileViewEntity) {
-//        discoProfile = profile
-        
         referenceSection.references = profile.references
     }
     
@@ -207,6 +205,9 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         guard let currentItem = discoProfile?.section[indexPath.section].records[indexPath.row] else {
             return UITableViewCell()
         }
+        
+        cell.selectionStyle = .none
+        cell.isUserInteractionEnabled = true
         cell.configure(with: currentItem)
         
         return cell
