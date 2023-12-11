@@ -8,6 +8,8 @@
 import Foundation
 
 public protocol DataEntity {
+    associatedtype DomainEntity
+    func toDomain() -> DomainEntity
     static func loadFromData(_ data: Data) throws -> Self
 }
 

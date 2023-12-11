@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct AlbumReferenceViewEntity {
+public struct AlbumReferenceViewEntity: Equatable {
     public let name: String
     public let artist: String
     public let releaseDate: String
@@ -26,5 +26,14 @@ public struct AlbumReferenceViewEntity {
         self.artist = domain.artist
         self.releaseDate = domain.releaseDate
         self.coverImage = URL(string: domain.coverImage)
+    }
+    
+    func mapToDomain() -> AlbumReference {
+        return AlbumReference(
+            name: name,
+            artist: artist,
+            releaseDate: releaseDate,
+            coverImage: coverImage?.absoluteString ?? ""
+        )
     }
 }

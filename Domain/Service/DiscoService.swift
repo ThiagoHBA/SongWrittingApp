@@ -15,4 +15,15 @@ public protocol DiscoService {
     )
     
     func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void)
+    
+    func loadProfile(
+        for disco: Disco,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
+    
+    func updateDiscoReferences(
+        _ disco: Disco,
+        references: [AlbumReference],
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
 }

@@ -13,7 +13,7 @@ import Domain
 public struct AlbumReferenceDataEntity: DataEntity, Codable {
     let albums: Albums
     
-    func toDomain() -> [AlbumReference] {
+    public func toDomain() -> [AlbumReference] {
         return albums.items.map {
             AlbumReference(
                 name: $0.name,
@@ -23,6 +23,23 @@ public struct AlbumReferenceDataEntity: DataEntity, Codable {
             )
         }
     }
+    
+    internal init(albums: Albums) {
+        self.albums = albums
+    }
+    
+    public init(from domain: [AlbumReference]) {
+        self.albums = .init(
+            items: domain.map {
+                .init(
+                    artists: [Artist(name: $0.artist)],
+                    images: [Image(height: 0, url: $0.coverImage, width: 0)],
+                    name: $0.name,
+                    releaseDate: $0.releaseDate
+                )
+            }
+        )
+    }
 }
 
 struct Albums: Codable {
@@ -31,13 +48,12 @@ struct Albums: Codable {
 
 struct Item: Codable {
     let artists: [Artist]
-    let id: String
     let images: [Image]
     let name, releaseDate: String
 
     enum CodingKeys: String, CodingKey {
         case artists
-        case id, images, name
+        case images, name
         case releaseDate = "release_date"
     }
 }

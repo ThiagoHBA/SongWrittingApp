@@ -17,4 +17,6 @@ public struct AccessTokenResponse: DataEntity, Decodable {
         case tokenType = "token_type"
         case expiresIn = "expires_in"
     }
+    
+    public func toDomain() -> Any? { return nil }
 }

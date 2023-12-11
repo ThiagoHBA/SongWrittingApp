@@ -17,20 +17,29 @@ struct ReferenceListView: View {
                 .multilineTextAlignment(.center)
                 .font(.caption)
         } else {
-            ScrollView(.horizontal) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(itemModel.items, id: \.id) { item in
                         Circle()
                             .stroke(style: .init(lineWidth: 0.5))
                             .frame(width: 80, height: 80)
+                            .clipped()
                             .overlay {
                                 if let image = item.image {
-                                    AsyncImage(url: image)
-//                                        .resizable()
-//                                        .scaledToFill()
-//                                        .padding()
+                                    AsyncImage(
+                                        url: image,
+                                        content: { image in
+                                            image.resizable()
+                                                 .aspectRatio(contentMode: .fill)
+                                                 .clipShape(Circle())
+                                        },
+                                        placeholder: {
+                                            ProgressView()
+                                        }
+                                    )
                                 }
                             }
+                            
                     }
                 }
             }

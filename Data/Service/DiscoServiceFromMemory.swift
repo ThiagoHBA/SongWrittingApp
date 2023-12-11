@@ -8,20 +8,20 @@
 import Foundation
 import Domain
 
-internal class InMemoryDatabase {
+public class InMemoryDatabase {
+    public static let instance = InMemoryDatabase()
+    
     var discos: [DiscoDataEntity] = []
     var profiles: [DiscoProfileDataEntity] = []
+    
+    public init () {}
 }
 
 public final class DiscoServiceFromMemory: DiscoService {
     private var memoryDatabase: InMemoryDatabase
     
-    internal init(memoryDatabase: InMemoryDatabase = InMemoryDatabase()) {
+    public init(memoryDatabase: InMemoryDatabase = InMemoryDatabase.instance) {
         self.memoryDatabase = memoryDatabase
-    }
-    
-    public init() {
-        self.memoryDatabase = InMemoryDatabase()
     }
 
     public func createDisco(
@@ -36,5 +36,48 @@ public final class DiscoServiceFromMemory: DiscoService {
     
     public func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void) {
         completion(.success(memoryDatabase.discos.map { $0.toDomain() }))
+    }
+    
+    public func loadProfile(
+        for disco: Disco,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
+        guard let profileIndex = memoryDatabase.profiles.firstIndex(
+            where: {
+                $0.disco.id == disco.id
+            }
+        ) else {
+            let newProfile = DiscoProfileDataEntity(
+                disco: DiscoDataEntity(from: disco),
+                references: .init(albums: .init(items: [])),
+                section: []
+            )
+            memoryDatabase.profiles.append(newProfile)
+            completion(.success(newProfile.toDomain()))
+            return 
+        }
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
+    
+    public func updateDiscoReferences(
+        _ disco: Disco,
+        references: [AlbumReference],
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
+        guard let profileIndex = memoryDatabase.profiles.firstIndex(
+            where: {
+                $0.disco.id == disco.id
+            }
+        ) else {
+            completion(.failure(DataError.cantFindDisco))
+            return
+        }
+        
+        memoryDatabase.profiles[profileIndex].references = AlbumReferenceDataEntity(
+            from: references
+        )
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
     }
 }

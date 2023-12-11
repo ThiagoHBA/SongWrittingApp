@@ -41,6 +41,13 @@ public class DiscoProfileViewController: UIViewController {
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
+        sheet.saveReferences = { [weak self] referencesToAdd in
+            guard let self = self else { return }
+            interactor.addNewReferences(
+                for: disco,
+                references: referencesToAdd
+            )
+        }
         sheet.sheetPresentationController?.detents = [ .large() ]
         return sheet
     }()
@@ -56,10 +63,15 @@ public class DiscoProfileViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        interactor.loadProfile(for: disco)
     }
     
     func addReferenceTapped() {
         present(referenceViewController, animated: true)
+    }
+    
+    func configure(with profile: DiscoProfileViewEntity) {
+        referenceSection.references = profile.references
     }
 }
 
@@ -98,6 +110,8 @@ extension DiscoProfileViewController: ViewCoding {
     }
 }
 
+extension DiscoProfileViewController: AlertPresentable {}
+
 //MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -113,12 +127,31 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
+    public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            referenceSection.references = references
+        }
+    }
+    
     public func startLoading() {
             
     }
     
     public func hideLoading() {
         
+    }
+
+    public func showProfile(_ profile: DiscoProfileViewEntity) {
+        configure(with: profile)
+    }
+    
+    public func addingReferencesError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+    
+    public func loadingProfileError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
     }
     
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {

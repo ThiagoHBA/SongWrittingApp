@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 public struct SectionDataEntity: DataEntity, Codable {
     public let identifer: String
@@ -14,5 +15,12 @@ public struct SectionDataEntity: DataEntity, Codable {
     public init(identifer: String, records: [RecordDataEntity]) {
         self.identifer = identifer
         self.records = records
+    }
+    
+    public func toDomain() -> Section {
+        return Section(
+            identifer: identifer,
+            records: records.map { $0.toDomain() }
+        )
     }
 }

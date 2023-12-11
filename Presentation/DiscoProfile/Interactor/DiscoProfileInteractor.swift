@@ -10,10 +10,19 @@ import Domain
 
 public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     let searchReferencesUseCase: SearchReferencesUseCase
+    let getDiscoProfileUseCase: GetDiscoProfileUseCase
+    let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
+    
     public var presenter: DiscoProfilePresentationLogic?
     
-    public init(searchReferencesUseCase: SearchReferencesUseCase) {
+    public init(
+        searchReferencesUseCase: SearchReferencesUseCase,
+        getDiscoProfileUseCase: GetDiscoProfileUseCase,
+        addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
+    ) {
         self.searchReferencesUseCase = searchReferencesUseCase
+        self.getDiscoProfileUseCase = getDiscoProfileUseCase
+        self.addDiscoNewReferenceUseCase = addDiscoNewReferenceUseCase
     }
     
     public func searchNewReferences(keywords: String) {
@@ -22,7 +31,21 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
         searchReferencesUseCase.execute()
     }
     
-    public func loadReferences(for disco: DiscoListViewEntity) {
-        
+    public func loadProfile(for disco: DiscoListViewEntity) {
+        presenter?.presentLoading()
+        getDiscoProfileUseCase.input = .init(disco: disco.mapToDomain())
+        getDiscoProfileUseCase.execute()
+    }
+    
+    public func addNewReferences(
+        for disco: DiscoListViewEntity,
+        references: [AlbumReferenceViewEntity]
+    ) {
+        presenter?.presentLoading()
+        addDiscoNewReferenceUseCase.input = .init(
+            disco: disco.mapToDomain(),
+            newReferences: references.map { $0.mapToDomain() }
+        )
+        addDiscoNewReferenceUseCase.execute()
     }
 }

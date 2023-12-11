@@ -31,7 +31,7 @@ public struct DiscoDataEntity: DataEntity, Codable {
         self.coverImage = disco.coverImage
     }
     
-    func toDomain() -> Disco {
+    public func toDomain() -> Disco {
         return Disco(id: id, name: name, coverImage: coverImage)
     }
 }
