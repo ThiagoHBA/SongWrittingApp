@@ -50,6 +50,10 @@ public class DiscoProfileViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.register(
+            RecordTableViewCell.self,
+            forCellReuseIdentifier: RecordTableViewCell.identifier
+        )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -175,12 +179,11 @@ extension DiscoProfileViewController: AlertPresentable {}
 //MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
     public func numberOfSections(in tableView: UITableView) -> Int {
-        print(discoProfile?.section.count ?? 0)
         return discoProfile?.section.count ?? 0
     }
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 36
+        return RecordTableViewCell.heigth
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -195,8 +198,12 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "Title"
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RecordTableViewCell.identifier
+        ) as? RecordTableViewCell else {
+            return UITableViewCell()
+        }
+        
         return cell
     }
 }

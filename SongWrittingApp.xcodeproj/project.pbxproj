@@ -53,6 +53,7 @@
 		00B97BC92B275AB200934E4A /* AddDiscoNewReferenceInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BC82B275AB200934E4A /* AddDiscoNewReferenceInput.swift */; };
 		00B97BCB2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BCA2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift */; };
 		00B97BCD2B276C0200934E4A /* AddButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */; };
+		00B97BD12B27754B00934E4A /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -386,6 +387,7 @@
 		00B97BC82B275AB200934E4A /* AddDiscoNewReferenceInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiscoNewReferenceInput.swift; sourceTree = "<group>"; };
 		00B97BCA2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiscoNewReferenceUseCaseOutput.swift; sourceTree = "<group>"; };
 		00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonComponent.swift; sourceTree = "<group>"; };
+		00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -701,11 +703,8 @@
 		00B97BA12B2673EB00934E4A /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */,
-				00B97BA92B2681CC00934E4A /* ReferenceListView.swift */,
-				00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */,
-				00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */,
-				00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */,
+				00B97BCF2B27752500934E4A /* Records */,
+				00B97BCE2B27751C00934E4A /* References */,
 				00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */,
 			);
 			path = Components;
@@ -745,6 +744,26 @@
 				00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		00B97BCE2B27751C00934E4A /* References */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */,
+				00B97BA92B2681CC00934E4A /* ReferenceListView.swift */,
+				00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */,
+				00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */,
+				00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */,
+			);
+			path = References;
+			sourceTree = "<group>";
+		};
+		00B97BCF2B27752500934E4A /* Records */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */,
+			);
+			path = Records;
 			sourceTree = "<group>";
 		};
 		00F2F1C12B2373980008F6F5 = {
@@ -1731,6 +1750,7 @@
 				00B97BCD2B276C0200934E4A /* AddButtonComponent.swift in Sources */,
 				00B97B502B256A6200934E4A /* UIImageExtension.swift in Sources */,
 				00F2F32A2B24E8060008F6F5 /* ViewCoding.swift in Sources */,
+				00B97BD12B27754B00934E4A /* RecordTableViewCell.swift in Sources */,
 				00B97BAE2B269CFD00934E4A /* FindedReferenceTableViewCell.swift in Sources */,
 				00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */,
 				00B97BAC2B26927200934E4A /* AddReferencesViewController.swift in Sources */,
