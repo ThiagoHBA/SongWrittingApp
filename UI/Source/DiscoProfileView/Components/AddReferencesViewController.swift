@@ -91,6 +91,8 @@ extension AddReferencesViewController: UISearchBarDelegate {
             guard let self = self else { return }
             if searchText != String() {
                 searchReference?(searchText)
+            } else {
+                loadedReferences = []
             }
         }
     }
