@@ -9,6 +9,7 @@ import Foundation
 
 internal enum DataError: LocalizedError {
     case decodingError
+    case cantFindDisco
 }
 
 extension DataError {
@@ -16,6 +17,8 @@ extension DataError {
         switch self {
             case .decodingError:
                 return "Não foi possível mapear as informações do servidor"
+            case .cantFindDisco:
+                return "Não foi possível encontrar o disco desejado para completar as operações"
         }
     }
 }

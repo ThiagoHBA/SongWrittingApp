@@ -59,4 +59,25 @@ public final class DiscoServiceFromMemory: DiscoService {
         
         completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
     }
+    
+    public func updateDiscoReferences(
+        _ disco: Disco,
+        references: [AlbumReference],
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
+        guard let profileIndex = memoryDatabase.profiles.firstIndex(
+            where: {
+                $0.disco.id == disco.id
+            }
+        ) else {
+            completion(.failure(DataError.cantFindDisco))
+            return
+        }
+        
+        memoryDatabase.profiles[profileIndex].references = AlbumReferenceDataEntity(
+            from: references
+        )
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
 }

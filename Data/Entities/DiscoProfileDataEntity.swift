@@ -10,7 +10,7 @@ import Domain
 
 public struct DiscoProfileDataEntity: DataEntity, Codable {
     public let disco: DiscoDataEntity
-    public let references: AlbumReferenceDataEntity
+    public var references: AlbumReferenceDataEntity
     public let section: [SectionDataEntity]
     
     public init(disco: DiscoDataEntity, references: AlbumReferenceDataEntity, section: [SectionDataEntity]) {

@@ -20,4 +20,10 @@ public protocol DiscoService {
         for disco: Disco,
         completion: @escaping (Result<DiscoProfile, Error>) -> Void
     )
+    
+    func updateDiscoReferences(
+        _ disco: Disco,
+        references: [AlbumReference],
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
 }
