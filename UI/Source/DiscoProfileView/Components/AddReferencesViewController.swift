@@ -43,6 +43,14 @@ class AddReferencesViewController: UIViewController {
         buildLayout()
         title = "Referências"
     }
+    
+    public func updateReferenceItems(_ newItems: [AlbumReferenceViewEntity]) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            loadedReferences = newItems
+            referencesList.reloadData()
+        }
+    }
 }
 
 extension AddReferencesViewController: ViewCoding {
@@ -90,7 +98,7 @@ extension AddReferencesViewController: UISearchBarDelegate {
 
 extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return loadedReferences.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,15 +113,9 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
             return UITableViewCell()
         }
         
-//        cell.configure(
-//            with: AlbumReferenceViewEntity(
-//                name: "Let It Be",
-//                artist: "The Beatles",
-//                releaseDate: "01.01.1969",
-////                coverImage: Data()
-//            )
-//        )
-        
+        let currentItem = loadedReferences[indexPath.row]
+        cell.configure(with: currentItem)
+
         return cell
     }
     

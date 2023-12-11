@@ -38,6 +38,13 @@ public class DiscoProfileViewController: UIViewController {
         return tableView
     }()
     
+    lazy var referenceViewController: AddReferencesViewController = {
+        let sheet = AddReferencesViewController()
+        sheet.searchReference = interactor.searchNewReferences
+        sheet.sheetPresentationController?.detents = [ .large() ]
+        return sheet
+    }()
+    
     public init(disco: DiscoListViewEntity, interactor: DiscoProfileBusinessRule) {
         self.disco = disco
         self.interactor = interactor
@@ -52,10 +59,7 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func addReferenceTapped() {
-        let sheet = AddReferencesViewController()
-        sheet.searchReference = interactor.searchNewReferences
-        sheet.sheetPresentationController?.detents = [ .large() ]
-        present(sheet, animated: true)
+        present(referenceViewController, animated: true)
     }
 }
 
@@ -117,7 +121,7 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
         
     }
     
-    public func showReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
-        
+    public func showReferences(_ references: [AlbumReferenceViewEntity]) {
+        self.referenceViewController.updateReferenceItems(references)
     }
 }
