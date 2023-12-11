@@ -118,6 +118,10 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
+    public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
+        referenceSection.references.append(contentsOf: references)
+    }
+    
     public func startLoading() {
             
     }

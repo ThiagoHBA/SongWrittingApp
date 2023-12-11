@@ -30,19 +30,19 @@ struct DiscoProfileFactory {
         
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
+        let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
         
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: searchReferencesUseCase,
-            getDiscoProfileUseCase: getDiscoProfileUseCase
+            getDiscoProfileUseCase: getDiscoProfileUseCase,
+            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase
         )
-        let viewController = DiscoProfileViewController(
-            disco: data,
-            interactor: interactor
-        )
+        let viewController = DiscoProfileViewController(disco: data, interactor: interactor)
         
         searchReferencesUseCase.output = [presenter]
         getDiscoProfileUseCase.output = [presenter]
+        addDiscoNewReferencesUseCase.output = [presenter]
         
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
@@ -52,6 +52,11 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func updateReferences(_ references: [AlbumReferenceViewEntity]) {
+        assert(self.instance != nil)
+        self.instance?.updateReferences(references)
+    }
+    
     func showProfile(_ profile: DiscoProfileViewEntity) {
         assert(self.instance != nil)
         self.instance?.showProfile(profile)
