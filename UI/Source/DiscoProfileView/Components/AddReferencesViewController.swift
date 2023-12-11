@@ -190,6 +190,7 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem = loadedReferences[indexPath.row]
+        if selectedReferences.contains(selectedItem) { return }
         selectedReferences.append(selectedItem)
     }
 }
