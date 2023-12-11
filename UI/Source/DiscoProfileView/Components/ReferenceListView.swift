@@ -8,23 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct IdentifiableItem: Identifiable {
-    var id: UUID = UUID()
-    var image: UIImage?
-}
-
 struct ReferenceListView: View {
-    @State var items: [IdentifiableItem] = []
+    @ObservedObject var itemModel: ItemListModel
     
     var body: some View {
-        if items.isEmpty {
+        if itemModel.items.isEmpty {
             Text("Você ainda não possui nenhuma referência ao disco")
                 .multilineTextAlignment(.center)
                 .font(.caption)
         } else {
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(items, id: \.id) { item in
+                    ForEach(itemModel.items, id: \.id) { item in
                         Circle()
                             .stroke(style: .init(lineWidth: 0.5))
                             .frame(width: 80, height: 80)

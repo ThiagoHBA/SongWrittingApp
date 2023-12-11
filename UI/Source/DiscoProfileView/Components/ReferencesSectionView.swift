@@ -9,11 +9,20 @@ import UIKit
 import Presentation
 import SwiftUI
 
+struct IdentifiableItem: Identifiable {
+    var id: UUID = UUID()
+    var image: UIImage?
+}
+
+class ItemListModel: ObservableObject {
+    @Published var items: [IdentifiableItem] = []
+}
+
 class ReferencesSectionView: UIView {
+    private var itemModel = ItemListModel()
+    
     var references: [AlbumReferenceViewEntity] = [] {
-        didSet {
-            referenceList = buildReferenceList()
-        }
+        didSet { updateItems(newItems: references) }
     }
     
     let title: UILabel = {
@@ -34,7 +43,15 @@ class ReferencesSectionView: UIView {
     }()
 
     lazy var referenceList: UIView = {
-        return buildReferenceList()
+        let itemArray = itemModel.$items
+        let suiView = UIHostingController(
+            rootView: ReferenceListView(
+                itemModel: itemModel
+            )
+        )
+        guard let uiKitView = suiView.view else { return UIView() }
+        uiKitView.translatesAutoresizingMaskIntoConstraints = false
+        return uiKitView
     }()
     
     override init(frame: CGRect) {
@@ -44,15 +61,10 @@ class ReferencesSectionView: UIView {
     
     required init?(coder: NSCoder) { nil }
     
-    func buildReferenceList() -> UIView {
-        let suiView = UIHostingController(rootView: ReferenceListView(
-            items: references.map {
-                IdentifiableItem(image: UIImage(data: $0.coverImage))
-            }
-        ))
-        guard let uiKitView = suiView.view else { return UIView() }
-        uiKitView.translatesAutoresizingMaskIntoConstraints = false
-        return uiKitView
+    func updateItems(newItems: [AlbumReferenceViewEntity]) {
+        itemModel.items = newItems.map {
+            IdentifiableItem(image: UIImage(data: $0.coverImage))
+        }
     }
 }
 
