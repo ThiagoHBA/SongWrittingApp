@@ -9,15 +9,26 @@ import Foundation
 
 public final class AddNewSectionToDiscoUseCase: UseCase {
     let service: DiscoService
-    public var input: AddDiscoNewReferenceInput?
-    public var output: AddDiscoNewReferenceUseCaseOutput?
+    public var input: AddNewSectionToDiscoUseCaseInput?
+    public var output: [AddNewSectionToDiscoUseCaseOutput]?
     
     init(service: DiscoService) {
         self.service = service
     }
     
     func execute() {
+        assert(input != nil)
+        guard let input = input else { return }
         
+        service.addNewSection(input.disco, input.section) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let profile):
+                    output?.forEach { $0.successfullyAddedSectionToDisco(profile)}
+                case .failure(let error):
+                    output?.forEach { $0.errorWhileAddingSectionToDisco(error)}
+            }
+        }
     }
 }
 

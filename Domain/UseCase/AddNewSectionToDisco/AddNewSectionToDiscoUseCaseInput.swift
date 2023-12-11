@@ -8,11 +8,11 @@
 import Foundation
 
 public struct AddNewSectionToDiscoUseCaseInput {
-    let sectionName: String
-    let records: [Record]
+    let disco: Disco
+    let section: Section
     
-    public init(sectionName: String, records: [Record]) {
-        self.sectionName = sectionName
-        self.records = records
+    public init(disco: Disco, section: Section) {
+        self.disco = disco
+        self.section = section
     }
 }
