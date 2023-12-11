@@ -25,6 +25,7 @@ class AddReferencesViewController: UIViewController {
     }
     private var itemModel = SelectedReferenceListModel()
     var searchReference: ((String) -> Void)?
+    var saveReferences: (([AlbumReferenceViewEntity]) -> Void)?
     
     lazy var navBar: UINavigationBar = {
         let nav = UINavigationBar()
@@ -82,7 +83,7 @@ class AddReferencesViewController: UIViewController {
     }
     
     @objc func saveReferencesTapped() {
-        
+        saveReferences?(selectedReferences)
     }
     
     func removeAddedReference(_ reference: AlbumReferenceViewEntity) {
