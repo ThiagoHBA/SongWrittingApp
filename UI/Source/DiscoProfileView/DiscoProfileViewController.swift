@@ -41,6 +41,13 @@ public class DiscoProfileViewController: UIViewController {
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
+        sheet.saveReferences = { [weak self] referencesToAdd in
+            guard let self = self else { return }
+            interactor.addNewReferences(
+                for: disco,
+                references: referencesToAdd
+            )
+        }
         sheet.sheetPresentationController?.detents = [ .large() ]
         return sheet
     }()
@@ -103,6 +110,8 @@ extension DiscoProfileViewController: ViewCoding {
     }
 }
 
+extension DiscoProfileViewController: AlertPresentable {}
+
 //MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,7 +128,10 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
-        referenceSection.references.append(contentsOf: references)
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            referenceSection.references = references
+        }
     }
     
     public func startLoading() {
@@ -135,11 +147,11 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
     
     public func addingReferencesError(_ title: String, description: String) {
-        
+        showAlert(title: title, message: description, dismissed: nil)
     }
     
     public func loadingProfileError(_ title: String, description: String) {
-        
+        showAlert(title: title, message: description, dismissed: nil)
     }
     
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
