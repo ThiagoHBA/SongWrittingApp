@@ -16,6 +16,12 @@ public final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
     public func presentLoading() {
         view?.startLoading()
     }
+    
+    public func presentCreateSectionError(_ error: DiscoProfileError.CreateSectionError) {
+        view?.hideOverlays { [weak self] in
+            self?.view?.addingSectionError("Erro!", description: error.localizedDescription)
+        }
+    }
 }
 
 extension DiscoProfilePresenter: SearchReferencesUseCaseOutput {

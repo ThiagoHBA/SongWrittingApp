@@ -55,6 +55,11 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func hideOverlays(completion: (() -> Void)?) {
+        assert(self.instance != nil)
+        self.instance?.hideOverlays(completion: completion)
+    }
+    
     func updateSections(_ sections: [SectionViewEntity]) {
         assert(self.instance != nil)
         self.instance?.updateSections(sections)

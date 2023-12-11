@@ -9,4 +9,5 @@ import Foundation
 
 public protocol DiscoProfilePresentationLogic {
     func presentLoading()
+    func presentCreateSectionError(_ error: DiscoProfileError.CreateSectionError)
 }

@@ -89,6 +89,14 @@ public class DiscoProfileViewController: UIViewController {
         return sheet
     }()
     
+    lazy var addNewSectionViewController: AddSectionViewController = {
+        let sheet = AddSectionViewController()
+        let guide = view.safeAreaLayoutGuide
+        let height = guide.layoutFrame.size.height * 0.3
+        sheet.sheetPresentationController?.detents = [ .custom { _ in return height } ]
+        return sheet
+    }()
+    
     public init(disco: DiscoListViewEntity, interactor: DiscoProfileBusinessRule) {
         self.disco = disco
         self.interactor = interactor
@@ -113,13 +121,14 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func addSectionTapped() {
-        interactor.addNewSection(
-            for: disco,
-            section: SectionViewEntity(
-                identifer: "Intro!",
-                records: []
-            )
-        )
+        present(addNewSectionViewController, animated: true)
+//        interactor.addNewSection(
+//            for: disco,
+//            section: SectionViewEntity(
+//                identifer: "Intro!",
+//                records: []
+//            )
+//        )
     }
     
     @objc func addNewRecordToSection(_ sender: UIButton) {
@@ -239,7 +248,6 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
-    
     public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
@@ -265,6 +273,10 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
             discoProfile?.section = sections
             tableView.reloadData()
         }
+    }
+    
+    public func hideOverlays(completion: (() -> Void)?) {
+        dismiss(animated: true, completion: completion)
     }
     
     public func addingReferencesError(_ title: String, description: String) {

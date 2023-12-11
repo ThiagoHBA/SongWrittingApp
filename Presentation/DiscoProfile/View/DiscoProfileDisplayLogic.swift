@@ -10,6 +10,7 @@ import Foundation
 public protocol DiscoProfileDisplayLogic {
     func startLoading()
     func hideLoading()
+    func hideOverlays(completion: (() -> Void)?)
     func showReferences(_ references: [AlbumReferenceViewEntity])
     func showProfile(_ profile: DiscoProfileViewEntity)
     func updateReferences(_ references: [AlbumReferenceViewEntity])

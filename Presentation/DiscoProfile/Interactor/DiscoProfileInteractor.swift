@@ -53,11 +53,23 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     }
     
     public func addNewSection(for disco: DiscoListViewEntity, section: SectionViewEntity) {
+        if !sectionIsValid(section.identifer) { return }
         presenter?.presentLoading()
         addNewSectionToDiscoUseCase.input = .init(
             disco: disco.mapToDomain(),
             section: section.mapToDomain()
         )
         addNewSectionToDiscoUseCase.execute()
+    }
+}
+
+// MARK: - Validations
+extension DiscoProfileInteractor {
+    private func sectionIsValid(_ name: String) -> Bool {
+        if name == "" {
+            presenter?.presentCreateSectionError(DiscoProfileError.CreateSectionError.emptyName)
+            return false
+        }
+        return true
     }
 }
