@@ -59,6 +59,8 @@
 		00B97BD82B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD72B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift */; };
 		00B97BDB2B279FCB00934E4A /* AddSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */; };
 		00B97BDE2B27A46C00934E4A /* DiscoProfileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */; };
+		00B97BE02B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */; };
+		00B97BE22B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -398,6 +400,8 @@
 		00B97BD72B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSectionToDiscoUseCaseOutput.swift; sourceTree = "<group>"; };
 		00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewController.swift; sourceTree = "<group>"; };
 		00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileError.swift; sourceTree = "<group>"; };
+		00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordToSessionUseCaseInput.swift; sourceTree = "<group>"; };
+		00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewRecordToSessionUseCaseOutput.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -1172,6 +1176,8 @@
 			isa = PBXGroup;
 			children = (
 				00F2F2DB2B24CFAD0008F6F5 /* AddNewRecordToSessionUseCase.swift */,
+				00B97BDF2B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift */,
+				00B97BE12B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift */,
 			);
 			path = AddNewRecordToSession;
 			sourceTree = "<group>";
@@ -1639,8 +1645,10 @@
 				00F2F2E12B24D3020008F6F5 /* DiscoService.swift in Sources */,
 				00F2F2DF2B24D02C0008F6F5 /* UseCase.swift in Sources */,
 				00B97BCB2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift in Sources */,
+				00B97BE02B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift in Sources */,
 				00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */,
 				00F2F2E32B24D3760008F6F5 /* CreateNewDiscoUseCaseOutput.swift in Sources */,
+				00B97BE22B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift in Sources */,
 				00B97BB82B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift in Sources */,
 				00B97BC52B2753E000934E4A /* GetDiscoProfileUseCaseInput.swift in Sources */,
 				00F2F2D42B24CF640008F6F5 /* DeleteDiscoUseCase.swift in Sources */,

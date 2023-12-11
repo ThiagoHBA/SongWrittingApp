@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+public final class AddNewRecordToSessionUseCase: UseCase {
+    var input: AddNewRecordToSessionUseCaseInput?
+    var output: [AddNewRecordToSessionUseCaseOutput]?
+    let service: DiscoService
+    
+    public init(service: DiscoService) {
+        self.service = service
+    }
+    
+    public func execute() {
+        
+    }
+}
