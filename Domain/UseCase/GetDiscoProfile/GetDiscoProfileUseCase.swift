@@ -9,8 +9,8 @@ import Foundation
 
 public final class GetDiscoProfileUseCase: UseCase {
     let service: DiscoService
-    var input: GetDiscoProfileUseCaseInput?
-    var output: [GetDiscoProfileUseCaseOutput]?
+    public var input: GetDiscoProfileUseCaseInput?
+    public var output: [GetDiscoProfileUseCaseOutput]?
     
     public init(service: DiscoService) {
         self.service = service

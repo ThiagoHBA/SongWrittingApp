@@ -26,11 +26,15 @@ struct DiscoProfileFactory {
         )
 
         let referenceService = ReferencesServiceImpl(networkClient: authDecorator)
+        let discoService = DiscoServiceFromMemory()
+        
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
+        let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
-            searchReferencesUseCase: searchReferencesUseCase
+            searchReferencesUseCase: searchReferencesUseCase,
+            getDiscoProfileUseCase: getDiscoProfileUseCase
         )
         let viewController = DiscoProfileViewController(
             disco: data,
@@ -38,6 +42,8 @@ struct DiscoProfileFactory {
         )
         
         searchReferencesUseCase.output = [presenter]
+        getDiscoProfileUseCase.output = [presenter]
+        
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
     
@@ -46,6 +52,21 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func showProfile(_ profile: DiscoProfileViewEntity) {
+        assert(self.instance != nil)
+        self.instance?.showProfile(profile)
+    }
+    
+    func addingReferencesError(_ title: String, description: String) {
+        assert(self.instance != nil)
+        self.instance?.addingReferencesError(title, description: description)
+    }
+    
+    func loadingProfileError(_ title: String, description: String) {
+        assert(self.instance != nil)
+        self.instance?.loadingProfileError(title, description: description)
+    }
+    
     func startLoading() {
         assert(self.instance != nil)
         self.instance?.startLoading()

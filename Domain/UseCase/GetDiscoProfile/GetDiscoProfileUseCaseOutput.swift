@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol GetDiscoProfileUseCaseOutput {
+public protocol GetDiscoProfileUseCaseOutput {
     func succesfullyLoadProfile(_ profile: DiscoProfile)
     func errorWhileLoadingProfile(_ error: Error)
 }

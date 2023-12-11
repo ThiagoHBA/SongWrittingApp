@@ -120,6 +120,18 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     public func hideLoading() {
         
     }
+
+    public func showProfile(_ profile: DiscoProfileViewEntity) {
+        
+    }
+    
+    public func addingReferencesError(_ title: String, description: String) {
+        
+    }
+    
+    public func loadingProfileError(_ title: String, description: String) {
+        
+    }
     
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
         self.referenceViewController.updateReferenceItems(references)

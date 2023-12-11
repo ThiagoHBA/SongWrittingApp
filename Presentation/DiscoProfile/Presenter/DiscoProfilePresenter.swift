@@ -29,6 +29,21 @@ extension DiscoProfilePresenter: SearchReferencesUseCaseOutput {
     }
     
     public func errorWhileFindingReferences(_ error: Error) {
-        
+        view?.hideLoading()
+        view?.addingReferencesError("Erro!", description: error.localizedDescription)
     }
+}
+
+extension DiscoProfilePresenter: GetDiscoProfileUseCaseOutput {
+    public func succesfullyLoadProfile(_ profile: DiscoProfile) {
+        view?.hideLoading()
+        view?.showProfile(DiscoProfileViewEntity(from: profile))
+    }
+    
+    public func errorWhileLoadingProfile(_ error: Error) {
+        view?.hideLoading()
+        view?.loadingProfileError("Erro!", description: error.localizedDescription)
+    }
+    
+    
 }
