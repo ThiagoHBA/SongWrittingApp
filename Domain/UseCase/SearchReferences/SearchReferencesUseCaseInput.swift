@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LoadReferencesUseCaseInput {
+public struct SearchReferencesUseCaseInput {
     public let keywords: String
     
     public init(keywords: String) {

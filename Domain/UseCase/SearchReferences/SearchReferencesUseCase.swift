@@ -7,11 +7,11 @@
 
 import Foundation
 
-public final class LoadReferencesUseCase {
+public final class SearchReferencesUseCase {
     let service: ReferencesService
-    let input: LoadReferencesUseCaseInput
+    let input: SearchReferencesUseCaseInput
     
-    public init(service: ReferencesService, input: LoadReferencesUseCaseInput) {
+    public init(service: ReferencesService, input: SearchReferencesUseCaseInput) {
         self.service = service
         self.input = input
     }
