@@ -12,6 +12,21 @@ class AddReferencesViewController: UIViewController {
     private var loadedReferences: [AlbumReferenceViewEntity] = []
     var searchReference: ((String) -> Void)?
     
+    lazy var navBar: UINavigationBar = {
+        let nav = UINavigationBar()
+        let navigationItem = UINavigationItem(title: "Referências")
+        let saveButton = UIBarButtonItem(
+             title: "Save",
+             style: .plain,
+             target: self,
+             action: #selector(saveReferencesTapped)
+        )
+        navigationItem.rightBarButtonItem = saveButton
+        nav.items = [navigationItem]
+        nav.translatesAutoresizingMaskIntoConstraints = false
+        return nav
+    }()
+    
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Buscar"
@@ -44,6 +59,10 @@ class AddReferencesViewController: UIViewController {
         title = "Referências"
     }
     
+    @objc func saveReferencesTapped() {
+        
+    }
+    
     public func updateReferenceItems(_ newItems: [AlbumReferenceViewEntity]) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -63,7 +82,12 @@ extension AddReferencesViewController: ViewCoding {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            navBar.topAnchor.constraint(equalTo: view.topAnchor),
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navBar.heightAnchor.constraint(equalToConstant: 46),
+            
+            searchBar.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 24),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6),
             searchBar.heightAnchor.constraint(equalToConstant: 36),
@@ -82,6 +106,7 @@ extension AddReferencesViewController: ViewCoding {
         view.addSubview(resultLabel)
         view.addSubview(searchBar)
         view.addSubview(referencesList)
+        view.addSubview(navBar)
     }
 }
 
