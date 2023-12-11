@@ -10,7 +10,11 @@ import Presentation
 import SwiftUI
 
 class ReferencesSectionView: UIView {
-    var references: [AlbumReferenceViewEntity] = []
+    var references: [AlbumReferenceViewEntity] = [] {
+        didSet {
+            referenceList = buildReferenceList()
+        }
+    }
     
     let title: UILabel = {
         let label = UILabel()
@@ -30,10 +34,7 @@ class ReferencesSectionView: UIView {
     }()
 
     lazy var referenceList: UIView = {
-        let suiView = UIHostingController(rootView: ReferenceListView())
-        guard let uiKitView = suiView.view else { return UIView() }
-        uiKitView.translatesAutoresizingMaskIntoConstraints = false
-        return uiKitView
+        return buildReferenceList()
     }()
     
     override init(frame: CGRect) {
@@ -42,6 +43,17 @@ class ReferencesSectionView: UIView {
     }
     
     required init?(coder: NSCoder) { nil }
+    
+    func buildReferenceList() -> UIView {
+        let suiView = UIHostingController(rootView: ReferenceListView(
+            items: references.map {
+                IdentifiableItem(image: UIImage(data: $0.coverImage))
+            }
+        ))
+        guard let uiKitView = suiView.view else { return UIView() }
+        uiKitView.translatesAutoresizingMaskIntoConstraints = false
+        return uiKitView
+    }
 }
 
 extension ReferencesSectionView: ViewCoding {

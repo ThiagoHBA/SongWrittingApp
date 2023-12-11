@@ -72,7 +72,7 @@ extension DiscoProfileViewController: ViewCoding {
             referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 20),
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
+            referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15)
         ])
     }
     

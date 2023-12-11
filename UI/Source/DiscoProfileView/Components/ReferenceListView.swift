@@ -10,25 +10,33 @@ import SwiftUI
 
 struct IdentifiableItem: Identifiable {
     var id: UUID = UUID()
-    var image: UIImage
+    var image: UIImage?
 }
 
 struct ReferenceListView: View {
     @State var items: [IdentifiableItem] = []
     
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(items, id: \.id) { item in
-                    Circle()
-                        .stroke(style: .init(lineWidth: 0.5))
-                        .frame(width: 80, height: 80)
-                        .overlay {
-                            Image(uiImage: item.image)
-                                .resizable()
-                                .scaledToFill()
-                                .padding()
-                        }
+        if items.isEmpty {
+            Text("Você ainda não possui nenhuma referência ao disco")
+                .multilineTextAlignment(.center)
+                .font(.caption)
+        } else {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(items, id: \.id) { item in
+                        Circle()
+                            .stroke(style: .init(lineWidth: 0.5))
+                            .frame(width: 80, height: 80)
+                            .overlay {
+                                if let image = item.image {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .padding()
+                                }
+                            }
+                    }
                 }
             }
         }
