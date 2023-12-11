@@ -87,6 +87,7 @@ public final class DiscoServiceFromMemory: DiscoService {
             SectionDataEntity(from: section)
         )
         
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
     }
     
     private func findProfileIndex(to disco: Disco) -> Int? {

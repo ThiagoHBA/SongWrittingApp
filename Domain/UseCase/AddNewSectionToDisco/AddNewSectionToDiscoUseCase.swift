@@ -16,7 +16,7 @@ public final class AddNewSectionToDiscoUseCase: UseCase {
         self.service = service
     }
     
-    func execute() {
+    public func execute() {
         assert(input != nil)
         guard let input = input else { return }
         

@@ -11,7 +11,8 @@ import Presentation
 public class DiscoProfileViewController: UIViewController {
     private var discoProfile: DiscoProfileViewEntity? {
         didSet {
-            if let profile = discoProfile, profile.section.isEmpty {
+            if let profile = discoProfile,
+            !profile.section.isEmpty {
                 emptyStateLabel.removeFromSuperview()
             }
         }
@@ -107,17 +108,18 @@ public class DiscoProfileViewController: UIViewController {
     }
     
     func configure(with profile: DiscoProfileViewEntity) {
-        referenceSection.references = profile.references
+        discoProfile = profile
+        referenceSection.references = discoProfile!.references
     }
     
     func addSectionTapped() {
-        discoProfile = DiscoProfileViewEntity(disco: disco, references: [], section: [])
-        discoProfile?.section = [
-            .init(identifer: "Intro", records: [])
-        ]
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
+        interactor.addNewSection(
+            for: disco,
+            section: SectionViewEntity(
+                identifer: "Intro!",
+                records: []
+            )
+        )
     }
 }
 
@@ -218,9 +220,6 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
-    public func updateSections(_ sections: [SectionViewEntity]) {
-        
-    }
     
     public func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         dismiss(animated: true) { [weak self] in
@@ -239,6 +238,14 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
 
     public func showProfile(_ profile: DiscoProfileViewEntity) {
         configure(with: profile)
+    }
+    
+    public func updateSections(_ sections: [SectionViewEntity]) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            discoProfile?.section = sections
+            tableView.reloadData()
+        }
     }
     
     public func addingReferencesError(_ title: String, description: String) {

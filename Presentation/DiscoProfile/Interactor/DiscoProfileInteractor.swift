@@ -58,5 +58,6 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
             disco: disco.mapToDomain(),
             section: section.mapToDomain()
         )
+        addNewSectionToDiscoUseCase.execute()
     }
 }
