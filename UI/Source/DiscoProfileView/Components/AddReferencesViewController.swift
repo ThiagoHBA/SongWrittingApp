@@ -10,6 +10,7 @@ import Presentation
 
 class AddReferencesViewController: UIViewController {
     private var loadedReferences: [AlbumReferenceViewEntity] = []
+    var searchReference: ((String) -> Void)?
     
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -81,9 +82,7 @@ extension AddReferencesViewController: UISearchBarDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if searchText != String() {
-                
-            } else {
-
+                searchReference?(searchText)
             }
         }
     }
@@ -106,14 +105,14 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
             return UITableViewCell()
         }
         
-        cell.configure(
-            with: AlbumReferenceViewEntity(
-                name: "Let It Be",
-                artist: "The Beatles",
-                releaseDate: "01.01.1969",
-                coverImage: UIImage(named: "vinil_image_example")!.pngData()!
-            )
-        )
+//        cell.configure(
+//            with: AlbumReferenceViewEntity(
+//                name: "Let It Be",
+//                artist: "The Beatles",
+//                releaseDate: "01.01.1969",
+////                coverImage: Data()
+//            )
+//        )
         
         return cell
     }

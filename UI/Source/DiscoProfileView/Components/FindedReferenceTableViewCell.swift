@@ -47,7 +47,6 @@ class FindedReferenceTableViewCell: UITableViewCell {
     private let discoReleaseDate: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
-        label.text = "YYYY.MM.DD"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,7 +59,7 @@ class FindedReferenceTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) { nil }
     
     func configure(with data: AlbumReferenceViewEntity) {
-        banner.image = UIImage(data: data.coverImage)!
+        banner.load(url: data.coverImage)
         discoTitle.text = data.name
         artistName.text = data.artist
         discoReleaseDate.text = data.releaseDate

@@ -25,10 +25,10 @@ struct ReferenceListView: View {
                             .frame(width: 80, height: 80)
                             .overlay {
                                 if let image = item.image {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .padding()
+                                    AsyncImage(url: image)
+//                                        .resizable()
+//                                        .scaledToFill()
+//                                        .padding()
                                 }
                             }
                     }

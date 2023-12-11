@@ -40,6 +40,7 @@
 		00B97BAA2B2681CC00934E4A /* ReferenceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BA92B2681CC00934E4A /* ReferenceListView.swift */; };
 		00B97BAC2B26927200934E4A /* AddReferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */; };
 		00B97BAE2B269CFD00934E4A /* FindedReferenceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */; };
+		00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* LoadReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -360,6 +361,7 @@
 		00B97BA92B2681CC00934E4A /* ReferenceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceListView.swift; sourceTree = "<group>"; };
 		00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReferencesViewController.swift; sourceTree = "<group>"; };
 		00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindedReferenceTableViewCell.swift; sourceTree = "<group>"; };
+		00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* LoadReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -532,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				00B97B4F2B256A6200934E4A /* UIImageExtension.swift */,
+				00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1655,6 +1658,7 @@
 				00B97B712B26225300934E4A /* DiscoListViewRouter.swift in Sources */,
 				00B97BAA2B2681CC00934E4A /* ReferenceListView.swift in Sources */,
 				00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */,
+				00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */,
 				00B97BA52B26742E00934E4A /* ReferencesSectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

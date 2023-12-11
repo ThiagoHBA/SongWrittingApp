@@ -51,6 +51,7 @@ public class DiscoProfileViewController: UIViewController {
     
     func addReferenceTapped() {
         let sheet = AddReferencesViewController()
+        sheet.searchReference
         sheet.sheetPresentationController?.detents = [ .large() ]
         present(sheet, animated: true)
     }

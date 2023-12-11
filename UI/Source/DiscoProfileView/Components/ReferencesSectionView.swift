@@ -11,7 +11,7 @@ import SwiftUI
 
 struct IdentifiableItem: Identifiable {
     var id: UUID = UUID()
-    var image: UIImage?
+    var image: URL?
 }
 
 class ItemListModel: ObservableObject {
@@ -66,7 +66,7 @@ class ReferencesSectionView: UIView {
     
     func updateItems(newItems: [AlbumReferenceViewEntity]) {
         itemModel.items = newItems.map {
-            IdentifiableItem(image: UIImage(data: $0.coverImage))
+            IdentifiableItem(image: $0.coverImage)
         }
     }
     
