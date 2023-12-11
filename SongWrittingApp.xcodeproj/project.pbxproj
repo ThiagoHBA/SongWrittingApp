@@ -47,6 +47,7 @@
 		00B97BBB2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBA2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift */; };
 		00B97BBD2B26B16600934E4A /* DiscoProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBC2B26B16600934E4A /* DiscoProfilePresenter.swift */; };
 		00B97BC02B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */; };
+		00B97BC22B26C54D00934E4A /* SelectedReferenceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -374,6 +375,7 @@
 		00B97BBA2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresentationLogic.swift; sourceTree = "<group>"; };
 		00B97BBC2B26B16600934E4A /* DiscoProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresenter.swift; sourceTree = "<group>"; };
 		00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileDisplayLogic.swift; sourceTree = "<group>"; };
+		00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedReferenceListView.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 				00B97BA92B2681CC00934E4A /* ReferenceListView.swift */,
 				00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */,
 				00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */,
+				00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1711,6 +1714,7 @@
 				00B97BAE2B269CFD00934E4A /* FindedReferenceTableViewCell.swift in Sources */,
 				00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */,
 				00B97BAC2B26927200934E4A /* AddReferencesViewController.swift in Sources */,
+				00B97BC22B26C54D00934E4A /* SelectedReferenceListView.swift in Sources */,
 				00B97B712B26225300934E4A /* DiscoListViewRouter.swift in Sources */,
 				00B97BAA2B2681CC00934E4A /* ReferenceListView.swift in Sources */,
 				00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */,

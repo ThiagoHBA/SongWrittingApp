@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct AlbumReferenceViewEntity {
+public struct AlbumReferenceViewEntity: Equatable {
     public let name: String
     public let artist: String
     public let releaseDate: String
