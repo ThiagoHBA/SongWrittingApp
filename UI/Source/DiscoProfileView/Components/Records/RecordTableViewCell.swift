@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Presentation
 
 class RecordTableViewCell: UITableViewCell {
     static let identifier = "RecordTableViewCell"
@@ -16,7 +17,7 @@ class RecordTableViewCell: UITableViewCell {
         imageView.backgroundColor = .gray
         imageView.layer.cornerRadius = 12
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = .blue
+        imageView.backgroundColor = .clear
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -35,6 +36,24 @@ class RecordTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) { nil }
     
+    func configure(with record: RecordViewEntity) {
+        self.recordImage.image = defineImageForTag(record.tag)
+    }
+    
+    func defineImageForTag(_ tag: InstrumentTagViewEntity) -> UIImage {
+        switch tag {
+            case .guitar:
+                return UIImage(systemName: "guitars.fill")!
+            case .vocal:
+                return UIImage(systemName: "waveform.and.mic")!
+            case .drums:
+                return UIImage(systemName: "light.cylindrical.ceiling.fill")!
+            case .bass:
+                return UIImage(systemName: "waveform.badge.plus")!
+            case .custom:
+                return UIImage(systemName: "waveform.path")!
+        }
+    }
 }
 
 extension RecordTableViewCell: ViewCoding {

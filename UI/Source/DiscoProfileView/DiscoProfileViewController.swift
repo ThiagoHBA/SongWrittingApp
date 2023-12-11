@@ -114,18 +114,19 @@ extension DiscoProfileViewController: ViewCoding {
         
         self.discoProfile?.section = [
             .init(identifer: "Introdução", records: [
-                .init(tag: "", audio: Data()), .init(tag: "", audio: Data())
+                .init(tag: .vocal, audio: Data()),
+                .init(tag: .guitar, audio: Data())
             ]),
             .init(identifer: "Verso", records: [
-                .init(tag: "", audio: Data()),
-                .init(tag: "", audio: Data()),
-                .init(tag: "", audio: Data())
+                .init(tag: .guitar, audio: Data()),
+                .init(tag: .bass, audio: Data()),
+                .init(tag: .drums, audio: Data())
             ]),
             .init(identifer: "Pré Refrão", records: [
-                .init(tag: "", audio: Data()),
-                .init(tag: "", audio: Data()),
-                .init(tag: "", audio: Data()),
-                .init(tag: "", audio: Data())
+                .init(tag: .vocal, audio: Data()),
+                .init(tag: .bass, audio: Data()),
+                .init(tag: .drums, audio: Data()),
+                .init(tag: .guitar, audio: Data())
             ])
         ]
         
@@ -203,6 +204,10 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         ) as? RecordTableViewCell else {
             return UITableViewCell()
         }
+        guard let currentItem = discoProfile?.section[indexPath.section].records[indexPath.row] else {
+            return UITableViewCell()
+        }
+        cell.configure(with: currentItem)
         
         return cell
     }

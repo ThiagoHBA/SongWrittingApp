@@ -9,34 +9,39 @@ import Foundation
 import Domain
 
 public struct RecordViewEntity: Equatable {
-    public var tag: String
+    public var tag: InstrumentTagViewEntity
     public let audio: Data
     
-    public init(tag: String, audio: Data) {
+    public init(tag: InstrumentTagViewEntity, audio: Data) {
         self.tag = tag
         self.audio = audio
     }
     
     internal init(from domain: Record) {
-        self.tag = ""
+        self.tag = InstrumentTagViewEntity(from: domain.tag)
         self.audio = domain.audio
-        
-        self.tag = getTagValueFromDomain(domain.tag)
-    }
-    
-    private func getTagValueFromDomain(_ tag: InstrumentTag) -> String {
-        switch tag {
-            case .guitar:
-                return "Guitarra"
-            case .vocal:
-                return "Voz"
-            case .drums:
-                return "Bateria"
-            case .bass:
-                return "Baixo"
-            case .custom(let customValue):
-                return "\(customValue)"
-        }
     }
 }
 
+public enum InstrumentTagViewEntity: String {
+    case guitar = "Guitarra"
+    case vocal = "Voz"
+    case drums = "Bateria"
+    case bass = "Baixo"
+    case custom
+    
+    init(from domain: InstrumentTag) {
+        switch domain {
+            case .guitar:
+                self = .guitar
+            case .vocal:
+                self = .vocal
+            case .drums:
+                self = .drums
+            case .bass:
+                self = .bass
+            case .custom(_):
+                self = .custom
+        }
+    }
+}
