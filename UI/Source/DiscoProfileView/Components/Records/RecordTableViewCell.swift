@@ -12,7 +12,7 @@ import AVFAudio
 class RecordTableViewCell: UITableViewCell {
     static let identifier = "RecordTableViewCell"
     static let heigth = 80.0
-    private var audioPlayer = AVAudioPlayer()
+    private var audioPlayer: AVAudioPlayer?
     
     private let recordImage: UIImageView = {
         let imageView = UIImageView()
@@ -25,10 +25,11 @@ class RecordTableViewCell: UITableViewCell {
     }()
     
     private lazy var recordComponent: CustomPlayer = {
-        let customPlayer = CustomPlayer(frame: .zero, player: audioPlayer)
-        customPlayer.playButtonTapped = {
-            print("Play tapped")
-        }
+        let customPlayer = CustomPlayer(
+            frame: .zero,
+            player: audioPlayer ?? AVAudioPlayer()
+        )
+        customPlayer.playButtonTapped = {}
         customPlayer.translatesAutoresizingMaskIntoConstraints = false
 //        customPlayer.pauseButtonTapepd = presenter.pauseAudio
         return customPlayer
@@ -42,6 +43,7 @@ class RecordTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) { nil }
     
     func configure(with record: RecordViewEntity) {
+        self.audioPlayer = try? AVAudioPlayer(data: record.audio)
         self.recordImage.image = defineImageForTag(record.tag)
     }
     
