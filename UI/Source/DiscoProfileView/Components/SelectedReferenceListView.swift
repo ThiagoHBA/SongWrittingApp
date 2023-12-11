@@ -17,14 +17,20 @@ struct SelectedReferenceListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(itemModel.items, id: \.id) { item in
-                    Text(item.refernce.name)
-                        .padding(6)
-                        .foregroundStyle(.blue)
-                        .background(.gray.opacity(0.4))
-                        .clipShape(Capsule())
-                        .onTapGesture {
-                            selectedReferenceTapped?(item.refernce)
-                        }
+                    HStack {
+                        Text(item.refernce.name)
+                        
+                        Image(systemName: "x.circle")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                    }
+                    .padding(6)
+                    .foregroundStyle(.blue)
+                    .background(.gray.opacity(0.4))
+                    .clipShape(Capsule())
+                    .onTapGesture {
+                        selectedReferenceTapped?(item.refernce)
+                    }
                 }
             }
         }
