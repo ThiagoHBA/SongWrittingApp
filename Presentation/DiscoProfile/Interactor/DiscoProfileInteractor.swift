@@ -25,4 +25,7 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     public func loadReferences(for disco: DiscoListViewEntity) {
         
     }
+    public func loadProfile(for disco: DiscoListViewEntity) {
+        
+    }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class SearchReferencesUseCase {
+public final class SearchReferencesUseCase: UseCase {
     let service: ReferencesService
     public var input: SearchReferencesUseCaseInput?
     public var output: [SearchReferencesUseCaseOutput]?

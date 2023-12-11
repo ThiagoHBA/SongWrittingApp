@@ -15,4 +15,9 @@ public protocol DiscoService {
     )
     
     func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void)
+    
+    func loadProfile(
+        for disco: Disco,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    )
 }

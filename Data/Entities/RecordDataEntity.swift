@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Domain
 
 public struct RecordDataEntity: DataEntity, Codable {
     public let tag: InstrumentTagDataEntity
@@ -15,6 +16,13 @@ public struct RecordDataEntity: DataEntity, Codable {
         self.tag = tag
         self.audio = audio
     }
+    
+    public func toDomain() -> Record {
+        return Record(
+            tag: tag.toDomain(),
+            audio: audio
+        )
+    }
 }
 
 public enum InstrumentTagDataEntity: Equatable, Codable {
@@ -23,4 +31,19 @@ public enum InstrumentTagDataEntity: Equatable, Codable {
     case drums
     case bass
     case custom(String)
+    
+    func toDomain() -> InstrumentTag {
+        switch self {
+            case .guitar:
+                return .guitar
+            case .vocal:
+                return .vocal
+            case .drums:
+                return .drums
+            case .bass:
+                return .bass
+            case .custom(let value):
+                return .custom(value)
+        }
+    }
 }

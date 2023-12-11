@@ -37,4 +37,26 @@ public final class DiscoServiceFromMemory: DiscoService {
     public func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void) {
         completion(.success(memoryDatabase.discos.map { $0.toDomain() }))
     }
+    
+    public func loadProfile(
+        for disco: Disco,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
+        guard let profileIndex = memoryDatabase.profiles.firstIndex(
+            where: {
+                $0.disco.id == disco.id
+            }
+        ) else {
+            let newProfile = DiscoProfileDataEntity(
+                disco: DiscoDataEntity(from: disco),
+                references: .init(albums: .init(items: [])),
+                section: []
+            )
+            memoryDatabase.profiles.append(newProfile)
+            completion(.success(newProfile.toDomain()))
+            return 
+        }
+        
+        completion(.success(memoryDatabase.profiles[profileIndex].toDomain()))
+    }
 }

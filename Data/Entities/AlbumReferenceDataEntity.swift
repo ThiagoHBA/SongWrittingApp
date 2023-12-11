@@ -13,7 +13,7 @@ import Domain
 public struct AlbumReferenceDataEntity: DataEntity, Codable {
     let albums: Albums
     
-    func toDomain() -> [AlbumReference] {
+    public func toDomain() -> [AlbumReference] {
         return albums.items.map {
             AlbumReference(
                 name: $0.name,
