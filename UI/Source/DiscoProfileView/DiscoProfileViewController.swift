@@ -121,6 +121,10 @@ public class DiscoProfileViewController: UIViewController {
             )
         )
     }
+    
+    @objc func addNewRecordToSection(_ sender: UIButton) {
+        print("Add record to index: \(sender.tag)")
+    }
 }
 
 extension DiscoProfileViewController: ViewCoding {
@@ -196,6 +200,21 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return discoProfile?.section[section].identifer
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let button = UIButton()
+        button.setImage(
+            UIImage(systemName: "plus.circle.fill")?.applyingSymbolConfiguration(.init(pointSize: 36)),
+            for: .normal
+        )
+        button.tag = section
+        button.addTarget(
+            self,
+            action: #selector(addNewRecordToSection(_:)),
+            for: .touchUpInside
+        )
+        return button
     }
     
     public func tableView(
