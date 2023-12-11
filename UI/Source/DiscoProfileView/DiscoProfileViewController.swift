@@ -239,7 +239,7 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 46
+        return 64
     }
     
     public func tableView(
