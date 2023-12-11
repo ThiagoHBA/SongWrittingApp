@@ -9,6 +9,7 @@ import UIKit
 import Presentation
 
 public class DiscoProfileViewController: UIViewController {
+    let interactor: DiscoProfileBusinessRule
     let disco: DiscoListViewEntity
     
     let banner: UIImageView = {
@@ -37,8 +38,9 @@ public class DiscoProfileViewController: UIViewController {
         return tableView
     }()
     
-    public init(disco: DiscoListViewEntity) {
+    public init(disco: DiscoListViewEntity, interactor: DiscoProfileBusinessRule) {
         self.disco = disco
+        self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,7 +53,7 @@ public class DiscoProfileViewController: UIViewController {
     
     func addReferenceTapped() {
         let sheet = AddReferencesViewController()
-        sheet.searchReference
+        sheet.searchReference = interactor.searchNewReferences
         sheet.sheetPresentationController?.detents = [ .large() ]
         present(sheet, animated: true)
     }
@@ -103,5 +105,19 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         return UITableViewCell()
+    }
+}
+
+extension DiscoProfileViewController: DiscoProfileDisplayLogic {
+    public func startLoading() {
+            
+    }
+    
+    public func hideLoading() {
+        
+    }
+    
+    public func showReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
+        
     }
 }

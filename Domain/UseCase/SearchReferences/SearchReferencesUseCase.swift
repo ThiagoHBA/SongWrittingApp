@@ -9,8 +9,8 @@ import Foundation
 
 public final class SearchReferencesUseCase {
     let service: ReferencesService
-    var input: SearchReferencesUseCaseInput?
-    var output: [SearchReferencesUseCaseOutput]?
+    public var input: SearchReferencesUseCaseInput?
+    public var output: [SearchReferencesUseCaseOutput]?
     
     public init(service: ReferencesService) {
         self.service = service

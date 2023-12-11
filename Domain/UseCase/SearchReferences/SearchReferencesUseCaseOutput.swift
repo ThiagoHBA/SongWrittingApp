@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SearchReferencesUseCaseOutput {
+public protocol SearchReferencesUseCaseOutput {
     func didFindedReferences(_ data: [AlbumReference])
     func errorWhileFindingReferences(_ error: Error)
 }

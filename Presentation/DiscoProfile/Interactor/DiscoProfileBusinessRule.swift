@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DiscoProfileBusinessRule {
+public protocol DiscoProfileBusinessRule {
     func searchNewReferences(keywords: String)
     func loadReferences(for disco: DiscoListViewEntity)
 }

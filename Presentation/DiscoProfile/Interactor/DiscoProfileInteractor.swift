@@ -6,13 +6,23 @@
 //
 
 import Foundation
+import Domain
 
 public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
-    func searchNewReferences(keywords: String) {
-            
+    let searchReferencesUseCase: SearchReferencesUseCase
+    public var presenter: DiscoProfilePresentationLogic?
+    
+    public init(searchReferencesUseCase: SearchReferencesUseCase) {
+        self.searchReferencesUseCase = searchReferencesUseCase
     }
     
-    func loadReferences(for disco: DiscoListViewEntity) {
+    public func searchNewReferences(keywords: String) {
+        presenter?.presentLoading()
+        searchReferencesUseCase.input = .init(keywords: keywords)
+        searchReferencesUseCase.execute()
+    }
+    
+    public func loadReferences(for disco: DiscoListViewEntity) {
         
     }
 }
