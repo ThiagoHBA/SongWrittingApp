@@ -63,7 +63,9 @@ extension DiscoProfilePresenter: AddDiscoNewReferenceUseCaseOutput {
 extension DiscoProfilePresenter: AddNewSectionToDiscoUseCaseOutput {
     public func successfullyAddedSectionToDisco(_ disco: DiscoProfile) {
         view?.hideLoading()
-        view?.updateSections(disco.section.map { SectionViewEntity(from: $0)})
+        view?.hideOverlays(completion: { [weak self] in
+            self?.view?.updateSections(disco.section.map { SectionViewEntity(from: $0)})
+        })
     }
     
     public func errorWhileAddingSectionToDisco(_ error: Error) {

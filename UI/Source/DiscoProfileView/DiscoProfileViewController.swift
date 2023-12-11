@@ -91,9 +91,17 @@ public class DiscoProfileViewController: UIViewController {
     
     lazy var addNewSectionViewController: AddSectionViewController = {
         let sheet = AddSectionViewController()
-        let guide = view.safeAreaLayoutGuide
-        let height = guide.layoutFrame.size.height * 0.3
-        sheet.sheetPresentationController?.detents = [ .custom { _ in return height } ]
+        sheet.addSectionTapped = { [weak self] identifier in
+            guard let self = self else { return }
+            interactor.addNewSection(
+                for: disco,
+                section: SectionViewEntity(
+                    identifer: identifier,
+                    records: []
+                )
+            )
+        }
+        sheet.sheetPresentationController?.detents = [ .medium() ]
         return sheet
     }()
     
@@ -122,13 +130,6 @@ public class DiscoProfileViewController: UIViewController {
     
     func addSectionTapped() {
         present(addNewSectionViewController, animated: true)
-//        interactor.addNewSection(
-//            for: disco,
-//            section: SectionViewEntity(
-//                identifer: "Intro!",
-//                records: []
-//            )
-//        )
     }
     
     @objc func addNewRecordToSection(_ sender: UIButton) {

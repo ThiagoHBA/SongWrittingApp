@@ -49,7 +49,8 @@ class AddSectionViewController: UIViewController {
     }
     
     @objc func createTapped() {
-//        addSectionTapped?(sectionField.text)
+        guard let text = sectionField.text else { return }
+        addSectionTapped?(text)
     }
 }
 
