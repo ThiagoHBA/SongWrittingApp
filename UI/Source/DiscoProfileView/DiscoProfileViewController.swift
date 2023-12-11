@@ -24,8 +24,9 @@ public class DiscoProfileViewController: UIViewController {
         return label
     }()
     
-    let referenceSection: ReferencesSectionView = {
+    lazy var referenceSection: ReferencesSectionView = {
         let section = ReferencesSectionView()
+        section.addReferenceTapped = addReferenceTapped
         section.translatesAutoresizingMaskIntoConstraints = false
         return section
     }()
@@ -46,6 +47,12 @@ public class DiscoProfileViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+    }
+    
+    func addReferenceTapped() {
+        let sheet = AddReferencesViewController()
+        sheet.sheetPresentationController?.detents = [ .large() ]
+        present(sheet, animated: true)
     }
 }
 
