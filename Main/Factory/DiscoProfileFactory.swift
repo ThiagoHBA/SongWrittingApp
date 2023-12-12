@@ -25,8 +25,8 @@ struct DiscoProfileFactory {
             tokenProvider: authHandler
         )
 
-        let referenceService = ReferencesServiceImpl(networkClient: authDecorator)
-        let discoService = DiscoServiceFromMemory()
+        let referenceService = SpotifyReferencesService(networkClient: authDecorator)
+        let discoService = DiscoServiceFallBack(primary: try! DiscoServiceFromStorage(), secundary: DiscoServiceFromMemory())        
         
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)

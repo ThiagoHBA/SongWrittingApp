@@ -24,7 +24,7 @@ public final class AuthorizationHandlerImpl: AuthorizationHandler {
             return
         }
         
-        let authString = "\(Constants.clientID):\(Constants.clientSecret)"
+        let authString = "\(SpotifyReferencesConstants.clientID):\(SpotifyReferencesConstants.clientSecret)"
         guard let authBytes = authString.data(using: .utf8) else {
             completion(.failure(.unableToCreateToken))
             return

@@ -72,12 +72,12 @@ final class ReferencesServiceTests: XCTestCase {
 
 extension ReferencesServiceTests {
     typealias SutAndDoubles = (
-        sut: ReferencesServiceImpl,
+        sut: SpotifyReferencesService,
         doubles: (NetworkClientSpy)
     )
     func makeSUT() -> SutAndDoubles {
         let networkSpy = NetworkClientSpy()
-        let sut = ReferencesServiceImpl(
+        let sut = SpotifyReferencesService(
             networkClient: networkSpy
         )
         return (sut, (networkSpy))

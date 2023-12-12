@@ -51,6 +51,7 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        interactor.loadDiscos()
     }
     
     @objc func addDiscoButtonTapped() {
@@ -90,7 +91,6 @@ extension DiscoListViewController: DiscoListDisplayLogic {
     }
     
     public func showNewDisco(_ disco: DiscoListViewEntity) {
-        print("New Disco created")
         self.discos.append(disco)
         self.showDiscos(discos)
     }
@@ -147,6 +147,7 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.selectionStyle = .none
         cell.configure(with: discos[indexPath.row])
         return cell
     }

@@ -17,6 +17,6 @@ public protocol SecurePersistenceClient {
 
 public extension SecurePersistenceClient {
     var server: String {
-        return Constants.accountUrl
+        return SpotifyReferencesConstants.accountUrl
     }
 }

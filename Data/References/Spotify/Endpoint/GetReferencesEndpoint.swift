@@ -14,7 +14,7 @@ struct GetReferencesEndpoint: Endpoint {
     var httpMethod: HTTPMethod? = .get
     var communicationProtocol: CommunicationProtocol = .HTTPS
     var urlBase: String {
-        return Constants.baseURL
+        return SpotifyReferencesConstants.baseURL
     }
     var path: String {
         return "/v1/search/"

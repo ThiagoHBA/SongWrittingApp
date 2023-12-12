@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public class ReferencesServiceImpl: ReferencesService {
+public class SpotifyReferencesService: ReferencesService {
     let networkClient: NetworkClient
     
     public init(networkClient: NetworkClient) {

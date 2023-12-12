@@ -14,7 +14,7 @@ struct LoadTokenEndpoint: Endpoint {
     var headers: [String : String]
     
     var urlBase: String {
-        return Constants.accountUrl
+        return SpotifyReferencesConstants.accountUrl
     }
     
     var path: String {
