@@ -14,8 +14,12 @@ enum FallbackError {
 extension FallbackError: LocalizedError {
     var errorDescription: String? {
         switch self {
-            case .primaryFailed:
-                return "Ocorreu um problema ao consultar o serviço principal, É possível que aconteça algumas instabilidades na utilização do aplicativo"
+        case .primaryFailed:
+            return
+        """
+        Ocorreu um problema ao consultar o serviço principal,
+        É possível que aconteça algumas instabilidades na utilização do aplicativo
+        """
         }
     }
 }

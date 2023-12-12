@@ -26,14 +26,17 @@ struct DiscoProfileFactory {
         )
 
         let referenceService = SpotifyReferencesService(networkClient: authDecorator)
-        let discoService = DiscoServiceFallBack(primary: try! DiscoServiceFromStorage(), secundary: DiscoServiceFromMemory())        
-        
+        let discoService = DiscoServiceFallBack(
+            primary: try! DiscoServiceFromStorage(),
+            secundary: DiscoServiceFromMemory()
+        )
+
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
         let addNewSectionUseCase = AddNewSectionToDiscoUseCase(service: discoService)
         let addNewRecordToSectionUseCase = AddNewRecordToSessionUseCase(service: discoService)
-        
+
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: searchReferencesUseCase,
@@ -43,19 +46,18 @@ struct DiscoProfileFactory {
             addNewRecordToSessionUseCase: addNewRecordToSectionUseCase
         )
         let viewController = DiscoProfileViewController(disco: data, interactor: interactor)
-        
-        
+
         // MARK: - UseCase Outputs
         searchReferencesUseCase.output = [presenter]
         getDiscoProfileUseCase.output = [presenter]
         addDiscoNewReferencesUseCase.output = [presenter]
         addNewSectionUseCase.output = [presenter]
         addNewRecordToSectionUseCase.output = [presenter]
-        
+
         // MARK: - Propety Composition
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)
-    
+
         return viewController
     }
 }
@@ -65,52 +67,52 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
         assert(self.instance != nil)
         self.instance?.addingRecordsError(title, description: description)
     }
-    
+
     func hideOverlays(completion: (() -> Void)?) {
         assert(self.instance != nil)
         self.instance?.hideOverlays(completion: completion)
     }
-    
+
     func updateSections(_ sections: [SectionViewEntity]) {
         assert(self.instance != nil)
         self.instance?.updateSections(sections)
     }
-    
+
     func addingSectionError(_ title: String, description: String) {
         assert(self.instance != nil)
         self.instance?.addingSectionError(title, description: description)
     }
-    
+
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         assert(self.instance != nil)
         self.instance?.updateReferences(references)
     }
-    
+
     func showProfile(_ profile: DiscoProfileViewEntity) {
         assert(self.instance != nil)
         self.instance?.showProfile(profile)
     }
-    
+
     func addingReferencesError(_ title: String, description: String) {
         assert(self.instance != nil)
         self.instance?.addingReferencesError(title, description: description)
     }
-    
+
     func loadingProfileError(_ title: String, description: String) {
         assert(self.instance != nil)
         self.instance?.loadingProfileError(title, description: description)
     }
-    
+
     func startLoading() {
         assert(self.instance != nil)
         self.instance?.startLoading()
     }
-    
+
     func hideLoading() {
         assert(self.instance != nil)
         self.instance?.hideLoading()
     }
-    
+
     func showReferences(_ references: [AlbumReferenceViewEntity]) {
         assert(self.instance != nil)
         self.instance?.showReferences(references)
