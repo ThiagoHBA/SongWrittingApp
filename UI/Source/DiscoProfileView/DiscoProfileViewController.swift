@@ -309,6 +309,10 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
         })
     }
     
+    public func addingRecordsError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+    
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
         self.referenceViewController.updateReferenceItems(references)
     }

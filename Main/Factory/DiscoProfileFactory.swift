@@ -61,6 +61,11 @@ struct DiscoProfileFactory {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func addingRecordsError(_ title: String, description: String) {
+        assert(self.instance != nil)
+        self.instance?.addingRecordsError(title, description: description)
+    }
+    
     func hideOverlays(completion: (() -> Void)?) {
         assert(self.instance != nil)
         self.instance?.hideOverlays(completion: completion)

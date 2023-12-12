@@ -18,5 +18,6 @@ public protocol DiscoProfileDisplayLogic {
     func addingReferencesError(_ title: String, description: String)
     func addingSectionError(_ title: String, description: String)
     func loadingProfileError(_ title: String, description: String)
+    func addingRecordsError(_ title: String, description: String)
 }
 
