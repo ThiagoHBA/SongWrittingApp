@@ -23,8 +23,8 @@ final class DiscoServiceSpy {
                     return "createDisco Called with data: \(name), \(image)"
                 case .loadDiscos:
                     return "loadDiscos Called"
-                case .loadProfile(let disco):
-                    return "loadProfile Called with data: \(disco)"
+                case .loadProfile(let discoProfile):
+                    return "loadProfile Called with data: \(discoProfile)"
                 case .updateDiscoReferences(let disco, let references):
                     return "updateDiscoReferences Called with data: \(disco), \(references)"
                 case .addNewSection(let disco, let section):
@@ -64,7 +64,7 @@ extension DiscoServiceSpy: DiscoService {
     
     func addNewRecord(_ disco: Disco, _ section: Section, completion: @escaping (Result<DiscoProfile, Error>) -> Void) {
         receivedMessages.append(.addNewRecord(disco, section))
-        
+        addNewRecordCompletion = completion
     }
     
     func createDisco(name: String, image: Data, completion: @escaping (Result<Disco, Error>) -> Void) {

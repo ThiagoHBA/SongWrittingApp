@@ -65,6 +65,7 @@
 		00B97BE72B27C56200934E4A /* CustomPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE62B27C56200934E4A /* CustomPickerController.swift */; };
 		00B97BEA2B27E99E00934E4A /* DiscoProfileInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE92B27E99E00934E4A /* DiscoProfileInteractorTests.swift */; };
 		00B97BEE2B27EC7800934E4A /* ReferenceServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */; };
+		00B97BF02B27EE7200934E4A /* DiscoProfilePresentationSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -410,6 +411,7 @@
 		00B97BE62B27C56200934E4A /* CustomPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerController.swift; sourceTree = "<group>"; };
 		00B97BE92B27E99E00934E4A /* DiscoProfileInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileInteractorTests.swift; sourceTree = "<group>"; };
 		00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceServiceSpy.swift; sourceTree = "<group>"; };
+		00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresentationSpy.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -829,6 +831,7 @@
 			isa = PBXGroup;
 			children = (
 				00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */,
+				00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */,
 			);
 			path = Doubles;
 			sourceTree = "<group>";
@@ -1817,6 +1820,7 @@
 				00B97B9D2B26513800934E4A /* DiscoListViewSpy.swift in Sources */,
 				00B97BEE2B27EC7800934E4A /* ReferenceServiceSpy.swift in Sources */,
 				00B97BEA2B27E99E00934E4A /* DiscoProfileInteractorTests.swift in Sources */,
+				00B97BF02B27EE7200934E4A /* DiscoProfilePresentationSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
