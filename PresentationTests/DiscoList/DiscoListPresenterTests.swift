@@ -115,14 +115,14 @@ extension DiscoListPresenterTests: Testing {
         sut: DiscoListPresenter,
         doubles: (
             DiscoListViewSpy,
-            DiscoListServiceSpy,
+            DiscoServiceSpy,
             GetDiscosUseCase,
             CreateNewDiscoUseCase
         )
     )
     
     func makeSUT() -> SutAndDoubles {
-        let serviceSpy = DiscoListServiceSpy()
+        let serviceSpy = DiscoServiceSpy()
         let getDiscosUseCase = GetDiscosUseCase(service: serviceSpy)
         let createDiscoUseCase = CreateNewDiscoUseCase(service: serviceSpy)
         let viewSpy = DiscoListViewSpy()

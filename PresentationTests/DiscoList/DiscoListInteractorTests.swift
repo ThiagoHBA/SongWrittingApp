@@ -70,12 +70,12 @@ extension DiscoListInteractorTests: Testing {
         doubles: (
             DiscoListPresenterSpy,
             DiscoListRouterSpy,
-            DiscoListServiceSpy
+            DiscoServiceSpy
         )
     )
     
     func makeSUT() -> SutAndDoubles {
-        let serviceSpy = DiscoListServiceSpy()
+        let serviceSpy = DiscoServiceSpy()
         let getDiscosUseCase = GetDiscosUseCase(service: serviceSpy)
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: serviceSpy)
         let presenterSpy = DiscoListPresenterSpy()
