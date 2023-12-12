@@ -146,6 +146,7 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.selectionStyle = .none
         cell.configure(with: discos[indexPath.row])
         return cell
     }
