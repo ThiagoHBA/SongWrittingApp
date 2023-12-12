@@ -80,11 +80,11 @@ extension RecordTableViewCell: ViewCoding {
         NSLayoutConstraint.activate([
             recordImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             recordImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            recordImage.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth * 0.5),
-            recordImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.13),
+            recordImage.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth * 0.45),
+            recordImage.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.1),
 
             recordComponent.trailingAnchor.constraint(equalTo: trailingAnchor),
-            recordComponent.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth - 26),
+            recordComponent.heightAnchor.constraint(equalToConstant: RecordTableViewCell.heigth - 30),
             recordComponent.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.76),
             recordComponent.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])

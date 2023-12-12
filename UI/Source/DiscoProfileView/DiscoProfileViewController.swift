@@ -28,13 +28,15 @@ public class DiscoProfileViewController: UIViewController {
 
     let banner: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     let projectName: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 36, weight: .bold)
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,7 +51,7 @@ public class DiscoProfileViewController: UIViewController {
     let sectionLabel: UILabel = {
         let label = UILabel()
         label.text = "Seções"
-        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -194,12 +196,12 @@ extension DiscoProfileViewController: ViewCoding {
             projectName.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: 8),
             projectName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
 
-            referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 20),
+            referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 6),
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15),
 
-            sectionLabel.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: 42),
+            sectionLabel.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: 32),
             sectionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
 
             addButton.centerYAnchor.constraint(equalTo: sectionLabel.centerYAnchor),

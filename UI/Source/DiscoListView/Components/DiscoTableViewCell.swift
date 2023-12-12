@@ -16,6 +16,7 @@ class DiscoTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .gray
         imageView.layer.cornerRadius = 12
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView

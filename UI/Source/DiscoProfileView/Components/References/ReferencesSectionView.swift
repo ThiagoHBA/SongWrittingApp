@@ -30,7 +30,7 @@ class ReferencesSectionView: UIView {
     let title: UILabel = {
         let label = UILabel()
         label.text = "Referências"
-        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -45,9 +45,7 @@ class ReferencesSectionView: UIView {
     lazy var referenceList: UIView = {
         let itemArray = itemModel.$items
         let suiView = UIHostingController(
-            rootView: ReferenceListView(
-                itemModel: itemModel
-            )
+            rootView: ReferenceListView(itemModel: itemModel)
         )
         guard let uiKitView = suiView.view else { return UIView() }
         uiKitView.translatesAutoresizingMaskIntoConstraints = false
@@ -77,16 +75,16 @@ extension ReferencesSectionView: ViewCoding {
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: leadingAnchor),
             title.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            title.heightAnchor.constraint(equalToConstant: 30),
 
             addButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             addButton.centerYAnchor.constraint(equalTo: title.centerYAnchor),
             addButton.heightAnchor.constraint(equalToConstant: 28),
             addButton.widthAnchor.constraint(equalToConstant: 32),
 
-            referenceList.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 18),
+            referenceList.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 46),
             referenceList.leadingAnchor.constraint(equalTo: leadingAnchor),
-            referenceList.trailingAnchor.constraint(equalTo: trailingAnchor),
-            referenceList.bottomAnchor.constraint(equalTo: bottomAnchor)
+            referenceList.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
 

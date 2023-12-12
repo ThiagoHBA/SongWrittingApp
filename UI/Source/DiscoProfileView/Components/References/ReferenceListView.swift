@@ -16,6 +16,9 @@ struct ReferenceListView: View {
             Text("Você ainda não possui nenhuma referência ao disco")
                 .multilineTextAlignment(.center)
                 .font(.caption)
+                .foregroundStyle(.foreground)
+                .background(.background)
+                .fixedSize(horizontal: false, vertical: true)
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -43,6 +46,9 @@ struct ReferenceListView: View {
                     }
                 }
             }
+            .foregroundStyle(.foreground)
+            .background(.background)
+            .fixedSize(horizontal: false, vertical: true)
         }
     }
 }
