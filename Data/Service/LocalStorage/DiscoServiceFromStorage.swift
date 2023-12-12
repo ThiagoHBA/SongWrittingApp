@@ -182,120 +182,123 @@ public final class DiscoServiceFromStorage: DiscoService {
              }
          }
      }
-     
-     private func fetchDiscoEntity(
-        with id: UUID,
-        in context: NSManagedObjectContext
-     ) throws -> DiscoEntity? {
-         let fetchRequest: NSFetchRequest<DiscoEntity> = DiscoEntity.fetchRequest()
-         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-         return try context.fetch(fetchRequest).first
-     }
-    
-    private func fetchDiscoProfileEntity(
+}
+
+// MARK: - HELPERS
+extension DiscoServiceFromStorage {
+    private func fetchDiscoEntity(
        with id: UUID,
        in context: NSManagedObjectContext
-    ) throws -> DiscoProfileEntity? {
-        let fetchRequest: NSFetchRequest<DiscoProfileEntity> = DiscoProfileEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "disco.id == %@", id as CVarArg)
+    ) throws -> DiscoEntity? {
+        let fetchRequest: NSFetchRequest<DiscoEntity> = DiscoEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         return try context.fetch(fetchRequest).first
     }
-     
-     private func createEmptyDiscoProfile(from discoEntity: DiscoEntity) -> DiscoProfile {
-         let disco = Disco(
-            id: discoEntity.id ?? UUID(),
-            name: discoEntity.name ?? "",
-            coverImage: discoEntity.coverImage ?? Data()
-         )
-         return DiscoProfile(disco: disco, references: [], section: [])
-     }
+   
+   private func fetchDiscoProfileEntity(
+      with id: UUID,
+      in context: NSManagedObjectContext
+   ) throws -> DiscoProfileEntity? {
+       let fetchRequest: NSFetchRequest<DiscoProfileEntity> = DiscoProfileEntity.fetchRequest()
+       fetchRequest.predicate = NSPredicate(format: "disco.id == %@", id as CVarArg)
+       return try context.fetch(fetchRequest).first
+   }
     
-    private func createDiscoProfile(from discoProfileEntity: DiscoProfileEntity) -> DiscoProfile {
-        let disco = createDisco(from: discoProfileEntity.disco!)
-        let references = (discoProfileEntity.references?.allObjects as? [AlbumReferenceEntity] ?? []).map { createAlbumReference(from: $0) }
-        let sections = (discoProfileEntity.sections?.allObjects as? [SectionEntity] ?? []).map { createSection(from: $0) }
-        
-        return DiscoProfile(disco: disco, references: references, section: sections)
-    }
-    
-    private func createDisco(from discoEntity: DiscoEntity) -> Disco {
-        return Disco(
-            id: discoEntity.id ?? UUID(),
-            name: discoEntity.name ?? "",
-            coverImage: discoEntity.coverImage ?? Data()
+    private func createEmptyDiscoProfile(from discoEntity: DiscoEntity) -> DiscoProfile {
+        let disco = Disco(
+           id: discoEntity.id ?? UUID(),
+           name: discoEntity.name ?? "",
+           coverImage: discoEntity.coverImage ?? Data()
         )
+        return DiscoProfile(disco: disco, references: [], section: [])
     }
-    
-    private func createSection(from sectionEntity: SectionEntity) -> Section {
-        let records = (sectionEntity.records?.allObjects as? [RecordEntity] ?? []).map { createRecord(from: $0) }
-        
-        return Section(identifer: sectionEntity.identifier ?? "", records: records)
-    }
-    
-    private func createRecord(from recordEntity: RecordEntity) -> Record {
-        return Record(
-            tag: InstrumentTag.custom(recordEntity.tag ?? ""),
-            audio: recordEntity.audio!
-        )
-    }
-    
-    private func createAlbumReference(from albumEntity: AlbumReferenceEntity) -> AlbumReference {
-        return AlbumReference(
-            name: albumEntity.name ?? "",
-            artist: albumEntity.artist ?? "",
-            releaseDate: albumEntity.releaseDate ?? "",
-            coverImage: albumEntity.coverImage ?? ""
-        )
-    }
-    
-    private func createAlbumReferenceEntity(
-        from albumReference: AlbumReference,
-        in context: NSManagedObjectContext
-    ) -> AlbumReferenceEntity {
-        let albumReferenceEntity = AlbumReferenceEntity(context: context)
-        albumReferenceEntity.name = albumReference.name
-        albumReferenceEntity.artist = albumReference.artist
-        albumReferenceEntity.releaseDate = albumReference.releaseDate
-        albumReferenceEntity.coverImage = albumReference.coverImage
-        
-        return albumReferenceEntity
-    }
-    
-    private func findSectionEntity(with identifier: String, context: NSManagedObjectContext) -> SectionEntity? {
-        let fetchRequest: NSFetchRequest<SectionEntity> = SectionEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
-        fetchRequest.fetchLimit = 1
-        
-        do {
-            let sections = try context.fetch(fetchRequest)
-            return sections.first
-        } catch {
-            print("Error fetching SectionEntity: \(error)")
-            return nil
-        }
-    }
-    private func createRecordEntity(
-        from data: Record,
-        in context: NSManagedObjectContext
-    ) -> RecordEntity {
-        func convertTagToString() -> String {
-            switch data.tag {
-                case .guitar:
-                    return "Guitarra"
-                case .vocal:
-                    return "Voz"
-                case .drums:
-                    return "Bateria"
-                case .bass:
-                    return "Baixo"
-                case .custom(let value):
-                    return value
-            }
-        }
-        let record = RecordEntity(context: context)
-        record.tag = convertTagToString()
-        record.audio = data.audio
-        
-        return record
-    }
+   
+   private func createDiscoProfile(from discoProfileEntity: DiscoProfileEntity) -> DiscoProfile {
+       let disco = createDisco(from: discoProfileEntity.disco!)
+       let references = (discoProfileEntity.references?.allObjects as? [AlbumReferenceEntity] ?? []).map { createAlbumReference(from: $0) }
+       let sections = (discoProfileEntity.sections?.allObjects as? [SectionEntity] ?? []).map { createSection(from: $0) }
+       
+       return DiscoProfile(disco: disco, references: references, section: sections)
+   }
+   
+   private func createDisco(from discoEntity: DiscoEntity) -> Disco {
+       return Disco(
+           id: discoEntity.id ?? UUID(),
+           name: discoEntity.name ?? "",
+           coverImage: discoEntity.coverImage ?? Data()
+       )
+   }
+   
+   private func createSection(from sectionEntity: SectionEntity) -> Section {
+       let records = (sectionEntity.records?.allObjects as? [RecordEntity] ?? []).map { createRecord(from: $0) }
+       
+       return Section(identifer: sectionEntity.identifier ?? "", records: records)
+   }
+   
+   private func createRecord(from recordEntity: RecordEntity) -> Record {
+       return Record(
+           tag: InstrumentTag.custom(recordEntity.tag ?? ""),
+           audio: recordEntity.audio!
+       )
+   }
+   
+   private func createAlbumReference(from albumEntity: AlbumReferenceEntity) -> AlbumReference {
+       return AlbumReference(
+           name: albumEntity.name ?? "",
+           artist: albumEntity.artist ?? "",
+           releaseDate: albumEntity.releaseDate ?? "",
+           coverImage: albumEntity.coverImage ?? ""
+       )
+   }
+   
+   private func createAlbumReferenceEntity(
+       from albumReference: AlbumReference,
+       in context: NSManagedObjectContext
+   ) -> AlbumReferenceEntity {
+       let albumReferenceEntity = AlbumReferenceEntity(context: context)
+       albumReferenceEntity.name = albumReference.name
+       albumReferenceEntity.artist = albumReference.artist
+       albumReferenceEntity.releaseDate = albumReference.releaseDate
+       albumReferenceEntity.coverImage = albumReference.coverImage
+       
+       return albumReferenceEntity
+   }
+   
+   private func findSectionEntity(with identifier: String, context: NSManagedObjectContext) -> SectionEntity? {
+       let fetchRequest: NSFetchRequest<SectionEntity> = SectionEntity.fetchRequest()
+       fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+       fetchRequest.fetchLimit = 1
+       
+       do {
+           let sections = try context.fetch(fetchRequest)
+           return sections.first
+       } catch {
+           print("Error fetching SectionEntity: \(error)")
+           return nil
+       }
+   }
+   private func createRecordEntity(
+       from data: Record,
+       in context: NSManagedObjectContext
+   ) -> RecordEntity {
+       func convertTagToString() -> String {
+           switch data.tag {
+               case .guitar:
+                   return "Guitarra"
+               case .vocal:
+                   return "Voz"
+               case .drums:
+                   return "Bateria"
+               case .bass:
+                   return "Baixo"
+               case .custom(let value):
+                   return value
+           }
+       }
+       let record = RecordEntity(context: context)
+       record.tag = convertTagToString()
+       record.audio = data.audio
+       
+       return record
+   }
 }
