@@ -82,10 +82,12 @@ extension DiscoProfilePresenter: AddNewSectionToDiscoUseCaseOutput {
     
     public func errorWhileAddingSectionToDisco(_ error: Error) {
         view?.hideLoading()
-        view?.addingSectionError(
-            DiscoProfileError.AddingSectionsError.errorTitle,
-            description: error.localizedDescription
-        )
+        view?.hideOverlays(completion: { [weak self] in
+            self?.view?.addingSectionError(
+                DiscoProfileError.AddingSectionsError.errorTitle,
+                description: error.localizedDescription
+            )
+        })
     }
 }
 

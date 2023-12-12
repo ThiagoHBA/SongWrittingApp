@@ -28,4 +28,12 @@ public struct DiscoProfileViewEntity: Equatable {
         self.references = domain.references.map { AlbumReferenceViewEntity(from: $0 )}
         self.section = domain.section.map { SectionViewEntity(from: $0) }
     }
+    
+    public func mapToDomain() -> DiscoProfile {
+        return DiscoProfile(
+            disco: disco.mapToDomain(),
+            references: references.map { $0.mapToDomain() },
+            section: section.map { $0.mapToDomain() }
+        )
+    }
 }
