@@ -14,9 +14,9 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
     let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
     let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
-    
+
     public var presenter: DiscoProfilePresentationLogic?
-    
+
     public init(
         searchReferencesUseCase: SearchReferencesUseCase,
         getDiscoProfileUseCase: GetDiscoProfileUseCase,
@@ -30,19 +30,19 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
         self.addNewSectionToDiscoUseCase = addNewSectionToDiscoUseCase
         self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
     }
-    
+
     public func searchNewReferences(keywords: String) {
         presenter?.presentLoading()
         searchReferencesUseCase.input = .init(keywords: keywords)
         searchReferencesUseCase.execute()
     }
-    
+
     public func loadProfile(for disco: DiscoListViewEntity) {
         presenter?.presentLoading()
         getDiscoProfileUseCase.input = .init(disco: disco.mapToDomain())
         getDiscoProfileUseCase.execute()
     }
-    
+
     public func addNewReferences(
         for disco: DiscoListViewEntity,
         references: [AlbumReferenceViewEntity]
@@ -54,7 +54,7 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
         )
         addDiscoNewReferenceUseCase.execute()
     }
-    
+
     public func addNewSection(for disco: DiscoListViewEntity, section: SectionViewEntity) {
         if !sectionIsValid(section.identifer) { return }
         presenter?.presentLoading()
@@ -64,7 +64,7 @@ public final class DiscoProfileInteractor: DiscoProfileBusinessRule {
         )
         addNewSectionToDiscoUseCase.execute()
     }
-    
+
     public func addNewRecord(in disco: DiscoListViewEntity, to section: SectionViewEntity) {
         presenter?.presentLoading()
         addNewRecordToSessionUseCase.input = .init(

@@ -10,14 +10,14 @@ import Foundation
 
 final class DiscoListRouterSpy {
     private(set) var receivedMessages: [Message] = [Message]()
-    
+
     enum Message: Equatable, CustomStringConvertible {
         case showProfile(DiscoListViewEntity)
-        
+
         var description: String {
             switch self {
-                case .showProfile(let entity):
-                    return "showProfile Called with data: \(entity)"
+            case.showProfile(let entity):
+                return "showProfile Called with data: \(entity)"
             }
         }
     }

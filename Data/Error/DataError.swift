@@ -16,12 +16,12 @@ internal enum DataError: LocalizedError {
 extension DataError {
     var errorDescription: String? {
         switch self {
-            case .decodingError:
-                return "Não foi possível mapear as informações do servidor"
-            case .cantFindDisco:
-                return "Não foi possível encontrar o disco desejado para completar as operações"
-            case .loadModelError:
-                return "Erro ao carregar dados"
+        case.decodingError:
+            return "Não foi possível mapear as informações do servidor"
+        case.cantFindDisco:
+            return "Não foi possível encontrar o disco desejado para completar as operações"
+        case.loadModelError:
+            return "Erro ao carregar dados"
         }
     }
 }

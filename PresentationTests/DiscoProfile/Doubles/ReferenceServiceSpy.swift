@@ -11,14 +11,14 @@ import Domain
 final class ReferenceServiceSpy {
     private(set) var receivedMessages: [Message] = [Message]()
     var loadReferencesCompletion: ((Result<[AlbumReference], Error>) -> Void)?
-    
+
     enum Message: Equatable, CustomStringConvertible {
         case loadReferences(String)
-        
+
         var description: String {
             switch self {
-                case .loadReferences(let data):
-                    return "loadReferences Called with data: \(data)"
+            case .loadReferences(let data):
+                return "loadReferences Called with data: \(data)"
             }
         }
     }

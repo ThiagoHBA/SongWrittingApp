@@ -19,33 +19,33 @@ public class DiscoProfileViewController: UIViewController {
                     emptyStateLabel.removeFromSuperview()
                     tableView.reloadData()
                 }
-                
+
             }
         }
     }
     let interactor: DiscoProfileBusinessRule
     let disco: DiscoListViewEntity
-    
+
     let banner: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    
+
     let projectName: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 36, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var referenceSection: ReferencesSectionView = {
         let section = ReferencesSectionView()
         section.addReferenceTapped = addReferenceTapped
         section.translatesAutoresizingMaskIntoConstraints = false
         return section
     }()
-    
+
     let sectionLabel: UILabel = {
         let label = UILabel()
         label.text = "Seções"
@@ -53,14 +53,14 @@ public class DiscoProfileViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var addButton: AddButtonComponent = {
         let button = AddButtonComponent()
         button.didTapped = addSectionTapped
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
@@ -70,17 +70,20 @@ public class DiscoProfileViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
     let emptyStateLabel: UILabel = {
         let label = UILabel()
-        label.text = "Você ainda não adicionou nenhuma seção! Adicione uma seção clicando no icone de adicionar seção acima"
+        label.text = """
+        Você ainda não adicionou nenhuma seção!
+        Adicione uma seção clicando no icone de adicionar seção acima
+        """
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
@@ -94,7 +97,7 @@ public class DiscoProfileViewController: UIViewController {
         sheet.sheetPresentationController?.detents = [ .large() ]
         return sheet
     }()
-    
+
     lazy var addNewSectionViewController: AddSectionViewController = {
         let sheet = AddSectionViewController()
         sheet.addSectionTapped = { [weak self] identifier in
@@ -109,13 +112,13 @@ public class DiscoProfileViewController: UIViewController {
         }
         return sheet
     }()
-    
+
     public init(disco: DiscoListViewEntity, interactor: DiscoProfileBusinessRule) {
         self.disco = disco
         self.interactor = interactor
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) { nil }
 
     public override func viewDidLoad() {
@@ -124,44 +127,47 @@ public class DiscoProfileViewController: UIViewController {
         configureAudio()
         interactor.loadProfile(for: disco)
     }
-    
+
     func addReferenceTapped() {
         present(referenceViewController, animated: true)
     }
-    
+
     func configure(with profile: DiscoProfileViewEntity) {
         discoProfile = profile
         referenceSection.references = discoProfile!.references
-        
+
     }
-    
+
     func addSectionTapped() {
         addNewSectionViewController.sectionField.text = ""
         addNewSectionViewController.sheetPresentationController?.detents = [
-            .custom{ context in
+            .custom { context in
                 return context.maximumDetentValue * 0.3
             }
         ]
         present(addNewSectionViewController, animated: true)
     }
-    
+
     @objc func addNewRecordToSection(_ sender: UIButton) {
         guard let section = discoProfile?.section[sender.tag] else { return }
-        
+
         let document = CustomPickerController(forOpeningContentTypes: [.audio])
         document.section = section
         document.delegate = self
         document.allowsMultipleSelection = false
         present(document, animated: true)
     }
-    
+
     func configureAudio() {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback)
-        } catch(_) {
+        } catch _ {
             showAlert(
                 title: "Problemas com o áudio",
-                message: "Ocorreu um problema ao configurar o áudio, é possível que algumas interações possam apresentar instabilidades",
+                message: """
+                Ocorreu um problema ao configurar o áudio,
+                é possível que algumas interações possam apresentar instabilidades
+                """,
                 dismissed: nil
             )
         }
@@ -173,45 +179,45 @@ extension DiscoProfileViewController: ViewCoding {
         view.backgroundColor = .systemBackground
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         banner.image = UIImage(data: disco.coverImage)!
         projectName.text = disco.name
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             banner.topAnchor.constraint(equalTo: view.topAnchor),
             banner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             banner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             banner.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
-            
+
             projectName.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: 8),
             projectName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            
+
             referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 20),
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15),
-            
+
             sectionLabel.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: 42),
             sectionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
-            
+
             addButton.centerYAnchor.constraint(equalTo: sectionLabel.centerYAnchor),
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
             addButton.heightAnchor.constraint(equalToConstant: 28),
             addButton.widthAnchor.constraint(equalToConstant: 32),
-            
+
             emptyStateLabel.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 80),
             emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            
+
             tableView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 6),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     func addViewInHierarchy() {
         view.addSubview(tableView)
         view.addSubview(banner)
@@ -225,24 +231,24 @@ extension DiscoProfileViewController: ViewCoding {
 
 extension DiscoProfileViewController: AlertPresentable {}
 
-//MARK: TableView Datasource/Delegate Conformance
+// MARK: TableView Datasource/Delegate Conformance
 extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate {
     public func numberOfSections(in tableView: UITableView) -> Int {
         return discoProfile?.section.count ?? 0
     }
-    
+
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return RecordTableViewCell.heigth
     }
-    
+
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return discoProfile?.section[section].records.count ?? 0
     }
-    
+
     public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return discoProfile?.section[section].identifer
     }
-    
+
     public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let button = UIButton()
         button.setImage(
@@ -257,11 +263,11 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         )
         return button
     }
-    
+
     public func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 64
     }
-    
+
     public func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -274,11 +280,11 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         guard let currentItem = discoProfile?.section[indexPath.section].records[indexPath.row] else {
             return UITableViewCell()
         }
-        
+
         cell.selectionStyle = .none
         cell.isUserInteractionEnabled = true
         cell.configure(with: currentItem)
-        
+
         return cell
     }
 }
@@ -290,19 +296,19 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
             referenceSection.references = references
         }
     }
-    
+
     public func startLoading() {
-            
+
     }
-    
+
     public func hideLoading() {
-        
+
     }
 
     public func showProfile(_ profile: DiscoProfileViewEntity) {
         configure(with: profile)
     }
-    
+
     public func updateSections(_ sections: [SectionViewEntity]) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -310,31 +316,31 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
             tableView.reloadData()
         }
     }
-    
+
     public func hideOverlays(completion: (() -> Void)?) {
         DispatchQueue.main.async { [weak self] in
             self?.dismiss(animated: true, completion: completion)
         }
     }
-    
+
     public func addingReferencesError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: nil)
     }
-    
+
     public func loadingProfileError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: nil)
     }
-    
+
     public func addingSectionError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: { [weak self] _ in
             self?.addSectionTapped()
         })
     }
-    
+
     public func addingRecordsError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: nil)
     }
-    
+
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
         self.referenceViewController.updateReferenceItems(references)
     }
@@ -349,9 +355,9 @@ extension DiscoProfileViewController: UIDocumentPickerDelegate {
         guard let customPicker = controller as? CustomPickerController else { return }
         guard var section = customPicker.section else { return }
         section.records.append(.init(tag: .custom, audio: url))
-        
+
         interactor.addNewRecord(
-            in: disco, 
+            in: disco,
             to: SectionViewEntity(
                 identifer: section.identifer,
                 records: section.records

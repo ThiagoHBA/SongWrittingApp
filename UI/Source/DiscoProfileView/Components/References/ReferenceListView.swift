@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ReferenceListView: View {
     @ObservedObject var itemModel: ItemListModel
-    
+
     var body: some View {
         if itemModel.items.isEmpty {
             Text("Você ainda não possui nenhuma referência ao disco")
@@ -39,7 +39,7 @@ struct ReferenceListView: View {
                                     )
                                 }
                             }
-                            
+
                     }
                 }
             }

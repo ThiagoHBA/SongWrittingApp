@@ -10,11 +10,11 @@ import Data
 
 public final class NetworkClientImpl: NetworkClient {
     let session: URLSession
-    
+
     public init(session: URLSession = .shared) {
         self.session = session
     }
-    
+
     public func makeRequest(
         _ endpoint: Endpoint,
         completion: @escaping (Result<Data, Error>) -> Void
@@ -23,12 +23,12 @@ public final class NetworkClientImpl: NetworkClient {
              completion(.failure(NetworkError.unableToCreateURL))
              return
          }
-        
+
          var request = URLRequest(url: url)
          request.allHTTPHeaderFields = endpoint.headers
          request.httpBody = endpoint.body
          request.httpMethod = endpoint.httpMethod?.rawValue
-         
+
          session.dataTask(with: request) { data, response, error in
               guard let data = data, error == nil else {
                   completion(.failure(NetworkError.transportError))
@@ -44,4 +44,3 @@ public final class NetworkClientImpl: NetworkClient {
           }.resume()
     }
 }
-

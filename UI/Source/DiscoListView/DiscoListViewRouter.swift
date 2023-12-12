@@ -12,7 +12,7 @@ import UIKit
 public final class DiscoListViewRouter: DiscoListRouterLogic {
     let navigationController: UINavigationController
     let discoProfileViewController: (DiscoListViewEntity) -> DiscoProfileViewController
-    
+
     public init(
         navigationController: UINavigationController,
         discoProfileViewController: @escaping (DiscoListViewEntity) -> DiscoProfileViewController

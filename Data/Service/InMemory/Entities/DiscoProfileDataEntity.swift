@@ -12,13 +12,13 @@ public struct DiscoProfileDataEntity: DataEntity, Codable {
     public let disco: DiscoDataEntity
     public var references: AlbumReferenceDataEntity
     public var section: [SectionDataEntity]
-    
+
     public init(disco: DiscoDataEntity, references: AlbumReferenceDataEntity, section: [SectionDataEntity]) {
         self.disco = disco
         self.references = references
         self.section = section
     }
-    
+
     public func toDomain() -> DiscoProfile {
         return DiscoProfile(
             disco: disco.toDomain(),

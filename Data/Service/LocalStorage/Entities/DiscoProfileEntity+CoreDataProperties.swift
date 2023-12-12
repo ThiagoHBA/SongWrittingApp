@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension DiscoProfileEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DiscoProfileEntity> {
@@ -56,6 +55,6 @@ extension DiscoProfileEntity {
 
 }
 
-extension DiscoProfileEntity : Identifiable {
+extension DiscoProfileEntity: Identifiable {
 
 }

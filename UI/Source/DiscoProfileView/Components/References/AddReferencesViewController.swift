@@ -36,7 +36,7 @@ class AddReferencesViewController: UIViewController {
     private var itemModel = SelectedReferenceListModel()
     var searchReference: ((String) -> Void)?
     var saveReferences: (([AlbumReferenceViewEntity]) -> Void)?
-    
+
     lazy var navBar: UINavigationBar = {
         let nav = UINavigationBar()
         let navigationItem = UINavigationItem(title: "Referências")
@@ -51,7 +51,7 @@ class AddReferencesViewController: UIViewController {
         nav.translatesAutoresizingMaskIntoConstraints = false
         return nav
     }()
-    
+
     let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Buscar"
@@ -59,7 +59,7 @@ class AddReferencesViewController: UIViewController {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
-    
+
     let resultLabel: UILabel = {
         let label = UILabel()
         label.text = "Resultados"
@@ -68,7 +68,7 @@ class AddReferencesViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let referencesList: UITableView = {
         let tableView = UITableView()
         tableView.register(
@@ -78,7 +78,7 @@ class AddReferencesViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
     let emptyStateLabel: UILabel = {
         let label = UILabel()
         label.text = "Nenhuma referência por aqui!"
@@ -88,7 +88,7 @@ class AddReferencesViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var selectedReferencesList: UIView = {
         var suiView = SelectedReferenceListView(itemModel: itemModel)
         suiView.selectedReferenceTapped = removeAddedReference
@@ -102,18 +102,18 @@ class AddReferencesViewController: UIViewController {
         super.viewDidLoad()
         buildLayout()
     }
-    
+
     @objc func saveReferencesTapped() {
         saveReferences?(selectedReferences)
     }
-    
+
     func removeAddedReference(_ reference: AlbumReferenceViewEntity) {
         guard let findedIndex = selectedReferences.firstIndex(where: { $0 == reference }) else {
             return
         }
         selectedReferences.remove(at: findedIndex)
     }
-    
+
     public func updateReferenceItems(_ newItems: [AlbumReferenceViewEntity]) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -121,7 +121,7 @@ class AddReferencesViewController: UIViewController {
             referencesList.reloadData()
         }
     }
-    
+
     func updateSelectedReferenceItems(newItems: [AlbumReferenceViewEntity]) {
         itemModel.items = newItems.map { IdentifiableReference(refernce: $0) }
     }
@@ -134,38 +134,37 @@ extension AddReferencesViewController: ViewCoding {
         referencesList.delegate = self
         referencesList.dataSource = self
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             navBar.topAnchor.constraint(equalTo: view.topAnchor),
             navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navBar.heightAnchor.constraint(equalToConstant: 46),
-            
-            
+
             searchBar.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 24),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6),
             searchBar.heightAnchor.constraint(equalToConstant: 36),
-            
+
             selectedReferencesList.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 12),
             selectedReferencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             selectedReferencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectedReferencesList.heightAnchor.constraint(equalToConstant: 36),
-            
+
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             resultLabel.topAnchor.constraint(equalTo: selectedReferencesList.bottomAnchor, constant: 24),
-            
+
             emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
+
             referencesList.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 12),
             referencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             referencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             referencesList.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
+
     func addViewInHierarchy() {
         view.addSubview(resultLabel)
         view.addSubview(searchBar)
@@ -194,11 +193,11 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return loadedReferences.count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return FindedReferenceTableViewCell.heigth
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: FindedReferenceTableViewCell.identifier,
@@ -206,13 +205,13 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
         ) as? FindedReferenceTableViewCell else {
             return UITableViewCell()
         }
-        
+
         let currentItem = loadedReferences[indexPath.row]
         cell.configure(with: currentItem)
 
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem = loadedReferences[indexPath.row]
         if selectedReferences.contains(selectedItem) { return }

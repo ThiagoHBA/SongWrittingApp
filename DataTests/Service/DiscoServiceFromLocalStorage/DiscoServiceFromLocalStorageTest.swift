@@ -17,7 +17,7 @@ final class DiscoServiceFromLocalStorageTest: XCTestCase {
                 fatalError("Loading of store failed \(error)")
             }
         }
-        
+
         let sut = DiscoServiceFromStorage(persistentContainer: container)
         let inputDisco = Disco(
             id: UUID(),
@@ -29,12 +29,12 @@ final class DiscoServiceFromLocalStorageTest: XCTestCase {
             image: inputDisco.coverImage
         ) { result in
             switch result {
-                case .success(let data):
-                    print("Data: \(data)")
-                case .failure(let error):
-                    print("Error: \(error)")
+            case .success(let data):
+                print("Data: \(data)")
+            case .failure(let error):
+                print("Error: \(error)")
             }
-            
+
         }
     }
 }

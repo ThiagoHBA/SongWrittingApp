@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension RecordEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<RecordEntity> {
@@ -22,6 +21,6 @@ extension RecordEntity {
 
 }
 
-extension RecordEntity : Identifiable {
+extension RecordEntity: Identifiable {
 
 }

@@ -12,7 +12,7 @@ class NetworkClientSpy: NetworkClient {
     private(set) var makeRequestCalled = 0
     // MARK: - Completion
     var makeRequestCompletion: ((Result<Data, Error>) -> Void)?
-    
+
     func makeRequest(
         _ endpoint: Endpoint,
         completion: @escaping (Result<Data, Error>) -> Void

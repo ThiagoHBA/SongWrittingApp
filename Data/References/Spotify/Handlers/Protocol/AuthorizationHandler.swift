@@ -9,8 +9,8 @@ import Foundation
 
 public protocol AuthorizationHandler {
     func loadToken (
-        completion: @escaping (Result<AccessTokenResponse,TokenError>) -> Void
+        completion: @escaping (Result<AccessTokenResponse, TokenError>) -> Void
     )
-    
-    func clearCachedTokenIfExists() 
+
+    func clearCachedTokenIfExists()
 }

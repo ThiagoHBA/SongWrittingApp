@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension AlbumReferenceEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<AlbumReferenceEntity> {
@@ -24,6 +23,6 @@ extension AlbumReferenceEntity {
 
 }
 
-extension AlbumReferenceEntity : Identifiable {
+extension AlbumReferenceEntity: Identifiable {
 
 }

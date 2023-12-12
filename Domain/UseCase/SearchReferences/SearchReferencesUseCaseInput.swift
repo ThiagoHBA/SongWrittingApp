@@ -9,7 +9,7 @@ import Foundation
 
 public struct SearchReferencesUseCaseInput {
     public let keywords: String
-    
+
     public init(keywords: String) {
         self.keywords = keywords
     }

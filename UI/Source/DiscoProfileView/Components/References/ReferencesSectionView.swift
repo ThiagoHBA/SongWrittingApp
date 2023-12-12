@@ -20,13 +20,13 @@ class ItemListModel: ObservableObject {
 
 class ReferencesSectionView: UIView {
     private var itemModel = ItemListModel()
-    
+
     var references: [AlbumReferenceViewEntity] = [] {
         didSet { updateItems(newItems: references) }
     }
-    
+
     var addReferenceTapped: (() -> Void)?
-    
+
     let title: UILabel = {
         let label = UILabel()
         label.text = "Referências"
@@ -34,7 +34,7 @@ class ReferencesSectionView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var addButton: AddButtonComponent = {
         let button = AddButtonComponent()
         button.didTapped = { [weak self] in self?.addReferenceTapped?() }
@@ -53,14 +53,14 @@ class ReferencesSectionView: UIView {
         uiKitView.translatesAutoresizingMaskIntoConstraints = false
         return uiKitView
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         buildLayout()
     }
-    
+
     required init?(coder: NSCoder) { nil }
-    
+
     func updateItems(newItems: [AlbumReferenceViewEntity]) {
         itemModel.items = newItems.map {
             IdentifiableItem(image: $0.coverImage)
@@ -72,7 +72,7 @@ extension ReferencesSectionView: ViewCoding {
     func additionalConfiguration() {
         backgroundColor = .systemBackground
     }
-    
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             title.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -82,14 +82,14 @@ extension ReferencesSectionView: ViewCoding {
             addButton.centerYAnchor.constraint(equalTo: title.centerYAnchor),
             addButton.heightAnchor.constraint(equalToConstant: 28),
             addButton.widthAnchor.constraint(equalToConstant: 32),
-            
+
             referenceList.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 18),
             referenceList.leadingAnchor.constraint(equalTo: leadingAnchor),
             referenceList.trailingAnchor.constraint(equalTo: trailingAnchor),
             referenceList.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
+
     func addViewInHierarchy() {
         addSubview(title)
         addSubview(addButton)

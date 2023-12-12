@@ -15,12 +15,12 @@ final class DiscoListPresenterTests: XCTestCase {
         sut.presentLoading()
         XCTAssertEqual(viewSpy.receivedMessages, [.startLoading])
     }
-    
+
     func test_presentCreateDiscoError_when_called_should_call_view_correctly() {
         let (sut, (viewSpy, _, _, _)) = makeSUT()
         sut.presentCreateDiscoError(.emptyName)
         viewSpy.hideOverlaysCompletion!()
-        
+
         XCTAssertEqual(
             viewSpy.receivedMessages,
             [
@@ -32,11 +32,11 @@ final class DiscoListPresenterTests: XCTestCase {
             ]
         )
     }
-    
+
     func test_when_service_create_disco_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, _, createUseCase)) = makeSUT()
         let inputDisco = Disco(id: UUID(), name: "any", coverImage: Data())
-        
+
         createUseCase.input = .init(name: "any", image: Data())
         createUseCase.execute()
         serviceSpy.createDiscoCompletion!(.success(inputDisco))
@@ -50,11 +50,11 @@ final class DiscoListPresenterTests: XCTestCase {
             ]
         )
     }
-    
+
     func test_when_service_throw_error_while_creating_disco_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, _, createUseCase)) = makeSUT()
         let inputError = DiscoListError.CreateDiscoError.emptyName
-        
+
         createUseCase.input = .init(name: "any", image: Data())
         createUseCase.execute()
         serviceSpy.createDiscoCompletion!(.failure(inputError))
@@ -71,7 +71,7 @@ final class DiscoListPresenterTests: XCTestCase {
             ]
         )
     }
-    
+
     func test_when_service_load_disco_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, getUseCase, _)) = makeSUT()
         let inputDiscoList = [
@@ -79,7 +79,7 @@ final class DiscoListPresenterTests: XCTestCase {
             Disco(id: UUID(), name: "any2", coverImage: Data()),
             Disco(id: UUID(), name: "any3", coverImage: Data())
         ]
-        
+
         getUseCase.execute()
         serviceSpy.loadDiscosCompletion!(.success(inputDiscoList))
 
@@ -90,11 +90,11 @@ final class DiscoListPresenterTests: XCTestCase {
             ]
         )
     }
-    
+
     func test_when_service_throw_error_while_fetching_discos_should_call_view_correctly() {
         let (_, (viewSpy, serviceSpy, getUseCase, _)) = makeSUT()
         let inputError = DiscoListError.CreateDiscoError.emptyImage
-        
+
         getUseCase.execute()
         serviceSpy.loadDiscosCompletion!(.failure(inputError))
 
@@ -111,6 +111,7 @@ final class DiscoListPresenterTests: XCTestCase {
 }
 
 extension DiscoListPresenterTests: Testing {
+    // swiftlint:disable large_tuple
     typealias SutAndDoubles = (
         sut: DiscoListPresenter,
         doubles: (
@@ -120,18 +121,19 @@ extension DiscoListPresenterTests: Testing {
             CreateNewDiscoUseCase
         )
     )
-    
+
     func makeSUT() -> SutAndDoubles {
         let serviceSpy = DiscoServiceSpy()
         let getDiscosUseCase = GetDiscosUseCase(service: serviceSpy)
         let createDiscoUseCase = CreateNewDiscoUseCase(service: serviceSpy)
         let viewSpy = DiscoListViewSpy()
         let sut = DiscoListPresenter()
-        
+
         getDiscosUseCase.output = [sut]
         createDiscoUseCase.output = [sut]
         sut.view = viewSpy
-        
+
         return (sut, (viewSpy, serviceSpy, getDiscosUseCase, createDiscoUseCase))
     }
+    // swiftlint:enable large_tuple
 }
