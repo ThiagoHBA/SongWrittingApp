@@ -35,10 +35,12 @@ extension DiscoProfilePresenter: SearchReferencesUseCaseOutput {
     
     public func errorWhileFindingReferences(_ error: Error) {
         view?.hideLoading()
-        view?.addingReferencesError(
-            DiscoProfileError.LoadReferencesError.errorTitle,
-            description: error.localizedDescription
-        )
+        view?.hideOverlays { [weak self] in
+            self?.view?.addingReferencesError(
+                DiscoProfileError.LoadReferencesError.errorTitle,
+                description: error.localizedDescription
+            )
+        }
     }
 }
 
@@ -65,10 +67,12 @@ extension DiscoProfilePresenter: AddDiscoNewReferenceUseCaseOutput {
     
     public func errorWhileAddingNewReferences(_ error: Error) {
         view?.hideLoading()
-        view?.addingReferencesError(
-            DiscoProfileError.LoadReferencesError.errorTitle,
-            description: error.localizedDescription
-        )
+        view?.hideOverlays { [weak self] in
+            self?.view?.addingReferencesError(
+                DiscoProfileError.LoadReferencesError.errorTitle,
+                description: error.localizedDescription
+            )
+        }
     }
 }
 
