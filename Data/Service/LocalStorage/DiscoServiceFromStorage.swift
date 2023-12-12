@@ -56,18 +56,20 @@ public final class DiscoServiceFromStorage: DiscoService {
     }
     
     public func loadDiscos(completion: @escaping (Result<[Disco], Error>) -> Void) {
-        let managedObjectContext = persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<DiscoEntity> = DiscoEntity.fetchRequest()
-        
-        managedObjectContext.perform {
-            do {
-                let discoEntities = try fetchRequest.execute()
-                let discos = discoEntities.map { discoEntity in
-                    self.createDisco(from: discoEntity)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            let managedObjectContext = self.persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<DiscoEntity> = DiscoEntity.fetchRequest()
+            
+            managedObjectContext.perform {
+                do {
+                    let discoEntities = try fetchRequest.execute()
+                    let discos = discoEntities.map { discoEntity in
+                        self.createDisco(from: discoEntity)
+                    }
+                    completion(.success(discos))
+                } catch {
+                    completion(.failure(error))
                 }
-                completion(.success(discos))
-            } catch {
-                completion(.failure(error))
             }
         }
     }
