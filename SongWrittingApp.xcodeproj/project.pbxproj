@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		001230EF2B289BD70087A0A2 /* RecordEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230E52B289BD70087A0A2 /* RecordEntity+CoreDataClass.swift */; };
-		001230F02B289BD70087A0A2 /* RecordEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230E62B289BD70087A0A2 /* RecordEntity+CoreDataProperties.swift */; };
-		001230F12B289BD70087A0A2 /* DiscoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230E72B289BD70087A0A2 /* DiscoEntity+CoreDataClass.swift */; };
-		001230F22B289BD70087A0A2 /* DiscoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230E82B289BD70087A0A2 /* DiscoEntity+CoreDataProperties.swift */; };
-		001230F32B289BD70087A0A2 /* SectionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230E92B289BD70087A0A2 /* SectionEntity+CoreDataClass.swift */; };
-		001230F42B289BD70087A0A2 /* SectionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230EA2B289BD70087A0A2 /* SectionEntity+CoreDataProperties.swift */; };
-		001230F52B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230EB2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */; };
-		001230F62B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230EC2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */; };
-		001230F72B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230ED2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */; };
-		001230F82B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230EE2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */; };
 		001230FB2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */; };
 		001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */; };
 		001231012B28CFCB0087A0A2 /* FallbackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231002B28CFCB0087A0A2 /* FallbackError.swift */; };
+		001231192B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012310F2B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift */; };
+		0012311A2B28F64B0087A0A2 /* DiscoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231102B28F64B0087A0A2 /* DiscoEntity+CoreDataProperties.swift */; };
+		0012311B2B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231112B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */; };
+		0012311C2B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231122B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */; };
+		0012311D2B28F64B0087A0A2 /* RecordEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231132B28F64B0087A0A2 /* RecordEntity+CoreDataClass.swift */; };
+		0012311E2B28F64B0087A0A2 /* RecordEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231142B28F64B0087A0A2 /* RecordEntity+CoreDataProperties.swift */; };
+		0012311F2B28F64B0087A0A2 /* SectionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231152B28F64B0087A0A2 /* SectionEntity+CoreDataClass.swift */; };
+		001231202B28F64B0087A0A2 /* SectionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231162B28F64B0087A0A2 /* SectionEntity+CoreDataProperties.swift */; };
+		001231212B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231172B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */; };
+		001231222B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231182B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */; };
 		00B97B122B24FAB100934E4A /* DiscoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */; };
 		00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */; };
 		00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4C2B255DD100934E4A /* AlertPresentable.swift */; };
@@ -369,19 +369,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		001230E52B289BD70087A0A2 /* RecordEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		001230E62B289BD70087A0A2 /* RecordEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		001230E72B289BD70087A0A2 /* DiscoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		001230E82B289BD70087A0A2 /* DiscoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		001230E92B289BD70087A0A2 /* SectionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		001230EA2B289BD70087A0A2 /* SectionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		001230EB2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		001230EC2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		001230ED2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		001230EE2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromLocalStorageTest.swift; sourceTree = "<group>"; };
 		001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFallBack.swift; sourceTree = "<group>"; };
 		001231002B28CFCB0087A0A2 /* FallbackError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallbackError.swift; sourceTree = "<group>"; };
+		0012310F2B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		001231102B28F64B0087A0A2 /* DiscoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		001231112B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		001231122B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		001231132B28F64B0087A0A2 /* RecordEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		001231142B28F64B0087A0A2 /* RecordEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		001231152B28F64B0087A0A2 /* SectionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		001231162B28F64B0087A0A2 /* SectionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		001231172B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		001231182B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoTableViewCell.swift; sourceTree = "<group>"; };
 		00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscoViewController.swift; sourceTree = "<group>"; };
 		00B97B4C2B255DD100934E4A /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
@@ -963,16 +963,16 @@
 		00B97C172B288C2A00934E4A /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				001230E52B289BD70087A0A2 /* RecordEntity+CoreDataClass.swift */,
-				001230E62B289BD70087A0A2 /* RecordEntity+CoreDataProperties.swift */,
-				001230E72B289BD70087A0A2 /* DiscoEntity+CoreDataClass.swift */,
-				001230E82B289BD70087A0A2 /* DiscoEntity+CoreDataProperties.swift */,
-				001230E92B289BD70087A0A2 /* SectionEntity+CoreDataClass.swift */,
-				001230EA2B289BD70087A0A2 /* SectionEntity+CoreDataProperties.swift */,
-				001230EB2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */,
-				001230EC2B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */,
-				001230ED2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */,
-				001230EE2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */,
+				0012310F2B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift */,
+				001231102B28F64B0087A0A2 /* DiscoEntity+CoreDataProperties.swift */,
+				001231112B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift */,
+				001231122B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift */,
+				001231132B28F64B0087A0A2 /* RecordEntity+CoreDataClass.swift */,
+				001231142B28F64B0087A0A2 /* RecordEntity+CoreDataProperties.swift */,
+				001231152B28F64B0087A0A2 /* SectionEntity+CoreDataClass.swift */,
+				001231162B28F64B0087A0A2 /* SectionEntity+CoreDataProperties.swift */,
+				001231172B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */,
+				001231182B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1785,43 +1785,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				00F2F2FE2B24E4560008F6F5 /* GetDiscoProfileUseCase.swift in Sources */,
+				001231192B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift in Sources */,
+				001231202B28F64B0087A0A2 /* SectionEntity+CoreDataProperties.swift in Sources */,
 				00F2F2E12B24D3020008F6F5 /* DiscoService.swift in Sources */,
+				0012311C2B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */,
 				00F2F2DF2B24D02C0008F6F5 /* UseCase.swift in Sources */,
+				0012311B2B28F64B0087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift in Sources */,
 				00B97BCB2B275AE200934E4A /* AddDiscoNewReferenceUseCaseOutput.swift in Sources */,
-				001230EF2B289BD70087A0A2 /* RecordEntity+CoreDataClass.swift in Sources */,
 				00B97BE02B27ADC300934E4A /* AddNewRecordToSessionUseCaseInput.swift in Sources */,
+				0012311A2B28F64B0087A0A2 /* DiscoEntity+CoreDataProperties.swift in Sources */,
 				00F2F2C82B24CDD30008F6F5 /* AlbumReference.swift in Sources */,
-				001230F62B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */,
 				00F2F2E32B24D3760008F6F5 /* CreateNewDiscoUseCaseOutput.swift in Sources */,
 				00B97BE22B27ADD400934E4A /* AddNewRecordToSessionUseCaseOutput.swift in Sources */,
 				00B97BB82B26AFE800934E4A /* SearchReferencesUseCaseOutput.swift in Sources */,
 				00B97BC52B2753E000934E4A /* GetDiscoProfileUseCaseInput.swift in Sources */,
+				0012311F2B28F64B0087A0A2 /* SectionEntity+CoreDataClass.swift in Sources */,
 				00F2F2D42B24CF640008F6F5 /* DeleteDiscoUseCase.swift in Sources */,
 				00F2F2C22B24CD370008F6F5 /* Disco.swift in Sources */,
-				001230F12B289BD70087A0A2 /* DiscoEntity+CoreDataClass.swift in Sources */,
 				00F2F2E92B24D4600008F6F5 /* CreateNewDiscoUseCaseInput.swift in Sources */,
 				00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */,
 				00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */,
 				00B97BD82B2791F100934E4A /* AddNewSectionToDiscoUseCaseOutput.swift in Sources */,
 				00F2F2C62B24CDAF0008F6F5 /* Section.swift in Sources */,
+				0012311E2B28F64B0087A0A2 /* RecordEntity+CoreDataProperties.swift in Sources */,
 				00F2F2EB2B24D4830008F6F5 /* SearchReferencesUseCaseInput.swift in Sources */,
-				001230F52B289BD70087A0A2 /* AlbumReferenceEntity+CoreDataClass.swift in Sources */,
 				00B97BC92B275AB200934E4A /* AddDiscoNewReferenceInput.swift in Sources */,
 				00B97BC72B27541900934E4A /* GetDiscoProfileUseCaseOutput.swift in Sources */,
+				001231212B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataClass.swift in Sources */,
 				00B97BD62B2791E700934E4A /* AddNewSectionToDiscoUseCaseInput.swift in Sources */,
 				00F2F2CA2B24CDFE0008F6F5 /* Record.swift in Sources */,
-				001230F32B289BD70087A0A2 /* SectionEntity+CoreDataClass.swift in Sources */,
-				001230F72B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift in Sources */,
 				00F2F2D12B24CF540008F6F5 /* GetDiscosUseCase.swift in Sources */,
 				00F2F2DA2B24CF980008F6F5 /* AddNewSectionToDiscoUseCase.swift in Sources */,
+				0012311D2B28F64B0087A0A2 /* RecordEntity+CoreDataClass.swift in Sources */,
 				00F2F2CE2B24CF480008F6F5 /* CreateNewDiscoUseCase.swift in Sources */,
 				00F2F2C42B24CD870008F6F5 /* DiscoProfile.swift in Sources */,
-				001230F42B289BD70087A0A2 /* SectionEntity+CoreDataProperties.swift in Sources */,
 				00F2F2D72B24CF830008F6F5 /* AddDiscoNewReferenceUseCase.swift in Sources */,
-				001230F02B289BD70087A0A2 /* RecordEntity+CoreDataProperties.swift in Sources */,
 				00F2F3002B24E4690008F6F5 /* GetDiscosUseCaseOutput.swift in Sources */,
-				001230F22B289BD70087A0A2 /* DiscoEntity+CoreDataProperties.swift in Sources */,
-				001230F82B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift in Sources */,
+				001231222B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift in Sources */,
 				00F2F2DC2B24CFAD0008F6F5 /* AddNewRecordToSessionUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

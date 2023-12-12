@@ -60,6 +60,22 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
         sheet.createDiscoTapped = interactor.createDisco
         present(sheet, animated: true)
     }
+    
+    private func loadPlaceholders() {
+        let placeholder: DiscoListViewEntity = .init(
+            id: UUID(),
+            name: "",
+            coverImage: UIImage(named: "vinil_image_example")!.pngData()!
+        )
+        discos.append(placeholder)
+        discos.append(placeholder)
+        discos.append(placeholder)
+        discos.append(placeholder)
+    }
+    
+    private func removePlaceholders() {
+        discos.removeAll(where: { $0.name == "" })
+    }
 }
 
 extension DiscoListViewController: DiscoListDisplayLogic {
@@ -78,11 +94,13 @@ extension DiscoListViewController: DiscoListDisplayLogic {
     }
     
     public func startLoading() {
-        print("Starting Load")
+        loadPlaceholders()
+        tableView.reloadData()
     }
     
     public func hideLoading() {
-        print("Hiding Load")
+        removePlaceholders()
+        tableView.reloadData()
     }
     
     public func showDiscos(_ discos: [DiscoListViewEntity]) {

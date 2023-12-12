@@ -34,7 +34,6 @@ struct DiscoListFactory {
         createNewDiscoUseCase.output = [presenter]
         getDiscosUseCase.output = [presenter]
         
-        // Retain Cicle: I -> P -> V -> I
         interactor.router = router
         interactor.presenter = presenter
         presenter.view = WeakReferenceProxy(viewController)

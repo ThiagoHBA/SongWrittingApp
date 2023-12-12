@@ -17,6 +17,7 @@ extension SectionEntity {
     }
 
     @NSManaged public var identifier: String?
+    @NSManaged public var index: Int16
     @NSManaged public var profile: DiscoProfileEntity?
     @NSManaged public var records: NSSet?
 
