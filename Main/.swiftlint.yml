@@ -1,26 +1,26 @@
 disabled_rules: # rule identifiers to exclude from running
-  - colon
-  - comma
-  - control_statement
+    - large_tuple
+    - colon
+    - comma
+    - control_statement
+    - force_try
 opt_in_rules: # some rules are only opt-in
-  - empty_count
-  # Find all the available rules by running:
-  # swiftlint rules
+    - empty_count
+    # Find all the available rules by running:
+    # swiftlint rules
 included: # paths to include during linting. `--path` is ignored if present.
-  - SourceProject
+    - SourceProject
 excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - Carthage
-  - Pods
-  - Source/ExcludedFolder
-  - Source/ExcludedFile.swift
-  - Source/*/ExcludedFile.swift # Exclude files with a wildcard
+    - Carthage
+    - Pods
+    - Source/ExcludedFolder
+    - Source/ExcludedFile.swift
+    - Source/*/ExcludedFile.swift # Exclude files with a wildcard
 analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
-  - explicit_self
+    - explicit_self
 # configurable rules can be customized from this configuration file
 # binary rules can set their severity level
 force_cast: warning # implicitly
-force_try:
-  severity: warning # explicitly
 # rules that have both warning and error levels, can set just the warning level
 # implicitly
 line_length: 110
