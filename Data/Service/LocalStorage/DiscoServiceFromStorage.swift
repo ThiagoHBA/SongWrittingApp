@@ -112,10 +112,14 @@ public final class DiscoServiceFromStorage: DiscoService {
                      completion(.failure(DataError.cantFindDisco))
                      return
                  }
-                 let albumReferenceEntities = references.map { reference in
+                 var existingReferences = discoProfile.references?.allObjects as? [AlbumReferenceEntity] ?? []
+       
+                 let newAlbumReferenceEntities = references.map { reference in
                      return self.createAlbumReferenceEntity(from: reference, in: managedObjectContext)
                  }
-                 discoProfile.references = NSSet(array: albumReferenceEntities)
+                 
+                 existingReferences.append(contentsOf: newAlbumReferenceEntities)
+                 discoProfile.references = NSSet(array: existingReferences)
                  
                  try managedObjectContext.save()
                  let updatedDiscoProfile = self.createDiscoProfile(from: discoProfile)
@@ -127,52 +131,56 @@ public final class DiscoServiceFromStorage: DiscoService {
      }
      
     public func addNewSection(_ disco: Disco, _ section: Section, completion: @escaping (Result<DiscoProfile, Error>) -> Void) {
-//         let managedObjectContext = persistentContainer.viewContext
-//         managedObjectContext.perform {
-//             do {
-//                 guard let discoEntity = try self.fetchDiscoEntity(with: disco.id, in: managedObjectContext) else {
-//                     throw NSError(domain: "Data not found", code: 404, userInfo: nil)
-//                 }
-//                 
-//                 let sectionEntity = SectionEntity(context: managedObjectContext)
-//                 sectionEntity.identifier = section.identifer
-//                 let record = RecordEntity(entity: sectionEntity, insertInto: managedObjectContext)
-//                 record.tag = section.records
-//                 
-//                 
-//                 discoEntity.addToSections(sectionEntity)
-//                 
-//                 try managedObjectContext.save()
-//                 
-//                 let updatedDiscoProfile = self.createDiscoProfile(from: discoEntity)
-//                 completion(.success(updatedDiscoProfile))
-//             } catch {
-//                 completion(.failure(error))
-//             }
-//         }
+         let managedObjectContext = persistentContainer.viewContext
+         managedObjectContext.perform {
+             do {
+                 guard let discoProfile = try self.fetchDiscoProfileEntity(with: disco.id, in: managedObjectContext) else {
+                     completion(.failure(DataError.cantFindDisco))
+                     return
+                 }
+                 
+                 let sectionEntity = SectionEntity(context: managedObjectContext)
+                 sectionEntity.identifier = section.identifer
+                 sectionEntity.records = NSSet(
+                    array: section.records.map {
+                        self.createRecordEntity(from: $0, in: managedObjectContext)
+                    }
+                 )
+                 
+                 discoProfile.addToSections(sectionEntity)
+                 
+                 try managedObjectContext.save()
+                 let updatedDiscoProfile = self.createDiscoProfile(from: discoProfile)
+                 completion(.success(updatedDiscoProfile))
+             } catch {
+                 completion(.failure(error))
+             }
+         }
      }
      
     public func addNewRecord(_ disco: Disco, _ section: Section, completion: @escaping (Result<DiscoProfile, Error>) -> Void) {
-//         let managedObjectContext = persistentContainer.viewContext
-//         managedObjectContext.perform {
-//             do {
-//                 guard let discoEntity = try self.fetchDiscoEntity(with: disco.id, in: managedObjectContext),
-//                       let sectionEntity = self.findSectionEntity(with: section.identifer, in: discoEntity) else {
-//                     throw NSError(domain: "Data not found", code: 404, userInfo: nil)
-//                 }
-//                 
-//                 // Create a new RecordEntity and associate it with the sectionEntity
-//                 let recordEntity = self.createRecordEntity(from: section.records.first!, in: managedObjectContext) // Assuming the method takes the first record from the section
-//                 sectionEntity.addToRecords(recordEntity)
-//                 
-//                 try managedObjectContext.save()
-//                 
-//                 let updatedDiscoProfile = self.createDiscoProfile(from: discoEntity)
-//                 completion(.success(updatedDiscoProfile))
-//             } catch {
-//                 completion(.failure(error))
-//             }
-//         }
+         let managedObjectContext = persistentContainer.viewContext
+         managedObjectContext.perform {
+             do {
+                 guard let discoProfile = try self.fetchDiscoProfileEntity(with: disco.id, in: managedObjectContext),
+                       let sectionEntity = self.findSectionEntity(
+                        with: section.identifer,
+                        context: managedObjectContext
+                       ) else {
+                     completion(.failure(DataError.cantFindDisco))
+                     return
+                 }
+                 
+                 let recordEntity = self.createRecordEntity(from: section.records.last!, in: managedObjectContext)
+                 sectionEntity.addToRecords(recordEntity)
+                 
+                 try managedObjectContext.save()
+                 let updatedDiscoProfile = self.createDiscoProfile(from: discoProfile)
+                 completion(.success(updatedDiscoProfile))
+             } catch {
+                 completion(.failure(error))
+             }
+         }
      }
      
      private func fetchDiscoEntity(
@@ -251,5 +259,47 @@ public final class DiscoServiceFromStorage: DiscoService {
         albumReferenceEntity.coverImage = albumReference.coverImage
         
         return albumReferenceEntity
+    }
+    
+    private func findSectionEntity(
+        with identifier: String,
+        context: NSManagedObjectContext
+    ) -> SectionEntity? {
+        let fetchRequest: NSFetchRequest<SectionEntity> = SectionEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifer == %@", identifier)
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let sections = try context.fetch(fetchRequest)
+            return sections.first
+        } catch {
+            print("Error fetching SectionEntity: \(error)")
+            return nil
+        }
+    }
+    
+    private func createRecordEntity(
+        from data: Record,
+        in context: NSManagedObjectContext
+    ) -> RecordEntity {
+        func convertTagToString() -> String {
+            switch data.tag {
+                case .guitar:
+                    return "Guitarra"
+                case .vocal:
+                    return "Voz"
+                case .drums:
+                    return "Bateria"
+                case .bass:
+                    return "Baixo"
+                case .custom(let value):
+                    return value
+            }
+        }
+        let record = RecordEntity(context: context)
+        record.tag = convertTagToString()
+        record.audio = data.audio
+        
+        return record
     }
 }
