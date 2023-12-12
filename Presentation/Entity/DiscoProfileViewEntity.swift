@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct DiscoProfileViewEntity {
+public struct DiscoProfileViewEntity: Equatable {
     public let disco: DiscoListViewEntity
     public let references: [AlbumReferenceViewEntity]
     public var section: [SectionViewEntity]

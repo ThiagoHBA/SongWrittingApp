@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct SectionViewEntity {
+public struct SectionViewEntity: Equatable {
     public let identifer: String
     public var records: [RecordViewEntity]
     
