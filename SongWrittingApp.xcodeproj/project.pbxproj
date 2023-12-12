@@ -18,6 +18,8 @@
 		001230F72B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230ED2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */; };
 		001230F82B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230EE2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */; };
 		001230FB2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */; };
+		001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */; };
+		001231012B28CFCB0087A0A2 /* FallbackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231002B28CFCB0087A0A2 /* FallbackError.swift */; };
 		00B97B122B24FAB100934E4A /* DiscoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */; };
 		00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */; };
 		00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4C2B255DD100934E4A /* AlertPresentable.swift */; };
@@ -378,6 +380,8 @@
 		001230ED2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		001230EE2B289BD70087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromLocalStorageTest.swift; sourceTree = "<group>"; };
+		001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFallBack.swift; sourceTree = "<group>"; };
+		001231002B28CFCB0087A0A2 /* FallbackError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallbackError.swift; sourceTree = "<group>"; };
 		00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoTableViewCell.swift; sourceTree = "<group>"; };
 		00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscoViewController.swift; sourceTree = "<group>"; };
 		00B97B4C2B255DD100934E4A /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
@@ -605,6 +609,23 @@
 				001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */,
 			);
 			path = DiscoServiceFromLocalStorage;
+			sourceTree = "<group>";
+		};
+		001230FC2B28CE810087A0A2 /* Fallback */ = {
+			isa = PBXGroup;
+			children = (
+				001230FF2B28CFBF0087A0A2 /* Error */,
+				001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */,
+			);
+			path = Fallback;
+			sourceTree = "<group>";
+		};
+		001230FF2B28CFBF0087A0A2 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				001231002B28CFCB0087A0A2 /* FallbackError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		00B97B102B24FA5300934E4A /* Components */ = {
@@ -1124,6 +1145,7 @@
 		00F2F2582B238ECF0008F6F5 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				001230FC2B28CE810087A0A2 /* Fallback */,
 				00B97B9E2B2660B300934E4A /* Proxy */,
 				00F2F32F2B24E9A50008F6F5 /* Factory */,
 				00F2F29D2B2409BD0008F6F5 /* Auth */,
@@ -1868,9 +1890,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001231012B28CFCB0087A0A2 /* FallbackError.swift in Sources */,
 				00F2F25A2B238ECF0008F6F5 /* AppDelegate.swift in Sources */,
 				00B97BA02B2660BD00934E4A /* WeakReferenceProxy.swift in Sources */,
 				00B97B762B26252200934E4A /* DiscoProfileFactory.swift in Sources */,
+				001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */,
 				00F2F25C2B238ECF0008F6F5 /* SceneDelegate.swift in Sources */,
 				00F2F3312B24E9B60008F6F5 /* DiscoListFactory.swift in Sources */,
 				00F2F29F2B2409D30008F6F5 /* AuthorizationDecorator.swift in Sources */,
