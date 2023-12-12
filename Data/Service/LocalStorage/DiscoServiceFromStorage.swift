@@ -118,7 +118,14 @@ public final class DiscoServiceFromStorage: DiscoService {
                      return self.createAlbumReferenceEntity(from: reference, in: managedObjectContext)
                  }
                  
-                 existingReferences.append(contentsOf: newAlbumReferenceEntities)
+                 let newReferencesUnrepeated = newAlbumReferenceEntities.compactMap { reference in
+                     if !existingReferences.contains(where: { $0.name == reference.name }) {
+                         return reference
+                     }
+                     return nil
+                 }
+                 
+                 existingReferences.append(contentsOf: newReferencesUnrepeated)
                  discoProfile.references = NSSet(array: existingReferences)
                  
                  try managedObjectContext.save()

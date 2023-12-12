@@ -312,7 +312,9 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
     
     public func hideOverlays(completion: (() -> Void)?) {
-        dismiss(animated: true, completion: completion)
+        DispatchQueue.main.async { [weak self] in
+            self?.dismiss(animated: true, completion: completion)
+        }
     }
     
     public func addingReferencesError(_ title: String, description: String) {
