@@ -15,7 +15,8 @@ import UIKit
 
 struct DiscoListFactory {
     static func make(navigationController: UINavigationController) -> DiscoListViewController {
-        let discoService = DiscoServiceFromMemory()
+//        let discoService = DiscoServiceFromMemory()
+        let discoService = DiscoServiceFromStorage()
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: discoService)
         let getDiscosUseCase = GetDiscosUseCase(service: discoService)
         

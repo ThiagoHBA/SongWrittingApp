@@ -51,6 +51,7 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        interactor.loadDiscos()
     }
     
     @objc func addDiscoButtonTapped() {
