@@ -71,14 +71,14 @@
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
 		00F2F2082B2380000008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2072B2380000008F6F5 /* ReferencesService.swift */; };
-		00F2F2122B23801B0008F6F5 /* ReferencesServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2112B23801B0008F6F5 /* ReferencesServiceImpl.swift */; };
+		00F2F2122B23801B0008F6F5 /* SpotifyReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2112B23801B0008F6F5 /* SpotifyReferencesService.swift */; };
 		00F2F2142B2380240008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
 		00F2F2152B2380240008F6F5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00F2F21B2B2381280008F6F5 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F21A2B2381280008F6F5 /* NetworkClient.swift */; };
 		00F2F21D2B2381650008F6F5 /* SecureClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F21C2B2381650008F6F5 /* SecureClient.swift */; };
 		00F2F2202B23824E0008F6F5 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F21F2B23824E0008F6F5 /* Endpoint.swift */; };
 		00F2F2232B2382790008F6F5 /* GetReferencesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2222B2382790008F6F5 /* GetReferencesEndpoint.swift */; };
-		00F2F2252B2382D00008F6F5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2242B2382D00008F6F5 /* Constants.swift */; };
+		00F2F2252B2382D00008F6F5 /* SpotifyReferencesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */; };
 		00F2F22A2B2386560008F6F5 /* NetworkClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2292B2386560008F6F5 /* NetworkClientSpy.swift */; };
 		00F2F22C2B238B9A0008F6F5 /* SecureClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F22B2B238B9A0008F6F5 /* SecureClientSpy.swift */; };
 		00F2F23A2B238D620008F6F5 /* Infra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2322B238D620008F6F5 /* Infra.framework */; };
@@ -420,12 +420,12 @@
 		00F2F1FB2B2380000008F6F5 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2022B2380000008F6F5 /* DataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2072B2380000008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
-		00F2F2112B23801B0008F6F5 /* ReferencesServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesServiceImpl.swift; sourceTree = "<group>"; };
+		00F2F2112B23801B0008F6F5 /* SpotifyReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReferencesService.swift; sourceTree = "<group>"; };
 		00F2F21A2B2381280008F6F5 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		00F2F21C2B2381650008F6F5 /* SecureClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureClient.swift; sourceTree = "<group>"; };
 		00F2F21F2B23824E0008F6F5 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		00F2F2222B2382790008F6F5 /* GetReferencesEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReferencesEndpoint.swift; sourceTree = "<group>"; };
-		00F2F2242B2382D00008F6F5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReferencesConstants.swift; sourceTree = "<group>"; };
 		00F2F2292B2386560008F6F5 /* NetworkClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientSpy.swift; sourceTree = "<group>"; };
 		00F2F22B2B238B9A0008F6F5 /* SecureClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureClientSpy.swift; sourceTree = "<group>"; };
 		00F2F2322B238D620008F6F5 /* Infra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Infra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -839,6 +839,45 @@
 			path = Doubles;
 			sourceTree = "<group>";
 		};
+		00B97BF72B2883FE00934E4A /* InMemory */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2842B2392F00008F6F5 /* Entities */,
+				00F2F2F12B24DBF40008F6F5 /* DiscoServiceFromMemory.swift */,
+			);
+			path = InMemory;
+			sourceTree = "<group>";
+		};
+		00B97BF82B28840E00934E4A /* References */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BFA2B2884C400934E4A /* Endpoint */,
+				00B97BF92B28841E00934E4A /* Entities */,
+				00F2F27F2B2390300008F6F5 /* Handlers */,
+				00F2F2112B23801B0008F6F5 /* SpotifyReferencesService.swift */,
+				00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */,
+			);
+			path = References;
+			sourceTree = "<group>";
+		};
+		00B97BF92B28841E00934E4A /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */,
+				00B97B852B263BC700934E4A /* AlbumReferenceDataEntity.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		00B97BFA2B2884C400934E4A /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				00F2F2222B2382790008F6F5 /* GetReferencesEndpoint.swift */,
+				00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */,
+			);
+			path = Endpoint;
+			sourceTree = "<group>";
+		};
 		00F2F1C12B2373980008F6F5 = {
 			isa = PBXGroup;
 			children = (
@@ -925,11 +964,10 @@
 			isa = PBXGroup;
 			children = (
 				00F2F28D2B2399B80008F6F5 /* Error */,
-				00F2F2842B2392F00008F6F5 /* Entities */,
-				00F2F27F2B2390300008F6F5 /* Handlers */,
-				00F2F21E2B2382410008F6F5 /* API */,
+				00F2F2932B239D3E0008F6F5 /* Protocol */,
 				00F2F2192B23811C0008F6F5 /* Client */,
-				00F2F2102B23800B0008F6F5 /* Service */,
+				00B97BF82B28840E00934E4A /* References */,
+				00B97BF72B2883FE00934E4A /* InMemory */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -942,15 +980,6 @@
 				00F2F2282B2386300008F6F5 /* Service */,
 			);
 			path = DataTests;
-			sourceTree = "<group>";
-		};
-		00F2F2102B23800B0008F6F5 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F2112B23801B0008F6F5 /* ReferencesServiceImpl.swift */,
-				00F2F2F12B24DBF40008F6F5 /* DiscoServiceFromMemory.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		00F2F2132B2380240008F6F5 /* Frameworks */ = {
@@ -967,33 +996,6 @@
 				00F2F21C2B2381650008F6F5 /* SecureClient.swift */,
 			);
 			path = Client;
-			sourceTree = "<group>";
-		};
-		00F2F21E2B2382410008F6F5 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F2262B2382D50008F6F5 /* Endpoint */,
-				00F2F2242B2382D00008F6F5 /* Constants.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
-		00F2F2212B2382500008F6F5 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F21F2B23824E0008F6F5 /* Endpoint.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		00F2F2262B2382D50008F6F5 /* Endpoint */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F2212B2382500008F6F5 /* Protocol */,
-				00F2F2222B2382790008F6F5 /* GetReferencesEndpoint.swift */,
-				00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */,
-			);
-			path = Endpoint;
 			sourceTree = "<group>";
 		};
 		00F2F2272B23862C0008F6F5 /* Doubles */ = {
@@ -1083,11 +1085,8 @@
 		00F2F2842B2392F00008F6F5 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				00F2F2932B239D3E0008F6F5 /* Protocol */,
-				00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */,
 				00B97B812B263B5F00934E4A /* DiscoDataEntity.swift */,
 				00B97B832B263BC000934E4A /* DiscoProfileDataEntity.swift */,
-				00B97B852B263BC700934E4A /* AlbumReferenceDataEntity.swift */,
 				00B97B872B263BD100934E4A /* SectionDataEntity.swift */,
 				00B97B892B263BDE00934E4A /* RecordDataEntity.swift */,
 			);
@@ -1116,6 +1115,7 @@
 			isa = PBXGroup;
 			children = (
 				00F2F2942B239D460008F6F5 /* DataEntity.swift */,
+				00F2F21F2B23824E0008F6F5 /* Endpoint.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1735,8 +1735,8 @@
 				00F2F2952B239D460008F6F5 /* DataEntity.swift in Sources */,
 				00F2F2F22B24DBF40008F6F5 /* DiscoServiceFromMemory.swift in Sources */,
 				00F2F21B2B2381280008F6F5 /* NetworkClient.swift in Sources */,
-				00F2F2122B23801B0008F6F5 /* ReferencesServiceImpl.swift in Sources */,
-				00F2F2252B2382D00008F6F5 /* Constants.swift in Sources */,
+				00F2F2122B23801B0008F6F5 /* SpotifyReferencesService.swift in Sources */,
+				00F2F2252B2382D00008F6F5 /* SpotifyReferencesConstants.swift in Sources */,
 				00B97B822B263B5F00934E4A /* DiscoDataEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
