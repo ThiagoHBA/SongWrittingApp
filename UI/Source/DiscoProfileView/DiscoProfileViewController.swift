@@ -7,6 +7,7 @@
 
 import UIKit
 import Presentation
+import AVFAudio
 
 public class DiscoProfileViewController: UIViewController {
     private var discoProfile: DiscoProfileViewEntity? {
@@ -115,6 +116,7 @@ public class DiscoProfileViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+        configureAudio()
         interactor.loadProfile(for: disco)
     }
     
@@ -145,6 +147,18 @@ public class DiscoProfileViewController: UIViewController {
         document.delegate = self
         document.allowsMultipleSelection = false
         present(document, animated: true)
+    }
+    
+    func configureAudio() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        } catch(_) {
+            showAlert(
+                title: "Problemas com o áudio",
+                message: "Ocorreu um problema ao configurar o áudio, é possível que algumas interações possam apresentar instabilidades",
+                dismissed: nil
+            )
+        }
     }
 }
 
