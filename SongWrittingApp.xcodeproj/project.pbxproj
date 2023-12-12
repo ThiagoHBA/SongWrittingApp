@@ -851,11 +851,7 @@
 		00B97BF82B28840E00934E4A /* References */ = {
 			isa = PBXGroup;
 			children = (
-				00B97BFA2B2884C400934E4A /* Endpoint */,
-				00B97BF92B28841E00934E4A /* Entities */,
-				00F2F27F2B2390300008F6F5 /* Handlers */,
-				00F2F2112B23801B0008F6F5 /* SpotifyReferencesService.swift */,
-				00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */,
+				00B97BFB2B28868F00934E4A /* Spotify */,
 			);
 			path = References;
 			sourceTree = "<group>";
@@ -876,6 +872,26 @@
 				00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */,
 			);
 			path = Endpoint;
+			sourceTree = "<group>";
+		};
+		00B97BFB2B28868F00934E4A /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BFA2B2884C400934E4A /* Endpoint */,
+				00B97BF92B28841E00934E4A /* Entities */,
+				00F2F27F2B2390300008F6F5 /* Handlers */,
+				00F2F2112B23801B0008F6F5 /* SpotifyReferencesService.swift */,
+				00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */,
+			);
+			path = Spotify;
+			sourceTree = "<group>";
+		};
+		00B97BFC2B2886AF00934E4A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				00B97BF72B2883FE00934E4A /* InMemory */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		00F2F1C12B2373980008F6F5 = {
@@ -967,7 +983,7 @@
 				00F2F2932B239D3E0008F6F5 /* Protocol */,
 				00F2F2192B23811C0008F6F5 /* Client */,
 				00B97BF82B28840E00934E4A /* References */,
-				00B97BF72B2883FE00934E4A /* InMemory */,
+				00B97BFC2B2886AF00934E4A /* Service */,
 			);
 			path = Data;
 			sourceTree = "<group>";
