@@ -22,6 +22,7 @@ final class DiscoProfileViewSpy {
         case addingReferencesError(String, String)
         case addingSectionError(String, String)
         case loadingProfileError(String, String)
+        case addingRecordsError(String, String)
         
         var description: String {
             switch self {
@@ -45,6 +46,8 @@ final class DiscoProfileViewSpy {
                     return "addingSectionError Called with data: \(title), \(description)"
                 case .loadingProfileError(let title, let description):
                     return "loadingProfileError Called with data: \(title), \(description)"
+                case .addingRecordsError(let title, let description):
+                    return "addingRecordsError Called with data: \(title), \(description)"
             }
         }
     }
@@ -53,43 +56,48 @@ final class DiscoProfileViewSpy {
 }
 
 extension DiscoProfileViewSpy: DiscoProfileDisplayLogic {
+    func addingRecordsError(_ title: String, description: String) {
+        receivedMessages.append(.addingRecordsError(title, description))
+    }
+    
     func startLoading() {
-        
+        receivedMessages.append(.startLoading)
     }
     
     func hideLoading() {
-        
+        receivedMessages.append(.hideLoading)
     }
     
     func hideOverlays(completion: (() -> Void)?) {
-        
+        receivedMessages.append(.hideOverlays)
+        hideOverlaysCompletion = completion
     }
     
     func showReferences(_ references: [AlbumReferenceViewEntity]) {
-        
+        receivedMessages.append(.showReferences(references))
     }
     
     func showProfile(_ profile: DiscoProfileViewEntity) {
-        
+        receivedMessages.append(.showProfile(profile))
     }
     
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
-        
+        receivedMessages.append(.updateReferences(references))
     }
     
     func updateSections(_ sections: [SectionViewEntity]) {
-        
+        receivedMessages.append(.updateSections(sections))
     }
 
     func addingReferencesError(_ title: String, description: String) {
-        
+        receivedMessages.append(.addingReferencesError(title, description))
     }
-    
-    func addingSectionError(_ title: String, description: String) {
         
+    func addingSectionError(_ title: String, description: String) {
+        receivedMessages.append(.addingSectionError(title, description))
     }
     
     func loadingProfileError(_ title: String, description: String) {
-        
+        receivedMessages.append(.loadingProfileError(title, description))
     }
 }

@@ -10,6 +10,28 @@ import Domain
 @testable import Presentation
 
 final class DiscoProfilePresenterTests: XCTestCase {
+    func test_presentLoading_should_call_view_correctly() {
+        let (sut, (viewSpy, _, _)) = makeSUT()
+        sut.presentLoading()
+        XCTAssertEqual(viewSpy.receivedMessages, [.startLoading])
+    }
+    
+    func test_presentCreateSectionError_should_call_view_correctly() {
+        let (sut, (viewSpy, _, _)) = makeSUT()
+        sut.presentCreateSectionError(.emptyName)
+        viewSpy.hideOverlaysCompletion?()
+        
+        XCTAssertEqual(
+            viewSpy.receivedMessages,
+            [
+                .hideOverlays,
+                    .addingSectionError(
+                        "Erro!",
+                        DiscoProfileError.CreateSectionError.emptyName.localizedDescription
+                    )
+            ]
+        )
+    }
 
 }
 

@@ -17,5 +17,33 @@ public enum DiscoProfileError: Error {
                     return "O nome da seção não pode ser vazio"
             }
         }
+        
+        static var errorTitle: String {
+            return "Campos Vazios"
+        }
+    }
+    
+    public enum LoadReferencesError {
+        static var errorTitle: String {
+            return "Erro ao encontrar referências"
+        }
+    }
+    
+    public enum LoadingProfileError {
+        static var errorTitle: String {
+            return "Erro ao carregar detalhes"
+        }
+    }
+    
+    public enum AddingSectionsError {
+        static var errorTitle: String {
+            return "Erro ao adicionar seção"
+        }
+    }
+    
+    public enum AddingRecordsError {
+        static var errorTitle: String {
+            return "Erro ao adicionar gravação"
+        }
     }
 }
