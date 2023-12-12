@@ -146,7 +146,7 @@ public final class DiscoServiceFromStorage: DiscoService {
                         self.createRecordEntity(from: $0, in: managedObjectContext)
                     }
                  )
-                 
+            
                  discoProfile.addToSections(sectionEntity)
                  
                  try managedObjectContext.save()
@@ -164,12 +164,12 @@ public final class DiscoServiceFromStorage: DiscoService {
              do {
                  guard let discoProfile = try self.fetchDiscoProfileEntity(with: disco.id, in: managedObjectContext),
                        let sectionEntity = self.findSectionEntity(
-                        with: section.identifer,
-                        context: managedObjectContext
+                            with: section.identifer,
+                            context: managedObjectContext
                        ) else {
-                     completion(.failure(DataError.cantFindDisco))
-                     return
-                 }
+                            completion(.failure(DataError.cantFindDisco))
+                            return
+                        }
                  
                  let recordEntity = self.createRecordEntity(from: section.records.last!, in: managedObjectContext)
                  sectionEntity.addToRecords(recordEntity)
@@ -261,12 +261,9 @@ public final class DiscoServiceFromStorage: DiscoService {
         return albumReferenceEntity
     }
     
-    private func findSectionEntity(
-        with identifier: String,
-        context: NSManagedObjectContext
-    ) -> SectionEntity? {
+    private func findSectionEntity(with identifier: String, context: NSManagedObjectContext) -> SectionEntity? {
         let fetchRequest: NSFetchRequest<SectionEntity> = SectionEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifer == %@", identifier)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         fetchRequest.fetchLimit = 1
         
         do {
@@ -277,7 +274,6 @@ public final class DiscoServiceFromStorage: DiscoService {
             return nil
         }
     }
-    
     private func createRecordEntity(
         from data: Record,
         in context: NSManagedObjectContext

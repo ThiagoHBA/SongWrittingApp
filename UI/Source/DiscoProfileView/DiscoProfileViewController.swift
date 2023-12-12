@@ -14,7 +14,12 @@ public class DiscoProfileViewController: UIViewController {
         didSet {
             if let profile = discoProfile,
             !profile.section.isEmpty {
-                emptyStateLabel.removeFromSuperview()
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    emptyStateLabel.removeFromSuperview()
+                    tableView.reloadData()
+                }
+                
             }
         }
     }
@@ -127,6 +132,7 @@ public class DiscoProfileViewController: UIViewController {
     func configure(with profile: DiscoProfileViewEntity) {
         discoProfile = profile
         referenceSection.references = discoProfile!.references
+        
     }
     
     func addSectionTapped() {
