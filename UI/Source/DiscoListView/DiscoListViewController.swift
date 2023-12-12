@@ -90,7 +90,6 @@ extension DiscoListViewController: DiscoListDisplayLogic {
     }
     
     public func showNewDisco(_ disco: DiscoListViewEntity) {
-        print("New Disco created")
         self.discos.append(disco)
         self.showDiscos(discos)
     }
