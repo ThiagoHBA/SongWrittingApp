@@ -137,7 +137,11 @@ public final class DiscoServiceFromStorage: DiscoService {
         }
     }
     
-    public func addNewSection(_ disco: Disco, _ section: Section, completion: @escaping (Result<DiscoProfile, Error>) -> Void) {
+    public func addNewSection(
+        _ disco: Disco,
+        _ section: Section,
+        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    ) {
         let managedObjectContext = persistentContainer.viewContext
         managedObjectContext.perform {
             do {
@@ -148,6 +152,7 @@ public final class DiscoServiceFromStorage: DiscoService {
                 
                 let sectionEntity = SectionEntity(context: managedObjectContext)
                 sectionEntity.identifier = section.identifer
+                sectionEntity.index = Int16(discoProfile.sections?.count ?? 0)
                 sectionEntity.records = NSSet(
                     array: section.records.map {
                         self.createRecordEntity(from: $0, in: managedObjectContext)
@@ -223,7 +228,10 @@ extension DiscoServiceFromStorage {
     private func createDiscoProfile(from discoProfileEntity: DiscoProfileEntity) -> DiscoProfile {
         let disco = createDisco(from: discoProfileEntity.disco!)
         let references = (discoProfileEntity.references?.allObjects as? [AlbumReferenceEntity] ?? []).map { createAlbumReference(from: $0) }
-        let sections = (discoProfileEntity.sections?.allObjects as? [SectionEntity] ?? []).map { createSection(from: $0) }
+        
+        var sectionEntities = discoProfileEntity.sections?.allObjects as? [SectionEntity]
+        sectionEntities?.sort(by: { $0.index < $1.index })
+        let sections = (sectionEntities ?? []).map { createSection(from: $0) }
         
         return DiscoProfile(disco: disco, references: references, section: sections)
     }
