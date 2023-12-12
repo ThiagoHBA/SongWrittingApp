@@ -12,28 +12,26 @@ import CoreData
 public final class DiscoServiceFromStorage: DiscoService {
     private let persistentContainer: NSPersistentContainer
     
-    public init() {
+    public init() throws {
         let modelName = "SongWrittingApp"
+        
         guard let modelURL = Bundle(for: type(of: self)).url(
             forResource: modelName,
             withExtension:"momd"
-        ) else {
-                fatalError("Error loading model from bundle")
-        }
+        ) else { throw DataError.loadModelError }
         
         guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
-            fatalError("Error initializing mom from: \(modelURL)")
+            throw DataError.loadModelError
         }
-
+        
         let container = NSPersistentContainer(name: modelName, managedObjectModel: mom)
         container.loadPersistentStores { (_, error) in
-            if let error = error {
-                fatalError("Loading of store failed \(error)")
-            }
+            if let error = error { return }
         }
+        
         self.persistentContainer = container
     }
-    
+ 
     public init(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
     }
@@ -52,7 +50,11 @@ public final class DiscoServiceFromStorage: DiscoService {
             
             do {
                 try managedObjectContext.save()
-                let disco = Disco(id: discoEntity.id ?? UUID(), name: discoEntity.name ?? "", coverImage: discoEntity.coverImage ?? Data())
+                let disco = Disco(
+                    id: discoEntity.id ?? UUID(),
+                    name: discoEntity.name ?? "",
+                    coverImage: discoEntity.coverImage ?? Data()
+                )
                 completion(.success(disco))
             } catch {
                 completion(.failure(error))
@@ -68,7 +70,11 @@ public final class DiscoServiceFromStorage: DiscoService {
             do {
                 let discoEntities = try fetchRequest.execute()
                 let discos = discoEntities.map { discoEntity in
-                    Disco(id: discoEntity.id ?? UUID(), name: discoEntity.name ?? "", coverImage: discoEntity.coverImage ?? Data())
+                    Disco(
+                        id: discoEntity.id ?? UUID(),
+                        name: discoEntity.name ?? "",
+                        coverImage: discoEntity.coverImage ?? Data()
+                    )
                 }
                 completion(.success(discos))
             } catch {
