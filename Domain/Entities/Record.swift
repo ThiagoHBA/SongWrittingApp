@@ -10,7 +10,7 @@ import Foundation
 public struct Record: Equatable {
     public let tag: InstrumentTag
     public let audio: URL
-    
+
     public init(tag: InstrumentTag, audio: URL) {
         self.tag = tag
         self.audio = audio

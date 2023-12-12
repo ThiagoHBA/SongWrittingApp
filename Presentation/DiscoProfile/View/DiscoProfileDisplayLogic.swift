@@ -20,4 +20,3 @@ public protocol DiscoProfileDisplayLogic {
     func loadingProfileError(_ title: String, description: String)
     func addingRecordsError(_ title: String, description: String)
 }
-

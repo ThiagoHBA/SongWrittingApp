@@ -8,26 +8,25 @@
 import Foundation
 import Domain
 
-
 // MARK: - Models from spotify API
 public struct AlbumReferenceDataEntity: DataEntity, Codable {
     let albums: Albums
-    
+
     public func toDomain() -> [AlbumReference] {
         return albums.items.map {
             AlbumReference(
                 name: $0.name,
                 artist: $0.artists.first?.name ?? "",
                 releaseDate: $0.releaseDate,
-                coverImage:  $0.images.first?.url ?? ""
+                coverImage: $0.images.first?.url ?? ""
             )
         }
     }
-    
+
     internal init(albums: Albums) {
         self.albums = albums
     }
-    
+
     public init(from domain: [AlbumReference]) {
         self.albums = .init(
             items: domain.map {

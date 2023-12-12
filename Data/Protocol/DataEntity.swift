@@ -13,7 +13,7 @@ public protocol DataEntity {
     static func loadFromData(_ data: Data) throws -> Self
 }
 
-public extension DataEntity where Self : Decodable {
+public extension DataEntity where Self: Decodable {
     static func loadFromData(_ data: Data) throws -> Self {
         return try JSONDecoder().decode(Self.self, from: data)
     }

@@ -10,14 +10,14 @@ import Foundation
 
 class SecureClientSpy: SecurePersistenceClient {
     func saveData(_ data: Data) throws {
-        
+
     }
-    
+
     func getData() throws -> Data {
         return Data()
     }
-    
+
     func deleteData() throws {
-        
+
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 class AddButtonComponent: UIView {
     var didTapped: (() -> Void)?
-    
+
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -19,14 +19,14 @@ class AddButtonComponent: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         buildLayout()
     }
-    
+
     required init?(coder: NSCoder) { nil }
-    
+
     @objc func buttonTapped() { didTapped?() }
 }
 
@@ -41,7 +41,7 @@ extension AddButtonComponent: ViewCoding {
             addButton.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
-    
+
     func addViewInHierarchy() {
         addSubview(addButton)
     }

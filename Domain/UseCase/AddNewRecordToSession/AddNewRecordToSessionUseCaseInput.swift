@@ -10,7 +10,7 @@ import Foundation
 public struct AddNewRecordToSessionUseCaseInput {
     let disco: Disco
     let section: Section
-    
+
     public init(disco: Disco, section: Section) {
         self.disco = disco
         self.section = section

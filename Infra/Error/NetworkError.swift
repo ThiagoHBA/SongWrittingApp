@@ -17,17 +17,17 @@ public enum NetworkError: LocalizedError, Equatable {
 extension NetworkError {
     public var errorDescription: String? {
         switch self {
-            case .unableToCreateURL:
-                return "Não foi possível estabeler conexão com o servidor"
-            case .transportError:
-                return "Ocorreu um erro ao requisitar dados do servidor"
-            case .httpError(let statusCode):
-                return retrieveResponseForHttp(statusCode)
-            case .decodingError:
-                return "Não foi possível mapear as informações do servidor"
+        case .unableToCreateURL:
+            return "Não foi possível estabeler conexão com o servidor"
+        case .transportError:
+            return "Ocorreu um erro ao requisitar dados do servidor"
+        case .httpError(let statusCode):
+            return retrieveResponseForHttp(statusCode)
+        case .decodingError:
+            return "Não foi possível mapear as informações do servidor"
         }
     }
-    
+
     func retrieveResponseForHttp(_ code: Int) -> String {
         if (400...499).contains(code) {
              return "Por favor, certifique-se de preencher todos os campos obrigatórios corretamente. \(code)"
@@ -36,7 +36,7 @@ extension NetworkError {
          } else if (700...).contains(code) {
              return "Desculpe, algo deu errado. Tente mais tarde. \(code)"
          }
-         
+
          return "Erro desconhecido"
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 public struct GetDiscoProfileUseCaseInput {
     public let disco: Disco
-    
+
     public init(disco: Disco) {
         self.disco = disco
     }

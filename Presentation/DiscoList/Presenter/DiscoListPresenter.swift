@@ -10,17 +10,17 @@ import Domain
 
 public final class DiscoListPresenter: DiscoListPresentationLogic {
     public var view: DiscoListDisplayLogic?
-    
+
     public init() {}
-    
+
     public func presentLoading() {
         view?.startLoading()
     }
-    
+
     public func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
         view?.hideOverlays { [weak self] in
             self?.view?.createDiscoError(
-                DiscoListError.CreateDiscoError.errorTitle, 
+                DiscoListError.CreateDiscoError.errorTitle,
                 error.localizedDescription
             )
         }
@@ -35,7 +35,7 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
             self?.view?.showNewDisco(DiscoListViewEntity(from: disco))
         }
     }
-    
+
     public func errorWhileCreatingDisco(_ error: Error) {
         view?.hideLoading()
         view?.hideOverlays { [weak self] in
@@ -53,7 +53,7 @@ extension DiscoListPresenter: GetDiscosUseCaseOutput {
         view?.hideLoading()
         view?.showDiscos(discos.map { DiscoListViewEntity(from: $0) })
     }
-    
+
     public func errorWhileLoadingDiscos(_ error: Error) {
         view?.hideLoading()
         view?.loadDiscoError(
@@ -62,5 +62,3 @@ extension DiscoListPresenter: GetDiscosUseCaseOutput {
         )
     }
 }
-
-

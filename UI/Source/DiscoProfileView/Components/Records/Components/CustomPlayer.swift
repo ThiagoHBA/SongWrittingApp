@@ -23,7 +23,7 @@ class CustomPlayer: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     let audioDuration: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -32,7 +32,7 @@ class CustomPlayer: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     lazy var progressBar: UISlider = {
         let slider = UISlider()
         slider.setThumbImage(UIImage(), for: .normal)
@@ -44,14 +44,14 @@ class CustomPlayer: UIView {
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
-    
+
     @objc func updateProgress() {
         let currentDuration = player.duration - player.currentTime
         let playbackProgress = Float(player.currentTime / player.duration)
         updatePlayerDuration(currentDuration)
         progressBar.setValue(playbackProgress, animated: true)
     }
-    
+
     @objc func didBeginDraggingSlider() {
         displayLink?.isPaused = true
     }
@@ -63,7 +63,7 @@ class CustomPlayer: UIView {
         player.currentTime = newPosition
         displayLink?.isPaused = false
     }
-    
+
     func startUpdatingPlaybackStatus() {
          displayLink = CADisplayLink(target: self, selector: #selector(updateProgress))
          displayLink!.add(to: .main, forMode: .common)
@@ -79,14 +79,14 @@ class CustomPlayer: UIView {
         format.dateFormat = "mm:ss"
         audioDuration.text = format.string(from: date)
     }
-    
+
     func clearPlayer() {
         displayLink?.invalidate()
         displayLink = nil
         playButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         player.stop()
     }
-    
+
     @objc func toggleState() {
         if player.isPlaying {
             pauseButtonTapepd?()
@@ -98,15 +98,15 @@ class CustomPlayer: UIView {
         startUpdatingPlaybackStatus()
         playButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
-    
+
     init(frame: CGRect, player: AVAudioPlayer) {
         self.player = player
         super.init(frame: .zero)
         buildLayout()
     }
-    
+
     required init?(coder: NSCoder) { nil }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         updatePlayerDuration(player.duration)
@@ -128,7 +128,7 @@ extension CustomPlayer: ViewCoding {
         self.addSubview(progressBar)
         self.addSubview(audioDuration)
     }
-    
+
     func setupConstraints() {
         let playButtonConstraints = [
             playButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -136,19 +136,19 @@ extension CustomPlayer: ViewCoding {
             playButton.widthAnchor.constraint(equalToConstant: 28),
             playButton.heightAnchor.constraint(equalToConstant: 28)
         ]
-        
+
         let progressBarConstraints = [
             progressBar.centerYAnchor.constraint(equalTo: playButton.centerYAnchor),
             progressBar.leadingAnchor.constraint(equalTo: playButton.trailingAnchor, constant: 6),
             progressBar.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
         ]
-        
+
         let audioDurationConstraints = [
             audioDuration.topAnchor.constraint(equalTo: progressBar.bottomAnchor),
             audioDuration.leadingAnchor.constraint(equalTo: playButton.trailingAnchor),
             audioDuration.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ]
-        
+
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(progressBarConstraints)
         NSLayoutConstraint.activate(audioDurationConstraints)

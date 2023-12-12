@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension SectionEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<SectionEntity> {
@@ -40,6 +39,6 @@ extension SectionEntity {
 
 }
 
-extension SectionEntity : Identifiable {
+extension SectionEntity: Identifiable {
 
 }

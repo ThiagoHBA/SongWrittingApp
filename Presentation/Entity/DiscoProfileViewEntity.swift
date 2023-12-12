@@ -12,7 +12,7 @@ public struct DiscoProfileViewEntity: Equatable {
     public let disco: DiscoListViewEntity
     public let references: [AlbumReferenceViewEntity]
     public var section: [SectionViewEntity]
-    
+
     public init(
         disco: DiscoListViewEntity,
         references: [AlbumReferenceViewEntity],
@@ -28,7 +28,7 @@ public struct DiscoProfileViewEntity: Equatable {
         self.references = domain.references.map { AlbumReferenceViewEntity(from: $0 )}
         self.section = domain.section.map { SectionViewEntity(from: $0) }
     }
-    
+
     public func mapToDomain() -> DiscoProfile {
         return DiscoProfile(
             disco: disco.mapToDomain(),

@@ -11,17 +11,17 @@ import Domain
 public struct SectionViewEntity: Equatable {
     public let identifer: String
     public var records: [RecordViewEntity]
-    
+
     public init(identifer: String, records: [RecordViewEntity]) {
         self.identifer = identifer
         self.records = records
     }
-    
+
     internal init(from domain: Section) {
         self.identifer = domain.identifer
         self.records = domain.records.map { RecordViewEntity(from: $0) }
     }
-    
+
     public func mapToDomain() -> Section {
         return Section(
             identifer: identifer,
@@ -29,4 +29,3 @@ public struct SectionViewEntity: Equatable {
         )
     }
 }
-

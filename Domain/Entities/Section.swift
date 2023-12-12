@@ -10,7 +10,7 @@ import Foundation
 public struct Section: Equatable {
     public let identifer: String
     public let records: [Record]
-    
+
     public init(identifer: String, records: [Record]) {
         self.identifer = identifer
         self.records = records
