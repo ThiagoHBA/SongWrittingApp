@@ -21,12 +21,7 @@ class CreateDiscoViewController: UIViewController {
 
     private lazy var discoImage: UIButton = {
         let button = UIButton()
-        button.setImage(
-            UIImage(
-                systemName: "photo.on.rectangle.angled"
-            )!.applyingSymbolConfiguration(.init(pointSize: 64)),
-            for: .normal
-        )
+        button.setTitle("Escolher Capa", for: .normal)
         button.backgroundColor = .gray.withAlphaComponent(0.5)
         button.imageView?.contentMode = .scaleAspectFill
         button.layer.cornerRadius = 12
@@ -77,9 +72,14 @@ class CreateDiscoViewController: UIViewController {
 
     @objc func buttonTapped() {
         if nameField.text == nil { nameField.text = "" }
+        
         let name = nameField.text!
-        let imageData = discoImage.imageView!.image!.pngData()!
-        self.createDiscoTapped?(name, imageData)
+        var imageData = discoImage.imageView?.image?.pngData()
+        if imageData == nil {
+            imageData = UIImage(named: "vinil_image_example")!.pngData()!
+        }
+        
+        self.createDiscoTapped?(name, imageData!)
     }
 
     @objc func pickImageButton() {

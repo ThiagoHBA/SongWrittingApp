@@ -82,7 +82,7 @@ extension ReferencesSectionView: ViewCoding {
             addButton.heightAnchor.constraint(equalToConstant: 28),
             addButton.widthAnchor.constraint(equalToConstant: 32),
 
-            referenceList.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 46),
+            referenceList.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 24),
             referenceList.leadingAnchor.constraint(equalTo: leadingAnchor),
             referenceList.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])

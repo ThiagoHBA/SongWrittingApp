@@ -79,7 +79,7 @@ public class DiscoProfileViewController: UIViewController {
         Você ainda não adicionou nenhuma seção!
         Adicione uma seção clicando no icone de adicionar seção acima
         """
-        label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -144,7 +144,7 @@ public class DiscoProfileViewController: UIViewController {
         addNewSectionViewController.sectionField.text = ""
         addNewSectionViewController.sheetPresentationController?.detents = [
             .custom { context in
-                return context.maximumDetentValue * 0.3
+                return context.maximumDetentValue * 0.4
             }
         ]
         present(addNewSectionViewController, animated: true)

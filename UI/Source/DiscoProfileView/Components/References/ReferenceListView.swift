@@ -15,9 +15,10 @@ struct ReferenceListView: View {
         if itemModel.items.isEmpty {
             Text("Você ainda não possui nenhuma referência ao disco")
                 .multilineTextAlignment(.center)
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.foreground)
                 .background(.background)
+                .padding([.horizontal], 12)
                 .fixedSize(horizontal: false, vertical: true)
         } else {
             ScrollView(.horizontal, showsIndicators: false) {

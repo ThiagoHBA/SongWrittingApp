@@ -10,7 +10,11 @@ import Presentation
 
 public class DiscoListViewController: UIViewController, AlertPresentable {
     let interactor: DiscoListBusinessLogic
-    private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
+    private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]() {
+        didSet {
+            emptyStateLabel.isHidden = !discos.isEmpty
+        }
+    }
     private(set) var isLoading: Bool = false
 
     let titleLabel: UILabel = {
@@ -40,6 +44,20 @@ public class DiscoListViewController: UIViewController, AlertPresentable {
         tableView.showsVerticalScrollIndicator = true
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }()
+    
+    let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.text = """
+        Você ainda não possui nenhum disco!
+        Adicione um novo disco utilizando o ícone acima.
+        """
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
 
     public init(interactor: DiscoListBusinessLogic) {
@@ -136,6 +154,11 @@ extension DiscoListViewController: ViewCoding {
             addDiscoButton.widthAnchor.constraint(equalToConstant: 40),
             addDiscoButton.heightAnchor.constraint(equalToConstant: 40),
             addDiscoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
 
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -148,6 +171,7 @@ extension DiscoListViewController: ViewCoding {
         view.addSubview(titleLabel)
         view.addSubview(tableView)
         view.addSubview(addDiscoButton)
+        view.addSubview(emptyStateLabel)
     }
 }
 
