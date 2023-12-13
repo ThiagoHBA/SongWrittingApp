@@ -14,9 +14,7 @@ Este é um projeto idealizado, estruturado e codificado visando atender os requi
 
 O processo de idealização da aplicação se deu a partir da utilização de parte da metodologia CBL (Challenge Based Learning). Onde busquei levantar questionamentos acerca de possiveis aplicações em que eu me identificasse e que auxiliariam em alguma atividade do meu dia a dia. Após o processo de pesquisa e reflexão, decidi desenvolver uma aplicação visando auxiliar o processo de composição musical. 
 
-## Funcionalidades
-
-As funcionalidades planejadas para a aplicação visam auxiliar partes do fluxo de composição musical, sendo essas:
+Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar partes do fluxo de composição musical, sendo essas:
 
 - Iniciar um projeto de composição
 - Buscar referências para o projeto
