@@ -1,7 +1,7 @@
 
 # 🎶 SongWritingStudio
 
-## Contexto
+# 1 - Contexto
 
 Olá 👋
 
@@ -45,7 +45,7 @@ Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar p
 - Remover gravações nas seções
 
 
-## Estruturação
+# 2 - Estruturação da aplicação
 
 Visando garantir uma melhor visualização da estrutura do sistema, construí um diagrama simples demonstrando as relações entre as entidades do projeto:
 
@@ -62,7 +62,9 @@ dos discos, tanto por conta da menor quantidade de banda solicitada, em casos de
 
 2. Decidi utilizar Clean Architecture para organizar e arquitetar a comunicação entre as diferentes partes do sistema. Essa decisão e se deu pela facilidade da arquitetura em desacoplar e acoplar componentes de uma camada com responsabilidade específica sem interferir em outras camadas com outras responsabilidades. Essa facilidade foi definida como um requisito por mim para explorar as diferentes formas que uma tecnologia ou framework pode realizar uma mesma ação. Como por exemplo URLSession e Alamofire para requisições de APIs. Além da utilização como show case para aspectos importantes no desenvolvimento de aplicações como testes unitários.
 
-3. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api "Spotify"). Por conta da documentação clara e bom uso do padrão REST. Essa, também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
+3. Dividi a aplicação em diferentes targets respeitando as camadas que estabeleci, Domain, Data, Infra, Presentation, UI, Main. Essa divisão, comum em grandes empresas, foi pensada tanto por conta do auxilio na integridade da arquitetura, por conta das dependências específicas de um módulo a outro, quanto por conta do aumento na velocidade de execução de testes, builds, etc. 
+
+4. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api "Spotify"). Por conta da documentação clara e bom uso do padrão REST. Ela também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
 
 ### Use Cases
 
@@ -84,8 +86,14 @@ Porém, perceba que independente da forma como o serviço se estrutura, ou de qu
 
 ## Apresentação dos dados
 
+A camada de apresentação dos dados foi estabelecida por mim como a camada que vai lidar com respostas as interações do usuário e organizar os resultados a partir da utilização dos UseCases.
+
 ## Decisões
-- Navegação vertical como detalhe
-- VIP + Router (Navegação horizontal)
+
+1. Como Design Pattern para organizar a camada de apresentação eu utilizei o VIP (View, Interactor, Presenter). Levando em consideração que o usuário possui diversas interações e inputs de dados, como no momento da criação do disco, na adição de referências, seções, etc. O VIP se mostrou como uma solução viável devido a separação entre componentes para lidar as interações (Interactor) e com os resultados (Presenter), ao invés de outros patterns comuns, como MVP, MVC e MVVM que muitas vezes centralizam essa responsabilidade. Dessa forma, as camadas podem ficar melhor separadas e com responsabilidades mais específicas.
+   
+2. Para lidar com a navegação e envio de dados entre uma tela e outra, utilizei o padrão Router, comumente integrado ao VIP. Dessa forma, pude garantir que a navegação fosse arquitetada pela lógica de apresentação (Presenter) sem necessitar que a camada adicionasse dependencias como UIKit.
+  
+3. Atribui navegações verticais, como ModalSheet, como detalhes de implementação da camada de UI. Dessa forma, deixando a responsabilidade do Router apenas das navegações horizontais. Essa decisão se deu por conta das diferentes formas de implementar a UI, visando blindar a camada de apresentação de mudanças toda vez que novas alterações fossem realizadas na UI.
 
 
