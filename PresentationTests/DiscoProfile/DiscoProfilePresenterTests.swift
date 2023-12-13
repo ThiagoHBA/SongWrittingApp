@@ -52,14 +52,17 @@ final class DiscoProfilePresenterTests: XCTestCase {
         refUseCase.execute()
 
         serviceSpy.loadReferencesCompletion?(.failure(inputError))
+        viewSpy.hideOverlaysCompletion?()
 
         XCTAssertEqual(
             viewSpy.receivedMessages,
             [
                 .hideLoading,
+                .hideOverlays,
                 .addingReferencesError(
                     DiscoProfileError.LoadReferencesError.errorTitle,
-                    inputError.localizedDescription)
+                    inputError.localizedDescription
+                )
             ]
         )
     }
@@ -129,11 +132,13 @@ final class DiscoProfilePresenterTests: XCTestCase {
         addReferenceUseCase.execute()
 
         serviceSpy.updateDiscoReferencesCompletion?(.failure(inputError))
+        viewSpy.hideOverlaysCompletion?()
 
         XCTAssertEqual(
             viewSpy.receivedMessages,
             [
                 .hideLoading,
+                .hideOverlays,
                 .addingReferencesError(
                     DiscoProfileError.LoadReferencesError.errorTitle,
                     inputError.localizedDescription
