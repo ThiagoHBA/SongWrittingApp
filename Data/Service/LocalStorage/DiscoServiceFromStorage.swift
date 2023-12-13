@@ -13,11 +13,11 @@ public final class DiscoServiceFromStorage: DiscoService {
     private let persistentContainer: NSPersistentContainer
 
     public init() throws {
-        let modelName = "SongWrittingApp"
+        let modelName = DiscoServiceFromStorageConstants.modelName
 
         guard let modelURL = Bundle(for: type(of: self)).url(
             forResource: modelName,
-            withExtension: "momd"
+            withExtension: DiscoServiceFromStorageConstants.modelExtension
         ) else { throw DataError.loadModelError }
 
         guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {

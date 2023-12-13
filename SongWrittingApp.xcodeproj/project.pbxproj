@@ -84,6 +84,7 @@
 		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
 		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
 		00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */; };
+		00D0ECD82B29525C00A2862B /* DiscoServiceFromStorageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -448,6 +449,7 @@
 		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
 		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringConstants.swift; sourceTree = "<group>"; };
+		00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromStorageConstants.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -952,6 +954,7 @@
 			children = (
 				00B97C172B288C2A00934E4A /* Entities */,
 				00B97BFE2B28872A00934E4A /* DiscoServiceFromStorage.swift */,
+				00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */,
 				00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */,
 			);
 			path = LocalStorage;
@@ -1865,6 +1868,7 @@
 			files = (
 				00B97C022B28879C00934E4A /* SongWrittingApp.xcdatamodeld in Sources */,
 				00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */,
+				00D0ECD82B29525C00A2862B /* DiscoServiceFromStorageConstants.swift in Sources */,
 				00B97B842B263BC000934E4A /* DiscoProfileDataEntity.swift in Sources */,
 				00B97B8A2B263BDE00934E4A /* RecordDataEntity.swift in Sources */,
 				00F2F2232B2382790008F6F5 /* GetReferencesEndpoint.swift in Sources */,
