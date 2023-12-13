@@ -1,3 +1,4 @@
+<img width="360" alt="image" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/be64c901-d44e-4996-a199-9679223be611">
 
 # 🎶 SongWritingStudio
 
@@ -28,7 +29,7 @@ Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar p
     Section: Seções de composição do disco.
     Record: Gravações enviadas ao aplicativo.
 
-### Requisitos Fucionais
+### Requisitos Funcionais
 
 - Criar disco 
 - Consultar todos os discos
@@ -60,15 +61,15 @@ Sendo essas possuindo também suas respectivas relações com as entidades demon
 1. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile correspondente se deu pensando em garantir uma maior velocidade de carregamento no momento da listagem
 dos discos, tanto por conta da menor quantidade de banda solicitada, em casos de requisições remotas, quanto por quantidade de dados necessários.
 
-2. Decidi utilizar Clean Architecture para organizar e arquitetar a comunicação entre as diferentes partes do sistema. Essa decisão e se deu pela facilidade da arquitetura em desacoplar e acoplar componentes de uma camada com responsabilidade específica sem interferir em outras camadas com outras responsabilidades. Essa facilidade foi definida como um requisito por mim para explorar as diferentes formas que uma tecnologia ou framework pode realizar uma mesma ação. Como por exemplo URLSession e Alamofire para requisições de APIs. Além da utilização como show case para aspectos importantes no desenvolvimento de aplicações como testes unitários.
+2. Decidi utilizar Clean Architecture para organizar e arquitetar a comunicação entre as diferentes partes do sistema. Essa decisão e se deu pela facilidade da arquitetura em desacoplar e reusar componentes de uma camada com responsabilidade específica sem interferir em outras camadas com outras responsabilidades. Essa facilidade foi definida como um requisito por mim para explorar as diferentes formas que uma tecnologia ou framework pode realizar uma mesma ação. Como por exemplo URLSession e Alamofire para requisições de APIs. Além da utilização como show case para aspectos importantes no desenvolvimento de aplicações como testes unitários.
 
-3. Dividi a aplicação em diferentes targets respeitando as camadas que estabeleci, Domain, Data, Infra, Presentation, UI, Main. Essa divisão, comum em grandes empresas, foi pensada tanto por conta do auxilio na integridade da arquitetura, por conta das dependências específicas de um módulo a outro, quanto por conta do aumento na velocidade de execução de testes, builds, etc. 
+3. Dividi a aplicação em diferentes targets respeitando as camadas que estabeleci, Domain, Data, Infra, Presentation, UI e Main. Essa divisão em targets foi pensada tanto por conta de permitir um auxilio na integridade da arquitetura por meio do compilador, quanto por conta do aumento na velocidade de execução de testes, builds, etc. 
 
-4. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api "Spotify"). Por conta da documentação clara e bom uso do padrão REST. Ela também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
+4. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api/reference/). Por conta da documentação clara e bom uso do padrão REST. Ela também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
 
 ### Use Cases
 
-Diante disso, estabeleci Use Cases necessários para a aplicação atender os requisitos. Esses foram idealizados para que se tornassem a base solida da aplicação, ou seja, os componentes que menos se alteram. Por conta disso, toda a utilização do Use Case se dá a partir de fronteiras, implementadas em código por meio de protocolos. 
+Diante disso, estabeleci Use Cases necessários para a aplicação atender os requisitos. Esses foram idealizados para que se tornassem a base sólida da aplicação, ou seja, os principalmente os componentes que menos se alteram. Por conta disso, toda a utilização do Use Case se dá a partir de fronteiras, implementadas em código por meio de protocolos. 
 
 *Use Cases*
 
@@ -94,6 +95,25 @@ A camada de apresentação dos dados foi estabelecida por mim como a camada que 
    
 2. Para lidar com a navegação e envio de dados entre uma tela e outra, utilizei o padrão Router, comumente integrado ao VIP. Dessa forma, pude garantir que a navegação fosse arquitetada pela lógica de apresentação (Presenter) sem necessitar que a camada adicionasse dependencias como UIKit.
   
-3. Atribui navegações verticais, como ModalSheet, como detalhes de implementação da camada de UI. Dessa forma, deixando a responsabilidade do Router apenas das navegações horizontais. Essa decisão se deu por conta das diferentes formas de implementar a UI, visando blindar a camada de apresentação de mudanças toda vez que novas alterações fossem realizadas na UI.
+3. Atribui navegações verticais, como ModalSheet, como detalhes de implementação da camada de UI, dessa forma, deixando a responsabilidade do Router apenas das navegações horizontais. Essa decisão se deu por conta das diferentes formas de implementar a UI, visando blindar a camada de apresentação de mudanças toda vez que novas alterações fossem realizadas na UI.
 
+# 3 - O que não deu tempo de fazer/O que eu adicionaria
+
+Por conta do tempo existiram alguns pontos que foram levantados como requisitos não funcionais por mim mas que não foram possíveis serem implementados. Alguns pontos tiveram até uma implementação inicial porém que não foram possíveis de serem completadas.
+
+1. Os testes unitários foram realizados a partir da proximidade da camada com as regras de negócio, logo, por conta do tempo, as camadas mais distantes da regra de negócio em si, como UI e Infra infelizmente não puderam ser cobertas por testes. 
+
+2. Gostaria de adicionar testes unitários a framewoks padrões do sistema como CoreData ou URLSession. Isso não foi possível de ser explorado por conta do conflito entre finalizar detalhes da UI e atualizar os testes diante do tempo disponível. Porém, vou deixar um exemplo de [Código](https://github.com/ThiagoHBA/clean_arch_cloudkit_client/blob/develop/cloudkit-clientTests/Data/DAO/Task/TaskDAOTest.swift "Código") em que realizei os testes do framework CloudKit para exemplificar de que forma eu faria os testes.
+
+2. Alguns UseCases essencias para aplicação não foram possíveis de serem implementados por conta do tempo, como: os UseCases de Deleção de discos, deleção de seções e deleção de referências. Esses UseCases são importantes para a utilização do aplicativo e completude da aplicação acomo um todo.
+  
+3.   Eu gostaria de ter explorado mais blibliotecas de terceiros comumente utilizadas em ambientes de desenvolvimento iOS, como Kingfisher para o carreamento das imagens e Alamofire para realizar requisições além do URLSession. Porém, como considerei isso um extra, foquei em implementar outras partes do sistema consideradas mais urgentes.
+  
+4. Gostaria de ter implementado também um exemplo de utilização de plataformas de métricas como Firebase Crashlytics, MixPanel, Amplitude, etc. Acredito que essa implementação demonstra bem a utilização e o potêncial da injeção de dependências no contexto do desenvolvimento.
+
+5. Gostaria de ter utilizado rotinas de CI para execução dos testes nos targets, por meio do Fastlane ou GitHub Actions.
+
+6. Não consegui localizar as Strings utilizadas no sistema pelos Targets. Isso também foi considerado como um extra por mim, portanto, foquei na implementação de outras partes do sistema.
+
+7. Gostaria de ter explorado mais aspectos de acessibilidade como VoiceOver, Dynamic Text e Reduce Motion.
 
