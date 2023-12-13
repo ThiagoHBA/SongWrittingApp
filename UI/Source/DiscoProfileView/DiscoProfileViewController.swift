@@ -137,7 +137,7 @@ public class DiscoProfileViewController: UIViewController {
     func configure(with profile: DiscoProfileViewEntity) {
         discoProfile = profile
         referenceSection.references = discoProfile!.references
-
+        referenceViewController.selectedReferences = discoProfile!.references
     }
 
     func addSectionTapped() {

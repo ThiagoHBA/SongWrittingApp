@@ -23,7 +23,7 @@ struct ReferenceListView: View {
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(itemModel.items, id: \.id) { item in
+                    ForEach(itemModel.items.reversed(), id: \.id) { item in
                         Circle()
                             .stroke(style: .init(lineWidth: 0.5))
                             .frame(width: 80, height: 80)
@@ -43,7 +43,6 @@ struct ReferenceListView: View {
                                     )
                                 }
                             }
-
                     }
                 }
             }

@@ -30,7 +30,7 @@ class AddReferencesViewController: UIViewController {
             }
         }
     }
-    private var selectedReferences: [AlbumReferenceViewEntity] = [] {
+    var selectedReferences: [AlbumReferenceViewEntity] = [] {
         didSet { updateSelectedReferenceItems(newItems: selectedReferences) }
     }
     private var itemModel = SelectedReferenceListModel()
