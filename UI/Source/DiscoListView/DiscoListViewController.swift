@@ -11,6 +11,7 @@ import Presentation
 public class DiscoListViewController: UIViewController, AlertPresentable {
     let interactor: DiscoListBusinessLogic
     private var discos: [DiscoListViewEntity] = [DiscoListViewEntity]()
+    private(set) var isLoading: Bool = false
 
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -94,11 +95,13 @@ extension DiscoListViewController: DiscoListDisplayLogic {
     }
 
     public func startLoading() {
+        isLoading = true
         loadPlaceholders()
         tableView.reloadData()
     }
 
     public func hideLoading() {
+        isLoading = false
         removePlaceholders()
         tableView.reloadData()
     }
@@ -166,6 +169,7 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         cell.selectionStyle = .none
+        cell.setTemplateWithSubviews(isLoading, viewBackgroundColor: .systemBackground)
         cell.configure(with: discos[indexPath.row])
         return cell
     }
