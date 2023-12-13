@@ -48,6 +48,8 @@ Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar p
 
 # 2 - Estruturação da aplicação
 
+> Os demais artefatos relacionados a estruturação da aplicação vão ser disponibilizados na seção final!
+
 Visando garantir uma melhor visualização da estrutura do sistema, construí um diagrama simples demonstrando as relações entre as entidades do projeto:
 
 
@@ -97,23 +99,30 @@ A camada de apresentação dos dados foi estabelecida por mim como a camada que 
   
 3. Atribui navegações verticais, como ModalSheet, como detalhes de implementação da camada de UI, dessa forma, deixando a responsabilidade do Router apenas das navegações horizontais. Essa decisão se deu por conta das diferentes formas de implementar a UI, visando blindar a camada de apresentação de mudanças toda vez que novas alterações fossem realizadas na UI.
 
-# 3 - O que não deu tempo de fazer/O que eu adicionaria
+# 3 - O que eu adicionaria
 
-Por conta do tempo existiram alguns pontos que foram levantados como requisitos não funcionais por mim mas que não foram possíveis serem implementados. Alguns pontos tiveram até uma implementação inicial porém que não foram possíveis de serem completadas.
+Por conta do tempo existiram algumas implementações que foram levantados como requisitos não funcionais por mim mas que não foram possíveis serem feitas ou que foram realizadas de forma incompleta.
 
-1. Os testes unitários foram realizados a partir da proximidade da camada com as regras de negócio, logo, por conta do tempo, as camadas mais distantes da regra de negócio em si, como UI e Infra infelizmente não puderam ser cobertas por testes. 
+1. Os testes unitários foram realizados a partir da proximidade da camada com as regras de negócio, logo, por conta do tempo, as camadas mais distantes da regra de negócio em si, como UI e Infra infelizmente não puderam ser cobertas por testes, apesarem de estarem prontas para isso. Porém, é possível encontrar os testes em sua completude para as features da aplicação na camada de apresentação e camada de dados.
 
 2. Gostaria de adicionar testes unitários a framewoks padrões do sistema como CoreData ou URLSession. Isso não foi possível de ser explorado por conta do conflito entre finalizar detalhes da UI e atualizar os testes diante do tempo disponível. Porém, vou deixar um exemplo de [Código](https://github.com/ThiagoHBA/clean_arch_cloudkit_client/blob/develop/cloudkit-clientTests/Data/DAO/Task/TaskDAOTest.swift "Código") em que realizei os testes do framework CloudKit para exemplificar de que forma eu faria os testes.
 
 2. Alguns UseCases essencias para aplicação não foram possíveis de serem implementados por conta do tempo, como: os UseCases de Deleção de discos, deleção de seções e deleção de referências. Esses UseCases são importantes para a utilização do aplicativo e completude da aplicação acomo um todo.
   
-3.   Eu gostaria de ter explorado mais blibliotecas de terceiros comumente utilizadas em ambientes de desenvolvimento iOS, como Kingfisher para o carreamento das imagens e Alamofire para realizar requisições além do URLSession. Porém, como considerei isso um extra, foquei em implementar outras partes do sistema consideradas mais urgentes.
+3. Eu gostaria de ter explorado mais blibliotecas de terceiros comumente utilizadas em ambientes de desenvolvimento iOS, como Kingfisher para o carreamento das imagens e Alamofire para realizar requisições além do URLSession. Porém, como considerei isso um extra, foquei em implementar outras partes do sistema consideradas mais urgentes.
   
 4. Gostaria de ter implementado também um exemplo de utilização de plataformas de métricas como Firebase Crashlytics, MixPanel, Amplitude, etc. Acredito que essa implementação demonstra bem a utilização e o potêncial da injeção de dependências no contexto do desenvolvimento.
 
-5. Gostaria de ter utilizado rotinas de CI para execução dos testes nos targets, por meio do Fastlane ou GitHub Actions.
+5. Gostaria de ter utilizado rotinas de CI com code coverage para execução dos testes nos targets, por meio do Fastlane ou GitHub Actions, como fiz nesse [outro projeto](https://github.com/ThiagoHBA/clean_arch_cloudkit_client/actions).
 
-6. Não consegui localizar as Strings utilizadas no sistema pelos Targets. Isso também foi considerado como um extra por mim, portanto, foquei na implementação de outras partes do sistema.
+6. Não consegui localizar as Strings utilizadas no sistema pelos Targets como implementei [nesse projeto](https://github.com/clio-app/clio-ios-app). Isso também foi considerado como um extra por mim, portanto, foquei na implementação de outras partes do sistema. 
 
-7. Gostaria de ter explorado mais aspectos de acessibilidade como VoiceOver, Dynamic Text e Reduce Motion.
+7. Gostaria de ter explorado mais aspectos de acessibilidade como VoiceOver, Dynamic Text e Reduce Motion. Como implementado [nesse projeto](https://github.com/bubble-jam-organization/bubble-jam)
+
+8. Gostaria de ter implementado paginação para as requisições da API do spotify para possibilitar com que fosse possível o carregamento de novas informações ao final do scroll da página, como implementei [nesse projeto](https://github.com/clio-app/clio-ios-app/blob/dev/clio-app/Source/Presentation/SingleDevice/SearchImage/SearchImageView.swift) com requisitos parecidos (Em um contexto de busca por informações).
+
+# 4 Considerações Finais
+
+O iFood é uma empresa que eu admiro muito tanto em aspectos relacionados a cultura quando com o compromisso com a qualidade e estrutura do código. Já acompanho a parte ténica da organização há algum tempo a partir de eventos como Cocoaheads e artigos publicados por membros da empresa e acredito que fazer parte da equipe técnica da empresa seria um dos pontos mais altos no momento atual da minha carreira. Gostaria de agradecer de antemão pela possibilidade de fazer parte do processo e espero que possamos conversar em uma reunião para discutir aspectos relacionados a profundidade ténica. Obrigado!
+
 
