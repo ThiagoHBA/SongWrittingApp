@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		001230FB2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */; };
 		001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */; };
 		001231012B28CFCB0087A0A2 /* FallbackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231002B28CFCB0087A0A2 /* FallbackError.swift */; };
 		001231192B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012310F2B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift */; };
@@ -372,7 +371,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromLocalStorageTest.swift; sourceTree = "<group>"; };
 		001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFallBack.swift; sourceTree = "<group>"; };
 		001231002B28CFCB0087A0A2 /* FallbackError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallbackError.swift; sourceTree = "<group>"; };
 		0012310F2B28F64B0087A0A2 /* DiscoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -609,14 +607,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		001230F92B289E440087A0A2 /* DiscoServiceFromLocalStorage */ = {
-			isa = PBXGroup;
-			children = (
-				001230FA2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift */,
-			);
-			path = DiscoServiceFromLocalStorage;
-			sourceTree = "<group>";
-		};
 		001230FC2B28CE810087A0A2 /* Fallback */ = {
 			isa = PBXGroup;
 			children = (
@@ -1125,7 +1115,6 @@
 		00F2F2282B2386300008F6F5 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				001230F92B289E440087A0A2 /* DiscoServiceFromLocalStorage */,
 				00B97B7E2B2637CF00934E4A /* DiscoServiceFromMemory */,
 				00F2F2072B2380000008F6F5 /* ReferencesService.swift */,
 			);
@@ -1902,7 +1891,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				001230FB2B289E5E0087A0A2 /* DiscoServiceFromLocalStorageTest.swift in Sources */,
 				00B97B7A2B26358600934E4A /* DiscoServiceFromMemoryTest.swift in Sources */,
 				00F2F22A2B2386560008F6F5 /* NetworkClientSpy.swift in Sources */,
 				00B97B7D2B2635D400934E4A /* Testing.swift in Sources */,
