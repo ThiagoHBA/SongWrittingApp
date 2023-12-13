@@ -44,6 +44,15 @@ class DiscoTableViewCell: UITableViewCell {
     }
 }
 
+extension DiscoTableViewCell: ShimmeringViewProtocol {
+    var shimmeringAnimatedItems: [UIView] {
+        return [
+            banner,
+            discoTitle
+        ]
+    }
+}
+
 extension DiscoTableViewCell: ViewCoding {
     func setupConstraints() {
         NSLayoutConstraint.activate([

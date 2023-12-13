@@ -82,6 +82,9 @@
 		00B97BF62B27FABB00934E4A /* DiscoProfileViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */; };
 		00B97BFF2B28872A00934E4A /* DiscoServiceFromStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BFE2B28872A00934E4A /* DiscoServiceFromStorage.swift */; };
 		00B97C022B28879C00934E4A /* SongWrittingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */; };
+		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
+		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
+		00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -444,6 +447,9 @@
 		00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewSpy.swift; sourceTree = "<group>"; };
 		00B97BFE2B28872A00934E4A /* DiscoServiceFromStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromStorage.swift; sourceTree = "<group>"; };
 		00B97C012B28879C00934E4A /* SongWrittingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SongWrittingApp.xcdatamodel; sourceTree = "<group>"; };
+		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
+		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringConstants.swift; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -642,6 +648,7 @@
 			children = (
 				00B97B4F2B256A6200934E4A /* UIImageExtension.swift */,
 				00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */,
+				00D0ECC62B2922D500A2862B /* UIViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -975,6 +982,15 @@
 				001231182B28F64B0087A0A2 /* DiscoProfileEntity+CoreDataProperties.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		00D0ECC32B2922B600A2862B /* Shimmer */ = {
+			isa = PBXGroup;
+			children = (
+				00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */,
+				00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */,
+			);
+			path = Shimmer;
 			sourceTree = "<group>";
 		};
 		00F2F1C12B2373980008F6F5 = {
@@ -1368,6 +1384,7 @@
 		00F2F3272B24E7EE0008F6F5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				00D0ECC32B2922B600A2862B /* Shimmer */,
 				00F2F3282B24E7F70008F6F5 /* Protocol */,
 			);
 			path = Resources;
@@ -1549,6 +1566,8 @@
 				00F2F3392B24E9E50008F6F5 /* PBXTargetDependency */,
 			);
 			name = Main;
+			packageProductDependencies = (
+			);
 			productName = Main;
 			productReference = 00F2F2572B238ECE0008F6F5 /* Main.app */;
 			productType = "com.apple.product-type.application";
@@ -1687,6 +1706,8 @@
 				Base,
 			);
 			mainGroup = 00F2F1C12B2373980008F6F5;
+			packageReferences = (
+			);
 			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1973,6 +1994,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				00B97B122B24FAB100934E4A /* DiscoTableViewCell.swift in Sources */,
+				00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */,
+				00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */,
 				00B97BD42B27874000934E4A /* CustomPlayer.swift in Sources */,
 				00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */,
 				00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */,
@@ -1991,6 +2014,7 @@
 				00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */,
 				00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */,
 				00B97BA52B26742E00934E4A /* ReferencesSectionView.swift in Sources */,
+				00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
