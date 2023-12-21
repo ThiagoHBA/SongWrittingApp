@@ -8,10 +8,10 @@
 import Foundation
 import Domain
 
-public struct DiscoDataEntity: DataEntity, Codable {
-    let id: UUID
-    let name: String
-    let coverImage: Data
+public struct DiscoDataEntity: DataEntity, Codable, Equatable {
+    public let id: UUID
+    public let name: String
+    public let coverImage: Data
 
     enum CodingKeys: String, CodingKey {
         case id

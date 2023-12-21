@@ -181,8 +181,12 @@ extension DiscoProfileViewController: ViewCoding {
         view.backgroundColor = .systemBackground
         tableView.delegate = self
         tableView.dataSource = self
-
-        banner.image = UIImage(data: disco.coverImage)!
+        
+        if let bannerImage = UIImage(data: disco.coverImage) {
+            banner.image = bannerImage
+        } else {
+            banner.image = UIImage(named: "AppIcon")!
+        }
         projectName.text = disco.name
     }
 

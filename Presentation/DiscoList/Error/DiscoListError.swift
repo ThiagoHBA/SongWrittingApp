@@ -22,7 +22,7 @@ public enum DiscoListError: Error {
         }
 
         static var errorTitle: String {
-            return "Campos Vazios"
+            return "Erro ao criar disco"
         }
     }
 

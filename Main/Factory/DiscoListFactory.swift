@@ -17,10 +17,8 @@ struct DiscoListFactory {
     static func make(
         navigationController: UINavigationController
     ) -> DiscoListViewController {
-        let discoService = DiscoServiceFallBack(
-            primary: try! DiscoServiceFromStorage(),
-            secundary: DiscoServiceFromMemory()
-        )
+        let discoStorage = InMemoryDiscoStorage(database: InMemoryDatabase.instance)
+        let discoService = DiscoServiceImpl(storage: discoStorage)
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: discoService)
         let getDiscosUseCase = GetDiscosUseCase(service: discoService)
 
