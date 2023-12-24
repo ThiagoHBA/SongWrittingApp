@@ -11,25 +11,25 @@ import CoreData
 
 public final class CoreDataDiscoStorage: DiscoDataStorage {
     private let persistentContainer: NSPersistentContainer
-
+    
     public init() throws {
         let modelName = DiscoServiceFromStorageConstants.modelName
-
+        
         guard let modelURL = Bundle(for: type(of: self)).url(
             forResource: modelName,
             withExtension: DiscoServiceFromStorageConstants.modelExtension
         ) else { throw StorageError.cantFindModel }
-
+        
         guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
             throw StorageError.cantFindModel
         }
-
+        
         let container = NSPersistentContainer(name: modelName, managedObjectModel: mom)
         container.loadPersistentStores { (_, error) in if error == nil { return } }
-
+        
         self.persistentContainer = container
     }
-
+    
     public init(persistentContainer: NSPersistentContainer) {
         self.persistentContainer = persistentContainer
     }
@@ -44,9 +44,10 @@ public final class CoreDataDiscoStorage: DiscoDataStorage {
     public func getDiscos(
         completion: @escaping (Result<[DiscoDataEntity], Error>) -> Void
     ) {
+        
         let managedObjectContext = self.persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<DiscoEntity> = DiscoEntity.fetchRequest()
-
+        
         managedObjectContext.perform {
             do {
                 let discoEntities = try fetchRequest.execute()
@@ -77,7 +78,7 @@ public final class CoreDataDiscoStorage: DiscoDataStorage {
             }
         }
     }
-
+    
     public func createProfile(
         _ profile: DiscoProfileDataEntity,
         completion: @escaping (Result<DiscoProfileDataEntity, Error>) -> Void
@@ -126,8 +127,8 @@ public final class CoreDataDiscoStorage: DiscoDataStorage {
                 
                 let updatedEntity = DiscoProfileEntity(context: managedObjectContext)
                 let discoEntity = try self.fetchDiscoEntity(with: profile.disco.id, in: managedObjectContext)
-                let updatedSections = profile.section.map {  
-                     self.createSectionEntity($0, in: managedObjectContext)
+                let updatedSections = profile.section.map {
+                    self.createSectionEntity($0, in: managedObjectContext)
                 }
                 updatedEntity.disco = discoEntity
                 updatedEntity.references = NSSet(array: [])
@@ -154,7 +155,7 @@ extension CoreDataDiscoStorage {
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         return try context.fetch(fetchRequest).first
     }
-
+    
     private func fetchDiscoProfileEntity(
         with id: UUID,
         in context: NSManagedObjectContext
@@ -163,7 +164,7 @@ extension CoreDataDiscoStorage {
         fetchRequest.predicate = NSPredicate(format: "disco.id == %@", id as CVarArg)
         return try context.fetch(fetchRequest).first
     }
-
+    
     private func createEmptyDiscoProfile(
         from discoEntity: DiscoEntity
     ) -> DiscoProfileDataEntity {
@@ -178,7 +179,7 @@ extension CoreDataDiscoStorage {
             section: []
         )
     }
-
+    
     private func createDiscoProfile(
         from discoProfileEntity: DiscoProfileEntity
     ) -> DiscoProfileDataEntity {
@@ -188,18 +189,18 @@ extension CoreDataDiscoStorage {
         ).map {
             createAlbumReference(from: $0)
         }
-
+        
         var sectionEntities = discoProfileEntity.sections?.allObjects as? [SectionEntity]
         sectionEntities?.sort(by: { $0.index < $1.index })
         let sections = (sectionEntities ?? []).map { createSection(from: $0) }
-
+        
         return DiscoProfileDataEntity(
             disco: disco,
             references: .init(from: []),
             section: sections
         )
     }
-
+    
     private func createDisco(from discoEntity: DiscoEntity) -> DiscoDataEntity {
         return DiscoDataEntity(
             id: discoEntity.id ?? UUID(),
@@ -207,48 +208,48 @@ extension CoreDataDiscoStorage {
             coverImage: discoEntity.coverImage ?? Data()
         )
     }
-
+    
     private func createSection(from sectionEntity: SectionEntity) -> SectionDataEntity {
         let records = (sectionEntity.records?.allObjects as? [RecordEntity] ?? []).map { createRecord(from: $0) }
-
+        
         return SectionDataEntity(
             identifer: sectionEntity.identifier ?? "",
             records: records
         )
     }
-
+    
     private func createRecord(from recordEntity: RecordEntity) -> RecordDataEntity {
         return RecordDataEntity(
             tag:  InstrumentTagDataEntity.custom(recordEntity.tag ?? ""),
             audio: recordEntity.audio!
         )
     }
-
+    
     private func createAlbumReference(
         from albumEntity: AlbumReferenceEntity
     ) -> AlbumReferenceDataEntity {
         
         return AlbumReferenceDataEntity(from: .init())
     }
-
+    
     private func createAlbumReferenceEntity(
         from albumReference: AlbumReferenceDataEntity,
         in context: NSManagedObjectContext
     ) -> AlbumReferenceEntity {
-//        let albumReferenceEntity = AlbumReferenceEntity(context: context)
-//        albumReferenceEntity.name = albumReference.name
-//        albumReferenceEntity.artist = albumReference.artist
-//        albumReferenceEntity.releaseDate = albumReference.releaseDate
-//        albumReferenceEntity.coverImage = albumReference.coverImage
-
+        //        let albumReferenceEntity = AlbumReferenceEntity(context: context)
+        //        albumReferenceEntity.name = albumReference.name
+        //        albumReferenceEntity.artist = albumReference.artist
+        //        albumReferenceEntity.releaseDate = albumReference.releaseDate
+        //        albumReferenceEntity.coverImage = albumReference.coverImage
+        
         return .init()
     }
-
+    
     private func findSectionEntity(with identifier: String, context: NSManagedObjectContext) -> SectionEntity? {
         let fetchRequest: NSFetchRequest<SectionEntity> = SectionEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         fetchRequest.fetchLimit = 1
-
+        
         do {
             let sections = try context.fetch(fetchRequest)
             return sections.first
@@ -290,7 +291,7 @@ extension CoreDataDiscoStorage {
         let record = RecordEntity(context: context)
         record.tag = convertTagToString()
         record.audio = data.audio
-
+        
         return record
     }
 }

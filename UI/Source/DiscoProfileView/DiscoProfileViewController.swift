@@ -14,12 +14,8 @@ public class DiscoProfileViewController: UIViewController {
         didSet {
             if let profile = discoProfile,
             !profile.section.isEmpty {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    emptyStateLabel.removeFromSuperview()
-                    tableView.reloadData()
-                }
-
+                emptyStateLabel.removeFromSuperview()
+                tableView.reloadData()
             }
         }
     }
@@ -316,17 +312,12 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     public func updateSections(_ sections: [SectionViewEntity]) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            discoProfile?.section = sections
-            tableView.reloadData()
-        }
+        discoProfile?.section = sections
+        tableView.reloadData()
     }
 
     public func hideOverlays(completion: (() -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.dismiss(animated: true, completion: completion)
-        }
+        dismiss(animated: true, completion: completion)
     }
 
     public func addingReferencesError(_ title: String, description: String) {
@@ -348,7 +339,7 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
-        self.referenceViewController.updateReferenceItems(references)
+        referenceViewController.updateReferenceItems(references)
     }
 }
 

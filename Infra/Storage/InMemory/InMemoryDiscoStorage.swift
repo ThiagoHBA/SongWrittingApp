@@ -43,7 +43,9 @@ public final class InMemoryDiscoStorage: DiscoDataStorage {
     public func getDiscos(
         completion: @escaping (Result<[DiscoDataEntity], Error>) -> Void
     ) {
-        completion(.success(database.discos))
+        DispatchQueue.global(qos: .userInitiated).async {
+            completion(.success(self.database.discos))
+        }
     }
     
     public func getProfiles(

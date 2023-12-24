@@ -13,6 +13,7 @@
 		004336862B33FABC007C9260 /* DiscoDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004336822B33FABC007C9260 /* DiscoDataEntity.swift */; };
 		004336872B33FABC007C9260 /* SectionDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004336832B33FABC007C9260 /* SectionDataEntity.swift */; };
 		004336882B33FABC007C9260 /* DiscoProfileDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004336842B33FABC007C9260 /* DiscoProfileDataEntity.swift */; };
+		007F05C42B37D33A00833683 /* MainQueueProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007F05C32B37D33A00833683 /* MainQueueProxy.swift */; };
 		00B97B122B24FAB100934E4A /* DiscoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */; };
 		00B97B4B2B254F3700934E4A /* CreateDiscoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */; };
 		00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4C2B255DD100934E4A /* AlertPresentable.swift */; };
@@ -382,6 +383,7 @@
 		004336822B33FABC007C9260 /* DiscoDataEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoDataEntity.swift; path = Data/Service/InMemory/Entities/DiscoDataEntity.swift; sourceTree = SOURCE_ROOT; };
 		004336832B33FABC007C9260 /* SectionDataEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionDataEntity.swift; path = Data/Service/InMemory/Entities/SectionDataEntity.swift; sourceTree = SOURCE_ROOT; };
 		004336842B33FABC007C9260 /* DiscoProfileDataEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoProfileDataEntity.swift; path = Data/Service/InMemory/Entities/DiscoProfileDataEntity.swift; sourceTree = SOURCE_ROOT; };
+		007F05C32B37D33A00833683 /* MainQueueProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueProxy.swift; sourceTree = "<group>"; };
 		00B97B112B24FAB100934E4A /* DiscoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoTableViewCell.swift; sourceTree = "<group>"; };
 		00B97B4A2B254F3700934E4A /* CreateDiscoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDiscoViewController.swift; sourceTree = "<group>"; };
 		00B97B4C2B255DD100934E4A /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
@@ -793,6 +795,7 @@
 			isa = PBXGroup;
 			children = (
 				00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */,
+				007F05C32B37D33A00833683 /* MainQueueProxy.swift */,
 			);
 			path = Proxy;
 			sourceTree = "<group>";
@@ -1953,6 +1956,7 @@
 				00B97BA02B2660BD00934E4A /* WeakReferenceProxy.swift in Sources */,
 				00B97B762B26252200934E4A /* DiscoProfileFactory.swift in Sources */,
 				001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */,
+				007F05C42B37D33A00833683 /* MainQueueProxy.swift in Sources */,
 				00F2F25C2B238ECF0008F6F5 /* SceneDelegate.swift in Sources */,
 				00F2F3312B24E9B60008F6F5 /* DiscoListFactory.swift in Sources */,
 				00F2F29F2B2409D30008F6F5 /* AuthorizationDecorator.swift in Sources */,

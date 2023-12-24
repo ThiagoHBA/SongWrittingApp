@@ -122,3 +122,71 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
         self.instance?.showReferences(references)
     }
 }
+
+extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func startLoading() {
+        DispatchQueue.main.async { [weak self] in
+            self?.startLoading()
+        }
+    }
+    
+    func hideLoading() {
+        DispatchQueue.main.async { [weak self] in
+            self?.hideLoading()
+        }
+    }
+    
+    func hideOverlays(completion: (() -> Void)?) {
+        DispatchQueue.main.async { [weak self] in
+            self?.hideOverlays(completion: completion)
+        }
+    }
+    
+    func showReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.showReferences(references)
+        }
+    }
+
+    func showProfile(_ profile: Presentation.DiscoProfileViewEntity) {
+        DispatchQueue.main.async { [weak self] in
+            self?.showProfile(profile)
+        }
+    }
+    
+    func updateReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateReferences(references)
+        }
+    }
+    
+    func updateSections(_ sections: [Presentation.SectionViewEntity]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.updateSections(sections)
+        }
+    }
+    
+    func addingReferencesError(_ title: String, description: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.addingReferencesError(title, description: description)
+        }
+    }
+    
+    func addingSectionError(_ title: String, description: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.addingSectionError(title, description: description)
+        }
+    }
+    
+    func loadingProfileError(_ title: String, description: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.loadingProfileError(title, description: description)
+        }
+    }
+    
+    func addingRecordsError(_ title: String, description: String) {
+        DispatchQueue.main.async { [weak self] in
+            self?.addingRecordsError(title, description: description)
+        }
+    }
+}
