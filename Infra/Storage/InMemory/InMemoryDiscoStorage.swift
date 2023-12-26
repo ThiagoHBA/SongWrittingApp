@@ -43,9 +43,40 @@ public final class InMemoryDiscoStorage: DiscoDataStorage {
     public func getDiscos(
         completion: @escaping (Result<[DiscoDataEntity], Error>) -> Void
     ) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            completion(.success(self.database.discos))
+        let concurrentQueue = DispatchQueue(
+            label: "com.thiago.concurrentQueue"
+        )
+        executeTask01()
+        executeTask02()
+        
+        completion(.success(self.database.discos))
+        
+        func executeTask01() {
+            concurrentQueue.async {
+                var counter = 0
+                print("Task 1 started")
+                for _ in 0..<100000000 {
+                    counter += 1
+                }
+            }
+            concurrentQueue.sync {
+                print("Task 1 finished")
+            }
+            print("TASK 01 ASYNC")
         }
+        
+        func executeTask02() {
+            concurrentQueue.async {
+                var counter = 0
+                print("Task 2 started")
+                for _ in 0..<1000000 {
+                    counter += 1
+                }
+                print("Task 2 finished")
+            }
+        }
+        
+        
     }
     
     public func getProfiles(
