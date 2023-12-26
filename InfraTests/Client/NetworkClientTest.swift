@@ -26,6 +26,23 @@ final class NetworkClientTest: XCTestCase {
         doubles.session.dataTaskCompletion?(Data(), HTTPURLResponse(), nil)
         wait(for: [expectation], timeout: 1)
     }
+    
+    func test_makeRequest_should_call_cancel_if_request_running() {
+        let (sut, doubles) = makeSUT()
+        let inputEndpoint = EndpointDummy()
+        sut.makeRequest(inputEndpoint) { _ in }
+        doubles.session.dataTaskCompletion?(Data(), HTTPURLResponse(), nil)
+        sut.makeRequest(inputEndpoint) { _ in }
+        XCTAssertEqual(doubles.dataTask.cancelCalled, 1)
+    }
+    
+    func test_makeRequest_should_call_resume() {
+        let (sut, doubles) = makeSUT()
+        let inputEndpoint = EndpointDummy()
+        sut.makeRequest(inputEndpoint) { _ in }
+        doubles.session.dataTaskCompletion?(Data(), HTTPURLResponse(), nil)
+        XCTAssertEqual(doubles.dataTask.resumeCalled, 1)
+    }
 }
 
 extension NetworkClientTest {
@@ -33,14 +50,14 @@ extension NetworkClientTest {
         sut: NetworkClientImpl,
         (
             session: URLSessionMock,
-            dataTask: URLSessionDataTaskDummy
+            dataTask: URLSessionDataTaskSpy
         )
     )
     func makeSUT() -> SutAndDoubles {
         let sessionMock = URLSessionMock()
-        let dataTaskMock = URLSessionDataTaskDummy()
-        sessionMock.dataTask = dataTaskMock
+        let dataTaskSpy = URLSessionDataTaskSpy()
+        sessionMock.dataTask = dataTaskSpy
         let sut = NetworkClientImpl(session: sessionMock)
-        return (sut, (sessionMock, dataTaskMock))
+        return (sut, (sessionMock, dataTaskSpy))
     }
 }

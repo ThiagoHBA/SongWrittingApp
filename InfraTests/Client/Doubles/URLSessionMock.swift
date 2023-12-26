@@ -9,7 +9,7 @@ import Foundation
 @testable import Infra
 
 final class URLSessionMock: URLSessionProtocol {
-    var dataTask: URLSessionDataTaskDummy?
+    var dataTask: URLSessionDataTaskSpy?
     
     // MARK: - CompletionHandler
     var dataTaskCompletion: ((Data?, URLResponse?, Error?) -> Void)?

@@ -74,7 +74,7 @@
 		00BBF9E72B3AA86200421ECA /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */; };
 		00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */; };
 		00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */; };
-		00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */; };
+		00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */; };
 		00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */; };
 		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
 		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
@@ -448,7 +448,7 @@
 		00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientTest.swift; sourceTree = "<group>"; };
 		00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
-		00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskDummy.swift; sourceTree = "<group>"; };
+		00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskSpy.swift; sourceTree = "<group>"; };
 		00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointDummy.swift; sourceTree = "<group>"; };
 		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
 		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -1016,7 +1016,7 @@
 			isa = PBXGroup;
 			children = (
 				00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */,
-				00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */,
+				00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */,
 				00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */,
 			);
 			path = Doubles;
@@ -1991,7 +1991,7 @@
 				00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */,
 				00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */,
 				00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */,
-				00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskDummy.swift in Sources */,
+				00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
