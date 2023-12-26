@@ -9,10 +9,10 @@ import Foundation
 import Data
 
 public final class NetworkClientImpl: NetworkClient {
-    let session: URLSession
+    let session: URLSessionProtocol
     var task: URLSessionTask?
 
-    public init(session: URLSession = .shared) {
+    public init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
 

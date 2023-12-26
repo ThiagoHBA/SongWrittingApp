@@ -71,6 +71,11 @@
 		00B97BF22B27F9A400934E4A /* DiscoProfilePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */; };
 		00B97BF62B27FABB00934E4A /* DiscoProfileViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */; };
 		00B97C022B28879C00934E4A /* SongWrittingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */; };
+		00BBF9E72B3AA86200421ECA /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */; };
+		00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */; };
+		00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */; };
+		00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */; };
+		00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */; };
 		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
 		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
 		00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */; };
@@ -106,7 +111,6 @@
 		00F2F22A2B2386560008F6F5 /* NetworkClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2292B2386560008F6F5 /* NetworkClientSpy.swift */; };
 		00F2F22C2B238B9A0008F6F5 /* SecureClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F22B2B238B9A0008F6F5 /* SecureClientSpy.swift */; };
 		00F2F23A2B238D620008F6F5 /* Infra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2322B238D620008F6F5 /* Infra.framework */; };
-		00F2F23F2B238D620008F6F5 /* InfraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F23E2B238D620008F6F5 /* InfraTests.swift */; };
 		00F2F2492B238D820008F6F5 /* NetworkClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */; };
 		00F2F24A2B238D940008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
 		00F2F24B2B238D940008F6F5 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -441,6 +445,11 @@
 		00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresenterTests.swift; sourceTree = "<group>"; };
 		00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewSpy.swift; sourceTree = "<group>"; };
 		00B97C012B28879C00934E4A /* SongWrittingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SongWrittingApp.xcdatamodel; sourceTree = "<group>"; };
+		00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientTest.swift; sourceTree = "<group>"; };
+		00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
+		00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskDummy.swift; sourceTree = "<group>"; };
+		00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointDummy.swift; sourceTree = "<group>"; };
 		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
 		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringConstants.swift; sourceTree = "<group>"; };
@@ -476,7 +485,6 @@
 		00F2F22B2B238B9A0008F6F5 /* SecureClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureClientSpy.swift; sourceTree = "<group>"; };
 		00F2F2322B238D620008F6F5 /* Infra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Infra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2392B238D620008F6F5 /* InfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00F2F23E2B238D620008F6F5 /* InfraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfraTests.swift; sourceTree = "<group>"; };
 		00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientImpl.swift; sourceTree = "<group>"; };
 		00F2F2572B238ECE0008F6F5 /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2592B238ECF0008F6F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -978,6 +986,42 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		00BBF9E42B3AA84E00421ECA /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				00BBF9E52B3AA85700421ECA /* Protocol */,
+				00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		00BBF9E52B3AA85700421ECA /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		00BBF9EA2B3AAA0B00421ECA /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				00BBF9ED2B3AAA7000421ECA /* Doubles */,
+				00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		00BBF9ED2B3AAA7000421ECA /* Doubles */ = {
+			isa = PBXGroup;
+			children = (
+				00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */,
+				00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskDummy.swift */,
+				00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */,
+			);
+			path = Doubles;
+			sourceTree = "<group>";
+		};
 		00D0ECC32B2922B600A2862B /* Shimmer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1167,7 +1211,7 @@
 		00F2F23D2B238D620008F6F5 /* InfraTests */ = {
 			isa = PBXGroup;
 			children = (
-				00F2F23E2B238D620008F6F5 /* InfraTests.swift */,
+				00BBF9EA2B3AAA0B00421ECA /* Client */,
 			);
 			path = InfraTests;
 			sourceTree = "<group>";
@@ -1175,7 +1219,7 @@
 		00F2F2472B238D780008F6F5 /* Client */ = {
 			isa = PBXGroup;
 			children = (
-				00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */,
+				00BBF9E42B3AA84E00421ECA /* Network */,
 				00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */,
 			);
 			path = Client;
@@ -1930,6 +1974,7 @@
 				00D0ECF52B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift in Sources */,
 				00D0ECF92B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift in Sources */,
 				00D0ECF72B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */,
+				00BBF9E72B3AA86200421ECA /* URLSessionProtocol.swift in Sources */,
 				00D0ECFA2B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift in Sources */,
 				00D0ECF42B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift in Sources */,
 				00F2F2992B23A6720008F6F5 /* SecurePersistenceError.swift in Sources */,
@@ -1943,7 +1988,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00F2F23F2B238D620008F6F5 /* InfraTests.swift in Sources */,
+				00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */,
+				00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */,
+				00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */,
+				00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskDummy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
