@@ -170,6 +170,10 @@ public class DiscoProfileViewController: UIViewController {
             )
         }
     }
+    
+    deinit {
+        print("Dealocaing Profile...")
+    }
 }
 
 extension DiscoProfileViewController: ViewCoding {

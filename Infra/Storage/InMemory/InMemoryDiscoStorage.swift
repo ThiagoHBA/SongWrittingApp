@@ -43,39 +43,127 @@ public final class InMemoryDiscoStorage: DiscoDataStorage {
     public func getDiscos(
         completion: @escaping (Result<[DiscoDataEntity], Error>) -> Void
     ) {
-        let concurrentQueue = DispatchQueue(
-            label: "com.thiago.concurrentQueue"
-        )
-        executeTask01()
-        executeTask02()
+//        let concQueue = DispatchQueue(label: "com.thiago.concQueue", attributes: .concurrent)
+//        
+//        concQueue.async {
+//            var counter = 0
+//            for _ in 0..<100000000 {
+//                counter += 1
+//            }
+//            concQueue.sync {
+//                print("Sync!!!")
+//            }
+            completion(.success(self.database.discos))
+//        }
+//        let semaphore = DispatchSemaphore(value: 0)
+//        
+//        executeTask01()
+//        executeTask02()
+//        
+//        func executeTask01() {
+//            print("Entrando Bloco01")
+//            concQueue.async {
+//                print("Waiting...")
+//                semaphore.wait()
+//                var counter = 0
+//                for _ in 0..<100000000 {
+//                    counter += 1
+//                }
+//                print("Saindo Bloco01")
+//            }
+//        }
+//        
+//        func executeTask02() {
+//            concQueue.async {
+//                print("Entrando Bloco02")
+//                var counter = 0
+//                for _ in 0..<1000000 {
+//                    counter += 1
+//                }
+//                print("Saindo Bloco02")
+//                semaphore.signal()
+//            }
+//        }
+//        
         
-        completion(.success(self.database.discos))
+//        let serialQueue = DispatchQueue(
+//            label: "com.thiago.serialQueue"
+//        )
+//        
+//        serialQueue.async(qos: .utility) {
+//            print("Executando bloco 01")
+//            var counter = 0
+//            for _ in 0..<100000000 {
+//                counter += 1
+//            }
+//
+//            completion(.success(self.database.discos))
+//        }
+//        
+//        serialQueue.async(qos: .utility) {
+//            serialQueue.asyncAfter(deadline: .now() + 2) {
+//                print("Executando bloco 02")
+//                var counter = 0
+//                for _ in 0..<100000000 {
+//                    counter += 1
+//                }
+//                
+//                completion(.success(self.database.discos))
+//            }
+//        }
         
-        func executeTask01() {
-            concurrentQueue.async {
-                var counter = 0
-                print("Task 1 started")
-                for _ in 0..<100000000 {
-                    counter += 1
-                }
-            }
-            concurrentQueue.sync {
-                print("Task 1 finished")
-            }
-            print("TASK 01 ASYNC")
-        }
-        
-        func executeTask02() {
-            concurrentQueue.async {
-                var counter = 0
-                print("Task 2 started")
-                for _ in 0..<1000000 {
-                    counter += 1
-                }
-                print("Task 2 finished")
-            }
-        }
-        
+//        DispatchQueue.global(qos: .utility).async {
+//            print("Executando bloco 01")
+//            var counter = 0
+//            for _ in 0..<100000000 {
+//                counter += 1
+//            }
+//
+//            completion(.success(self.database.discos))
+//        }
+//        
+//        DispatchQueue.global(qos: .utility).async {
+//            print("Executando bloco 02")
+//            var counter = 0
+//            for _ in 0..<100000000 {
+//                counter += 1
+//            }
+//            
+//            completion(.success(self.database.discos))
+//        }
+//        let concurrentQueue = DispatchQueue(
+//            label: "com.thiago.concurrentQueue"
+//        )
+//        executeTask01()
+//        executeTask02()
+//        
+//        completion(.success(self.database.discos))
+//        
+//        func executeTask01() {
+//            concurrentQueue.async {
+//                var counter = 0
+//                print("Task 1 started")
+//                for _ in 0..<100000000 {
+//                    counter += 1
+//                }
+//            }
+//            concurrentQueue.sync {
+//                print("Task 1 finished")
+//            }
+//            print("TASK 01 ASYNC")
+//        }
+//        
+//        func executeTask02() {
+//            concurrentQueue.async {
+//                var counter = 0
+//                print("Task 2 started")
+//                for _ in 0..<1000000 {
+//                    counter += 1
+//                }
+//                print("Task 2 finished")
+//            }
+//        }
+//        
         
     }
     
