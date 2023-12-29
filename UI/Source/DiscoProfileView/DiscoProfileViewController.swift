@@ -39,7 +39,11 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var referenceSection: ReferencesSectionView = {
         let section = ReferencesSectionView()
-        section.addReferenceTapped = addReferenceTapped
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> ReferencesSectionView -> Captura self do Profile
+        section.addReferenceTapped = { [weak self] in
+            self?.addReferenceTapped()
+        }
         section.translatesAutoresizingMaskIntoConstraints = false
         return section
     }()
@@ -54,7 +58,11 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var addButton: AddButtonComponent = {
         let button = AddButtonComponent()
-        button.didTapped = addSectionTapped
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> AddButtonComponent -> Captura self do Profile
+        button.didTapped = { [weak self] in
+            self?.addSectionTapped()
+        }
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -85,6 +93,8 @@ public class DiscoProfileViewController: UIViewController {
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> AddReferencesViewController -> Profile (Por causa do self dentro da clousure)
         sheet.saveReferences = { [weak self] referencesToAdd in
             guard let self = self else { return }
             interactor.addNewReferences(
@@ -169,10 +179,6 @@ public class DiscoProfileViewController: UIViewController {
                 dismissed: nil
             )
         }
-    }
-    
-    deinit {
-        print("Dealocaing Profile...")
     }
 }
 
