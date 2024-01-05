@@ -85,44 +85,44 @@ extension WeakReferenceProxy: DiscoListDisplayLogic where T: DiscoListDisplayLog
 
 extension MainQueueProxy: DiscoListDisplayLogic where T: DiscoListDisplayLogic {
     func startLoading() {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.startLoading()
+        DispatchQueue.main.async {
+            self.instance.startLoading()
         }
     }
     
     func hideLoading() {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.hideLoading()
+        DispatchQueue.main.async {
+            self.instance.hideLoading()
         }
     }
     
     func hideOverlays(completion: (() -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.hideOverlays(completion: completion)
+        DispatchQueue.main.async {
+            self.instance.hideOverlays(completion: completion)
         }
     }
     
     func showDiscos(_ discos: [Presentation.DiscoListViewEntity]) {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.showDiscos(discos)
+        DispatchQueue.main.async {
+            self.instance.showDiscos(discos)
         }
     }
     
     func showNewDisco(_ disco: Presentation.DiscoListViewEntity) {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.showNewDisco(disco)
+        DispatchQueue.main.async {
+            self.instance.showNewDisco(disco)
         }
     }
     
     func createDiscoError(_ title: String, _ description: String) {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.createDiscoError(title, description)
+        DispatchQueue.main.async {
+            self.instance.createDiscoError(title, description)
         }
     }
     
     func loadDiscoError(_ title: String, _ description: String) {
-        DispatchQueue.main.async { [weak self] in
-            self?.instance.loadDiscoError(title, description)
+        DispatchQueue.main.async {
+            self.instance.loadDiscoError(title, description)
         }
     }
 

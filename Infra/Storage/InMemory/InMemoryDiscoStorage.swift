@@ -8,6 +8,7 @@
 import Foundation
 import Data
 
+// Class pela necessidade de ser estático e disponível em qualquer parte da aplicação
 public class InMemoryDatabase {
     public static let instance = InMemoryDatabase()
 

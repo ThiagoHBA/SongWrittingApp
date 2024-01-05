@@ -95,6 +95,7 @@ public class DiscoProfileViewController: UIViewController {
         sheet.searchReference = interactor.searchNewReferences
         // Sem Weak self gera Retain Cicle:
         // Profile -> AddReferencesViewController -> Profile (Por causa do self dentro da clousure)
+        // Pode ser unkowed!
         sheet.saveReferences = { [weak self] referencesToAdd in
             guard let self = self else { return }
             interactor.addNewReferences(
@@ -108,6 +109,7 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var addNewSectionViewController: AddSectionViewController = {
         let sheet = AddSectionViewController()
+        // Pode ser unkowed!
         sheet.addSectionTapped = { [weak self] identifier in
             guard let self = self else { return }
             interactor.addNewSection(
