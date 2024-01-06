@@ -30,11 +30,6 @@ struct DiscoProfileFactory {
         let discoStorage = InMemoryDiscoStorage(database: InMemoryDatabase.instance)
         let discoService = DiscoServiceImpl(storage: discoStorage)
         
-//        let discoService = DiscoServiceFallBack(
-//            primary: try! DiscoServiceFromStorage(),
-//            secundary: DiscoServiceFromMemory()
-//        )
-
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
