@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct DiscoProfileDataEntity: DataEntity, Codable {
+public struct DiscoProfileDataEntity: DataEntity, Codable, Equatable {
     public let disco: DiscoDataEntity
     public var references: AlbumReferenceDataEntity
     public var section: [SectionDataEntity]

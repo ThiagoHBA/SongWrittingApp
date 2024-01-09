@@ -9,7 +9,7 @@ import Foundation
 import Domain
 
 // MARK: - Models from spotify API
-public struct AlbumReferenceDataEntity: DataEntity, Codable {
+public struct AlbumReferenceDataEntity: DataEntity, Codable, Equatable {
     var albums: Albums
 
     public func toDomain() -> [AlbumReference] {
@@ -41,11 +41,11 @@ public struct AlbumReferenceDataEntity: DataEntity, Codable {
     }
 }
 
-public struct Albums: Codable {
+public struct Albums: Codable, Equatable {
     var items: [Item]
 }
 
-public struct Item: Codable {
+public struct Item: Codable, Equatable {
     let artists: [Artist]
     let images: [Image]
     let name, releaseDate: String
@@ -57,11 +57,11 @@ public struct Item: Codable {
     }
 }
 
-public struct Artist: Codable {
+public struct Artist: Codable, Equatable {
     let name: String
 }
 
-public struct Image: Codable {
+public struct Image: Codable, Equatable {
     let height: Int
     let url: String
     let width: Int
