@@ -33,12 +33,19 @@ final class DiscoStorageSpy {
             }
         }
     }
+    
+    //MARK: - Completions
+    private(set) var getDiscosCompletion: ((Result<[DiscoDataEntity], Error>) -> Void)?
+    private(set) var getProfilesCompletion: ((Result<[DiscoProfileDataEntity], Error>) -> Void)?
+    private(set) var createDiscoCompletion: ((Result<DiscoDataEntity, Error>) -> Void)?
+    private(set) var createProfileCompletion: ((Result<DiscoProfileDataEntity, Error>) -> Void)?
 }
 
 extension DiscoStorageSpy: DiscoDataStorage {
     func getDiscos(
         completion: @escaping (Result<[DiscoDataEntity], Error>) -> Void
     ) {
+        getDiscosCompletion = completion
         receivedMessages.append(.getDiscos)
     }
     
@@ -46,12 +53,14 @@ extension DiscoStorageSpy: DiscoDataStorage {
         _ disco: DiscoDataEntity,
         completion: @escaping (Result<DiscoDataEntity, Error>) -> Void
     ) {
+        createDiscoCompletion = completion
         receivedMessages.append(.createDisco(disco))
     }
     
     func getProfiles(
         completion: @escaping (Result<[DiscoProfileDataEntity], Error>) -> Void
     ) {
+        getProfilesCompletion = completion
         receivedMessages.append(.getProfiles)
     }
     
@@ -59,6 +68,7 @@ extension DiscoStorageSpy: DiscoDataStorage {
         _ profile: DiscoProfileDataEntity,
         completion: @escaping (Result<DiscoProfileDataEntity, Error>) -> Void
     ) {
+        createProfileCompletion = completion
         receivedMessages.append(.createProfile(profile))
     }
     

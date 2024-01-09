@@ -71,11 +71,7 @@ public final class DiscoServiceImpl: DiscoService {
                         $0.disco.toDomain() == disco
                     }
                 ) else {
-                    let profile = DiscoProfileDataEntity(
-                        disco: DiscoDataEntity(from: disco),
-                        references: AlbumReferenceDataEntity(albums: .init(items: [])),
-                        section: []
-                    )
+                    let profile = DiscoProfileDataEntity.createEmptyProfile(for: disco)
                     self.storage.createProfile(profile) { result in
                         switch result {
                         case .success(let profile):

@@ -18,6 +18,14 @@ public struct DiscoProfileDataEntity: DataEntity, Codable, Equatable {
         self.references = references
         self.section = section
     }
+    
+    public static func createEmptyProfile(for disco: Disco) -> DiscoProfileDataEntity {
+        return DiscoProfileDataEntity(
+            disco: DiscoDataEntity(from: disco),
+            references: AlbumReferenceDataEntity(albums: .init(items: [])),
+            section: []
+        )
+    }
 
     public func toDomain() -> DiscoProfile {
         return DiscoProfile(

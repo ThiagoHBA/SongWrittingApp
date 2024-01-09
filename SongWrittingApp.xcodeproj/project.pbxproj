@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0004AFFD2B4D802B007EE4FE /* DiscoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0004AFFC2B4D802B007EE4FE /* DiscoService.swift */; };
+		0004AFFD2B4D802B007EE4FE /* DiscoServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0004AFFC2B4D802B007EE4FE /* DiscoServiceTests.swift */; };
 		0004B0012B4D809B007EE4FE /* DiscoStorageSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0004B0002B4D809B007EE4FE /* DiscoStorageSpy.swift */; };
 		001230FE2B28CE910087A0A2 /* DiscoServiceFallBack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */; };
 		001231012B28CFCB0087A0A2 /* FallbackError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001231002B28CFCB0087A0A2 /* FallbackError.swift */; };
@@ -381,7 +381,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0004AFFC2B4D802B007EE4FE /* DiscoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoService.swift; sourceTree = "<group>"; };
+		0004AFFC2B4D802B007EE4FE /* DiscoServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceTests.swift; sourceTree = "<group>"; };
 		0004B0002B4D809B007EE4FE /* DiscoStorageSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoStorageSpy.swift; sourceTree = "<group>"; };
 		001230FD2B28CE910087A0A2 /* DiscoServiceFallBack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFallBack.swift; sourceTree = "<group>"; };
 		001231002B28CFCB0087A0A2 /* FallbackError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FallbackError.swift; sourceTree = "<group>"; };
@@ -1201,7 +1201,7 @@
 			isa = PBXGroup;
 			children = (
 				0004AFFF2B4D8090007EE4FE /* Doubles */,
-				0004AFFC2B4D802B007EE4FE /* DiscoService.swift */,
+				0004AFFC2B4D802B007EE4FE /* DiscoServiceTests.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1958,7 +1958,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0004AFFD2B4D802B007EE4FE /* DiscoService.swift in Sources */,
+				0004AFFD2B4D802B007EE4FE /* DiscoServiceTests.swift in Sources */,
 				00F2F22A2B2386560008F6F5 /* NetworkClientSpy.swift in Sources */,
 				00B97B7D2B2635D400934E4A /* Testing.swift in Sources */,
 				0004B0012B4D809B007EE4FE /* DiscoStorageSpy.swift in Sources */,
