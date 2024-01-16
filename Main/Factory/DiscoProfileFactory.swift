@@ -55,7 +55,7 @@ struct DiscoProfileFactory {
 
         // MARK: - Propety Composition
         interactor.presenter = presenter
-        presenter.view = WeakReferenceProxy(viewController)
+        presenter.view = MainQueueProxy(WeakReferenceProxy(viewController))
 
         return viewController
     }
