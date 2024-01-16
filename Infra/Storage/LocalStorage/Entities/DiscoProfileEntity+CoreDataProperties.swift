@@ -1,13 +1,14 @@
 //
 //  DiscoProfileEntity+CoreDataProperties.swift
-//  Domain
+//  Infra
 //
-//  Created by Thiago Henrique on 12/12/23.
+//  Created by Thiago Henrique on 16/12/23.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension DiscoProfileEntity {
 
@@ -55,6 +56,6 @@ extension DiscoProfileEntity {
 
 }
 
-extension DiscoProfileEntity: Identifiable {
+extension DiscoProfileEntity : Identifiable {
 
 }

@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct RecordDataEntity: DataEntity, Codable {
+public struct RecordDataEntity: DataEntity, Codable, Equatable {
     public let tag: InstrumentTagDataEntity
     public let audio: URL
 

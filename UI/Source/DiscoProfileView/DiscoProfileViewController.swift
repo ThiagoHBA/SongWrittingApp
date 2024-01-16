@@ -14,12 +14,8 @@ public class DiscoProfileViewController: UIViewController {
         didSet {
             if let profile = discoProfile,
             !profile.section.isEmpty {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    emptyStateLabel.removeFromSuperview()
-                    tableView.reloadData()
-                }
-
+                emptyStateLabel.removeFromSuperview()
+                tableView.reloadData()
             }
         }
     }
@@ -43,7 +39,11 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var referenceSection: ReferencesSectionView = {
         let section = ReferencesSectionView()
-        section.addReferenceTapped = addReferenceTapped
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> ReferencesSectionView -> Captura self do Profile
+        section.addReferenceTapped = { [weak self] in
+            self?.addReferenceTapped()
+        }
         section.translatesAutoresizingMaskIntoConstraints = false
         return section
     }()
@@ -58,7 +58,11 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var addButton: AddButtonComponent = {
         let button = AddButtonComponent()
-        button.didTapped = addSectionTapped
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> AddButtonComponent -> Captura self do Profile
+        button.didTapped = { [weak self] in
+            self?.addSectionTapped()
+        }
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -89,6 +93,9 @@ public class DiscoProfileViewController: UIViewController {
     lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
         sheet.searchReference = interactor.searchNewReferences
+        // Sem Weak self gera Retain Cicle:
+        // Profile -> AddReferencesViewController -> Profile (Por causa do self dentro da clousure)
+        // Pode ser unkowed!
         sheet.saveReferences = { [weak self] referencesToAdd in
             guard let self = self else { return }
             interactor.addNewReferences(
@@ -102,6 +109,7 @@ public class DiscoProfileViewController: UIViewController {
 
     lazy var addNewSectionViewController: AddSectionViewController = {
         let sheet = AddSectionViewController()
+        // Pode ser unkowed!
         sheet.addSectionTapped = { [weak self] identifier in
             guard let self = self else { return }
             interactor.addNewSection(
@@ -181,8 +189,12 @@ extension DiscoProfileViewController: ViewCoding {
         view.backgroundColor = .systemBackground
         tableView.delegate = self
         tableView.dataSource = self
-
-        banner.image = UIImage(data: disco.coverImage)!
+        
+        if let bannerImage = UIImage(data: disco.coverImage) {
+            banner.image = bannerImage
+        } else {
+            banner.image = UIImage(named: "AppIcon")!
+        }
         projectName.text = disco.name
     }
 
@@ -312,17 +324,12 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     public func updateSections(_ sections: [SectionViewEntity]) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            discoProfile?.section = sections
-            tableView.reloadData()
-        }
+        discoProfile?.section = sections
+        tableView.reloadData()
     }
 
     public func hideOverlays(completion: (() -> Void)?) {
-        DispatchQueue.main.async { [weak self] in
-            self?.dismiss(animated: true, completion: completion)
-        }
+        dismiss(animated: true, completion: completion)
     }
 
     public func addingReferencesError(_ title: String, description: String) {
@@ -344,7 +351,7 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     public func showReferences(_ references: [AlbumReferenceViewEntity]) {
-        self.referenceViewController.updateReferenceItems(references)
+        referenceViewController.updateReferenceItems(references)
     }
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct SectionDataEntity: DataEntity, Codable {
+public struct SectionDataEntity: DataEntity, Codable, Equatable {
     public let identifer: String
     public var records: [RecordDataEntity]
 

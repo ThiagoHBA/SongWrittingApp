@@ -17,10 +17,8 @@ struct DiscoListFactory {
     static func make(
         navigationController: UINavigationController
     ) -> DiscoListViewController {
-        let discoService = DiscoServiceFallBack(
-            primary: try! DiscoServiceFromStorage(),
-            secundary: DiscoServiceFromMemory()
-        )
+        let discoStorage = InMemoryDiscoStorage(database: InMemoryDatabase.instance)
+        let discoService = DiscoServiceImpl(storage: discoStorage)
         let createNewDiscoUseCase = CreateNewDiscoUseCase(service: discoService)
         let getDiscosUseCase = GetDiscosUseCase(service: discoService)
 
@@ -41,7 +39,7 @@ struct DiscoListFactory {
 
         interactor.router = router
         interactor.presenter = presenter
-        presenter.view = WeakReferenceProxy(viewController)
+        presenter.view = MainQueueProxy(WeakReferenceProxy(viewController))
 
         return viewController
     }
@@ -83,4 +81,49 @@ extension WeakReferenceProxy: DiscoListDisplayLogic where T: DiscoListDisplayLog
         assert(self.instance != nil)
         self.instance?.loadDiscoError(title, description)
     }
+}
+
+extension MainQueueProxy: DiscoListDisplayLogic where T: DiscoListDisplayLogic {
+    func startLoading() {
+        DispatchQueue.main.async {
+            self.instance.startLoading()
+        }
+    }
+    
+    func hideLoading() {
+        DispatchQueue.main.async {
+            self.instance.hideLoading()
+        }
+    }
+    
+    func hideOverlays(completion: (() -> Void)?) {
+        DispatchQueue.main.async {
+            self.instance.hideOverlays(completion: completion)
+        }
+    }
+    
+    func showDiscos(_ discos: [Presentation.DiscoListViewEntity]) {
+        DispatchQueue.main.async {
+            self.instance.showDiscos(discos)
+        }
+    }
+    
+    func showNewDisco(_ disco: Presentation.DiscoListViewEntity) {
+        DispatchQueue.main.async {
+            self.instance.showNewDisco(disco)
+        }
+    }
+    
+    func createDiscoError(_ title: String, _ description: String) {
+        DispatchQueue.main.async {
+            self.instance.createDiscoError(title, description)
+        }
+    }
+    
+    func loadDiscoError(_ title: String, _ description: String) {
+        DispatchQueue.main.async {
+            self.instance.loadDiscoError(title, description)
+        }
+    }
+
 }

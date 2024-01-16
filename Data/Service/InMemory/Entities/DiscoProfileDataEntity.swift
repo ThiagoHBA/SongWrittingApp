@@ -8,7 +8,7 @@
 import Foundation
 import Domain
 
-public struct DiscoProfileDataEntity: DataEntity, Codable {
+public struct DiscoProfileDataEntity: DataEntity, Codable, Equatable {
     public let disco: DiscoDataEntity
     public var references: AlbumReferenceDataEntity
     public var section: [SectionDataEntity]
@@ -17,6 +17,14 @@ public struct DiscoProfileDataEntity: DataEntity, Codable {
         self.disco = disco
         self.references = references
         self.section = section
+    }
+    
+    public static func createEmptyProfile(for disco: Disco) -> DiscoProfileDataEntity {
+        return DiscoProfileDataEntity(
+            disco: DiscoDataEntity(from: disco),
+            references: AlbumReferenceDataEntity(albums: .init(items: [])),
+            section: []
+        )
     }
 
     public func toDomain() -> DiscoProfile {

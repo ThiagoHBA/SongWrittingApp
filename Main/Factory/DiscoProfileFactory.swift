@@ -26,11 +26,10 @@ struct DiscoProfileFactory {
         )
 
         let referenceService = SpotifyReferencesService(networkClient: authDecorator)
-        let discoService = DiscoServiceFallBack(
-            primary: try! DiscoServiceFromStorage(),
-            secundary: DiscoServiceFromMemory()
-        )
-
+        
+        let discoStorage = InMemoryDiscoStorage(database: InMemoryDatabase.instance)
+        let discoService = DiscoServiceImpl(storage: discoStorage)
+        
         let searchReferencesUseCase = SearchReferencesUseCase(service: referenceService)
         let getDiscoProfileUseCase = GetDiscoProfileUseCase(service: discoService)
         let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(service: discoService)
@@ -116,5 +115,73 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
     func showReferences(_ references: [AlbumReferenceViewEntity]) {
         assert(self.instance != nil)
         self.instance?.showReferences(references)
+    }
+}
+
+extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func startLoading() {
+        DispatchQueue.main.async {
+            self.startLoading()
+        }
+    }
+    
+    func hideLoading() {
+        DispatchQueue.main.async {
+            self.hideLoading()
+        }
+    }
+    
+    func hideOverlays(completion: (() -> Void)?) {
+        DispatchQueue.main.async {
+            self.hideOverlays(completion: completion)
+        }
+    }
+    
+    func showReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
+        DispatchQueue.main.async {
+            self.showReferences(references)
+        }
+    }
+
+    func showProfile(_ profile: Presentation.DiscoProfileViewEntity) {
+        DispatchQueue.main.async {
+            self.showProfile(profile)
+        }
+    }
+    
+    func updateReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
+        DispatchQueue.main.async {
+            self.updateReferences(references)
+        }
+    }
+    
+    func updateSections(_ sections: [Presentation.SectionViewEntity]) {
+        DispatchQueue.main.async {
+            self.updateSections(sections)
+        }
+    }
+    
+    func addingReferencesError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.addingReferencesError(title, description: description)
+        }
+    }
+    
+    func addingSectionError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.addingSectionError(title, description: description)
+        }
+    }
+    
+    func loadingProfileError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.loadingProfileError(title, description: description)
+        }
+    }
+    
+    func addingRecordsError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.addingRecordsError(title, description: description)
+        }
     }
 }

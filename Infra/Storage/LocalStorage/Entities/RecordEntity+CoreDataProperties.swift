@@ -1,13 +1,14 @@
 //
 //  RecordEntity+CoreDataProperties.swift
-//  Domain
+//  Infra
 //
-//  Created by Thiago Henrique on 12/12/23.
+//  Created by Thiago Henrique on 16/12/23.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension RecordEntity {
 
@@ -21,6 +22,6 @@ extension RecordEntity {
 
 }
 
-extension RecordEntity: Identifiable {
+extension RecordEntity : Identifiable {
 
 }
