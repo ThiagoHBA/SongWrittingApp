@@ -33,7 +33,6 @@ final class DiscoListRepositoryImplTests: XCTestCase {
     func test_createDisco_creates_summary_when_name_is_unique() {
         let (sut, store) = makeSUT()
         let expectedImage = Data("cover".utf8)
-        let createdRecord = DiscoStoreRecord(id: UUID(), name: "New", coverImage: expectedImage)
 
         var receivedDisco: DiscoSummary?
         sut.createDisco(name: "New", image: expectedImage) { result in
@@ -43,10 +42,21 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         }
 
         store.getDiscosCompletion?(.success([]))
-        store.createDiscoCompletion?(.success(createdRecord))
+        
+        guard let passedRecord = store.receivedMessages.compactMap({ message -> DiscoStoreRecord? in
+            if case let .createDisco(record) = message { return record }
+            return nil
+        }).first else {
+            XCTFail("createDisco should have been called")
+            return
+        }
+        
+        store.createDiscoCompletion?(.success(passedRecord))
 
-        XCTAssertEqual(store.receivedMessages, [.getDiscos, .createDisco(createdRecord)])
-        XCTAssertEqual(receivedDisco, DiscoSummary(id: createdRecord.id, name: "New", coverImage: expectedImage))
+        XCTAssertEqual(store.receivedMessages, [.getDiscos, .createDisco(passedRecord)])
+        XCTAssertEqual(passedRecord.name, "New")
+        XCTAssertEqual(passedRecord.coverImage, expectedImage)
+        XCTAssertEqual(receivedDisco, DiscoSummary(id: passedRecord.id, name: "New", coverImage: expectedImage))
     }
 
     func test_deleteDisco_returns_migration_error() {
