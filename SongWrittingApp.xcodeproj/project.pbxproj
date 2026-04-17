@@ -15,45 +15,20 @@
 		00B97B4D2B255DD100934E4A /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4C2B255DD100934E4A /* AlertPresentable.swift */; };
 		00B97B502B256A6200934E4A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B4F2B256A6200934E4A /* UIImageExtension.swift */; };
 		00B97B552B256D9800934E4A /* DiscoProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B542B256D9800934E4A /* DiscoProfileViewController.swift */; };
-		00B97B642B260B5200934E4A /* DiscoProfileViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B632B260B5200934E4A /* DiscoProfileViewEntity.swift */; };
-		00B97B662B260C5E00934E4A /* AlbumReferenceViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B652B260C5E00934E4A /* AlbumReferenceViewEntity.swift */; };
-		00B97B682B260CC800934E4A /* SectionViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B672B260CC800934E4A /* SectionViewEntity.swift */; };
-		00B97B6A2B260D6B00934E4A /* RecordViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B692B260D6B00934E4A /* RecordViewEntity.swift */; };
-		00B97B6D2B2615D800934E4A /* DiscoListBusinessRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B6C2B2615D800934E4A /* DiscoListBusinessRule.swift */; };
-		00B97B6F2B2615F200934E4A /* DiscoListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B6E2B2615F200934E4A /* DiscoListInteractor.swift */; };
 		00B97B712B26225300934E4A /* DiscoListViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B702B26225300934E4A /* DiscoListViewRouter.swift */; };
-		00B97B742B26230D00934E4A /* DiscoListRouterLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B732B26230D00934E4A /* DiscoListRouterLogic.swift */; };
 		00B97B762B26252200934E4A /* DiscoProfileFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B752B26252200934E4A /* DiscoProfileFactory.swift */; };
-		00B97B8F2B26455200934E4A /* Testing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B8E2B26455200934E4A /* Testing.swift */; };
-		00B97B922B26460A00934E4A /* DiscoListPresenterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B912B26460A00934E4A /* DiscoListPresenterSpy.swift */; };
-		00B97B942B26463700934E4A /* DiscoListRouterSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B932B26463700934E4A /* DiscoListRouterSpy.swift */; };
-		00B97B962B26468B00934E4A /* DiscoServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B952B26468B00934E4A /* DiscoServiceSpy.swift */; };
-		00B97B992B264A3F00934E4A /* DiscoListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B982B264A3F00934E4A /* DiscoListError.swift */; };
-		00B97B9B2B264F2300934E4A /* DiscoListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9A2B264F2300934E4A /* DiscoListPresenterTests.swift */; };
-		00B97B9D2B26513800934E4A /* DiscoListViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9C2B26513800934E4A /* DiscoListViewSpy.swift */; };
 		00B97BA02B2660BD00934E4A /* WeakReferenceProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */; };
 		00B97BA52B26742E00934E4A /* ReferencesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */; };
 		00B97BAA2B2681CC00934E4A /* ReferenceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BA92B2681CC00934E4A /* ReferenceListView.swift */; };
 		00B97BAC2B26927200934E4A /* AddReferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */; };
 		00B97BAE2B269CFD00934E4A /* FindedReferenceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */; };
 		00B97BB02B26A18400934E4A /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */; };
-		00B97BB42B26A37B00934E4A /* DiscoProfileBusinessRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BB32B26A37B00934E4A /* DiscoProfileBusinessRule.swift */; };
-		00B97BB62B26A3B000934E4A /* DiscoProfileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BB52B26A3B000934E4A /* DiscoProfileInteractor.swift */; };
-		00B97BBB2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBA2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift */; };
-		00B97BBD2B26B16600934E4A /* DiscoProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBC2B26B16600934E4A /* DiscoProfilePresenter.swift */; };
-		00B97BC02B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */; };
 		00B97BC22B26C54D00934E4A /* SelectedReferenceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */; };
 		00B97BCD2B276C0200934E4A /* AddButtonComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */; };
 		00B97BD12B27754B00934E4A /* RecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */; };
 		00B97BD42B27874000934E4A /* CustomPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BD32B27874000934E4A /* CustomPlayer.swift */; };
 		00B97BDB2B279FCB00934E4A /* AddSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */; };
-		00B97BDE2B27A46C00934E4A /* DiscoProfileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */; };
 		00B97BE72B27C56200934E4A /* CustomPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE62B27C56200934E4A /* CustomPickerController.swift */; };
-		00B97BEA2B27E99E00934E4A /* DiscoProfileInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BE92B27E99E00934E4A /* DiscoProfileInteractorTests.swift */; };
-		00B97BEE2B27EC7800934E4A /* ReferenceServiceSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */; };
-		00B97BF02B27EE7200934E4A /* DiscoProfilePresentationSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */; };
-		00B97BF22B27F9A400934E4A /* DiscoProfilePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */; };
-		00B97BF62B27FABB00934E4A /* DiscoProfileViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */; };
 		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
 		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
 		00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */; };
@@ -79,12 +54,8 @@
 		00F2F27B2B238F820008F6F5 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00F2F29F2B2409D30008F6F5 /* AuthorizationDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F29E2B2409D30008F6F5 /* AuthorizationDecorator.swift */; };
 		00F2F2AF2B24CD020008F6F5 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2A72B24CD020008F6F5 /* Presentation.framework */; };
-		00F2F2B42B24CD030008F6F5 /* DiscoListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2B32B24CD030008F6F5 /* DiscoListInteractorTests.swift */; };
 		00F2F2BC2B24CD150008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
 		00F2F2BD2B24CD150008F6F5 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00F2F2F72B24E0BB0008F6F5 /* DiscoListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */; };
-		00F2F2F92B24E0D40008F6F5 /* DiscoListPresentationLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */; };
-		00F2F2FB2B24E1660008F6F5 /* DiscoListDisplayLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */; };
 		00F2F30E2B24E7080008F6F5 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F3062B24E7080008F6F5 /* UI.framework */; };
 		00F2F3132B24E7080008F6F5 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F3122B24E7080008F6F5 /* UITests.swift */; };
 		00F2F31C2B24E7270008F6F5 /* DiscoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */; };
@@ -98,7 +69,6 @@
 		00F2F3332B24E9E20008F6F5 /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2A72B24CD020008F6F5 /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00F2F3362B24E9E50008F6F5 /* UI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F3062B24E7080008F6F5 /* UI.framework */; };
 		00F2F3372B24E9E50008F6F5 /* UI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F3062B24E7080008F6F5 /* UI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00F2F33B2B24F4AB0008F6F5 /* DiscoListViewEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -310,45 +280,20 @@
 		00B97B4C2B255DD100934E4A /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 		00B97B4F2B256A6200934E4A /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		00B97B542B256D9800934E4A /* DiscoProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewController.swift; sourceTree = "<group>"; };
-		00B97B632B260B5200934E4A /* DiscoProfileViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewEntity.swift; sourceTree = "<group>"; };
-		00B97B652B260C5E00934E4A /* AlbumReferenceViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumReferenceViewEntity.swift; sourceTree = "<group>"; };
-		00B97B672B260CC800934E4A /* SectionViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionViewEntity.swift; sourceTree = "<group>"; };
-		00B97B692B260D6B00934E4A /* RecordViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewEntity.swift; sourceTree = "<group>"; };
-		00B97B6C2B2615D800934E4A /* DiscoListBusinessRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListBusinessRule.swift; sourceTree = "<group>"; };
-		00B97B6E2B2615F200934E4A /* DiscoListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListInteractor.swift; sourceTree = "<group>"; };
 		00B97B702B26225300934E4A /* DiscoListViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewRouter.swift; sourceTree = "<group>"; };
-		00B97B732B26230D00934E4A /* DiscoListRouterLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListRouterLogic.swift; sourceTree = "<group>"; };
 		00B97B752B26252200934E4A /* DiscoProfileFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileFactory.swift; sourceTree = "<group>"; };
-		00B97B8E2B26455200934E4A /* Testing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Testing.swift; sourceTree = "<group>"; };
-		00B97B912B26460A00934E4A /* DiscoListPresenterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresenterSpy.swift; sourceTree = "<group>"; };
-		00B97B932B26463700934E4A /* DiscoListRouterSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListRouterSpy.swift; sourceTree = "<group>"; };
-		00B97B952B26468B00934E4A /* DiscoServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceSpy.swift; sourceTree = "<group>"; };
-		00B97B982B264A3F00934E4A /* DiscoListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListError.swift; sourceTree = "<group>"; };
-		00B97B9A2B264F2300934E4A /* DiscoListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresenterTests.swift; sourceTree = "<group>"; };
-		00B97B9C2B26513800934E4A /* DiscoListViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewSpy.swift; sourceTree = "<group>"; };
 		00B97B9F2B2660BD00934E4A /* WeakReferenceProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceProxy.swift; sourceTree = "<group>"; };
 		00B97BA42B26742E00934E4A /* ReferencesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesSectionView.swift; sourceTree = "<group>"; };
 		00B97BA92B2681CC00934E4A /* ReferenceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceListView.swift; sourceTree = "<group>"; };
 		00B97BAB2B26927200934E4A /* AddReferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReferencesViewController.swift; sourceTree = "<group>"; };
 		00B97BAD2B269CFD00934E4A /* FindedReferenceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindedReferenceTableViewCell.swift; sourceTree = "<group>"; };
 		00B97BAF2B26A18400934E4A /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
-		00B97BB32B26A37B00934E4A /* DiscoProfileBusinessRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileBusinessRule.swift; sourceTree = "<group>"; };
-		00B97BB52B26A3B000934E4A /* DiscoProfileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileInteractor.swift; sourceTree = "<group>"; };
-		00B97BBA2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresentationLogic.swift; sourceTree = "<group>"; };
-		00B97BBC2B26B16600934E4A /* DiscoProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresenter.swift; sourceTree = "<group>"; };
-		00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileDisplayLogic.swift; sourceTree = "<group>"; };
 		00B97BC12B26C54D00934E4A /* SelectedReferenceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedReferenceListView.swift; sourceTree = "<group>"; };
 		00B97BCC2B276C0200934E4A /* AddButtonComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonComponent.swift; sourceTree = "<group>"; };
 		00B97BD02B27754B00934E4A /* RecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordTableViewCell.swift; sourceTree = "<group>"; };
 		00B97BD32B27874000934E4A /* CustomPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayer.swift; sourceTree = "<group>"; };
 		00B97BDA2B279FCB00934E4A /* AddSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSectionViewController.swift; sourceTree = "<group>"; };
-		00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileError.swift; sourceTree = "<group>"; };
 		00B97BE62B27C56200934E4A /* CustomPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerController.swift; sourceTree = "<group>"; };
-		00B97BE92B27E99E00934E4A /* DiscoProfileInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileInteractorTests.swift; sourceTree = "<group>"; };
-		00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceServiceSpy.swift; sourceTree = "<group>"; };
-		00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresentationSpy.swift; sourceTree = "<group>"; };
-		00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresenterTests.swift; sourceTree = "<group>"; };
-		00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewSpy.swift; sourceTree = "<group>"; };
 		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
 		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringConstants.swift; sourceTree = "<group>"; };
@@ -366,17 +311,12 @@
 		00F2F29E2B2409D30008F6F5 /* AuthorizationDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationDecorator.swift; sourceTree = "<group>"; };
 		00F2F2A72B24CD020008F6F5 /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2AE2B24CD020008F6F5 /* PresentationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PresentationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00F2F2B32B24CD030008F6F5 /* DiscoListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListInteractorTests.swift; sourceTree = "<group>"; };
-		00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresenter.swift; sourceTree = "<group>"; };
-		00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListPresentationLogic.swift; sourceTree = "<group>"; };
-		00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListDisplayLogic.swift; sourceTree = "<group>"; };
 		00F2F3062B24E7080008F6F5 /* UI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F30D2B24E7080008F6F5 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F3122B24E7080008F6F5 /* UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITests.swift; sourceTree = "<group>"; };
 		00F2F31B2B24E7270008F6F5 /* DiscoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewController.swift; sourceTree = "<group>"; };
 		00F2F3292B24E8060008F6F5 /* ViewCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCoding.swift; sourceTree = "<group>"; };
 		00F2F3302B24E9B60008F6F5 /* DiscoListFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListFactory.swift; sourceTree = "<group>"; };
-		00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -412,6 +352,8 @@
 		0028AB342F91C0EB00E6A87F /* Data */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Data; sourceTree = "<group>"; };
 		0028AB532F91C10700E6A87F /* DataTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DataTests; sourceTree = "<group>"; };
 		0028AB812F91C13F00E6A87F /* Domain */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Domain; sourceTree = "<group>"; };
+		0028ABBD2F91C15300E6A87F /* Presentation */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Presentation; sourceTree = "<group>"; };
+		0028ABE22F91C17900E6A87F /* PresentationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = PresentationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -568,88 +510,6 @@
 			path = DiscoProfileView;
 			sourceTree = "<group>";
 		};
-		00B97B5B2B257F0200934E4A /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F2F62B24E0BB0008F6F5 /* DiscoListPresenter.swift */,
-				00F2F2F82B24E0D40008F6F5 /* DiscoListPresentationLogic.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		00B97B5C2B257F1700934E4A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F2FA2B24E1660008F6F5 /* DiscoListDisplayLogic.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		00B97B622B260B2C00934E4A /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */,
-				00B97B632B260B5200934E4A /* DiscoProfileViewEntity.swift */,
-				00B97B652B260C5E00934E4A /* AlbumReferenceViewEntity.swift */,
-				00B97B672B260CC800934E4A /* SectionViewEntity.swift */,
-				00B97B692B260D6B00934E4A /* RecordViewEntity.swift */,
-			);
-			path = Entity;
-			sourceTree = "<group>";
-		};
-		00B97B6B2B2615C300934E4A /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B6E2B2615F200934E4A /* DiscoListInteractor.swift */,
-				00B97B6C2B2615D800934E4A /* DiscoListBusinessRule.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
-		00B97B722B26230400934E4A /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B732B26230D00934E4A /* DiscoListRouterLogic.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
-		00B97B8C2B26453100934E4A /* DiscoList */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B902B26460300934E4A /* Doubles */,
-				00F2F2B32B24CD030008F6F5 /* DiscoListInteractorTests.swift */,
-				00B97B9A2B264F2300934E4A /* DiscoListPresenterTests.swift */,
-			);
-			path = DiscoList;
-			sourceTree = "<group>";
-		};
-		00B97B8D2B26454D00934E4A /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B8E2B26455200934E4A /* Testing.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		00B97B902B26460300934E4A /* Doubles */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B912B26460A00934E4A /* DiscoListPresenterSpy.swift */,
-				00B97B932B26463700934E4A /* DiscoListRouterSpy.swift */,
-				00B97B9C2B26513800934E4A /* DiscoListViewSpy.swift */,
-			);
-			path = Doubles;
-			sourceTree = "<group>";
-		};
-		00B97B972B264A3800934E4A /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B982B264A3F00934E4A /* DiscoListError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
 		00B97B9E2B2660B300934E4A /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
@@ -669,43 +529,6 @@
 				00B97BE62B27C56200934E4A /* CustomPickerController.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		00B97BB12B26A36D00934E4A /* DiscoProfile */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BDC2B27A46300934E4A /* Error */,
-				00B97BBE2B26B1A200934E4A /* View */,
-				00B97BB92B26B14000934E4A /* Presenter */,
-				00B97BB22B26A37200934E4A /* Interactor */,
-			);
-			path = DiscoProfile;
-			sourceTree = "<group>";
-		};
-		00B97BB22B26A37200934E4A /* Interactor */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BB52B26A3B000934E4A /* DiscoProfileInteractor.swift */,
-				00B97BB32B26A37B00934E4A /* DiscoProfileBusinessRule.swift */,
-			);
-			path = Interactor;
-			sourceTree = "<group>";
-		};
-		00B97BB92B26B14000934E4A /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BBC2B26B16600934E4A /* DiscoProfilePresenter.swift */,
-				00B97BBA2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift */,
-			);
-			path = Presenter;
-			sourceTree = "<group>";
-		};
-		00B97BBE2B26B1A200934E4A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BBF2B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		00B97BCE2B27751C00934E4A /* References */ = {
@@ -737,42 +560,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		00B97BDC2B27A46300934E4A /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BDD2B27A46C00934E4A /* DiscoProfileError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		00B97BE82B27E97A00934E4A /* DiscoProfile */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BEC2B27EC6200934E4A /* Doubles */,
-				00B97BE92B27E99E00934E4A /* DiscoProfileInteractorTests.swift */,
-				00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */,
-			);
-			path = DiscoProfile;
-			sourceTree = "<group>";
-		};
-		00B97BEB2B27EA0600934E4A /* Doubles */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B952B26468B00934E4A /* DiscoServiceSpy.swift */,
-			);
-			path = Doubles;
-			sourceTree = "<group>";
-		};
-		00B97BEC2B27EC6200934E4A /* Doubles */ = {
-			isa = PBXGroup;
-			children = (
-				00B97BED2B27EC7800934E4A /* ReferenceServiceSpy.swift */,
-				00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */,
-				00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */,
-			);
-			path = Doubles;
-			sourceTree = "<group>";
-		};
 		00D0ECC32B2922B600A2862B /* Shimmer */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,8 +577,8 @@
 				0028AB342F91C0EB00E6A87F /* Data */,
 				0028AB532F91C10700E6A87F /* DataTests */,
 				0028AB812F91C13F00E6A87F /* Domain */,
-				00F2F2A82B24CD020008F6F5 /* Presentation */,
-				00F2F2B22B24CD030008F6F5 /* PresentationTests */,
+				0028ABBD2F91C15300E6A87F /* Presentation */,
+				0028ABE22F91C17900E6A87F /* PresentationTests */,
 				00F2F3072B24E7080008F6F5 /* UI */,
 				00F2F3112B24E7080008F6F5 /* UITests */,
 				00F2F2582B238ECF0008F6F5 /* Main */,
@@ -862,39 +649,6 @@
 				00F2F29E2B2409D30008F6F5 /* AuthorizationDecorator.swift */,
 			);
 			path = Auth;
-			sourceTree = "<group>";
-		};
-		00F2F2A82B24CD020008F6F5 /* Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B622B260B2C00934E4A /* Entity */,
-				00B97BB12B26A36D00934E4A /* DiscoProfile */,
-				00F2F2F52B24E0AC0008F6F5 /* DiscoList */,
-			);
-			path = Presentation;
-			sourceTree = "<group>";
-		};
-		00F2F2B22B24CD030008F6F5 /* PresentationTests */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B8D2B26454D00934E4A /* Protocol */,
-				00B97BEB2B27EA0600934E4A /* Doubles */,
-				00B97BE82B27E97A00934E4A /* DiscoProfile */,
-				00B97B8C2B26453100934E4A /* DiscoList */,
-			);
-			path = PresentationTests;
-			sourceTree = "<group>";
-		};
-		00F2F2F52B24E0AC0008F6F5 /* DiscoList */ = {
-			isa = PBXGroup;
-			children = (
-				00B97B972B264A3800934E4A /* Error */,
-				00B97B722B26230400934E4A /* Router */,
-				00B97B6B2B2615C300934E4A /* Interactor */,
-				00B97B5C2B257F1700934E4A /* View */,
-				00B97B5B2B257F0200934E4A /* Presenter */,
-			);
-			path = DiscoList;
 			sourceTree = "<group>";
 		};
 		00F2F3072B24E7080008F6F5 /* UI */ = {
@@ -1136,6 +890,9 @@
 			dependencies = (
 				00F2F3252B24E75C0008F6F5 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				0028ABBD2F91C15300E6A87F /* Presentation */,
+			);
 			name = Presentation;
 			productName = Presentation;
 			productReference = 00F2F2A72B24CD020008F6F5 /* Presentation.framework */;
@@ -1155,6 +912,9 @@
 			dependencies = (
 				00F2F2B12B24CD020008F6F5 /* PBXTargetDependency */,
 				00F2F2BF2B24CD150008F6F5 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0028ABE22F91C17900E6A87F /* PresentationTests */,
 			);
 			name = PresentationTests;
 			productName = PresentationTests;
@@ -1428,24 +1188,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00B97B6A2B260D6B00934E4A /* RecordViewEntity.swift in Sources */,
-				00B97BBD2B26B16600934E4A /* DiscoProfilePresenter.swift in Sources */,
-				00B97B742B26230D00934E4A /* DiscoListRouterLogic.swift in Sources */,
-				00B97B6F2B2615F200934E4A /* DiscoListInteractor.swift in Sources */,
-				00B97B682B260CC800934E4A /* SectionViewEntity.swift in Sources */,
-				00B97B6D2B2615D800934E4A /* DiscoListBusinessRule.swift in Sources */,
-				00F2F2FB2B24E1660008F6F5 /* DiscoListDisplayLogic.swift in Sources */,
-				00F2F2F92B24E0D40008F6F5 /* DiscoListPresentationLogic.swift in Sources */,
-				00B97BB62B26A3B000934E4A /* DiscoProfileInteractor.swift in Sources */,
-				00B97BC02B26B1AB00934E4A /* DiscoProfileDisplayLogic.swift in Sources */,
-				00B97BBB2B26B14B00934E4A /* DiscoProfilePresentationLogic.swift in Sources */,
-				00F2F33B2B24F4AB0008F6F5 /* DiscoListViewEntity.swift in Sources */,
-				00F2F2F72B24E0BB0008F6F5 /* DiscoListPresenter.swift in Sources */,
-				00B97BDE2B27A46C00934E4A /* DiscoProfileError.swift in Sources */,
-				00B97BB42B26A37B00934E4A /* DiscoProfileBusinessRule.swift in Sources */,
-				00B97B662B260C5E00934E4A /* AlbumReferenceViewEntity.swift in Sources */,
-				00B97B642B260B5200934E4A /* DiscoProfileViewEntity.swift in Sources */,
-				00B97B992B264A3F00934E4A /* DiscoListError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1453,18 +1195,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00B97B922B26460A00934E4A /* DiscoListPresenterSpy.swift in Sources */,
-				00B97B8F2B26455200934E4A /* Testing.swift in Sources */,
-				00B97B962B26468B00934E4A /* DiscoServiceSpy.swift in Sources */,
-				00B97B9B2B264F2300934E4A /* DiscoListPresenterTests.swift in Sources */,
-				00B97B942B26463700934E4A /* DiscoListRouterSpy.swift in Sources */,
-				00F2F2B42B24CD030008F6F5 /* DiscoListInteractorTests.swift in Sources */,
-				00B97BF62B27FABB00934E4A /* DiscoProfileViewSpy.swift in Sources */,
-				00B97B9D2B26513800934E4A /* DiscoListViewSpy.swift in Sources */,
-				00B97BEE2B27EC7800934E4A /* ReferenceServiceSpy.swift in Sources */,
-				00B97BEA2B27E99E00934E4A /* DiscoProfileInteractorTests.swift in Sources */,
-				00B97BF22B27F9A400934E4A /* DiscoProfilePresenterTests.swift in Sources */,
-				00B97BF02B27EE7200934E4A /* DiscoProfilePresentationSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
