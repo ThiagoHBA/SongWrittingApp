@@ -4,7 +4,7 @@ import XCTest
 
 final class DiscoListPresenterTests: XCTestCase {
     func test_presentLoading_starts_loading_on_view() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
 
         sut.presentLoading()
 
@@ -12,7 +12,7 @@ final class DiscoListPresenterTests: XCTestCase {
     }
 
     func test_presentCreateDiscoError_hides_overlay_then_shows_error() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
 
         sut.presentCreateDiscoError(.emptyName)
         view.hideOverlaysCompletion?()
@@ -29,13 +29,11 @@ final class DiscoListPresenterTests: XCTestCase {
         )
     }
 
-    func test_createUseCase_success_hides_loading_and_shows_new_disco() {
-        let (_, view, repository, createDiscoUseCase) = makeSUT()
+    func test_presentCreatedDisco_hides_loading_and_shows_new_disco() {
+        let (sut, view) = makeSUT()
         let createdDisco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
 
-        createDiscoUseCase.input = .init(name: "Any", image: createdDisco.coverImage)
-        createDiscoUseCase.execute()
-        repository.createDiscoCompletion?(.success(createdDisco))
+        sut.presentCreatedDisco(createdDisco)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
@@ -48,8 +46,28 @@ final class DiscoListPresenterTests: XCTestCase {
         )
     }
 
+    func test_presentCreateDiscoFailure_hides_loading_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let error = NSError(domain: "any", code: 0)
+
+        sut.presentCreateDiscoFailure(error)
+        view.hideOverlaysCompletion?()
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .hideLoading,
+                .hideOverlays,
+                .createDiscoError(
+                    DiscoListError.CreateDiscoError.errorTitle,
+                    error.localizedDescription
+                )
+            ]
+        )
+    }
+
     func test_getDiscos_success_hides_loading_and_shows_discos() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
         let discos = [
             DiscoSummary(id: UUID(), name: "One", coverImage: Data("1".utf8)),
             DiscoSummary(id: UUID(), name: "Two", coverImage: Data("2".utf8))
@@ -67,7 +85,7 @@ final class DiscoListPresenterTests: XCTestCase {
     }
 
     func test_getDiscos_failure_hides_loading_and_shows_error() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
         let expectedError = NSError(domain: "any", code: 0)
 
         sut.presentLoadDiscoError(expectedError)
@@ -84,21 +102,13 @@ final class DiscoListPresenterTests: XCTestCase {
         )
     }
 
-    private func makeSUT() -> (
-        sut: DiscoListPresenter,
-        view: DiscoListViewSpy,
-        repository: DiscoListRepositorySpy,
-        createDiscoUseCase: CreateNewDiscoUseCase
-    ) {
-        let repository = DiscoListRepositorySpy()
-        let createDiscoUseCase = CreateNewDiscoUseCase(repository: repository)
+    private func makeSUT() -> (sut: DiscoListPresenter, view: DiscoListViewSpy) {
         let view = DiscoListViewSpy()
         let sut = DiscoListPresenter()
 
-        createDiscoUseCase.output = [sut]
         sut.view = view
 
-        return (sut, view, repository, createDiscoUseCase)
+        return (sut, view)
     }
 }
 

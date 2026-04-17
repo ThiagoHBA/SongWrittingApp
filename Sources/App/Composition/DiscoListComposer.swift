@@ -7,8 +7,8 @@ enum DiscoListComposer {
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
         let repository = DiscoListRepositoryImpl(store: discoStore)
 
-        let createNewDiscoUseCase = CreateNewDiscoUseCase(repository: repository)
         let getDiscosUseCase = repository
+        let createNewDiscoUseCase = repository
 
         let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
@@ -21,8 +21,6 @@ enum DiscoListComposer {
             navigationController: navigationController,
             discoProfileViewController: DiscoProfileComposer.make
         )
-
-        createNewDiscoUseCase.output = [presenter]
 
         interactor.router = router
         interactor.presenter = presenter

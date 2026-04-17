@@ -35,25 +35,24 @@ final class DiscoListRepositoryImpl: DiscoListRepository {
         }
     }
 
-    func createDisco(
-        name: String,
-        image: Data,
-        completion: @escaping (Result<DiscoSummary, Error>) -> Void
+    func create(
+        _ input: CreateNewDiscoUseCaseInput,
+        completion: @escaping (Result<CreateNewDiscoUseCaseOutput, Error>) -> Void
     ) {
         store.getDiscos { [weak self] result in
             guard let self else { return }
 
             switch result {
             case .success(let discos):
-                if discos.contains(where: { $0.name == name }) {
+                if discos.contains(where: { $0.name == input.name }) {
                     completion(.failure(DiscoListRepositoryError.nameAlreadyExists))
                     return
                 }
 
                 let disco = DiscoStoreRecord(
                     id: UUID(),
-                    name: name,
-                    coverImage: image
+                    name: input.name,
+                    coverImage: input.image
                 )
 
                 self.store.createDisco(disco) { createResult in
@@ -70,9 +69,9 @@ final class DiscoListRepositoryImpl: DiscoListRepository {
         }
     }
 
-    func deleteDisco(
-        _ disco: DiscoSummary,
-        completion: @escaping (Result<Void, Error>) -> Void
+    func delete(
+        _ input: DeleteDiscoUseCaseInput,
+        completion: @escaping (Result<DeleteDiscoUseCaseOutput, Error>) -> Void
     ) {
         completion(.failure(DiscoListRepositoryError.deleteNotImplemented))
     }

@@ -18,7 +18,7 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         let existingDisco = DiscoStoreRecord(id: UUID(), name: "Any", coverImage: Data())
 
         var receivedError: Error?
-        sut.createDisco(name: "Any", image: Data("image".utf8)) { result in
+        sut.create(.init(name: "Any", image: Data("image".utf8))) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }
@@ -35,7 +35,7 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         let expectedImage = Data("cover".utf8)
 
         var receivedDisco: DiscoSummary?
-        sut.createDisco(name: "New", image: expectedImage) { result in
+        sut.create(.init(name: "New", image: expectedImage)) { result in
             if case let .success(disco) = result {
                 receivedDisco = disco
             }
@@ -64,7 +64,7 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         let disco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data())
 
         var receivedError: Error?
-        sut.deleteDisco(disco) { result in
+        sut.delete(.init(disco: disco)) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }

@@ -4,6 +4,8 @@ protocol DiscoListPresentationLogic: AnyObject {
     func presentLoading()
     func presentLoadedDiscos(_ discos: [DiscoSummary])
     func presentLoadDiscoError(_ error: Error)
+    func presentCreatedDisco(_ disco: DiscoSummary)
+    func presentCreateDiscoFailure(_ error: Error)
     func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError)
 }
 
@@ -27,7 +29,15 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
         )
     }
 
-    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
+    func presentCreatedDisco(_ disco: DiscoSummary) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            self?.view?.showNewDisco(DiscoListViewEntity(from: disco))
+        }
+    }
+
+    func presentCreateDiscoFailure(_ error: Error) {
+        view?.hideLoading()
         view?.hideOverlays { [weak self] in
             self?.view?.createDiscoError(
                 DiscoListError.CreateDiscoError.errorTitle,
@@ -35,18 +45,8 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
             )
         }
     }
-}
 
-extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
-    func successfullyCreateDisco(_ disco: DiscoSummary) {
-        view?.hideLoading()
-        view?.hideOverlays { [weak self] in
-            self?.view?.showNewDisco(DiscoListViewEntity(from: disco))
-        }
-    }
-
-    func errorWhileCreatingDisco(_ error: Error) {
-        view?.hideLoading()
+    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
         view?.hideOverlays { [weak self] in
             self?.view?.createDiscoError(
                 DiscoListError.CreateDiscoError.errorTitle,
