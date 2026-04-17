@@ -23,7 +23,16 @@ final class DiscoListInteractor: DiscoListBusinessLogic {
 
     func loadDiscos() {
         presenter?.presentLoading()
-        getDiscosUseCase.execute()
+        getDiscosUseCase.load(.init()) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let discos):
+                self.presenter?.presentLoadedDiscos(discos)
+            case .failure(let error):
+                self.presenter?.presentLoadDiscoError(error)
+            }
+        }
     }
 
     func createDisco(name: String, image: Data) {

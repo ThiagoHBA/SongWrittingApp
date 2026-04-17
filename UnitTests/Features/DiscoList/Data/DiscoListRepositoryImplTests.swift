@@ -3,10 +3,10 @@ import XCTest
 @testable import Main
 
 final class DiscoListRepositoryImplTests: XCTestCase {
-    func test_getDiscos_fetches_from_store() {
+    func test_execute_fetches_from_store() {
         let (sut, store) = makeSUT()
 
-        sut.getDiscos { _ in }
+        sut.load(.init()) { _ in }
         store.getDiscosCompletion?(.success([]))
 
         XCTAssertEqual(store.receivedMessages, [.getDiscos])

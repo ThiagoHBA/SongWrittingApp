@@ -1,28 +1,12 @@
 import Foundation
 
-protocol GetDiscosUseCaseOutput: AnyObject {
-    func successfullyLoadDiscos(_ discos: [DiscoSummary])
-    func errorWhileLoadingDiscos(_ error: Error)
-}
+struct GetDiscosUseCaseInput: Equatable {}
 
-final class GetDiscosUseCase {
-    private let repository: DiscoListRepository
-    var output: [GetDiscosUseCaseOutput] = []
+typealias GetDiscosUseCaseOutput = [DiscoSummary]
 
-    init(repository: DiscoListRepository) {
-        self.repository = repository
-    }
-
-    func execute() {
-        repository.getDiscos { [weak self] result in
-            guard let self else { return }
-
-            switch result {
-            case .success(let discos):
-                output.forEach { $0.successfullyLoadDiscos(discos) }
-            case .failure(let error):
-                output.forEach { $0.errorWhileLoadingDiscos(error) }
-            }
-        }
-    }
+protocol GetDiscosUseCase {
+    func load(
+        _ input: GetDiscosUseCaseInput,
+        completion: @escaping (Result<GetDiscosUseCaseOutput, Error>) -> Void
+    )
 }

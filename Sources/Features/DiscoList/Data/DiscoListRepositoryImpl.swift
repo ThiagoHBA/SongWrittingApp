@@ -21,7 +21,10 @@ final class DiscoListRepositoryImpl: DiscoListRepository {
         self.store = store
     }
 
-    func getDiscos(completion: @escaping (Result<[DiscoSummary], Error>) -> Void) {
+    func load(
+        _ input: GetDiscosUseCaseInput,
+        completion: @escaping (Result<GetDiscosUseCaseOutput, Error>) -> Void
+    ) {
         store.getDiscos { result in
             switch result {
             case .success(let discos):

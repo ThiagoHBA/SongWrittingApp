@@ -1,7 +1,6 @@
 import Foundation
 
-protocol DiscoListRepository {
-    func getDiscos(completion: @escaping (Result<[DiscoSummary], Error>) -> Void)
+protocol DiscoListRepository: GetDiscosUseCase {
     func createDisco(
         name: String,
         image: Data,

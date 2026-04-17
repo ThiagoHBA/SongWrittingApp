@@ -2,6 +2,8 @@ import Foundation
 
 protocol DiscoListPresentationLogic: AnyObject {
     func presentLoading()
+    func presentLoadedDiscos(_ discos: [DiscoSummary])
+    func presentLoadDiscoError(_ error: Error)
     func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError)
 }
 
@@ -10,6 +12,19 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
 
     func presentLoading() {
         view?.startLoading()
+    }
+
+    func presentLoadedDiscos(_ discos: [DiscoSummary]) {
+        view?.hideLoading()
+        view?.showDiscos(discos.map(DiscoListViewEntity.init(from:)))
+    }
+
+    func presentLoadDiscoError(_ error: Error) {
+        view?.hideLoading()
+        view?.loadDiscoError(
+            DiscoListError.LoadDiscoError.errorTitle,
+            error.localizedDescription
+        )
     }
 
     func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
@@ -38,20 +53,5 @@ extension DiscoListPresenter: CreateNewDiscoUseCaseOutput {
                 error.localizedDescription
             )
         }
-    }
-}
-
-extension DiscoListPresenter: GetDiscosUseCaseOutput {
-    func successfullyLoadDiscos(_ discos: [DiscoSummary]) {
-        view?.hideLoading()
-        view?.showDiscos(discos.map(DiscoListViewEntity.init(from:)))
-    }
-
-    func errorWhileLoadingDiscos(_ error: Error) {
-        view?.hideLoading()
-        view?.loadDiscoError(
-            DiscoListError.LoadDiscoError.errorTitle,
-            error.localizedDescription
-        )
     }
 }

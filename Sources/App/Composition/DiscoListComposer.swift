@@ -8,7 +8,7 @@ enum DiscoListComposer {
         let repository = DiscoListRepositoryImpl(store: discoStore)
 
         let createNewDiscoUseCase = CreateNewDiscoUseCase(repository: repository)
-        let getDiscosUseCase = GetDiscosUseCase(repository: repository)
+        let getDiscosUseCase = repository
 
         let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
@@ -23,7 +23,6 @@ enum DiscoListComposer {
         )
 
         createNewDiscoUseCase.output = [presenter]
-        getDiscosUseCase.output = [presenter]
 
         interactor.router = router
         interactor.presenter = presenter

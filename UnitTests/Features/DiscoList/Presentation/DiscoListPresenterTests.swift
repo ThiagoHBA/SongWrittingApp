@@ -30,11 +30,11 @@ final class DiscoListPresenterTests: XCTestCase {
     }
 
     func test_createUseCase_success_hides_loading_and_shows_new_disco() {
-        let (_, view, repository, useCases) = makeSUT()
+        let (_, view, repository, createDiscoUseCase) = makeSUT()
         let createdDisco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
 
-        useCases.create.input = .init(name: "Any", image: createdDisco.coverImage)
-        useCases.create.execute()
+        createDiscoUseCase.input = .init(name: "Any", image: createdDisco.coverImage)
+        createDiscoUseCase.execute()
         repository.createDiscoCompletion?(.success(createdDisco))
         view.hideOverlaysCompletion?()
 
@@ -49,14 +49,13 @@ final class DiscoListPresenterTests: XCTestCase {
     }
 
     func test_getDiscos_success_hides_loading_and_shows_discos() {
-        let (_, view, repository, useCases) = makeSUT()
+        let (sut, view, _, _) = makeSUT()
         let discos = [
             DiscoSummary(id: UUID(), name: "One", coverImage: Data("1".utf8)),
             DiscoSummary(id: UUID(), name: "Two", coverImage: Data("2".utf8))
         ]
 
-        useCases.get.execute()
-        repository.getDiscosCompletion?(.success(discos))
+        sut.presentLoadedDiscos(discos)
 
         XCTAssertEqual(
             view.receivedMessages,
@@ -68,11 +67,10 @@ final class DiscoListPresenterTests: XCTestCase {
     }
 
     func test_getDiscos_failure_hides_loading_and_shows_error() {
-        let (_, view, repository, useCases) = makeSUT()
+        let (sut, view, _, _) = makeSUT()
         let expectedError = NSError(domain: "any", code: 0)
 
-        useCases.get.execute()
-        repository.getDiscosCompletion?(.failure(expectedError))
+        sut.presentLoadDiscoError(expectedError)
 
         XCTAssertEqual(
             view.receivedMessages,
@@ -90,19 +88,17 @@ final class DiscoListPresenterTests: XCTestCase {
         sut: DiscoListPresenter,
         view: DiscoListViewSpy,
         repository: DiscoListRepositorySpy,
-        useCases: (get: GetDiscosUseCase, create: CreateNewDiscoUseCase)
+        createDiscoUseCase: CreateNewDiscoUseCase
     ) {
         let repository = DiscoListRepositorySpy()
-        let getDiscosUseCase = GetDiscosUseCase(repository: repository)
         let createDiscoUseCase = CreateNewDiscoUseCase(repository: repository)
         let view = DiscoListViewSpy()
         let sut = DiscoListPresenter()
 
-        getDiscosUseCase.output = [sut]
         createDiscoUseCase.output = [sut]
         sut.view = view
 
-        return (sut, view, repository, (getDiscosUseCase, createDiscoUseCase))
+        return (sut, view, repository, createDiscoUseCase)
     }
 }
 

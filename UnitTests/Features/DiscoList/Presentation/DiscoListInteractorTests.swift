@@ -9,7 +9,36 @@ final class DiscoListInteractorTests: XCTestCase {
         sut.loadDiscos()
 
         XCTAssertEqual(presenter.receivedMessages, [.presentLoading])
-        XCTAssertEqual(repository.receivedMessages, [.getDiscos])
+        XCTAssertEqual(repository.receivedMessages, [.execute(.init())])
+    }
+
+    func test_loadDiscos_onSuccess_presents_loaded_discos() {
+        let (sut, presenter, repository, _) = makeSUT()
+        let discos = [
+            DiscoSummary(id: UUID(), name: "One", coverImage: Data("1".utf8)),
+            DiscoSummary(id: UUID(), name: "Two", coverImage: Data("2".utf8))
+        ]
+
+        sut.loadDiscos()
+        repository.completeLoadDiscos(with: .success(discos))
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading, .presentLoadedDiscos(discos)]
+        )
+    }
+
+    func test_loadDiscos_onFailure_presents_load_error() {
+        let (sut, presenter, repository, _) = makeSUT()
+        let error = NSError(domain: "any", code: 0, userInfo: [NSLocalizedDescriptionKey: "any-error"])
+
+        sut.loadDiscos()
+        repository.completeLoadDiscos(with: .failure(error))
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading, .presentLoadDiscoError(error.localizedDescription)]
+        )
     }
 
     func test_createDisco_rejects_empty_name() {
@@ -56,12 +85,11 @@ final class DiscoListInteractorTests: XCTestCase {
         router: DiscoListRouterSpy
     ) {
         let repository = DiscoListRepositorySpy()
-        let getDiscosUseCase = GetDiscosUseCase(repository: repository)
         let createNewDiscoUseCase = CreateNewDiscoUseCase(repository: repository)
         let presenter = DiscoListPresenterSpy()
         let router = DiscoListRouterSpy()
         let sut = DiscoListInteractor(
-            getDiscosUseCase: getDiscosUseCase,
+            getDiscosUseCase: repository,
             createNewDiscoUseCase: createNewDiscoUseCase
         )
         sut.presenter = presenter
@@ -73,6 +101,8 @@ final class DiscoListInteractorTests: XCTestCase {
 private final class DiscoListPresenterSpy: DiscoListPresentationLogic {
     enum Message: Equatable {
         case presentLoading
+        case presentLoadedDiscos([DiscoSummary])
+        case presentLoadDiscoError(String)
         case presentCreateDiscoError(DiscoListError.CreateDiscoError)
     }
 
@@ -80,6 +110,14 @@ private final class DiscoListPresenterSpy: DiscoListPresentationLogic {
 
     func presentLoading() {
         receivedMessages.append(.presentLoading)
+    }
+
+    func presentLoadedDiscos(_ discos: [DiscoSummary]) {
+        receivedMessages.append(.presentLoadedDiscos(discos))
+    }
+
+    func presentLoadDiscoError(_ error: Error) {
+        receivedMessages.append(.presentLoadDiscoError(error.localizedDescription))
     }
 
     func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
@@ -99,8 +137,9 @@ private final class DiscoListRouterSpy: DiscoListRouting {
     }
 }
 
-final class DiscoListRepositorySpy: DiscoListRepository {
+final class DiscoListRepositorySpy: DiscoListRepository, GetDiscosUseCase {
     enum Message: Equatable {
+        case execute(GetDiscosUseCaseInput)
         case getDiscos
         case createDisco(String, Data)
         case deleteDisco(DiscoSummary)
@@ -108,9 +147,22 @@ final class DiscoListRepositorySpy: DiscoListRepository {
 
     private(set) var receivedMessages: [Message] = []
 
+    var executeCompletion: ((Result<GetDiscosUseCaseOutput, Error>) -> Void)?
     var getDiscosCompletion: ((Result<[DiscoSummary], Error>) -> Void)?
     var createDiscoCompletion: ((Result<DiscoSummary, Error>) -> Void)?
     var deleteDiscoCompletion: ((Result<Void, Error>) -> Void)?
+
+    func load(
+        _ input: GetDiscosUseCaseInput,
+        completion: @escaping (Result<GetDiscosUseCaseOutput, Error>) -> Void
+    ) {
+        receivedMessages.append(.execute(input))
+        executeCompletion = completion
+    }
+
+    func completeLoadDiscos(with result: Result<GetDiscosUseCaseOutput, Error>) {
+        executeCompletion?(result)
+    }
 
     func getDiscos(completion: @escaping (Result<[DiscoSummary], Error>) -> Void) {
         receivedMessages.append(.getDiscos)
