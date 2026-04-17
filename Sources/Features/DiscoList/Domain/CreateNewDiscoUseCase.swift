@@ -1,10 +1,6 @@
 import Foundation
 
-struct CreateNewDiscoUseCaseInput: Equatable {
-    let name: String
-    let image: Data
-}
-
+typealias CreateNewDiscoUseCaseInput = Disco
 typealias CreateNewDiscoUseCaseOutput = DiscoSummary
 
 protocol CreateNewDiscoUseCase {

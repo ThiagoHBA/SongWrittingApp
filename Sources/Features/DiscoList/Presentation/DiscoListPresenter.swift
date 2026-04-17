@@ -6,7 +6,7 @@ protocol DiscoListPresentationLogic: AnyObject {
     func presentLoadDiscoError(_ error: Error)
     func presentCreatedDisco(_ disco: DiscoSummary)
     func presentCreateDiscoFailure(_ error: Error)
-    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError)
+    func presentCreateDiscoError(_ error: Error)
 }
 
 final class DiscoListPresenter: DiscoListPresentationLogic {
@@ -46,7 +46,7 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
         }
     }
 
-    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
+    func presentCreateDiscoError(_ error: Error) {
         view?.hideOverlays { [weak self] in
             self?.view?.createDiscoError(
                 DiscoListError.CreateDiscoError.errorTitle,

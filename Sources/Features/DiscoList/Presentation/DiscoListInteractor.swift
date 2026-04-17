@@ -36,36 +36,27 @@ final class DiscoListInteractor: DiscoListBusinessLogic {
     }
 
     func createDisco(name: String, image: Data) {
-        guard discoIsValid(name, image) else { return }
-
         presenter?.presentLoading()
-        createNewDiscoUseCase.create(.init(name: name, image: image)) { [weak self] result in
-            guard let self else { return }
+        
+        do {
+            let disco = try Disco(name: name, image: image)
+            
+            createNewDiscoUseCase.create(disco) { [weak self] result in
+                guard let self else { return }
 
-            switch result {
-            case .success(let disco):
-                self.presenter?.presentCreatedDisco(disco)
-            case .failure(let error):
-                self.presenter?.presentCreateDiscoFailure(error)
+                switch result {
+                case .success(let disco):
+                    self.presenter?.presentCreatedDisco(disco)
+                case .failure(let error):
+                    self.presenter?.presentCreateDiscoFailure(error)
+                }
             }
+        } catch {
+            presenter?.presentCreateDiscoError(error)
         }
     }
-
+    
     func showProfile(of disco: DiscoListViewEntity) {
         router?.showProfile(of: disco.toSummary())
-    }
-
-    private func discoIsValid(_ name: String, _ image: Data) -> Bool {
-        if name.isEmpty {
-            presenter?.presentCreateDiscoError(.emptyName)
-            return false
-        }
-
-        if image.isEmpty {
-            presenter?.presentCreateDiscoError(.emptyImage)
-            return false
-        }
-
-        return true
     }
 }

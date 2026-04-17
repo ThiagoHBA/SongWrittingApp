@@ -14,7 +14,7 @@ final class DiscoListPresenterTests: XCTestCase {
     func test_presentCreateDiscoError_hides_overlay_then_shows_error() {
         let (sut, view) = makeSUT()
 
-        sut.presentCreateDiscoError(.emptyName)
+        sut.presentCreateDiscoError(DiscoListError.CreateDiscoError.emptyName)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(

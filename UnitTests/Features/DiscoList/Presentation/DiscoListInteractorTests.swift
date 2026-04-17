@@ -46,7 +46,15 @@ final class DiscoListInteractorTests: XCTestCase {
 
         sut.createDisco(name: "", image: Data("image".utf8))
 
-        XCTAssertEqual(presenter.receivedMessages, [.presentCreateDiscoError(.emptyName)])
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentCreateDiscoError(
+                    DiscoListError.CreateDiscoError.emptyName.localizedDescription
+                )
+            ]
+        )
         XCTAssertEqual(createDiscoUseCase.receivedMessages, [])
     }
 
@@ -55,18 +63,27 @@ final class DiscoListInteractorTests: XCTestCase {
 
         sut.createDisco(name: "Any", image: Data())
 
-        XCTAssertEqual(presenter.receivedMessages, [.presentCreateDiscoError(.emptyImage)])
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentCreateDiscoError(
+                    DiscoListError.CreateDiscoError.emptyImage.localizedDescription
+                )
+            ]
+        )
         XCTAssertEqual(createDiscoUseCase.receivedMessages, [])
     }
 
-    func test_createDisco_requests_loading_and_executes_useCase_when_input_is_valid() {
+    func test_createDisco_requests_loading_and_executes_useCase_when_input_is_valid() throws {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
         let image = Data("valid-image".utf8)
+        let expectedDisco = try XCTUnwrap(try? Disco(name: "Any", image: image))
 
         sut.createDisco(name: "Any", image: image)
 
         XCTAssertEqual(presenter.receivedMessages, [.presentLoading])
-        XCTAssertEqual(createDiscoUseCase.receivedMessages, [.create(.init(name: "Any", image: image))])
+        XCTAssertEqual(createDiscoUseCase.receivedMessages, [.create(expectedDisco)])
     }
 
     func test_createDisco_onSuccess_presents_created_disco() {
@@ -132,7 +149,7 @@ private final class DiscoListPresenterSpy: DiscoListPresentationLogic {
         case presentLoadDiscoError(String)
         case presentCreatedDisco(DiscoSummary)
         case presentCreateDiscoFailure(String)
-        case presentCreateDiscoError(DiscoListError.CreateDiscoError)
+        case presentCreateDiscoError(String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -157,8 +174,8 @@ private final class DiscoListPresenterSpy: DiscoListPresentationLogic {
         receivedMessages.append(.presentCreateDiscoFailure(error.localizedDescription))
     }
 
-    func presentCreateDiscoError(_ error: DiscoListError.CreateDiscoError) {
-        receivedMessages.append(.presentCreateDiscoError(error))
+    func presentCreateDiscoError(_ error: Error) {
+        receivedMessages.append(.presentCreateDiscoError(error.localizedDescription))
     }
 }
 
