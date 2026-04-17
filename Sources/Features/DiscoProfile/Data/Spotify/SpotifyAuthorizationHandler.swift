@@ -1,6 +1,44 @@
 import Foundation
 
-final class AuthorizationHandlerImpl: AuthorizationHandler {
+enum TokenError: LocalizedError {
+    case unableToCreateToken
+    case requestError(Error)
+
+    var errorDescription: String? {
+        "Não foi possível realizar a autenticação com o servidor, reinicie o aplicativo e tente novamente!"
+    }
+}
+
+public protocol SpotifyAuthorizationTokenProvider {
+    func loadAuthorizationValue(
+        completion: @escaping (Result<String, Error>) -> Void
+    )
+
+    func clearCachedTokenIfExists()
+}
+
+protocol SpotifyAuthorizationHandler: SpotifyAuthorizationTokenProvider {
+    func loadToken(
+        completion: @escaping (Result<AccessTokenResponseDTO, TokenError>) -> Void
+    )
+}
+
+extension SpotifyAuthorizationHandler {
+    func loadAuthorizationValue(
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+        loadToken { result in
+            switch result {
+            case .success(let token):
+                completion(.success(token.authorizationHeader))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+}
+
+final class SpotifyAuthorizationHandlerImpl: SpotifyAuthorizationHandler {
     private let networkClient: NetworkClient
     private let secureClient: SecureClient
 

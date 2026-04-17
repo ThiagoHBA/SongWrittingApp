@@ -7,19 +7,12 @@
 
 import Foundation
 
-public protocol AuthorizationTokenProvider {
-    func loadAuthorizationValue(
-        completion: @escaping (Result<String, Error>) -> Void
-    )
-
-    func clearCachedTokenIfExists()
-}
 
 public final class AuthorizationDecorator: NetworkClient {
     let client: NetworkClient
-    let tokenProvider: AuthorizationTokenProvider
+    let tokenProvider: SpotifyAuthorizationTokenProvider
 
-    public init(client: NetworkClient, tokenProvider: AuthorizationTokenProvider) {
+    public init(client: NetworkClient, tokenProvider: SpotifyAuthorizationTokenProvider) {
         self.client = client
         self.tokenProvider = tokenProvider
     }

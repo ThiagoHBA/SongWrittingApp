@@ -4,7 +4,7 @@ enum DiscoProfileComposer {
     static func make(with disco: DiscoSummary) -> UIViewController {
         let networkClient = NetworkClientImpl()
         let secureClient = SecureClientImpl(server: SpotifyReferencesConstants.secureStorageServer)
-        let authorizationHandler = AuthorizationHandlerImpl(
+        let authorizationHandler = SpotifyAuthorizationHandlerImpl(
             networkClient: networkClient,
             secureClient: secureClient
         )

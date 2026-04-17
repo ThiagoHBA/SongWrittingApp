@@ -41,7 +41,7 @@
 		0050BEF02F95000100000002 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Core/Persistence/CoreDataDiscoStore.swift,
+				Core/Persistence/CoreData/CoreDataDiscoStore.swift,
 			);
 			target = 00F2F2562B238ECE0008F6F5 /* Main */;
 		};
