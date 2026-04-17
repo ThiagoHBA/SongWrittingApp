@@ -21,22 +21,22 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
         self.store = store
     }
 
-    func loadProfile(
-        for disco: DiscoSummary,
-        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+    func load(
+        _ input: GetDiscoProfileUseCaseInput,
+        completion: @escaping (Result<GetDiscoProfileUseCaseOutput, Error>) -> Void
     ) {
         store.getProfiles { [weak self] result in
             guard let self else { return }
 
             switch result {
             case .success(let profiles):
-                if let profile = profiles.first(where: { $0.disco.id == disco.id }) {
+                if let profile = profiles.first(where: { $0.disco.id == input.id }) {
                     completion(.success(DiscoProfileStoreMapper.profile(from: profile)))
                     return
                 }
 
                 let newProfile = DiscoProfileStoreRecord(
-                    disco: DiscoProfileStoreMapper.storeDisco(from: disco),
+                    disco: DiscoProfileStoreMapper.storeDisco(from: input),
                     references: [],
                     section: []
                 )
@@ -56,43 +56,40 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
     }
 
     func addReferences(
-        _ references: [AlbumReference],
-        to disco: DiscoSummary,
-        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+        _ input: AddDiscoNewReferenceUseCaseInput,
+        completion: @escaping (Result<AddDiscoNewReferenceUseCaseOutput, Error>) -> Void
     ) {
-        mutateProfile(for: disco, completion: completion) { profile in
+        mutateProfile(for: input.disco, completion: completion) { profile in
             var profile = profile
-            profile.references = references
+            profile.references = input.newReferences
             return profile
         }
     }
 
     func addSection(
-        _ section: Section,
-        to disco: DiscoSummary,
-        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+        _ input: AddNewSectionToDiscoUseCaseInput,
+        completion: @escaping (Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void
     ) {
-        mutateProfile(for: disco, completion: completion) { profile in
+        mutateProfile(for: input.disco, completion: completion) { profile in
             var profile = profile
-            profile.section.append(section)
+            profile.section.append(input.section)
             return profile
         }
     }
 
     func addRecord(
-        in disco: DiscoSummary,
-        to section: Section,
-        completion: @escaping (Result<DiscoProfile, Error>) -> Void
+        _ input: AddNewRecordToSessionUseCaseInput,
+        completion: @escaping (Result<AddNewRecordToSessionUseCaseOutput, Error>) -> Void
     ) {
-        mutateProfile(for: disco, completion: completion) { profile in
+        mutateProfile(for: input.disco, completion: completion) { profile in
             guard let sectionIndex = profile.section.firstIndex(
-                where: { $0.identifer == section.identifer }
+                where: { $0.identifer == input.section.identifer }
             ) else {
                 throw DiscoProfileRepositoryError.cantFindSection
             }
 
             var profile = profile
-            profile.section[sectionIndex] = section
+            profile.section[sectionIndex] = input.section
             return profile
         }
     }
@@ -102,7 +99,7 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
         completion: @escaping (Result<DiscoProfile, Error>) -> Void,
         transform: @escaping (DiscoProfile) throws -> DiscoProfile
     ) {
-        loadProfile(for: disco) { [weak self] result in
+        load(disco) { [weak self] result in
             guard let self else { return }
 
             switch result {

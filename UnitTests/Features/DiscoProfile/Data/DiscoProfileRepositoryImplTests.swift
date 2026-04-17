@@ -7,7 +7,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         let (sut, store) = makeSUT()
         let disco = makeDisco()
 
-        sut.loadProfile(for: disco) { _ in }
+        sut.load(disco) { _ in }
         store.getProfilesCompletion?(.success([]))
         store.createProfileCompletion?(.success(makeEmptyProfileRecord(for: disco)))
 
@@ -20,7 +20,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         let createdProfile = makeEmptyProfileRecord(for: disco)
         var receivedProfile: DiscoProfile?
 
-        sut.loadProfile(for: disco) { result in
+        sut.load(disco) { result in
             if case let .success(profile) = result {
                 receivedProfile = profile
             }
@@ -42,7 +42,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         let existingProfile = makeProfileRecord(for: disco)
         var receivedProfile: DiscoProfile?
 
-        sut.loadProfile(for: disco) { result in
+        sut.load(disco) { result in
             if case let .success(profile) = result {
                 receivedProfile = profile
             }
@@ -54,10 +54,10 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         XCTAssertEqual(receivedProfile, DiscoProfileStoreMapper.profile(from: existingProfile))
     }
 
-    func test_addSection_updates_profile_with_new_section() {
+    func test_addSection_updates_profile_with_new_section() throws {
         let (sut, store) = makeSUT()
         let disco = makeDisco()
-        let section = Section(identifer: "Verse", records: [])
+        let section = try Section(identifer: "Verse", records: [])
         let existingProfile = makeEmptyProfileRecord(for: disco)
         let updatedProfile = DiscoProfileStoreRecord(
             disco: existingProfile.disco,
@@ -66,7 +66,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         )
         var receivedProfile: DiscoProfile?
 
-        sut.addSection(section, to: disco) { result in
+        sut.addSection(.init(disco: disco, section: section)) { result in
             if case let .success(profile) = result {
                 receivedProfile = profile
             }
@@ -82,17 +82,17 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         XCTAssertEqual(receivedProfile?.section, [section])
     }
 
-    func test_addRecord_fails_when_target_section_cannot_be_found() {
+    func test_addRecord_fails_when_target_section_cannot_be_found() throws {
         let (sut, store) = makeSUT()
         let disco = makeDisco()
-        let section = Section(
+        let section = try Section(
             identifer: "Verse",
             records: [.init(tag: .bass, audio: URL(string: "https://example.com/audio")!)]
         )
         let existingProfile = makeEmptyProfileRecord(for: disco)
         var receivedError: Error?
 
-        sut.addRecord(in: disco, to: section) { result in
+        sut.addRecord(.init(disco: disco, section: section)) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }

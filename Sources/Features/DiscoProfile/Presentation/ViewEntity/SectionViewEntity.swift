@@ -14,8 +14,8 @@ struct SectionViewEntity: Equatable {
         self.records = domain.records.map(RecordViewEntity.init(from:))
     }
 
-    func mapToDomain() -> Section {
-        Section(
+    func mapToDomain() throws -> Section {
+        try Section(
             identifer: identifer,
             records: records.map { $0.toDomain() }
         )
