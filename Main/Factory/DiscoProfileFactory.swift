@@ -55,7 +55,7 @@ struct DiscoProfileFactory {
 
         // MARK: - Propety Composition
         interactor.presenter = presenter
-        presenter.view = WeakReferenceProxy(viewController)
+        presenter.view = MainQueueProxy(WeakReferenceProxy(viewController))
 
         return viewController
     }
@@ -121,67 +121,67 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
 extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
     func startLoading() {
         DispatchQueue.main.async {
-            self.startLoading()
+            self.instance.startLoading()
         }
     }
     
     func hideLoading() {
         DispatchQueue.main.async {
-            self.hideLoading()
+            self.instance.hideLoading()
         }
     }
     
     func hideOverlays(completion: (() -> Void)?) {
         DispatchQueue.main.async {
-            self.hideOverlays(completion: completion)
+            self.instance.hideOverlays(completion: completion)
         }
     }
     
     func showReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
         DispatchQueue.main.async {
-            self.showReferences(references)
+            self.instance.showReferences(references)
         }
     }
 
     func showProfile(_ profile: Presentation.DiscoProfileViewEntity) {
         DispatchQueue.main.async {
-            self.showProfile(profile)
+            self.instance.showProfile(profile)
         }
     }
     
     func updateReferences(_ references: [Presentation.AlbumReferenceViewEntity]) {
         DispatchQueue.main.async {
-            self.updateReferences(references)
+            self.instance.updateReferences(references)
         }
     }
     
     func updateSections(_ sections: [Presentation.SectionViewEntity]) {
         DispatchQueue.main.async {
-            self.updateSections(sections)
+            self.instance.updateSections(sections)
         }
     }
     
     func addingReferencesError(_ title: String, description: String) {
         DispatchQueue.main.async {
-            self.addingReferencesError(title, description: description)
+            self.instance.addingReferencesError(title, description: description)
         }
     }
     
     func addingSectionError(_ title: String, description: String) {
         DispatchQueue.main.async {
-            self.addingSectionError(title, description: description)
+            self.instance.addingSectionError(title, description: description)
         }
     }
     
     func loadingProfileError(_ title: String, description: String) {
         DispatchQueue.main.async {
-            self.loadingProfileError(title, description: description)
+            self.instance.loadingProfileError(title, description: description)
         }
     }
     
     func addingRecordsError(_ title: String, description: String) {
         DispatchQueue.main.async {
-            self.addingRecordsError(title, description: description)
+            self.instance.addingRecordsError(title, description: description)
         }
     }
 }
