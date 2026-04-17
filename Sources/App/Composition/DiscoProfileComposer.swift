@@ -17,27 +17,15 @@ enum DiscoProfileComposer {
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
         let discoProfileRepository = DiscoProfileRepositoryImpl(store: discoStore)
 
-        let searchReferencesUseCase = SearchReferencesUseCase(repository: referenceSearchRepository)
-        let getDiscoProfileUseCase = GetDiscoProfileUseCase(repository: discoProfileRepository)
-        let addDiscoNewReferencesUseCase = AddDiscoNewReferenceUseCase(repository: discoProfileRepository)
-        let addNewSectionUseCase = AddNewSectionToDiscoUseCase(repository: discoProfileRepository)
-        let addNewRecordToSectionUseCase = AddNewRecordToSessionUseCase(repository: discoProfileRepository)
-
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
-            searchReferencesUseCase: searchReferencesUseCase,
-            getDiscoProfileUseCase: getDiscoProfileUseCase,
-            addDiscoNewReferenceUseCase: addDiscoNewReferencesUseCase,
-            addNewSectionToDiscoUseCase: addNewSectionUseCase,
-            addNewRecordToSessionUseCase: addNewRecordToSectionUseCase
+            searchReferencesUseCase: referenceSearchRepository,
+            getDiscoProfileUseCase: discoProfileRepository,
+            addDiscoNewReferenceUseCase: discoProfileRepository,
+            addNewSectionToDiscoUseCase: discoProfileRepository,
+            addNewRecordToSessionUseCase: discoProfileRepository
         )
         let viewController = DiscoProfileViewController(disco: disco, interactor: interactor)
-
-        searchReferencesUseCase.output = [presenter]
-        getDiscoProfileUseCase.output = [presenter]
-        addDiscoNewReferencesUseCase.output = [presenter]
-        addNewSectionUseCase.output = [presenter]
-        addNewRecordToSectionUseCase.output = [presenter]
 
         interactor.presenter = presenter
         presenter.view = MainQueueProxy(WeakReferenceProxy(viewController))

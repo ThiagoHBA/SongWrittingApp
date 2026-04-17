@@ -21,7 +21,7 @@ final class SpotifyReferenceSearchRepositoryTests: XCTestCase {
         )
         var receivedReferences: [AlbumReference] = []
 
-        sut.searchReferences(matching: "any request") { result in
+        sut.search(.init("any request")) { result in
             if case let .success(references) = result {
                 receivedReferences = references
             }
@@ -47,7 +47,7 @@ final class SpotifyReferenceSearchRepositoryTests: XCTestCase {
         let (sut, networkClient) = makeSUT()
         var receivedError: Error?
 
-        sut.searchReferences(matching: "any request") { result in
+        sut.search(.init("any request")) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }
@@ -63,7 +63,7 @@ final class SpotifyReferenceSearchRepositoryTests: XCTestCase {
         let expectedError = NSError(domain: "network", code: 0)
         var receivedError: NSError?
 
-        sut.searchReferences(matching: "any request") { result in
+        sut.search(.init("any request")) { result in
             if case let .failure(error as NSError) = result {
                 receivedError = error
             }

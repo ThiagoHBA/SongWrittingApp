@@ -4,7 +4,7 @@ import XCTest
 
 final class DiscoProfilePresenterTests: XCTestCase {
     func test_presentLoading_starts_loading_on_view() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
 
         sut.presentLoading()
 
@@ -12,9 +12,9 @@ final class DiscoProfilePresenterTests: XCTestCase {
     }
 
     func test_presentCreateSectionError_hides_overlay_then_shows_error() {
-        let (sut, view, _, _) = makeSUT()
+        let (sut, view) = makeSUT()
 
-        sut.presentCreateSectionError(.emptyName)
+        sut.presentCreateSectionError(DiscoProfileError.CreateSectionError.emptyName)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
@@ -29,20 +29,11 @@ final class DiscoProfilePresenterTests: XCTestCase {
         )
     }
 
-    func test_searchReferences_success_hides_loading_and_shows_references() {
-        let (_, view, repositories, useCases) = makeSUT()
-        let references = [
-            AlbumReference(
-                name: "Album",
-                artist: "Artist",
-                releaseDate: "2024-01-01",
-                coverImage: "https://example.com/image"
-            )
-        ]
+    func test_presentFoundReferences_hides_loading_and_shows_references() {
+        let (sut, view) = makeSUT()
+        let references = [makeReference()]
 
-        useCases.search.input = .init(keywords: "any")
-        useCases.search.execute()
-        repositories.references.searchReferencesCompletion?(.success(references))
+        sut.presentFoundReferences(references)
 
         XCTAssertEqual(
             view.receivedMessages,
@@ -50,27 +41,11 @@ final class DiscoProfilePresenterTests: XCTestCase {
         )
     }
 
-    func test_loadProfile_success_hides_loading_and_shows_profile() {
-        let (_, view, repositories, useCases) = makeSUT()
-        let profile = makeProfile()
+    func test_presentFindReferencesError_hides_loading_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let expectedError = NSError(domain: "find-reference", code: 0)
 
-        useCases.load.input = .init(disco: profile.disco)
-        useCases.load.execute()
-        repositories.profile.loadProfileCompletion?(.success(profile))
-
-        XCTAssertEqual(
-            view.receivedMessages,
-            [.hideLoading, .showProfile(DiscoProfileViewEntity(from: profile))]
-        )
-    }
-
-    func test_addReferences_failure_hides_loading_and_shows_error() {
-        let (_, view, repositories, useCases) = makeSUT()
-        let expectedError = NSError(domain: "add-reference", code: 0)
-
-        useCases.addReferences.input = .init(disco: makeDisco(), newReferences: [])
-        useCases.addReferences.execute()
-        repositories.profile.addReferencesCompletion?(.failure(expectedError))
+        sut.presentFindReferencesError(expectedError)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
@@ -86,19 +61,53 @@ final class DiscoProfilePresenterTests: XCTestCase {
         )
     }
 
-    func test_addSection_success_hides_overlays_and_updates_sections() {
-        let (_, view, repositories, useCases) = makeSUT()
+    func test_presentLoadedProfile_hides_loading_and_shows_profile() {
+        let (sut, view) = makeSUT()
         let profile = makeProfile()
-        let inputSection = Section(identifer: "Verse", records: [])
-        let updatedProfile = DiscoProfile(
-            disco: profile.disco,
-            references: profile.references,
-            section: [inputSection]
-        )
 
-        useCases.addSection.input = .init(disco: profile.disco, section: inputSection)
-        useCases.addSection.execute()
-        repositories.profile.addSectionCompletion?(.success(updatedProfile))
+        sut.presentLoadedProfile(profile)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [.hideLoading, .showProfile(DiscoProfileViewEntity(from: profile))]
+        )
+    }
+
+    func test_presentLoadProfileError_hides_loading_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let expectedError = NSError(domain: "load-profile", code: 0)
+
+        sut.presentLoadProfileError(expectedError)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .hideLoading,
+                .loadingProfileError(
+                    DiscoProfileError.LoadingProfileError.errorTitle,
+                    expectedError.localizedDescription
+                )
+            ]
+        )
+    }
+
+    func test_presentAddedReferences_hides_loading_and_updates_references() {
+        let (sut, view) = makeSUT()
+        let profile = makeProfile(references: [makeReference()])
+
+        sut.presentAddedReferences(profile)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [.hideLoading, .updateReferences(profile.references.map(AlbumReferenceViewEntity.init(from:)))]
+        )
+    }
+
+    func test_presentAddReferencesError_hides_loading_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let expectedError = NSError(domain: "add-reference", code: 0)
+
+        sut.presentAddReferencesError(expectedError)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
@@ -106,22 +115,75 @@ final class DiscoProfilePresenterTests: XCTestCase {
             [
                 .hideLoading,
                 .hideOverlays,
-                .updateSections([SectionViewEntity(from: inputSection)])
+                .addingReferencesError(
+                    DiscoProfileError.LoadReferencesError.errorTitle,
+                    expectedError.localizedDescription
+                )
             ]
         )
     }
 
-    func test_addRecord_failure_hides_overlays_and_shows_error() {
-        let (_, view, repositories, useCases) = makeSUT()
-        let expectedError = NSError(domain: "add-record", code: 0)
-        let inputSection = Section(
-            identifer: "Verse",
-            records: [.init(tag: .bass, audio: URL(string: "https://example.com/audio")!)]
-        )
+    func test_presentAddedSection_hides_overlays_and_updates_sections() throws {
+        let (sut, view) = makeSUT()
+        let section = try Section(identifer: "Verse", records: [])
+        let profile = makeProfile(sections: [section])
 
-        useCases.addRecord.input = .init(disco: makeDisco(), section: inputSection)
-        useCases.addRecord.execute()
-        repositories.profile.addRecordCompletion?(.failure(expectedError))
+        sut.presentAddedSection(profile)
+        view.hideOverlaysCompletion?()
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .hideLoading,
+                .hideOverlays,
+                .updateSections([SectionViewEntity(from: section)])
+            ]
+        )
+    }
+
+    func test_presentAddSectionError_hides_overlays_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let expectedError = NSError(domain: "add-section", code: 0)
+
+        sut.presentAddSectionError(expectedError)
+        view.hideOverlaysCompletion?()
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .hideLoading,
+                .hideOverlays,
+                .addingSectionError(
+                    DiscoProfileError.AddingSectionsError.errorTitle,
+                    expectedError.localizedDescription
+                )
+            ]
+        )
+    }
+
+    func test_presentAddedRecord_hides_overlays_and_updates_sections() throws {
+        let (sut, view) = makeSUT()
+        let section = try Section(identifer: "Verse", records: [])
+        let profile = makeProfile(sections: [section])
+
+        sut.presentAddedRecord(profile)
+        view.hideOverlaysCompletion?()
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .hideLoading,
+                .hideOverlays,
+                .updateSections([SectionViewEntity(from: section)])
+            ]
+        )
+    }
+
+    func test_presentAddRecordError_hides_overlays_and_shows_error() {
+        let (sut, view) = makeSUT()
+        let expectedError = NSError(domain: "add-record", code: 0)
+
+        sut.presentAddRecordError(expectedError)
         view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
@@ -137,50 +199,33 @@ final class DiscoProfilePresenterTests: XCTestCase {
         )
     }
 
-    private func makeSUT() -> (
-        sut: DiscoProfilePresenter,
-        view: DiscoProfileViewSpy,
-        repositories: (profile: DiscoProfileRepositorySpy, references: ReferenceSearchRepositorySpy),
-        useCases: (
-            search: SearchReferencesUseCase,
-            load: GetDiscoProfileUseCase,
-            addReferences: AddDiscoNewReferenceUseCase,
-            addSection: AddNewSectionToDiscoUseCase,
-            addRecord: AddNewRecordToSessionUseCase
-        )
-    ) {
-        let profileRepository = DiscoProfileRepositorySpy()
-        let referencesRepository = ReferenceSearchRepositorySpy()
+    private func makeSUT() -> (sut: DiscoProfilePresenter, view: DiscoProfileViewSpy) {
         let view = DiscoProfileViewSpy()
         let sut = DiscoProfilePresenter()
 
-        let searchUseCase = SearchReferencesUseCase(repository: referencesRepository)
-        let loadUseCase = GetDiscoProfileUseCase(repository: profileRepository)
-        let addReferencesUseCase = AddDiscoNewReferenceUseCase(repository: profileRepository)
-        let addSectionUseCase = AddNewSectionToDiscoUseCase(repository: profileRepository)
-        let addRecordUseCase = AddNewRecordToSessionUseCase(repository: profileRepository)
-
-        searchUseCase.output = [sut]
-        loadUseCase.output = [sut]
-        addReferencesUseCase.output = [sut]
-        addSectionUseCase.output = [sut]
-        addRecordUseCase.output = [sut]
         sut.view = view
 
-        return (
-            sut,
-            view,
-            (profileRepository, referencesRepository),
-            (searchUseCase, loadUseCase, addReferencesUseCase, addSectionUseCase, addRecordUseCase)
-        )
+        return (sut, view)
     }
 
     private func makeDisco() -> DiscoSummary {
         DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
     }
 
-    private func makeProfile() -> DiscoProfile {
-        DiscoProfile(disco: makeDisco(), references: [], section: [])
+    private func makeReference() -> AlbumReference {
+        AlbumReference(
+            name: "Album",
+            artist: "Artist",
+            releaseDate: "2024-01-01",
+            coverImage: "https://example.com/image"
+        )
+    }
+
+    private func makeProfile(
+        references: [AlbumReference] = [],
+        sections: [Section] = []
+    ) -> DiscoProfile {
+        DiscoProfile(disco: makeDisco(), references: references, section: sections)
     }
 }
 

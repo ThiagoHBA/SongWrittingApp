@@ -3,22 +3,23 @@ import XCTest
 @testable import Main
 
 final class DiscoListRepositoryImplTests: XCTestCase {
-    func test_getDiscos_fetches_from_store() {
+    func test_execute_fetches_from_store() {
         let (sut, store) = makeSUT()
 
-        sut.getDiscos { _ in }
+        sut.load(.init()) { _ in }
         store.getDiscosCompletion?(.success([]))
 
         XCTAssertEqual(store.receivedMessages, [.getDiscos])
     }
 
-    func test_createDisco_fails_when_name_already_exists() {
+    func test_createDisco_fails_when_name_already_exists() throws {
         let (sut, store) = makeSUT()
         let expectedError = "Um disco com o mesmo nome já foi criado"
         let existingDisco = DiscoStoreRecord(id: UUID(), name: "Any", coverImage: Data())
+        let disco = try XCTUnwrap(try? Disco(name: "Any", image: Data("image".utf8)))
 
         var receivedError: Error?
-        sut.createDisco(name: "Any", image: Data("image".utf8)) { result in
+        sut.create(disco) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }
@@ -30,12 +31,13 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         XCTAssertEqual(receivedError?.localizedDescription, expectedError)
     }
 
-    func test_createDisco_creates_summary_when_name_is_unique() {
+    func test_createDisco_creates_summary_when_name_is_unique() throws {
         let (sut, store) = makeSUT()
         let expectedImage = Data("cover".utf8)
+        let disco = try XCTUnwrap(try? Disco(name: "New", image: expectedImage))
 
         var receivedDisco: DiscoSummary?
-        sut.createDisco(name: "New", image: expectedImage) { result in
+        sut.create(disco) { result in
             if case let .success(disco) = result {
                 receivedDisco = disco
             }
@@ -64,7 +66,7 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         let disco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data())
 
         var receivedError: Error?
-        sut.deleteDisco(disco) { result in
+        sut.delete(.init(disco: disco)) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }

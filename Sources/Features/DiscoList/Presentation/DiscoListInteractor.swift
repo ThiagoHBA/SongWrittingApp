@@ -23,32 +23,40 @@ final class DiscoListInteractor: DiscoListBusinessLogic {
 
     func loadDiscos() {
         presenter?.presentLoading()
-        getDiscosUseCase.execute()
+        getDiscosUseCase.load(.init()) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let discos):
+                self.presenter?.presentLoadedDiscos(discos)
+            case .failure(let error):
+                self.presenter?.presentLoadDiscoError(error)
+            }
+        }
     }
 
     func createDisco(name: String, image: Data) {
-        guard discoIsValid(name, image) else { return }
-
         presenter?.presentLoading()
-        createNewDiscoUseCase.input = .init(name: name, image: image)
-        createNewDiscoUseCase.execute()
-    }
+        
+        do {
+            let disco = try Disco(name: name, image: image)
+            
+            createNewDiscoUseCase.create(disco) { [weak self] result in
+                guard let self else { return }
 
+                switch result {
+                case .success(let disco):
+                    self.presenter?.presentCreatedDisco(disco)
+                case .failure(let error):
+                    self.presenter?.presentCreateDiscoFailure(error)
+                }
+            }
+        } catch {
+            presenter?.presentCreateDiscoError(error)
+        }
+    }
+    
     func showProfile(of disco: DiscoListViewEntity) {
         router?.showProfile(of: disco.toSummary())
-    }
-
-    private func discoIsValid(_ name: String, _ image: Data) -> Bool {
-        if name.isEmpty {
-            presenter?.presentCreateDiscoError(.emptyName)
-            return false
-        }
-
-        if image.isEmpty {
-            presenter?.presentCreateDiscoError(.emptyImage)
-            return false
-        }
-
-        return true
     }
 }

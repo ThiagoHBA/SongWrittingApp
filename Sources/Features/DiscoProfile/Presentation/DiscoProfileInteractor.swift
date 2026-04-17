@@ -33,51 +33,103 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
 
     func searchNewReferences(keywords: String) {
         presenter?.presentLoading()
-        searchReferencesUseCase.input = .init(keywords: keywords)
-        searchReferencesUseCase.execute()
+        
+        searchReferencesUseCase.search(.init(keywords)) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let references):
+                self.presenter?.presentFoundReferences(references)
+            case .failure(let error):
+                self.presenter?.presentFindReferencesError(error)
+            }
+        }
     }
 
     func loadProfile(for disco: DiscoSummary) {
         presenter?.presentLoading()
-        getDiscoProfileUseCase.input = .init(disco: disco)
-        getDiscoProfileUseCase.execute()
+        
+        getDiscoProfileUseCase.load(disco) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let profile):
+                self.presenter?.presentLoadedProfile(profile)
+            case .failure(let error):
+                self.presenter?.presentLoadProfileError(error)
+            }
+        }
     }
 
     func addNewReferences(for disco: DiscoSummary, references: [AlbumReferenceViewEntity]) {
         presenter?.presentLoading()
-        addDiscoNewReferenceUseCase.input = .init(
+        
+        addDiscoNewReferenceUseCase.addReferences(.init(
             disco: disco,
             newReferences: references.map { $0.mapToDomain() }
-        )
-        addDiscoNewReferenceUseCase.execute()
+        )) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let profile):
+                self.presenter?.presentAddedReferences(profile)
+            case .failure(let error):
+                self.presenter?.presentAddReferencesError(error)
+            }
+        }
     }
 
     func addNewSection(for disco: DiscoSummary, section: SectionViewEntity) {
-        guard sectionIsValid(section.identifer) else { return }
-
         presenter?.presentLoading()
-        addNewSectionToDiscoUseCase.input = .init(
-            disco: disco,
-            section: section.mapToDomain()
-        )
-        addNewSectionToDiscoUseCase.execute()
+        
+        do {
+            let section = try section.mapToDomain()
+            
+            let input = AddNewSectionToDiscoUseCaseInput(
+                disco: disco,
+                section: section
+            )
+            
+            addNewSectionToDiscoUseCase.addSection(input) { [weak self] result in
+                guard let self else { return }
+
+                switch result {
+                case .success(let profile):
+                    self.presenter?.presentAddedSection(profile)
+                case .failure(let error):
+                    self.presenter?.presentAddSectionError(error)
+                }
+            }
+        } catch let error as DiscoProfileError.CreateSectionError {
+            presenter?.presentCreateSectionError(error)
+        } catch {
+            presenter?.presentAddSectionError(error)
+        }
     }
 
     func addNewRecord(in disco: DiscoSummary, to section: SectionViewEntity) {
         presenter?.presentLoading()
-        addNewRecordToSessionUseCase.input = .init(
-            disco: disco,
-            section: section.mapToDomain()
-        )
-        addNewRecordToSessionUseCase.execute()
-    }
+        
+        do {
+            let section = try section.mapToDomain()
+            
+            let input = AddNewRecordToSessionUseCaseInput(
+                disco: disco,
+                section: section
+            )
+            
+            addNewRecordToSessionUseCase.addRecord(input) { [weak self] result in
+                guard let self else { return }
 
-    private func sectionIsValid(_ name: String) -> Bool {
-        if name.isEmpty {
-            presenter?.presentCreateSectionError(.emptyName)
-            return false
+                switch result {
+                case .success(let profile):
+                    self.presenter?.presentAddedRecord(profile)
+                case .failure(let error):
+                    self.presenter?.presentAddRecordError(error)
+                }
+            }
+        } catch {
+            self.presenter?.presentAddRecordError(error)
         }
-
-        return true
     }
 }

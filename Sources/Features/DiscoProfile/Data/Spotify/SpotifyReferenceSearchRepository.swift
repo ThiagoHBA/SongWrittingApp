@@ -15,11 +15,11 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
         self.networkClient = networkClient
     }
 
-    func searchReferences(
-        matching keywords: String,
-        completion: @escaping (Result<[AlbumReference], Error>) -> Void
+    func search(
+        _ input: SearchReferencesUseCaseInput,
+        completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
     ) {
-        let endpoint = GetReferencesEndpoint(keywords: keywords)
+        let endpoint = GetReferencesEndpoint(keywords: input)
 
         networkClient.makeRequest(endpoint) { result in
             switch result {

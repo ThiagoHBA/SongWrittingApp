@@ -9,7 +9,7 @@ enum DiscoProfileStoreMapper {
                 coverImage: storeRecord.disco.coverImage
             ),
             references: storeRecord.references.map(albumReference(from:)),
-            section: storeRecord.section.map(section(from:))
+            section: storeRecord.section.compactMap(section(from:))
         )
     }
 
@@ -57,8 +57,8 @@ enum DiscoProfileStoreMapper {
         )
     }
 
-    private static func section(from storeRecord: SectionStoreRecord) -> Section {
-        Section(
+    private static func section(from storeRecord: SectionStoreRecord) -> Section? {
+        try? Section(
             identifer: storeRecord.identifer,
             records: storeRecord.records.map(record(from:))
         )

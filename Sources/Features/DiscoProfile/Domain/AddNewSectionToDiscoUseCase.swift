@@ -1,36 +1,15 @@
 import Foundation
 
-struct AddNewSectionToDiscoUseCaseInput {
+struct AddNewSectionToDiscoUseCaseInput: Equatable {
     let disco: DiscoSummary
     let section: Section
 }
 
-protocol AddNewSectionToDiscoUseCaseOutput: AnyObject {
-    func successfullyAddedSectionToDisco(_ disco: DiscoProfile)
-    func errorWhileAddingSectionToDisco(_ error: Error)
-}
+typealias AddNewSectionToDiscoUseCaseOutput = DiscoProfile
 
-final class AddNewSectionToDiscoUseCase {
-    private let repository: DiscoProfileRepository
-    var input: AddNewSectionToDiscoUseCaseInput?
-    var output: [AddNewSectionToDiscoUseCaseOutput] = []
-
-    init(repository: DiscoProfileRepository) {
-        self.repository = repository
-    }
-
-    func execute() {
-        guard let input else { return }
-
-        repository.addSection(input.section, to: input.disco) { [weak self] result in
-            guard let self else { return }
-
-            switch result {
-            case .success(let profile):
-                output.forEach { $0.successfullyAddedSectionToDisco(profile) }
-            case .failure(let error):
-                output.forEach { $0.errorWhileAddingSectionToDisco(error) }
-            }
-        }
-    }
+protocol AddNewSectionToDiscoUseCase {
+    func addSection(
+        _ input: AddNewSectionToDiscoUseCaseInput,
+        completion: @escaping (Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void
+    )
 }
