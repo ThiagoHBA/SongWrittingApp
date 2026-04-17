@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 73;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -71,32 +71,11 @@
 		00B97BF02B27EE7200934E4A /* DiscoProfilePresentationSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */; };
 		00B97BF22B27F9A400934E4A /* DiscoProfilePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */; };
 		00B97BF62B27FABB00934E4A /* DiscoProfileViewSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */; };
-		00B97C022B28879C00934E4A /* SongWrittingApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */; };
-		00BBF9E72B3AA86200421ECA /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */; };
-		00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */; };
-		00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */; };
-		00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */; };
-		00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */; };
 		00D0ECC52B2922BE00A2862B /* ShimmeringViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */; };
 		00D0ECC72B2922D500A2862B /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC62B2922D500A2862B /* UIViewExtension.swift */; };
 		00D0ECC92B29232D00A2862B /* ShimmeringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */; };
 		00D0ECDA2B2DF27C00A2862B /* DiscoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECD92B2DF27C00A2862B /* DiscoService.swift */; };
 		00D0ECDC2B2DF34600A2862B /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECDB2B2DF34600A2862B /* DataStorage.swift */; };
-		00D0ECDF2B2DFEB500A2862B /* InMemoryDiscoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECDE2B2DFEB500A2862B /* InMemoryDiscoStorage.swift */; };
-		00D0ECE12B2E04A700A2862B /* CoreDataDiscoStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECE02B2E04A700A2862B /* CoreDataDiscoStorage.swift */; };
-		00D0ECE42B2E053400A2862B /* DiscoServiceFromStorageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */; };
-		00D0ECE72B2E055400A2862B /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECE62B2E055400A2862B /* StorageError.swift */; };
-		00D0ECF22B2E05FA00A2862B /* DiscoProfileEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECE82B2E05FA00A2862B /* DiscoProfileEntity+CoreDataClass.swift */; };
-		00D0ECF32B2E05FA00A2862B /* DiscoProfileEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECE92B2E05FA00A2862B /* DiscoProfileEntity+CoreDataProperties.swift */; };
-		00D0ECF42B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECEA2B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift */; };
-		00D0ECF52B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECEB2B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift */; };
-		00D0ECF62B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECEC2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataClass.swift */; };
-		00D0ECF72B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECED2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift */; };
-		00D0ECF82B2E05FA00A2862B /* DiscoEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECEE2B2E05FA00A2862B /* DiscoEntity+CoreDataClass.swift */; };
-		00D0ECF92B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECEF2B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift */; };
-		00D0ECFA2B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECF02B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift */; };
-		00D0ECFB2B2E05FA00A2862B /* RecordEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0ECF12B2E05FA00A2862B /* RecordEntity+CoreDataProperties.swift */; };
-		00D0ECFC2B2E0C5600A2862B /* SongWrittingApp.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */; };
 		00F2F1EF2B2373D50008F6F5 /* SearchReferencesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */; };
 		00F2F1F22B237F150008F6F5 /* ReferencesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F1F12B237F150008F6F5 /* ReferencesService.swift */; };
 		00F2F2032B2380000008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
@@ -111,7 +90,6 @@
 		00F2F2252B2382D00008F6F5 /* SpotifyReferencesConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2242B2382D00008F6F5 /* SpotifyReferencesConstants.swift */; };
 		00F2F22A2B2386560008F6F5 /* NetworkClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2292B2386560008F6F5 /* NetworkClientSpy.swift */; };
 		00F2F23A2B238D620008F6F5 /* Infra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F2322B238D620008F6F5 /* Infra.framework */; };
-		00F2F2492B238D820008F6F5 /* NetworkClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */; };
 		00F2F24A2B238D940008F6F5 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; };
 		00F2F24B2B238D940008F6F5 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1FB2B2380000008F6F5 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00F2F24E2B238D940008F6F5 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F2F1E62B2373B70008F6F5 /* Domain.framework */; };
@@ -131,11 +109,8 @@
 		00F2F2812B23903D0008F6F5 /* AuthorizationHandlerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2802B23903D0008F6F5 /* AuthorizationHandlerImpl.swift */; };
 		00F2F2832B2390B00008F6F5 /* LoadTokenEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */; };
 		00F2F2862B23930A0008F6F5 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */; };
-		00F2F2882B23944D0008F6F5 /* SecurePersistenceClientImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */; };
 		00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F28E2B2399CA0008F6F5 /* DataError.swift */; };
-		00F2F2922B239A350008F6F5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2912B239A350008F6F5 /* NetworkError.swift */; };
 		00F2F2952B239D460008F6F5 /* DataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2942B239D460008F6F5 /* DataEntity.swift */; };
-		00F2F2992B23A6720008F6F5 /* SecurePersistenceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */; };
 		00F2F29C2B24035F0008F6F5 /* AuthorizationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F29B2B24035F0008F6F5 /* AuthorizationHandler.swift */; };
 		00F2F29F2B2409D30008F6F5 /* AuthorizationDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F29E2B2409D30008F6F5 /* AuthorizationDecorator.swift */; };
 		00F2F2A12B240B5D0008F6F5 /* TokenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2F2A02B240B5D0008F6F5 /* TokenError.swift */; };
@@ -445,31 +420,11 @@
 		00B97BEF2B27EE7200934E4A /* DiscoProfilePresentationSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresentationSpy.swift; sourceTree = "<group>"; };
 		00B97BF12B27F9A400934E4A /* DiscoProfilePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfilePresenterTests.swift; sourceTree = "<group>"; };
 		00B97BF52B27FABB00934E4A /* DiscoProfileViewSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoProfileViewSpy.swift; sourceTree = "<group>"; };
-		00B97C012B28879C00934E4A /* SongWrittingApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SongWrittingApp.xcdatamodel; sourceTree = "<group>"; };
-		00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
-		00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientTest.swift; sourceTree = "<group>"; };
-		00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionMock.swift; sourceTree = "<group>"; };
-		00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskSpy.swift; sourceTree = "<group>"; };
-		00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointDummy.swift; sourceTree = "<group>"; };
 		00D0ECC42B2922BE00A2862B /* ShimmeringViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringViewProtocol.swift; sourceTree = "<group>"; };
 		00D0ECC62B2922D500A2862B /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		00D0ECC82B29232D00A2862B /* ShimmeringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmeringConstants.swift; sourceTree = "<group>"; };
-		00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoServiceFromStorageConstants.swift; sourceTree = "<group>"; };
 		00D0ECD92B2DF27C00A2862B /* DiscoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoService.swift; sourceTree = "<group>"; };
 		00D0ECDB2B2DF34600A2862B /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
-		00D0ECDE2B2DFEB500A2862B /* InMemoryDiscoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryDiscoStorage.swift; sourceTree = "<group>"; };
-		00D0ECE02B2E04A700A2862B /* CoreDataDiscoStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDiscoStorage.swift; sourceTree = "<group>"; };
-		00D0ECE62B2E055400A2862B /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
-		00D0ECE82B2E05FA00A2862B /* DiscoProfileEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00D0ECE92B2E05FA00A2862B /* DiscoProfileEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoProfileEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		00D0ECEA2B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00D0ECEB2B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SectionEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		00D0ECEC2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00D0ECED2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AlbumReferenceEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		00D0ECEE2B2E05FA00A2862B /* DiscoEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00D0ECEF2B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiscoEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		00D0ECF02B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00D0ECF12B2E05FA00A2862B /* RecordEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecordEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		00F2F1E62B2373B70008F6F5 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F1EE2B2373D50008F6F5 /* SearchReferencesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReferencesUseCase.swift; sourceTree = "<group>"; };
 		00F2F1F12B237F150008F6F5 /* ReferencesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferencesService.swift; sourceTree = "<group>"; };
@@ -485,7 +440,6 @@
 		00F2F2292B2386560008F6F5 /* NetworkClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientSpy.swift; sourceTree = "<group>"; };
 		00F2F2322B238D620008F6F5 /* Infra.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Infra.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2392B238D620008F6F5 /* InfraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InfraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientImpl.swift; sourceTree = "<group>"; };
 		00F2F2572B238ECE0008F6F5 /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F2F2592B238ECF0008F6F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00F2F25B2B238ECF0008F6F5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -495,11 +449,8 @@
 		00F2F2802B23903D0008F6F5 /* AuthorizationHandlerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationHandlerImpl.swift; sourceTree = "<group>"; };
 		00F2F2822B2390B00008F6F5 /* LoadTokenEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadTokenEndpoint.swift; sourceTree = "<group>"; };
 		00F2F2852B23930A0008F6F5 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
-		00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePersistenceClientImpl.swift; sourceTree = "<group>"; };
 		00F2F28E2B2399CA0008F6F5 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
-		00F2F2912B239A350008F6F5 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		00F2F2942B239D460008F6F5 /* DataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataEntity.swift; sourceTree = "<group>"; };
-		00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePersistenceError.swift; sourceTree = "<group>"; };
 		00F2F29B2B24035F0008F6F5 /* AuthorizationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationHandler.swift; sourceTree = "<group>"; };
 		00F2F29E2B2409D30008F6F5 /* AuthorizationDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationDecorator.swift; sourceTree = "<group>"; };
 		00F2F2A02B240B5D0008F6F5 /* TokenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenError.swift; sourceTree = "<group>"; };
@@ -535,6 +486,38 @@
 		00F2F3302B24E9B60008F6F5 /* DiscoListFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListFactory.swift; sourceTree = "<group>"; };
 		00F2F33A2B24F4AA0008F6F5 /* DiscoListViewEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoListViewEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0028AACB2F91BF2600E6A87F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Storage/LocalStorage/SongWrittingApp.xcdatamodeld,
+			);
+			target = 00F2F1FA2B2380000008F6F5 /* Data */;
+		};
+		0028AACC2F91BF2600E6A87F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Storage/LocalStorage/SongWrittingApp.xcdatamodeld,
+			);
+			target = 00F2F2312B238D620008F6F5 /* Infra */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		0028AACD2F91BF2600E6A87F /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 00F2F2302B238D620008F6F5 /* Resources */;
+			membershipExceptions = (
+				Storage/LocalStorage/SongWrittingApp.xcdatamodeld,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0028AAB32F91BF2600E6A87F /* Infra */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0028AACB2F91BF2600E6A87F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 0028AACC2F91BF2600E6A87F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 0028AACD2F91BF2600E6A87F /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Infra; sourceTree = "<group>"; };
+		0028AAD42F91BF8100E6A87F /* InfraTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = InfraTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		00F2F1E32B2373B70008F6F5 /* Frameworks */ = {
@@ -978,59 +961,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		00B97C172B288C2A00934E4A /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-				00D0ECE82B2E05FA00A2862B /* DiscoProfileEntity+CoreDataClass.swift */,
-				00D0ECE92B2E05FA00A2862B /* DiscoProfileEntity+CoreDataProperties.swift */,
-				00D0ECEA2B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift */,
-				00D0ECEB2B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift */,
-				00D0ECEC2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataClass.swift */,
-				00D0ECED2B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift */,
-				00D0ECEE2B2E05FA00A2862B /* DiscoEntity+CoreDataClass.swift */,
-				00D0ECEF2B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift */,
-				00D0ECF02B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift */,
-				00D0ECF12B2E05FA00A2862B /* RecordEntity+CoreDataProperties.swift */,
-			);
-			path = Entities;
-			sourceTree = "<group>";
-		};
-		00BBF9E42B3AA84E00421ECA /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9E52B3AA85700421ECA /* Protocol */,
-				00F2F2482B238D820008F6F5 /* NetworkClientImpl.swift */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		00BBF9E52B3AA85700421ECA /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9E62B3AA86200421ECA /* URLSessionProtocol.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		00BBF9EA2B3AAA0B00421ECA /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9ED2B3AAA7000421ECA /* Doubles */,
-				00BBF9EB2B3AAA2300421ECA /* NetworkClientTest.swift */,
-			);
-			path = Client;
-			sourceTree = "<group>";
-		};
-		00BBF9ED2B3AAA7000421ECA /* Doubles */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9EF2B3AAA8100421ECA /* URLSessionMock.swift */,
-				00BBF9F12B3AAAB200421ECA /* URLSessionDataTaskSpy.swift */,
-				00BBF9F32B3AAC1E00421ECA /* EndpointDummy.swift */,
-			);
-			path = Doubles;
-			sourceTree = "<group>";
-		};
 		00D0ECC32B2922B600A2862B /* Shimmer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1040,39 +970,11 @@
 			path = Shimmer;
 			sourceTree = "<group>";
 		};
-		00D0ECDD2B2DFEAA00A2862B /* Storage */ = {
-			isa = PBXGroup;
-			children = (
-				00D0ECE32B2E050800A2862B /* LocalStorage */,
-				00D0ECE22B2E050100A2862B /* InMemory */,
-			);
-			path = Storage;
-			sourceTree = "<group>";
-		};
-		00D0ECE22B2E050100A2862B /* InMemory */ = {
-			isa = PBXGroup;
-			children = (
-				00D0ECDE2B2DFEB500A2862B /* InMemoryDiscoStorage.swift */,
-			);
-			path = InMemory;
-			sourceTree = "<group>";
-		};
-		00D0ECE32B2E050800A2862B /* LocalStorage */ = {
-			isa = PBXGroup;
-			children = (
-				00B97C172B288C2A00934E4A /* Entities */,
-				00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */,
-				00D0ECD72B29525C00A2862B /* DiscoServiceFromStorageConstants.swift */,
-				00D0ECE02B2E04A700A2862B /* CoreDataDiscoStorage.swift */,
-			);
-			path = LocalStorage;
-			sourceTree = "<group>";
-		};
 		00F2F1C12B2373980008F6F5 = {
 			isa = PBXGroup;
 			children = (
-				00F2F2332B238D620008F6F5 /* Infra */,
-				00F2F23D2B238D620008F6F5 /* InfraTests */,
+				0028AAB32F91BF2600E6A87F /* Infra */,
+				0028AAD42F91BF8100E6A87F /* InfraTests */,
 				00F2F1FC2B2380000008F6F5 /* Data */,
 				00F2F2062B2380000008F6F5 /* DataTests */,
 				00F2F1E72B2373B70008F6F5 /* Domain */,
@@ -1206,33 +1108,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		00F2F2332B238D620008F6F5 /* Infra */ = {
-			isa = PBXGroup;
-			children = (
-				00D0ECDD2B2DFEAA00A2862B /* Storage */,
-				00F2F2902B239A2F0008F6F5 /* Error */,
-				00F2F2472B238D780008F6F5 /* Client */,
-			);
-			path = Infra;
-			sourceTree = "<group>";
-		};
-		00F2F23D2B238D620008F6F5 /* InfraTests */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9EA2B3AAA0B00421ECA /* Client */,
-			);
-			path = InfraTests;
-			sourceTree = "<group>";
-		};
-		00F2F2472B238D780008F6F5 /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				00BBF9E42B3AA84E00421ECA /* Network */,
-				00F2F2872B23944D0008F6F5 /* SecurePersistenceClientImpl.swift */,
-			);
-			path = Client;
-			sourceTree = "<group>";
-		};
 		00F2F2582B238ECF0008F6F5 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -1279,16 +1154,6 @@
 			children = (
 				00F2F28E2B2399CA0008F6F5 /* DataError.swift */,
 				00F2F2A02B240B5D0008F6F5 /* TokenError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
-		00F2F2902B239A2F0008F6F5 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				00D0ECE62B2E055400A2862B /* StorageError.swift */,
-				00F2F2912B239A350008F6F5 /* NetworkError.swift */,
-				00F2F2982B23A6720008F6F5 /* SecurePersistenceError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -1585,6 +1450,9 @@
 			dependencies = (
 				00F2F27D2B238F820008F6F5 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				0028AAB32F91BF2600E6A87F /* Infra */,
+			);
 			name = Infra;
 			productName = Infra;
 			productReference = 00F2F2322B238D620008F6F5 /* Infra.framework */;
@@ -1605,6 +1473,9 @@
 				00F2F23C2B238D620008F6F5 /* PBXTargetDependency */,
 				00F2F24D2B238D940008F6F5 /* PBXTargetDependency */,
 				00F2F2512B238D940008F6F5 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0028AAD42F91BF8100E6A87F /* InfraTests */,
 			);
 			name = InfraTests;
 			productName = InfraTests;
@@ -1763,7 +1634,6 @@
 				};
 			};
 			buildConfigurationList = 00F2F1C52B2373980008F6F5 /* Build configuration list for PBXProject "SongWrittingApp" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1773,6 +1643,7 @@
 			mainGroup = 00F2F1C12B2373980008F6F5;
 			packageReferences = (
 			);
+			preferredProjectObjectVersion = 56;
 			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1817,7 +1688,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00D0ECFC2B2E0C5600A2862B /* SongWrittingApp.xcdatamodeld in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1930,7 +1800,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00B97C022B28879C00934E4A /* SongWrittingApp.xcdatamodeld in Sources */,
 				00F2F28F2B2399CA0008F6F5 /* DataError.swift in Sources */,
 				00D0ECDC2B2DF34600A2862B /* DataStorage.swift in Sources */,
 				00F2F2232B2382790008F6F5 /* GetReferencesEndpoint.swift in Sources */,
@@ -1970,25 +1839,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00D0ECF22B2E05FA00A2862B /* DiscoProfileEntity+CoreDataClass.swift in Sources */,
-				00D0ECF82B2E05FA00A2862B /* DiscoEntity+CoreDataClass.swift in Sources */,
-				00D0ECDF2B2DFEB500A2862B /* InMemoryDiscoStorage.swift in Sources */,
-				00D0ECF62B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataClass.swift in Sources */,
-				00D0ECE12B2E04A700A2862B /* CoreDataDiscoStorage.swift in Sources */,
-				00D0ECFB2B2E05FA00A2862B /* RecordEntity+CoreDataProperties.swift in Sources */,
-				00F2F2492B238D820008F6F5 /* NetworkClientImpl.swift in Sources */,
-				00D0ECE42B2E053400A2862B /* DiscoServiceFromStorageConstants.swift in Sources */,
-				00D0ECE72B2E055400A2862B /* StorageError.swift in Sources */,
-				00D0ECF52B2E05FA00A2862B /* SectionEntity+CoreDataProperties.swift in Sources */,
-				00D0ECF92B2E05FA00A2862B /* DiscoEntity+CoreDataProperties.swift in Sources */,
-				00D0ECF72B2E05FA00A2862B /* AlbumReferenceEntity+CoreDataProperties.swift in Sources */,
-				00BBF9E72B3AA86200421ECA /* URLSessionProtocol.swift in Sources */,
-				00D0ECFA2B2E05FA00A2862B /* RecordEntity+CoreDataClass.swift in Sources */,
-				00D0ECF42B2E05FA00A2862B /* SectionEntity+CoreDataClass.swift in Sources */,
-				00F2F2992B23A6720008F6F5 /* SecurePersistenceError.swift in Sources */,
-				00D0ECF32B2E05FA00A2862B /* DiscoProfileEntity+CoreDataProperties.swift in Sources */,
-				00F2F2882B23944D0008F6F5 /* SecurePersistenceClientImpl.swift in Sources */,
-				00F2F2922B239A350008F6F5 /* NetworkError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1996,10 +1846,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00BBF9F42B3AAC1E00421ECA /* EndpointDummy.swift in Sources */,
-				00BBF9F02B3AAA8100421ECA /* URLSessionMock.swift in Sources */,
-				00BBF9EC2B3AAA2300421ECA /* NetworkClientTest.swift in Sources */,
-				00BBF9F22B3AAAB200421ECA /* URLSessionDataTaskSpy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2481,7 +2327,6 @@
 		00F2F20E2B2380000008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2499,7 +2344,6 @@
 		00F2F20F2B2380000008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2598,7 +2442,6 @@
 		00F2F2452B238D620008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2616,7 +2459,6 @@
 		00F2F2462B238D620008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2775,7 +2617,6 @@
 		00F2F2BA2B24CD030008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2793,7 +2634,6 @@
 		00F2F2BB2B24CD030008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2892,7 +2732,6 @@
 		00F2F3172B24E7080008F6F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -2910,7 +2749,6 @@
 		00F2F3182B24E7080008F6F5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 685GVH2XJC;
@@ -3028,19 +2866,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		00B97C002B28879B00934E4A /* SongWrittingApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				00B97C012B28879C00934E4A /* SongWrittingApp.xcdatamodel */,
-			);
-			currentVersion = 00B97C012B28879C00934E4A /* SongWrittingApp.xcdatamodel */;
-			path = SongWrittingApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 00F2F1C22B2373980008F6F5 /* Project object */;
 }
