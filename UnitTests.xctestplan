@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "76C9F083-D6DC-435C-B781-C0D785487F00",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:SongWrittingApp.xcodeproj",
+        "identifier" : "00F2F2AD2B24CD020008F6F5",
+        "name" : "UnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}

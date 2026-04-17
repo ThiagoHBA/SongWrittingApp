@@ -43,6 +43,14 @@ Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar p
 
 > Os demais artefatos relacionados a estruturação da aplicação vão ser disponibilizados na seção final!
 
+Estrutura atual do repositório:
+
+- `Sources/App`: composição da aplicação e ciclo de vida
+- `Sources/Core`: networking, persistência e componentes compartilhados
+- `Sources/Features`: implementação das features
+- `Main`: recursos do app, `Info.plist` e `LaunchScreen`
+- `UnitTests` e `UITests`: suítes de teste ativas
+
 Visando garantir uma melhor visualização da estrutura do sistema, construí um diagrama simples demonstrando as relações entre as entidades do projeto:
 
 
@@ -58,7 +66,7 @@ dos discos, tanto por conta da menor quantidade de banda solicitada, em casos de
 
 2. Decidi utilizar Clean Architecture para organizar e arquitetar a comunicação entre as diferentes partes do sistema. Essa decisão e se deu pela facilidade da arquitetura em desacoplar e reusar componentes de uma camada com responsabilidade específica sem interferir em outras camadas com outras responsabilidades. Essa facilidade foi definida como um requisito por mim para explorar as diferentes formas que uma tecnologia ou framework pode realizar uma mesma ação. Como por exemplo URLSession e Alamofire para requisições de APIs. Além da utilização como show case para aspectos importantes no desenvolvimento de aplicações como testes unitários.
 
-3. Dividi a aplicação em diferentes targets respeitando as camadas que estabeleci, Domain, Data, Infra, Presentation, UI e Main. Essa divisão em targets foi pensada tanto por conta de permitir um auxilio na integridade da arquitetura por meio do compilador, quanto por conta do aumento na velocidade de execução de testes, builds, etc. 
+3. A implementação foi consolidada em uma única árvore principal em `Sources`, mantendo a separação por responsabilidades em `App`, `Core` e `Features`. O diretório `Main` ficou responsável apenas pelos recursos do aplicativo. Essa organização preserva a separação arquitetural sem manter árvores paralelas com o mesmo papel.
 
 4. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api/reference/). Por conta da documentação clara e bom uso do padrão REST. Ela também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
 
