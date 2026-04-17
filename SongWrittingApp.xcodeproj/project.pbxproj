@@ -34,16 +34,7 @@
 		004833602F91C67F00384DF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Application/AppDelegate.swift,
-				Application/SceneDelegate.swift,
-				Auth/AuthorizationDecorator.swift,
-				Factory/DiscoListFactory.swift,
-				Factory/DiscoProfileFactory.swift,
-				Fallback/DiscoServiceFallBack.swift,
-				Fallback/Error/FallbackError.swift,
 				Info.plist,
-				Proxy/MainQueueProxy.swift,
-				Proxy/WeakReferenceProxy.swift,
 			);
 			target = 00F2F2562B238ECE0008F6F5 /* Main */;
 		};
