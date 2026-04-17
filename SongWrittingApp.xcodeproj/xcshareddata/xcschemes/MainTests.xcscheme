@@ -18,9 +18,9 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00F2F2012B2380000008F6F5"
-               BuildableName = "DataTests.xctest"
-               BlueprintName = "DataTests"
+               BlueprintIdentifier = "00F2F2AD2B24CD020008F6F5"
+               BuildableName = "MainTests.xctest"
+               BlueprintName = "MainTests"
                ReferencedContainer = "container:SongWrittingApp.xcodeproj">
             </BuildableReference>
          </TestableReference>

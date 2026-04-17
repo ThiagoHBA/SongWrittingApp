@@ -1,0 +1,204 @@
+import SwiftUI
+import UIKit
+
+struct IdentifiableReference: Identifiable {
+    let id = UUID()
+    let refernce: AlbumReferenceViewEntity
+}
+
+final class SelectedReferenceListModel: ObservableObject {
+    @Published var items: [IdentifiableReference] = []
+}
+
+final class AddReferencesViewController: UIViewController {
+    private var loadedReferences: [AlbumReferenceViewEntity] = [] {
+        didSet {
+            emptyStateLabel.isHidden = !loadedReferences.isEmpty
+            resultLabel.isHidden = loadedReferences.isEmpty
+        }
+    }
+
+    var selectedReferences: [AlbumReferenceViewEntity] = [] {
+        didSet { updateSelectedReferenceItems(newItems: selectedReferences) }
+    }
+
+    private let itemModel = SelectedReferenceListModel()
+    var searchReference: ((String) -> Void)?
+    var saveReferences: (([AlbumReferenceViewEntity]) -> Void)?
+
+    private lazy var navBar: UINavigationBar = {
+        let nav = UINavigationBar()
+        let navigationItem = UINavigationItem(title: "Referências")
+        let saveButton = UIBarButtonItem(
+            title: "Save",
+            style: .plain,
+            target: self,
+            action: #selector(saveReferencesTapped)
+        )
+        navigationItem.rightBarButtonItem = saveButton
+        nav.items = [navigationItem]
+        nav.translatesAutoresizingMaskIntoConstraints = false
+        return nav
+    }()
+
+    private let searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "Buscar"
+        searchBar.searchBarStyle = .minimal
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
+    }()
+
+    private let resultLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Resultados"
+        label.isHidden = true
+        label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private let referencesList: UITableView = {
+        let tableView = UITableView()
+        tableView.register(
+            FindedReferenceTableViewCell.self,
+            forCellReuseIdentifier: FindedReferenceTableViewCell.identifier
+        )
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
+    private let emptyStateLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Nenhuma referência por aqui!"
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var selectedReferencesList: UIView = {
+        let hosting = UIHostingController(
+            rootView: SelectedReferenceListView(itemModel: itemModel)
+        )
+        hosting.rootView.selectedReferenceTapped = { [weak self] reference in
+            self?.removeAddedReference(reference)
+        }
+        guard let uiKitView = hosting.view else { return UIView() }
+        uiKitView.translatesAutoresizingMaskIntoConstraints = false
+        return uiKitView
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        buildLayout()
+    }
+
+    @objc private func saveReferencesTapped() {
+        saveReferences?(selectedReferences)
+    }
+
+    private func removeAddedReference(_ reference: AlbumReferenceViewEntity) {
+        guard let index = selectedReferences.firstIndex(where: { $0 == reference }) else {
+            return
+        }
+        selectedReferences.remove(at: index)
+    }
+
+    func updateReferenceItems(_ newItems: [AlbumReferenceViewEntity]) {
+        loadedReferences = newItems
+        referencesList.reloadData()
+    }
+
+    private func updateSelectedReferenceItems(newItems: [AlbumReferenceViewEntity]) {
+        itemModel.items = newItems.map { IdentifiableReference(refernce: $0) }
+    }
+}
+
+extension AddReferencesViewController: ViewCoding {
+    func additionalConfiguration() {
+        view.backgroundColor = .systemBackground
+        searchBar.delegate = self
+        referencesList.delegate = self
+        referencesList.dataSource = self
+    }
+
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            navBar.topAnchor.constraint(equalTo: view.topAnchor),
+            navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navBar.heightAnchor.constraint(equalToConstant: 46),
+
+            searchBar.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 24),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 6),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -6),
+            searchBar.heightAnchor.constraint(equalToConstant: 36),
+
+            selectedReferencesList.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 12),
+            selectedReferencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            selectedReferencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            selectedReferencesList.heightAnchor.constraint(equalToConstant: 36),
+
+            resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            resultLabel.topAnchor.constraint(equalTo: selectedReferencesList.bottomAnchor, constant: 24),
+
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            referencesList.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 12),
+            referencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            referencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            referencesList.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+
+    func addViewInHierarchy() {
+        view.addSubview(resultLabel)
+        view.addSubview(searchBar)
+        view.addSubview(referencesList)
+        view.addSubview(selectedReferencesList)
+        view.addSubview(navBar)
+        view.addSubview(emptyStateLabel)
+    }
+}
+
+extension AddReferencesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            loadedReferences = []
+            referencesList.reloadData()
+        } else {
+            searchReference?(searchText)
+        }
+    }
+}
+
+extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        loadedReferences.count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        FindedReferenceTableViewCell.heigth
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: FindedReferenceTableViewCell.identifier,
+            for: indexPath
+        ) as? FindedReferenceTableViewCell else {
+            return UITableViewCell()
+        }
+
+        cell.configure(with: loadedReferences[indexPath.row])
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedItem = loadedReferences[indexPath.row]
+        if selectedReferences.contains(selectedItem) { return }
+        selectedReferences.append(selectedItem)
+    }
+}
