@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal enum SecurePersistenceError: Error {
+internal enum SecurePersistenceError: Error, Equatable {
     case noData
     case unexpectedData
     case unhandledError(status: OSStatus)

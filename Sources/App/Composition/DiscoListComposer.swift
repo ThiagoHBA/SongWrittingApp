@@ -4,8 +4,9 @@ enum DiscoListComposer {
     static func make(
         navigationController: UINavigationController
     ) -> UIViewController {
+        let coreDataStore = try? CoreDataDiscoStore()
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let repository = DiscoListRepositoryImpl(store: discoStore)
+        let repository = DiscoListRepositoryImpl(store: coreDataStore ?? discoStore)
 
         let getDiscosUseCase = repository
         let createNewDiscoUseCase = repository

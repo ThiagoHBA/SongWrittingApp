@@ -42,20 +42,13 @@
 			);
 			target = 00F2F2562B238ECE0008F6F5 /* Main */;
 		};
-		0050BEF02F95000100000002 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Core/Persistence/CoreData/CoreDataDiscoStore.swift,
-			);
-			target = 00F2F2562B238ECE0008F6F5 /* Main */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0028ABE22F91C17900E6A87F /* UnitTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UnitTests; sourceTree = "<group>"; };
 		0028AC292F91C1B600E6A87F /* UITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UITests; sourceTree = "<group>"; };
 		004833532F91C67F00384DF9 /* Main */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (004833602F91C67F00384DF9 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Main; sourceTree = "<group>"; };
-		0050BEEF2F95000100000001 /* Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0050BEF02F95000100000002 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Sources; sourceTree = "<group>"; };
+		0050BEEF2F95000100000001 /* Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sources; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */

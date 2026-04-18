@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum StorageError: LocalizedError {
+enum StorageError: LocalizedError, Equatable {
     case cantFindModel
     case cantLoadDisco
     case cantLoadProfile

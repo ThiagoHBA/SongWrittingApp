@@ -1,8 +1,16 @@
+//
+//  NetworkClientImplTests.swift
+//  SongWrittingApp
+//
+//  Created by Thiago Henrique on 18/04/26.
+//
+
 import Foundation
 import XCTest
 @testable import Main
 
 final class NetworkClientImplTests: XCTestCase {
+    
     func test_makeRequest_requests_endpoint_url() {
         let (sut, session, _) = makeSUT()
         let endpoint = EndpointDummy()
@@ -49,43 +57,5 @@ final class NetworkClientImplTests: XCTestCase {
         session.dataTask = task
         let sut = NetworkClientImpl(session: session)
         return (sut, session, task)
-    }
-}
-
-private struct EndpointDummy: Endpoint {
-    var communicationProtocol: CommunicationProtocol = .HTTPS
-    var urlBase: String = "www.example.com"
-    var path: String = "/resource"
-    var httpMethod: HTTPMethod? = .get
-    var body: Data?
-    var headers: [String: String] = [:]
-    var queries: [URLQueryItem] = []
-}
-
-private final class URLSessionMock: URLSessionProtocol {
-    var dataTask: URLSessionDataTaskSpy?
-    private(set) var requestedRequest: URLRequest?
-    var dataTaskCompletion: ((Data?, URLResponse?, Error?) -> Void)?
-
-    func dataTask(
-        with request: URLRequest,
-        completionHandler: @escaping @Sendable (Data?, URLResponse?, Error?) -> Void
-    ) -> URLSessionDataTask {
-        requestedRequest = request
-        dataTaskCompletion = completionHandler
-        return dataTask ?? URLSessionDataTaskSpy()
-    }
-}
-
-private final class URLSessionDataTaskSpy: URLSessionDataTask {
-    private(set) var resumeCalled = 0
-    private(set) var cancelCalled = 0
-
-    override func resume() {
-        resumeCalled += 1
-    }
-
-    override func cancel() {
-        cancelCalled += 1
     }
 }

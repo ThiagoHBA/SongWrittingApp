@@ -14,8 +14,9 @@ enum DiscoProfileComposer {
         )
 
         let referenceSearchRepository = SpotifyReferenceSearchRepository(networkClient: authorizedClient)
+        let coreDataStore = try? CoreDataDiscoStore()
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let discoProfileRepository = DiscoProfileRepositoryImpl(store: discoStore)
+        let discoProfileRepository = DiscoProfileRepositoryImpl(store: coreDataStore ?? discoStore)
 
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
