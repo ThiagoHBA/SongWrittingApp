@@ -114,7 +114,7 @@ final class DiscoListInteractorTests: XCTestCase {
 
     func test_showProfile_routes_with_disco_summary() {
         let (sut, _, _, _, router) = makeSUT()
-        let disco = DiscoListViewEntity(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
+        let disco = DiscoListViewEntity(id: UUID(), name: "Any", coverImage: Data("cover".utf8), entityType: .disco)
 
         sut.showProfile(of: disco)
 
