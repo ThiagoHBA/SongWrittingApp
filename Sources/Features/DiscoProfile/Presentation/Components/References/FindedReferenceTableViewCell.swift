@@ -1,3 +1,4 @@
+import SDWebImage
 import UIKit
 
 final class FindedReferenceTableViewCell: UITableViewCell {
@@ -50,9 +51,17 @@ final class FindedReferenceTableViewCell: UITableViewCell {
 
     required init?(coder: NSCoder) { nil }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        banner.sd_cancelCurrentImageLoad()
+        banner.image = nil
+    }
+
     func configure(with data: AlbumReferenceViewEntity) {
         if let bannerURL = data.coverImage {
-            banner.load(url: bannerURL)
+            banner.sd_setImage(with: bannerURL)
+        } else {
+            banner.image = nil
         }
         discoTitle.text = data.name
         artistName.text = data.artist
