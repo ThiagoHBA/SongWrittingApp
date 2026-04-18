@@ -21,22 +21,6 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
 
     private var isLoading = false
 
-    private lazy var headerView: SWHeaderActionView = {
-        let view = SWHeaderActionView()
-        view.configure(
-            with: SWHeaderActionContent(
-                title: "Seus Discos",
-                titleStyle: .heroTitle,
-                actionSymbolName: "plus",
-                actionAccessibilityLabel: "Adicionar disco"
-            )
-        )
-        view.onActionTap = { [weak self] in
-            self?.addDiscoButtonTapped()
-        }
-        return view
-    }()
-
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(
@@ -79,6 +63,11 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         super.viewDidLoad()
         buildLayout()
         interactor.loadDiscos()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     @objc private func addDiscoButtonTapped() {
@@ -151,25 +140,26 @@ extension DiscoListViewController: DiscoListDisplayLogic {
 extension DiscoListViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = SWColor.Background.screen
+        title = "Meus Discos"
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addDiscoButtonTapped)
+        )
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "Adicionar disco"
         tableView.delegate = self
         tableView.dataSource = self
     }
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: SWSpacing.xLarge
-            ),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
-
             emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
             emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
 
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: SWSpacing.small),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -177,7 +167,6 @@ extension DiscoListViewController: ViewCoding {
     }
 
     func addViewInHierarchy() {
-        view.addSubview(headerView)
         view.addSubview(tableView)
         view.addSubview(emptyStateView)
     }
