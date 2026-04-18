@@ -9,8 +9,21 @@ import UIKit
 
 struct SWHeaderActionContent {
     let title: String
+    let titleStyle: SWTextLabel.Style
     let actionSymbolName: String
     let actionAccessibilityLabel: String
+
+    init(
+        title: String,
+        titleStyle: SWTextLabel.Style = .sectionTitle,
+        actionSymbolName: String,
+        actionAccessibilityLabel: String
+    ) {
+        self.title = title
+        self.titleStyle = titleStyle
+        self.actionSymbolName = actionSymbolName
+        self.actionAccessibilityLabel = actionAccessibilityLabel
+    }
 }
 
 final class SWHeaderActionView: UIView {
@@ -60,6 +73,7 @@ final class SWHeaderActionView: UIView {
 
     func configure(with content: SWHeaderActionContent) {
         titleLabel.text = content.title
+        titleLabel.apply(style: content.titleStyle)
         actionButton.accessibilityLabel = content.actionAccessibilityLabel
         invalidateIntrinsicContentSize()
         actionButton.setImage(

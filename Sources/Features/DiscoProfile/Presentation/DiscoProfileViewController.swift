@@ -18,10 +18,8 @@ protocol DiscoProfileDisplayLogic: AnyObject {
 final class DiscoProfileViewController: UIViewController, AlertPresentable {
     private var discoProfile: DiscoProfileViewEntity? {
         didSet {
-            if let profile = discoProfile, !profile.section.isEmpty {
-                emptyStateLabel.removeFromSuperview()
-                tableView.reloadData()
-            }
+            updateEmptyStateVisibility()
+            tableView.reloadData()
         }
     }
 
@@ -36,61 +34,43 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         return imageView
     }()
 
-    private let projectName: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let projectName = SWTextLabel(style: .heroTitle, numberOfLines: 0)
 
-    private lazy var referenceSection: ReferencesSectionView = {
-        let section = ReferencesSectionView()
-        section.addReferenceTapped = { [weak self] in
+    private lazy var referenceSection: SWReferenceSectionView = {
+        let section = SWReferenceSectionView()
+        section.onActionTap = { [weak self] in
             self?.addReferenceTapped()
         }
-        section.translatesAutoresizingMaskIntoConstraints = false
         return section
     }()
 
-    private let sectionLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Seções"
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var addButton: AddButtonComponent = {
-        let button = AddButtonComponent()
-        button.didTapped = { [weak self] in
+    private lazy var sectionHeaderView: SWHeaderActionView = {
+        let view = SWHeaderActionView()
+        view.configure(
+            with: SWHeaderActionContent(
+                title: "Seções",
+                titleStyle: .sectionTitle,
+                actionSymbolName: "plus",
+                actionAccessibilityLabel: "Adicionar seção"
+            )
+        )
+        view.onActionTap = { [weak self] in
             self?.addSectionTapped()
         }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
+        return view
     }()
 
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
-            RecordTableViewCell.self,
-            forCellReuseIdentifier: RecordTableViewCell.identifier
+            SWRecordListItemCell.self,
+            forCellReuseIdentifier: SWRecordListItemCell.identifier
         )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
-    private let emptyStateLabel: UILabel = {
-        let label = UILabel()
-        label.text = """
-        Você ainda não adicionou nenhuma seção!
-        Adicione uma seção clicando no icone de adicionar seção acima
-        """
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let emptyStateLabel = SWMessageView()
 
     private lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
@@ -138,7 +118,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
 
     private func configure(with profile: DiscoProfileViewEntity) {
         discoProfile = profile
-        referenceSection.references = profile.references
+        referenceSection.configure(with: makeReferenceSectionContent(from: profile.references))
         referenceViewController.selectedReferences = profile.references
     }
 
@@ -183,6 +163,15 @@ extension DiscoProfileViewController: ViewCoding {
         view.backgroundColor = .systemBackground
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        emptyStateLabel.configure(
+            message: """
+            Você ainda não adicionou nenhuma seção!
+            Adicione uma seção clicando no icone de adicionar seção acima
+            """
+        )
+        referenceSection.configure(with: makeReferenceSectionContent(from: []))
 
         if let bannerImage = UIImage(data: disco.coverImage) {
             banner.image = bannerImage
@@ -199,27 +188,23 @@ extension DiscoProfileViewController: ViewCoding {
             banner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             banner.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
 
-            projectName.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: 8),
-            projectName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            projectName.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: SWSpacing.xxSmall),
+            projectName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
+            projectName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: 6),
+            referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
-            referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            referenceSection.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15),
+            referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            sectionLabel.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: 32),
-            sectionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
+            sectionHeaderView.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: SWSpacing.xLarge),
+            sectionHeaderView.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
+            sectionHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            addButton.centerYAnchor.constraint(equalTo: sectionLabel.centerYAnchor),
-            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            addButton.heightAnchor.constraint(equalToConstant: 28),
-            addButton.widthAnchor.constraint(equalToConstant: 32),
+            emptyStateLabel.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: 80),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            emptyStateLabel.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 80),
-            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-
-            tableView.topAnchor.constraint(equalTo: sectionLabel.bottomAnchor, constant: 6),
+            tableView.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -231,8 +216,7 @@ extension DiscoProfileViewController: ViewCoding {
         view.addSubview(banner)
         view.addSubview(projectName)
         view.addSubview(referenceSection)
-        view.addSubview(sectionLabel)
-        view.addSubview(addButton)
+        view.addSubview(sectionHeaderView)
         view.addSubview(emptyStateLabel)
     }
 }
@@ -243,26 +227,50 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        RecordTableViewCell.heigth
+        SWRecordListItemCell.height
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         discoProfile?.section[section].records.count ?? 0
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        discoProfile?.section[section].identifer
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let label = SWTextLabel(style: .sectionTitle)
+        label.text = discoProfile?.section[section].identifer
+
+        let container = UIView()
+        container.addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: SWSpacing.small),
+            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: SWSpacing.small),
+            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -SWSpacing.small),
+            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -SWSpacing.xxxSmall)
+        ])
+
+        return container
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        44
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let button = UIButton()
-        button.setImage(
-            UIImage(systemName: "plus.circle.fill")?.applyingSymbolConfiguration(.init(pointSize: 36)),
-            for: .normal
-        )
+        let button = SWIconButton(symbolName: "plus", accessibilityLabel: "Adicionar gravação")
         button.tag = section
         button.addTarget(self, action: #selector(addNewRecordToSection(_:)), for: .touchUpInside)
-        return button
+
+        let container = UIView()
+        container.addSubview(button)
+
+        NSLayoutConstraint.activate([
+            button.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            button.centerYAnchor.constraint(equalTo: container.centerYAnchor),
+            button.widthAnchor.constraint(equalToConstant: SWSize.iconButton),
+            button.heightAnchor.constraint(equalToConstant: SWSize.iconButton)
+        ])
+
+        return container
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -274,8 +282,8 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: RecordTableViewCell.identifier
-        ) as? RecordTableViewCell else {
+            withIdentifier: SWRecordListItemCell.identifier
+        ) as? SWRecordListItemCell else {
             return UITableViewCell()
         }
 
@@ -283,9 +291,12 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
             return UITableViewCell()
         }
 
-        cell.selectionStyle = .none
-        cell.isUserInteractionEnabled = true
-        cell.configure(with: currentItem)
+        cell.configure(
+            with: SWRecordListItemContent(
+                iconImage: defineImageForTag(currentItem.tag),
+                audioURL: currentItem.audio
+            )
+        )
         return cell
     }
 }
@@ -293,7 +304,9 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         dismiss(animated: true) { [weak self] in
-            self?.referenceSection.references = references
+            guard let self else { return }
+            self.referenceSection.configure(with: self.makeReferenceSectionContent(from: references))
+            self.referenceViewController.selectedReferences = references
         }
     }
 
@@ -306,8 +319,9 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     func updateSections(_ sections: [SectionViewEntity]) {
-        discoProfile?.section = sections
-        tableView.reloadData()
+        guard var profile = discoProfile else { return }
+        profile.section = sections
+        discoProfile = profile
     }
 
     func hideOverlays(completion: (() -> Void)?) {
@@ -334,6 +348,37 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
 
     func showReferences(_ references: [AlbumReferenceViewEntity]) {
         referenceViewController.updateReferenceItems(references)
+    }
+}
+
+private extension DiscoProfileViewController {
+    func updateEmptyStateVisibility() {
+        emptyStateLabel.isHidden = !(discoProfile?.section.isEmpty ?? true)
+    }
+
+    func makeReferenceSectionContent(from references: [AlbumReferenceViewEntity]) -> SWReferenceSectionContent {
+        SWReferenceSectionContent(
+            title: "Referências",
+            actionSymbolName: "plus",
+            actionAccessibilityLabel: "Adicionar referência",
+            emptyStateMessage: "Você ainda não possui nenhuma referência ao disco",
+            items: references.map { SWReferenceAvatarContent(imageURL: $0.coverImage) }
+        )
+    }
+
+    func defineImageForTag(_ tag: InstrumentTagViewEntity) -> UIImage? {
+        switch tag {
+        case .guitar:
+            return UIImage(systemName: "guitars.fill")
+        case .vocal:
+            return UIImage(systemName: "waveform.and.mic")
+        case .drums:
+            return UIImage(systemName: "light.cylindrical.ceiling.fill")
+        case .bass:
+            return UIImage(systemName: "waveform.badge.plus")
+        case .custom:
+            return UIImage(systemName: "waveform.path")
+        }
     }
 }
 

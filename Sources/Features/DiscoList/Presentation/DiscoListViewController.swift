@@ -26,6 +26,7 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         view.configure(
             with: SWHeaderActionContent(
                 title: "Seus Discos",
+                titleStyle: .heroTitle,
                 actionSymbolName: "plus",
                 actionAccessibilityLabel: "Adicionar disco"
             )
