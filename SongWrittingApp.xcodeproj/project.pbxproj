@@ -130,16 +130,16 @@
 			);
 			dependencies = (
 			);
-				fileSystemSynchronizedGroups = (
-					004833532F91C67F00384DF9 /* Main */,
-					0050BEEF2F95000100000001 /* Sources */,
-				);
-				name = Main;
-				packageProductDependencies = (
-					1A9A4B692FD0000100ABCD01 /* SDWebImage */,
-				);
-				productName = Main;
-				productReference = 00F2F2572B238ECE0008F6F5 /* Main.app */;
+			fileSystemSynchronizedGroups = (
+				004833532F91C67F00384DF9 /* Main */,
+				0050BEEF2F95000100000001 /* Sources */,
+			);
+			name = Main;
+			packageProductDependencies = (
+				1A9A4B692FD0000100ABCD01 /* SDWebImage */,
+			);
+			productName = Main;
+			productReference = 00F2F2572B238ECE0008F6F5 /* Main.app */;
 			productType = "com.apple.product-type.application";
 		};
 		00F2F2AD2B24CD020008F6F5 /* UnitTests */ = {
@@ -209,16 +209,16 @@
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-				knownRegions = (
-					en,
-					Base,
-				);
-				mainGroup = 00F2F1C12B2373980008F6F5;
-				packageReferences = (
-					1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				);
-				productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
-				projectDirPath = "";
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00F2F1C12B2373980008F6F5;
+			packageReferences = (
+				1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
+			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
+			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				00F2F2562B238ECE0008F6F5 /* Main */,

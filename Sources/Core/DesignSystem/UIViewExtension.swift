@@ -97,9 +97,9 @@ extension UIView {
             color = baseColor
         } else {
             if #available(iOS 12, *), traitCollection.userInterfaceStyle == .dark {
-                color = Color.Placeholder.dark
+                color = SWColor.Placeholder.dark
             } else {
-                color = Color.Placeholder.light
+                color = SWColor.Placeholder.light
             }
         }
         let currentTemplateLayer = layer.sublayers?.first(where: { $0.name == Key.template })
