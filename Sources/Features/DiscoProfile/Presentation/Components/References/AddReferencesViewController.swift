@@ -18,14 +18,14 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
 
     var searchProviders: [SearchReferenceViewEntity] = [] {
         didSet {
-            guard isViewLoaded else { return }
+            guard isViewLoaded, oldValue != searchProviders else { return }
             updateProviderMenu()
         }
     }
 
     var selectedProvider: SearchReferenceViewEntity? {
         didSet {
-            guard isViewLoaded else { return }
+            guard isViewLoaded, oldValue != selectedProvider else { return }
             updateProviderMenu()
         }
     }
@@ -64,6 +64,15 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         searchBar.searchBarStyle = .minimal
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
+    }()
+
+    private let searchStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = SWSpacing.xxxSmall
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
 
     private let resultLabel = SWTextLabel(style: .sectionTitle)
@@ -106,9 +115,10 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         canLoadMore = false
         stopLoadingMore()
         searchBar.text = nil
+        
         referencesList.reloadData()
+        searchBar.becomeFirstResponder()
         clearSearch?()
-        selectReferenceProvider?(provider)
     }
 
     private func removeAddedReference(at index: Int) {
@@ -205,17 +215,16 @@ extension AddReferencesViewController: ViewCoding {
             navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navBar.heightAnchor.constraint(equalToConstant: SWSize.navigationBarHeight),
 
-            searchBar.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: SWSpacing.large),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xxxSmall + 2),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(SWSpacing.xxxSmall + 2)),
+            searchStackView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: SWSpacing.large),
+            searchStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xxxSmall + 2),
+            searchStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(SWSpacing.xxxSmall + 2)),
+
             searchBar.heightAnchor.constraint(equalToConstant: 36),
 
-            providerMenuButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: SWSpacing.xSmall),
-            providerMenuButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
             providerMenuButton.widthAnchor.constraint(equalToConstant: SWSize.iconButton),
             providerMenuButton.heightAnchor.constraint(equalToConstant: SWSize.iconButton),
 
-            selectedReferencesList.topAnchor.constraint(equalTo: providerMenuButton.bottomAnchor, constant: SWSpacing.xSmall),
+            selectedReferencesList.topAnchor.constraint(equalTo: searchStackView.bottomAnchor, constant: SWSpacing.xSmall),
             selectedReferencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
             selectedReferencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectedReferencesList.heightAnchor.constraint(equalToConstant: 36),
@@ -237,8 +246,9 @@ extension AddReferencesViewController: ViewCoding {
 
     func addViewInHierarchy() {
         view.addSubview(resultLabel)
-        view.addSubview(searchBar)
-        view.addSubview(providerMenuButton)
+        view.addSubview(searchStackView)
+        searchStackView.addArrangedSubview(searchBar)
+        searchStackView.addArrangedSubview(providerMenuButton)
         view.addSubview(referencesList)
         view.addSubview(selectedReferencesList)
         view.addSubview(navBar)
