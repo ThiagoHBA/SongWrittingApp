@@ -31,13 +31,13 @@ final class DiscoProfilePresenterTests: XCTestCase {
 
     func test_presentFoundReferences_hides_loading_and_shows_references() {
         let (sut, view) = makeSUT()
-        let references = [makeReference()]
+        let references = makeSearchOutput(references: [makeReference()])
 
         sut.presentFoundReferences(references)
 
         XCTAssertEqual(
             view.receivedMessages,
-            [.hideLoading, .showReferences(references.map(AlbumReferenceViewEntity.init(from:)))]
+            [.hideLoading, .showReferences(.init(from: references))]
         )
     }
 
@@ -46,13 +46,11 @@ final class DiscoProfilePresenterTests: XCTestCase {
         let expectedError = NSError(domain: "find-reference", code: 0)
 
         sut.presentFindReferencesError(expectedError)
-        view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
             view.receivedMessages,
             [
                 .hideLoading,
-                .hideOverlays,
                 .addingReferencesError(
                     DiscoProfileError.LoadReferencesError.errorTitle,
                     expectedError.localizedDescription
@@ -233,5 +231,15 @@ extension DiscoProfilePresenterTests {
         sections: [Section] = []
     ) -> DiscoProfile {
         DiscoProfile(disco: makeDisco(), references: references, section: sections)
+    }
+
+    private func makeSearchOutput(
+        references: [AlbumReference] = [],
+        hasMore: Bool = false
+    ) -> SearchReferencesPage {
+        SearchReferencesPage(
+            references: references,
+            hasMore: hasMore
+        )
     }
 }

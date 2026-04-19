@@ -2,6 +2,8 @@ import Foundation
 
 protocol DiscoProfileBusinessLogic: AnyObject {
     func searchNewReferences(keywords: String)
+    func loadMoreReferences()
+    func resetReferenceSearch()
     func loadProfile(for disco: DiscoSummary)
     func addNewReferences(for disco: DiscoSummary, references: [AlbumReferenceViewEntity])
     func addNewSection(for disco: DiscoSummary, section: SectionViewEntity)
@@ -14,6 +16,12 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     private let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
     private let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     private let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
+    private let referencePageSize = 10
+
+    private var loadedReferences: [AlbumReference] = []
+    private var hasMoreReferencePages = false
+    private var hasActiveReferenceSearch = false
+    private var activeReferenceSearchRequestID: UUID?
 
     var presenter: DiscoProfilePresentationLogic?
 
@@ -32,18 +40,38 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     }
 
     func searchNewReferences(keywords: String) {
-        presenter?.presentLoading()
-        
-        searchReferencesUseCase.search(.init(keywords)) { [weak self] result in
-            guard let self else { return }
+        let keywords = keywords.trimmingCharacters(in: .whitespacesAndNewlines)
 
-            switch result {
-            case .success(let references):
-                self.presenter?.presentFoundReferences(references)
-            case .failure(let error):
-                self.presenter?.presentFindReferencesError(error)
-            }
+        guard !keywords.isEmpty else {
+            resetReferenceSearch()
+            return
         }
+
+        presenter?.presentLoading()
+
+        hasActiveReferenceSearch = true
+        loadedReferences = []
+        hasMoreReferencePages = false
+
+        requestFirstReferencesPage(for: keywords)
+    }
+
+    func loadMoreReferences() {
+        guard hasActiveReferenceSearch,
+              hasMoreReferencePages,
+              activeReferenceSearchRequestID == nil else {
+            return
+        }
+
+        requestMoreReferences()
+    }
+
+    func resetReferenceSearch() {
+        hasActiveReferenceSearch = false
+        loadedReferences = []
+        hasMoreReferencePages = false
+        activeReferenceSearchRequestID = nil
+        searchReferencesUseCase.reset()
     }
 
     func loadProfile(for disco: DiscoSummary) {
@@ -130,6 +158,58 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
             }
         } catch {
             self.presenter?.presentAddRecordError(error)
+        }
+    }
+
+    private func requestFirstReferencesPage(for keywords: String) {
+        let requestID = UUID()
+        activeReferenceSearchRequestID = requestID
+
+        searchReferencesUseCase.search(
+            .init(
+                keywords: keywords,
+                pageSize: referencePageSize
+            ),
+            completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: true)
+        )
+    }
+
+    private func requestMoreReferences() {
+        let requestID = UUID()
+        activeReferenceSearchRequestID = requestID
+
+        searchReferencesUseCase.loadMore(
+            completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: false)
+        )
+    }
+
+    private func handleReferencesResult(
+        requestID: UUID,
+        shouldReplaceLoadedReferences: Bool
+    ) -> (Result<SearchReferencesUseCaseOutput, Error>) -> Void {
+        { [weak self] result in
+            guard let self,
+                  self.activeReferenceSearchRequestID == requestID else {
+                return
+            }
+
+            self.activeReferenceSearchRequestID = nil
+
+            switch result {
+            case .success(let page):
+                self.loadedReferences = shouldReplaceLoadedReferences
+                    ? page.references
+                    : self.loadedReferences + page.references
+                self.hasMoreReferencePages = page.hasMore
+                self.presenter?.presentFoundReferences(
+                    SearchReferencesPage(
+                        references: self.loadedReferences,
+                        hasMore: page.hasMore
+                    )
+                )
+            case .failure(let error):
+                self.presenter?.presentFindReferencesError(error)
+            }
         }
     }
 }

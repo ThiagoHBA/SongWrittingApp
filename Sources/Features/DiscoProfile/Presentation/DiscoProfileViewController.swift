@@ -5,7 +5,7 @@ protocol DiscoProfileDisplayLogic: AnyObject {
     func startLoading()
     func hideLoading()
     func hideOverlays(completion: (() -> Void)?)
-    func showReferences(_ references: [AlbumReferenceViewEntity])
+    func showReferences(_ references: ReferenceSearchViewEntity)
     func showProfile(_ profile: DiscoProfileViewEntity)
     func updateReferences(_ references: [AlbumReferenceViewEntity])
     func updateSections(_ sections: [SectionViewEntity])
@@ -76,6 +76,12 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         let sheet = AddReferencesViewController()
         sheet.searchReference = { [weak self] keywords in
             self?.interactor.searchNewReferences(keywords: keywords)
+        }
+        sheet.loadMoreReferences = { [weak self] in
+            self?.interactor.loadMoreReferences()
+        }
+        sheet.clearSearch = { [weak self] in
+            self?.interactor.resetReferenceSearch()
         }
         sheet.saveReferences = { [weak self] referencesToAdd in
             guard let self else { return }
@@ -333,6 +339,13 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     func addingReferencesError(_ title: String, description: String) {
+        referenceViewController.stopLoadingMore()
+
+        if presentedViewController === referenceViewController {
+            referenceViewController.showAlert(title: title, message: description, dismissed: nil)
+            return
+        }
+
         showAlert(title: title, message: description, dismissed: nil)
     }
 
@@ -350,7 +363,7 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
         showAlert(title: title, message: description, dismissed: nil)
     }
 
-    func showReferences(_ references: [AlbumReferenceViewEntity]) {
+    func showReferences(_ references: ReferenceSearchViewEntity) {
         referenceViewController.updateReferenceItems(references)
     }
 }

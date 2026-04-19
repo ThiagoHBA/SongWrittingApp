@@ -1,11 +1,15 @@
 import UIKit
 
-final class AddReferencesViewController: UIViewController {
+final class AddReferencesViewController: UIViewController, AlertPresentable {
     private var loadedReferences: [AlbumReferenceViewEntity] = [] {
         didSet {
             emptyStateLabel.isHidden = !loadedReferences.isEmpty
             resultLabel.isHidden = loadedReferences.isEmpty
         }
+    }
+    private var canLoadMore = false
+    private var isLoadingNextPage = false {
+        didSet { updateLoadingFooter() }
     }
 
     var selectedReferences: [AlbumReferenceViewEntity] = [] {
@@ -13,6 +17,8 @@ final class AddReferencesViewController: UIViewController {
     }
 
     var searchReference: ((String) -> Void)?
+    var loadMoreReferences: (() -> Void)?
+    var clearSearch: (() -> Void)?
     var saveReferences: (([AlbumReferenceViewEntity]) -> Void)?
 
     private lazy var navBar: UINavigationBar = {
@@ -51,6 +57,7 @@ final class AddReferencesViewController: UIViewController {
     }()
 
     private let emptyStateLabel = SWMessageView()
+    private let loadingFooterView = UIActivityIndicatorView(style: .medium)
 
     private lazy var selectedReferencesList: SWReferenceSelectionListView = {
         let view = SWReferenceSelectionListView()
@@ -76,15 +83,49 @@ final class AddReferencesViewController: UIViewController {
         selectedReferences.remove(at: index)
     }
 
-    func updateReferenceItems(_ newItems: [AlbumReferenceViewEntity]) {
-        loadedReferences = newItems
+    func updateReferenceItems(_ newItems: ReferenceSearchViewEntity) {
+        loadedReferences = newItems.references
+        canLoadMore = newItems.hasMore
+        stopLoadingMore()
         referencesList.reloadData()
+    }
+
+    func stopLoadingMore() {
+        isLoadingNextPage = false
     }
 
     private func updateSelectedReferenceItems(newItems: [AlbumReferenceViewEntity]) {
         selectedReferencesList.configure(
             items: newItems.map { SWReferenceSelectionChipContent(title: $0.name) }
         )
+    }
+
+    private func requestNextPageIfNeeded(for indexPath: IndexPath) {
+        let thresholdIndex = max(loadedReferences.count - 3, 0)
+
+        guard indexPath.row >= thresholdIndex,
+              canLoadMore,
+              !isLoadingNextPage,
+              !(searchBar.text ?? "").isEmpty else {
+            return
+        }
+
+        isLoadingNextPage = true
+        loadMoreReferences?()
+    }
+
+    private func updateLoadingFooter() {
+        guard isViewLoaded else { return }
+
+        if isLoadingNextPage {
+            loadingFooterView.startAnimating()
+            referencesList.tableFooterView = loadingFooterView
+            loadingFooterView.frame = CGRect(x: 0, y: 0, width: referencesList.bounds.width, height: 44)
+            return
+        }
+
+        loadingFooterView.stopAnimating()
+        referencesList.tableFooterView = UIView(frame: .zero)
     }
 }
 
@@ -96,6 +137,7 @@ extension AddReferencesViewController: ViewCoding {
         referencesList.dataSource = self
         referencesList.backgroundColor = .clear
         referencesList.separatorStyle = .none
+        referencesList.tableFooterView = UIView(frame: .zero)
         resultLabel.text = "Resultados"
         resultLabel.isHidden = true
         emptyStateLabel.configure(message: "Nenhuma referência por aqui!")
@@ -145,9 +187,13 @@ extension AddReferencesViewController: ViewCoding {
 
 extension AddReferencesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        canLoadMore = false
+        stopLoadingMore()
+
         if searchText.isEmpty {
             loadedReferences = []
             referencesList.reloadData()
+            clearSearch?()
         } else {
             searchReference?(searchText)
         }
@@ -181,6 +227,10 @@ extension AddReferencesViewController: UITableViewDelegate, UITableViewDataSourc
             )
         )
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        requestNextPageIfNeeded(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

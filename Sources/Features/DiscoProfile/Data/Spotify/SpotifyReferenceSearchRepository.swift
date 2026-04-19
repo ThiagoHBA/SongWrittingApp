@@ -9,7 +9,16 @@ enum SpotifyReferencesConstants {
 }
 
 final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
+    struct SpotifyReferenceSearchSession {
+        let keywords: String
+        let pageSize: Int
+        let nextOffset: Int
+        let hasMore: Bool
+    }
+
     private let networkClient: NetworkClient
+    private var session: SpotifyReferenceSearchSession?
+    private var activeRequestID: UUID?
 
     init(networkClient: NetworkClient) {
         self.networkClient = networkClient
@@ -19,18 +28,82 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
         _ input: SearchReferencesUseCaseInput,
         completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
     ) {
-        let endpoint = GetReferencesEndpoint(keywords: input)
+        session = .init(
+            keywords: input.keywords,
+            pageSize: input.pageSize,
+            nextOffset: 0,
+            hasMore: false
+        )
 
-        networkClient.makeRequest(endpoint) { result in
+        requestPage(offset: 0, completion: completion)
+    }
+
+    func loadMore(
+        completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
+    ) {
+        guard let session else {
+            completion(.failure(SearchReferencesUseCaseError.noActiveSearchSession))
+            return
+        }
+
+        guard session.hasMore else {
+            completion(.success(.init(references: [], hasMore: false)))
+            return
+        }
+
+        requestPage(offset: session.nextOffset, completion: completion)
+    }
+
+    func reset() {
+        session = nil
+        activeRequestID = nil
+    }
+
+    private func requestPage(
+        offset: Int,
+        completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
+    ) {
+        guard let session else {
+            completion(.failure(SearchReferencesUseCaseError.noActiveSearchSession))
+            return
+        }
+
+        let endpoint = GetReferencesEndpoint(
+            keywords: session.keywords,
+            limit: session.pageSize,
+            offset: offset
+        )
+        let requestID = UUID()
+        activeRequestID = requestID
+
+        networkClient.makeRequest(endpoint) { [weak self] result in
+            guard let self,
+                  self.activeRequestID == requestID else {
+                return
+            }
+
             switch result {
             case .success(let data):
                 do {
                     let dto = try AlbumReferenceDTO.loadFromData(data)
-                    completion(.success(dto.toDomain()))
+                    let references = dto.mapReferences()
+                    let hasMore = dto.albums.offset + references.count < dto.albums.total
+
+                    self.activeRequestID = nil
+                    self.session = SpotifyReferenceSearchSession(
+                        keywords: session.keywords,
+                        pageSize: session.pageSize,
+                        nextOffset: dto.albums.offset + references.count,
+                        hasMore: hasMore
+                    )
+
+                    completion(.success(.init(references: references, hasMore: hasMore)))
                 } catch {
+                    self.activeRequestID = nil
                     completion(.failure(NetworkError.decodingError))
                 }
             case .failure(let error):
+                self.activeRequestID = nil
                 completion(.failure(error))
             }
         }

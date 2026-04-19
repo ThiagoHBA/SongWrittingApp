@@ -76,7 +76,7 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
         instance?.hideLoading()
     }
 
-    func showReferences(_ references: [AlbumReferenceViewEntity]) {
+    func showReferences(_ references: ReferenceSearchViewEntity) {
         instance?.showReferences(references)
     }
 }
@@ -100,7 +100,7 @@ extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayL
         }
     }
 
-    func showReferences(_ references: [AlbumReferenceViewEntity]) {
+    func showReferences(_ references: ReferenceSearchViewEntity) {
         DispatchQueue.main.async {
             self.instance.showReferences(references)
         }

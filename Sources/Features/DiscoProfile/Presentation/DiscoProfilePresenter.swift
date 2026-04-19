@@ -2,7 +2,7 @@ import Foundation
 
 protocol DiscoProfilePresentationLogic: AnyObject {
     func presentLoading()
-    func presentFoundReferences(_ references: [AlbumReference])
+    func presentFoundReferences(_ references: SearchReferencesPage)
     func presentFindReferencesError(_ error: Error)
     func presentLoadedProfile(_ profile: DiscoProfile)
     func presentLoadProfileError(_ error: Error)
@@ -31,19 +31,17 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
         }
     }
 
-    func presentFoundReferences(_ references: [AlbumReference]) {
+    func presentFoundReferences(_ references: SearchReferencesPage) {
         view?.hideLoading()
-        view?.showReferences(references.map(AlbumReferenceViewEntity.init(from:)))
+        view?.showReferences(.init(from: references))
     }
 
     func presentFindReferencesError(_ error: Error) {
         view?.hideLoading()
-        view?.hideOverlays { [weak self] in
-            self?.view?.addingReferencesError(
-                DiscoProfileError.LoadReferencesError.errorTitle,
-                description: error.localizedDescription
-            )
-        }
+        view?.addingReferencesError(
+            DiscoProfileError.LoadReferencesError.errorTitle,
+            description: error.localizedDescription
+        )
     }
 
     func presentLoadedProfile(_ profile: DiscoProfile) {

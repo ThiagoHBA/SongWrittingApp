@@ -11,7 +11,7 @@ import Foundation
 final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
     enum Message: Equatable {
         case presentLoading
-        case presentFoundReferences([AlbumReference])
+        case presentFoundReferences(SearchReferencesPage)
         case presentFindReferencesError(String)
         case presentLoadedProfile(DiscoProfile)
         case presentLoadProfileError(String)
@@ -30,7 +30,7 @@ final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
         receivedMessages.append(.presentLoading)
     }
 
-    func presentFoundReferences(_ references: [AlbumReference]) {
+    func presentFoundReferences(_ references: SearchReferencesPage) {
         receivedMessages.append(.presentFoundReferences(references))
     }
 

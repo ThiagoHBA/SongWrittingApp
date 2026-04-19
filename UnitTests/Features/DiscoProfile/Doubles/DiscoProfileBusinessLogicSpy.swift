@@ -11,6 +11,8 @@ import Foundation
 final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
     enum Message: Equatable {
         case searchNewReferences(String)
+        case loadMoreReferences
+        case resetReferenceSearch
         case loadProfile(DiscoSummary)
         case addNewReferences(DiscoSummary, [AlbumReferenceViewEntity])
         case addNewSection(DiscoSummary, SectionViewEntity)
@@ -21,6 +23,14 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
 
     func searchNewReferences(keywords: String) {
         receivedMessages.append(.searchNewReferences(keywords))
+    }
+
+    func loadMoreReferences() {
+        receivedMessages.append(.loadMoreReferences)
+    }
+
+    func resetReferenceSearch() {
+        receivedMessages.append(.resetReferenceSearch)
     }
 
     func loadProfile(for disco: DiscoSummary) {

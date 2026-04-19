@@ -13,7 +13,7 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
         case startLoading
         case hideLoading
         case hideOverlays
-        case showReferences([AlbumReferenceViewEntity])
+        case showReferences(ReferenceSearchViewEntity)
         case showProfile(DiscoProfileViewEntity)
         case updateReferences([AlbumReferenceViewEntity])
         case updateSections([SectionViewEntity])
@@ -39,7 +39,7 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
         hideOverlaysCompletion = completion
     }
 
-    func showReferences(_ references: [AlbumReferenceViewEntity]) {
+    func showReferences(_ references: ReferenceSearchViewEntity) {
         receivedMessages.append(.showReferences(references))
     }
 

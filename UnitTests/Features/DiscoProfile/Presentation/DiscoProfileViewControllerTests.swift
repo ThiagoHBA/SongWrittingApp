@@ -63,7 +63,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
         wait(until: { sut.presentedViewController is AddReferencesViewController })
 
-        sut.showReferences(references)
+        sut.showReferences(.init(references: references, hasMore: false))
 
         let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
         XCTAssertEqual(try numberOfRows(in: presentedViewController), 1)
@@ -91,6 +91,32 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         presentedViewController.searchReference?("album")
 
         XCTAssertEqual(interactor.receivedMessages, [.searchNewReferences("album")])
+    }
+
+    func test_add_reference_sheet_loadMore_forwards_to_interactor() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        interactor.reset()
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        presentedViewController.loadMoreReferences?()
+
+        XCTAssertEqual(interactor.receivedMessages, [.loadMoreReferences])
+    }
+
+    func test_add_reference_sheet_clearSearch_forwards_to_interactor() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        interactor.reset()
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        presentedViewController.clearSearch?()
+
+        XCTAssertEqual(interactor.receivedMessages, [.resetReferenceSearch])
     }
 
     func test_add_reference_sheet_save_forwards_selected_references_to_interactor() throws {
