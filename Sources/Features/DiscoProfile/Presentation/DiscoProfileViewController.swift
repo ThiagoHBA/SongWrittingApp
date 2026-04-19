@@ -156,6 +156,10 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             )
         }
     }
+    
+    deinit {
+        debugPrint("Deallocating viewController...")
+    }
 }
 
 extension DiscoProfileViewController: ViewCoding {

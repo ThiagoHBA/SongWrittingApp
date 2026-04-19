@@ -1,0 +1,35 @@
+//
+//  DiscoListBusinessLogicSpy.swift
+//  SongWrittingApp
+//
+//  Created by Thiago Henrique on 18/04/26.
+//
+
+import Foundation
+@testable import Main
+
+final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
+    enum Message: Equatable {
+        case loadDiscos
+        case createDisco(name: String, image: Data)
+        case showProfile(DiscoListViewEntity)
+    }
+
+    private(set) var receivedMessages: [Message] = []
+
+    func loadDiscos() {
+        receivedMessages.append(.loadDiscos)
+    }
+
+    func createDisco(name: String, image: Data) {
+        receivedMessages.append(.createDisco(name: name, image: image))
+    }
+
+    func showProfile(of disco: DiscoListViewEntity) {
+        receivedMessages.append(.showProfile(disco))
+    }
+
+    func reset() {
+        receivedMessages.removeAll()
+    }
+}
