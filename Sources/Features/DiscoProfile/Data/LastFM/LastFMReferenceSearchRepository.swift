@@ -1,23 +1,22 @@
+//
+//  LastFMReferenceSearchRepository.swift
+//  Main
+//
+//  Created by Thiago Henrique on 19/04/26.
+//
+
 import Foundation
 
-enum SpotifyReferencesConstants {
-    static let baseURL = "api.spotify.com"
-    static let accountURL = "accounts.spotify.com"
-    static let secureStorageServer = "accounts.spotify.com"
-    static let clientID = "99253a753ea749a5a8a2d1294871fe6c"
-    static let clientSecret = "1f2801485f064781b3f94a38c393469c"
-}
-
-final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
-    struct SpotifyReferenceSearchSession {
+final class LastFMReferenceSearchRepository: ReferenceSearchRepository {
+    struct LastFMReferenceSearchSession {
         let keywords: String
         let pageSize: Int
-        let nextOffset: Int
+        let nextPage: Int
         let hasMore: Bool
     }
 
     private let networkClient: NetworkClient
-    private var session: SpotifyReferenceSearchSession?
+    private var session: LastFMReferenceSearchSession?
     private var activeRequestID: UUID?
 
     init(networkClient: NetworkClient) {
@@ -31,11 +30,11 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
         session = .init(
             keywords: input.keywords,
             pageSize: input.pageSize,
-            nextOffset: 0,
+            nextPage: 1,
             hasMore: false
         )
 
-        requestPage(offset: 0, completion: completion)
+        requestPage(1, completion: completion)
     }
 
     func loadMore(
@@ -51,7 +50,7 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
             return
         }
 
-        requestPage(offset: session.nextOffset, completion: completion)
+        requestPage(session.nextPage, completion: completion)
     }
 
     func reset() {
@@ -60,7 +59,7 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
     }
 
     private func requestPage(
-        offset: Int,
+        _ page: Int,
         completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
     ) {
         guard let session else {
@@ -68,10 +67,10 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
             return
         }
 
-        let endpoint = GetReferencesEndpoint(
+        let endpoint = GetLastFMReferencesEndpoint(
             keywords: session.keywords,
             limit: session.pageSize,
-            offset: offset
+            page: page
         )
         let requestID = UUID()
         activeRequestID = requestID
@@ -85,19 +84,18 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
             switch result {
             case .success(let data):
                 do {
-                    let dto = try AlbumReferenceDTO.loadFromData(data)
-                    let references = dto.mapReferences()
-                    let hasMore = dto.albums.offset + references.count < dto.albums.total
+                    let dto = try LastFMAlbumReferenceDTO.loadFromData(data)
+                    let pageResult = dto.mapPage()
 
                     self.activeRequestID = nil
-                    self.session = SpotifyReferenceSearchSession(
+                    self.session = LastFMReferenceSearchSession(
                         keywords: session.keywords,
                         pageSize: session.pageSize,
-                        nextOffset: dto.albums.offset + references.count,
-                        hasMore: hasMore
+                        nextPage: page + 1,
+                        hasMore: pageResult.hasMore
                     )
 
-                    completion(.success(.init(references: references, hasMore: hasMore)))
+                    completion(.success(pageResult))
                 } catch {
                     self.activeRequestID = nil
                     completion(.failure(NetworkError.decodingError))

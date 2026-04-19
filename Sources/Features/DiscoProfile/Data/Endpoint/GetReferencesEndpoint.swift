@@ -16,10 +16,17 @@ struct GetReferencesEndpoint: Endpoint {
 
     var queries: [URLQueryItem]
 
-    init(keywords: String, headers: [String: String] = [:]) {
+    init(
+        keywords: String,
+        limit: Int,
+        offset: Int,
+        headers: [String: String] = [:]
+    ) {
         self.queries = [
             .init(name: "q", value: keywords),
-            .init(name: "type", value: "album")
+            .init(name: "type", value: "album"),
+            .init(name: "limit", value: "\(limit)"),
+            .init(name: "offset", value: "\(offset)")
         ]
         self.headers = headers
     }

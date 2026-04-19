@@ -10,7 +10,11 @@ import Foundation
 
 final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
     enum Message: Equatable {
+        case loadSearchProviders
         case searchNewReferences(String)
+        case selectReferenceProvider(SearchReferenceViewEntity)
+        case loadMoreReferences
+        case resetReferenceSearch
         case loadProfile(DiscoSummary)
         case addNewReferences(DiscoSummary, [AlbumReferenceViewEntity])
         case addNewSection(DiscoSummary, SectionViewEntity)
@@ -19,8 +23,24 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
 
     private(set) var receivedMessages: [Message] = []
 
+    func loadSearchProviders() {
+        receivedMessages.append(.loadSearchProviders)
+    }
+
     func searchNewReferences(keywords: String) {
         receivedMessages.append(.searchNewReferences(keywords))
+    }
+
+    func selectReferenceProvider(_ provider: SearchReferenceViewEntity) {
+        receivedMessages.append(.selectReferenceProvider(provider))
+    }
+
+    func loadMoreReferences() {
+        receivedMessages.append(.loadMoreReferences)
+    }
+
+    func resetReferenceSearch() {
+        receivedMessages.append(.resetReferenceSearch)
     }
 
     func loadProfile(for disco: DiscoSummary) {

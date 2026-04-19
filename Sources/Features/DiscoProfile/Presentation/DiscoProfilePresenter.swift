@@ -2,7 +2,8 @@ import Foundation
 
 protocol DiscoProfilePresentationLogic: AnyObject {
     func presentLoading()
-    func presentFoundReferences(_ references: [AlbumReference])
+    func presentSearchProviders(_ providers: [SearchReferenceViewEntity], selectedProvider: SearchReferenceViewEntity)
+    func presentFoundReferences(_ references: SearchReferencesPage)
     func presentFindReferencesError(_ error: Error)
     func presentLoadedProfile(_ profile: DiscoProfile)
     func presentLoadProfileError(_ error: Error)
@@ -22,6 +23,13 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
         view?.startLoading()
     }
 
+    func presentSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        view?.showSearchProviders(providers, selectedProvider: selectedProvider)
+    }
+
     func presentCreateSectionError(_ error: Error) {
         view?.hideOverlays { [weak self] in
             self?.view?.addingSectionError(
@@ -31,19 +39,17 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
         }
     }
 
-    func presentFoundReferences(_ references: [AlbumReference]) {
+    func presentFoundReferences(_ references: SearchReferencesPage) {
         view?.hideLoading()
-        view?.showReferences(references.map(AlbumReferenceViewEntity.init(from:)))
+        view?.showReferences(.init(from: references))
     }
 
     func presentFindReferencesError(_ error: Error) {
         view?.hideLoading()
-        view?.hideOverlays { [weak self] in
-            self?.view?.addingReferencesError(
-                DiscoProfileError.LoadReferencesError.errorTitle,
-                description: error.localizedDescription
-            )
-        }
+        view?.addingReferencesError(
+            DiscoProfileError.LoadReferencesError.errorTitle,
+            description: error.localizedDescription
+        )
     }
 
     func presentLoadedProfile(_ profile: DiscoProfile) {

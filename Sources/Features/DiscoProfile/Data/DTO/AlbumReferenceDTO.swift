@@ -3,7 +3,7 @@ import Foundation
 struct AlbumReferenceDTO: StoreRecord, Codable, Equatable {
     let albums: Albums
 
-    func toDomain() -> [AlbumReference] {
+    func mapReferences() -> [AlbumReference] {
         albums.items.map {
             AlbumReference(
                 name: $0.name,
@@ -17,6 +17,9 @@ struct AlbumReferenceDTO: StoreRecord, Codable, Equatable {
 
 struct Albums: Codable, Equatable {
     let items: [AlbumItem]
+    let limit: Int
+    let offset: Int
+    let total: Int
 }
 
 struct AlbumItem: Codable, Equatable {

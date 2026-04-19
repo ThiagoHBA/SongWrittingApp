@@ -3,18 +3,34 @@ import XCTest
 @testable import Main
 
 final class DiscoProfileInteractorTests: XCTestCase {
+    func test_loadSearchProviders_presents_all_providers_with_default_selection() {
+        let (sut, presenter, _, _, _, _, _) = makeSUT()
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: .spotify)
+
+        sut.loadSearchProviders()
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentSearchProviders(providers, selectedProvider)]
+        )
+    }
+
     func test_searchNewReferences_requests_loading_and_executes_useCase() {
         let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
 
         sut.searchNewReferences(keywords: "any")
 
         XCTAssertEqual(presenter.receivedMessages, [.presentLoading])
-        XCTAssertEqual(searchUseCase.receivedMessages, [.search(.init("any"))])
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [.search(.init(keywords: "any", pageSize: 10))]
+        )
     }
 
     func test_searchNewReferences_onSuccess_presents_found_references() {
         let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
-        let references = [makeReference()]
+        let references = makeSearchOutput(references: [makeReference()])
 
         sut.searchNewReferences(keywords: "any")
         searchUseCase.completeSearch(with: .success(references))
@@ -35,6 +51,191 @@ final class DiscoProfileInteractorTests: XCTestCase {
         XCTAssertEqual(
             presenter.receivedMessages,
             [.presentLoading, .presentFindReferencesError(error.localizedDescription)]
+        )
+    }
+
+    func test_selectReferenceProvider_resets_search_reloads_providers_and_uses_selected_provider_on_next_search() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let selectedProvider = SearchReferenceViewEntity(from: .lastFM)
+
+        sut.searchNewReferences(keywords: "spotify")
+        sut.selectReferenceProvider(selectedProvider)
+        sut.searchNewReferences(keywords: "lastfm")
+
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [
+                .search(.init(keywords: "spotify", pageSize: 10)),
+                .reset,
+                .search(.init(keywords: "lastfm", pageSize: 10, provider: .lastFM))
+            ]
+        )
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentSearchProviders(
+                    ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:)),
+                    selectedProvider
+                ),
+                .presentLoading
+            ]
+        )
+    }
+
+    func test_selectReferenceProvider_doesNotChange_state_for_invalid_provider_id() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let invalidProvider = SearchReferenceViewEntity(id: 999, title: "Unknown", imagePath: "missing")
+
+        sut.selectReferenceProvider(invalidProvider)
+        sut.searchNewReferences(keywords: "any")
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading]
+        )
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [.search(.init(keywords: "any", pageSize: 10))]
+        )
+    }
+
+    func test_loadMoreReferences_requests_next_page_without_presenting_global_loading() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let firstPage = makeSearchOutput(
+            references: [makeReference(name: "A"), makeReference(name: "B")],
+            hasMore: true
+        )
+
+        sut.searchNewReferences(keywords: "any")
+        searchUseCase.completeSearch(with: .success(firstPage))
+        sut.loadMoreReferences()
+
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [
+                .search(.init(keywords: "any", pageSize: 10)),
+                .loadMore
+            ]
+        )
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading, .presentFoundReferences(firstPage)]
+        )
+    }
+
+    func test_loadMoreReferences_onSuccess_accumulates_results() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let firstPage = makeSearchOutput(
+            references: [makeReference(name: "A"), makeReference(name: "B")],
+            hasMore: true
+        )
+        let secondPage = makeSearchOutput(
+            references: [makeReference(name: "C")],
+            hasMore: false
+        )
+
+        sut.searchNewReferences(keywords: "any")
+        searchUseCase.completeSearch(with: .success(firstPage))
+        sut.loadMoreReferences()
+        searchUseCase.completeLoadMore(with: .success(secondPage))
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentFoundReferences(firstPage),
+                .presentFoundReferences(
+                    makeSearchOutput(
+                        references: [
+                            makeReference(name: "A"),
+                            makeReference(name: "B"),
+                            makeReference(name: "C")
+                        ]
+                    )
+                )
+            ]
+        )
+    }
+
+    func test_loadMoreReferences_doesNotRequest_whenSearchIsInFlight() {
+        let (sut, _, searchUseCase, _, _, _, _) = makeSUT()
+
+        sut.searchNewReferences(keywords: "any")
+        sut.loadMoreReferences()
+
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [.search(.init(keywords: "any", pageSize: 10))]
+        )
+    }
+
+    func test_loadMoreReferences_doesNotRequest_whenThereIsNoActiveSearch() {
+        let (sut, _, searchUseCase, _, _, _, _) = makeSUT()
+
+        sut.loadMoreReferences()
+
+        XCTAssertEqual(searchUseCase.receivedMessages, [])
+    }
+
+    func test_resetReferenceSearch_prevents_loading_more_for_previous_query() {
+        let (sut, _, searchUseCase, _, _, _, _) = makeSUT()
+
+        sut.searchNewReferences(keywords: "any")
+        sut.resetReferenceSearch()
+        sut.loadMoreReferences()
+
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [.search(.init(keywords: "any", pageSize: 10)), .reset]
+        )
+    }
+
+    func test_searchNewReferences_ignores_stale_completion_from_previous_query() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let oldResult = makeSearchOutput(references: [makeReference(name: "Old")])
+        let newResult = makeSearchOutput(references: [makeReference(name: "New")])
+
+        sut.searchNewReferences(keywords: "old")
+        sut.searchNewReferences(keywords: "new")
+        searchUseCase.completeSearch(with: .success(oldResult))
+        searchUseCase.completeSearch(with: .success(newResult), at: 1)
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading, .presentLoading, .presentFoundReferences(newResult)]
+        )
+    }
+
+    func test_loadMoreReferences_onFailure_keeps_state_for_retry() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let firstPage = makeSearchOutput(
+            references: [makeReference(name: "A"), makeReference(name: "B")],
+            hasMore: true
+        )
+        let error = NSError(domain: "search-next-page", code: 0)
+
+        sut.searchNewReferences(keywords: "any")
+        searchUseCase.completeSearch(with: .success(firstPage))
+        sut.loadMoreReferences()
+        searchUseCase.completeLoadMore(with: .failure(error))
+        sut.loadMoreReferences()
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentFoundReferences(firstPage),
+                .presentFindReferencesError(error.localizedDescription)
+            ]
+        )
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [
+                .search(.init(keywords: "any", pageSize: 10)),
+                .loadMore,
+                .loadMore
+            ]
         )
     }
 
@@ -283,9 +484,9 @@ extension DiscoProfileInteractorTests {
         DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
     }
 
-    private func makeReference() -> AlbumReference {
+    private func makeReference(name: String = "Album") -> AlbumReference {
         AlbumReference(
-            name: "Album",
+            name: name,
             artist: "Artist",
             releaseDate: "2024-01-01",
             coverImage: "https://example.com/image"
@@ -297,5 +498,15 @@ extension DiscoProfileInteractorTests {
         sections: [Section] = []
     ) -> DiscoProfile {
         DiscoProfile(disco: makeDisco(), references: references, section: sections)
+    }
+
+    private func makeSearchOutput(
+        references: [AlbumReference] = [],
+        hasMore: Bool = false
+    ) -> SearchReferencesPage {
+        SearchReferencesPage(
+            references: references,
+            hasMore: hasMore
+        )
     }
 }

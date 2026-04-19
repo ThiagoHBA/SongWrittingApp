@@ -1,7 +1,11 @@
 import Foundation
 
 protocol DiscoProfileBusinessLogic: AnyObject {
+    func loadSearchProviders()
     func searchNewReferences(keywords: String)
+    func selectReferenceProvider(_ provider: SearchReferenceViewEntity)
+    func loadMoreReferences()
+    func resetReferenceSearch()
     func loadProfile(for disco: DiscoSummary)
     func addNewReferences(for disco: DiscoSummary, references: [AlbumReferenceViewEntity])
     func addNewSection(for disco: DiscoSummary, section: SectionViewEntity)
@@ -14,6 +18,13 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     private let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
     private let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     private let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
+    private let referencePageSize = 10
+
+    private var currentReferenceProvider: ReferenceProvider = .spotify
+    private var loadedReferences: [AlbumReference] = []
+    private var hasMoreReferencePages = false
+    private var hasActiveReferenceSearch = false
+    private var activeReferenceSearchRequestID: UUID?
 
     var presenter: DiscoProfilePresentationLogic?
 
@@ -31,19 +42,56 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
     }
 
-    func searchNewReferences(keywords: String) {
-        presenter?.presentLoading()
-        
-        searchReferencesUseCase.search(.init(keywords)) { [weak self] result in
-            guard let self else { return }
+    func loadSearchProviders() {
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: currentReferenceProvider)
+        presenter?.presentSearchProviders(providers, selectedProvider: selectedProvider)
+    }
 
-            switch result {
-            case .success(let references):
-                self.presenter?.presentFoundReferences(references)
-            case .failure(let error):
-                self.presenter?.presentFindReferencesError(error)
-            }
+    func searchNewReferences(keywords: String) {
+        let keywords = keywords.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard !keywords.isEmpty else {
+            resetReferenceSearch()
+            return
         }
+
+        presenter?.presentLoading()
+
+        hasActiveReferenceSearch = true
+        loadedReferences = []
+        hasMoreReferencePages = false
+
+        requestFirstReferencesPage(for: keywords)
+    }
+
+    func selectReferenceProvider(_ provider: SearchReferenceViewEntity) {
+        guard let mappedProvider = ReferenceProvider(rawValue: provider.id),
+              currentReferenceProvider != mappedProvider else {
+            return
+        }
+
+        currentReferenceProvider = mappedProvider
+        resetReferenceSearch()
+        loadSearchProviders()
+    }
+
+    func loadMoreReferences() {
+        guard hasActiveReferenceSearch,
+              hasMoreReferencePages,
+              activeReferenceSearchRequestID == nil else {
+            return
+        }
+
+        requestMoreReferences()
+    }
+
+    func resetReferenceSearch() {
+        hasActiveReferenceSearch = false
+        loadedReferences = []
+        hasMoreReferencePages = false
+        activeReferenceSearchRequestID = nil
+        searchReferencesUseCase.reset()
     }
 
     func loadProfile(for disco: DiscoSummary) {
@@ -130,6 +178,59 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
             }
         } catch {
             self.presenter?.presentAddRecordError(error)
+        }
+    }
+
+    private func requestFirstReferencesPage(for keywords: String) {
+        let requestID = UUID()
+        activeReferenceSearchRequestID = requestID
+
+        searchReferencesUseCase.search(
+            .init(
+                keywords: keywords,
+                pageSize: referencePageSize,
+                provider: currentReferenceProvider
+            ),
+            completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: true)
+        )
+    }
+
+    private func requestMoreReferences() {
+        let requestID = UUID()
+        activeReferenceSearchRequestID = requestID
+
+        searchReferencesUseCase.loadMore(
+            completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: false)
+        )
+    }
+
+    private func handleReferencesResult(
+        requestID: UUID,
+        shouldReplaceLoadedReferences: Bool
+    ) -> (Result<SearchReferencesUseCaseOutput, Error>) -> Void {
+        { [weak self] result in
+            guard let self,
+                  self.activeReferenceSearchRequestID == requestID else {
+                return
+            }
+
+            self.activeReferenceSearchRequestID = nil
+
+            switch result {
+            case .success(let page):
+                self.loadedReferences = shouldReplaceLoadedReferences
+                    ? page.references
+                    : self.loadedReferences + page.references
+                self.hasMoreReferencePages = page.hasMore
+                self.presenter?.presentFoundReferences(
+                    SearchReferencesPage(
+                        references: self.loadedReferences,
+                        hasMore: page.hasMore
+                    )
+                )
+            case .failure(let error):
+                self.presenter?.presentFindReferencesError(error)
+            }
         }
     }
 }

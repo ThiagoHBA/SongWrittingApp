@@ -11,6 +11,19 @@ final class DiscoProfilePresenterTests: XCTestCase {
         XCTAssertEqual(view.receivedMessages, [.startLoading])
     }
 
+    func test_presentSearchProviders_shows_provider_options_on_view() {
+        let (sut, view) = makeSUT()
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: .spotify)
+
+        sut.presentSearchProviders(providers, selectedProvider: selectedProvider)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [.showSearchProviders(providers, selectedProvider)]
+        )
+    }
+
     func test_presentCreateSectionError_hides_overlay_then_shows_error() {
         let (sut, view) = makeSUT()
 
@@ -31,13 +44,13 @@ final class DiscoProfilePresenterTests: XCTestCase {
 
     func test_presentFoundReferences_hides_loading_and_shows_references() {
         let (sut, view) = makeSUT()
-        let references = [makeReference()]
+        let references = makeSearchOutput(references: [makeReference()])
 
         sut.presentFoundReferences(references)
 
         XCTAssertEqual(
             view.receivedMessages,
-            [.hideLoading, .showReferences(references.map(AlbumReferenceViewEntity.init(from:)))]
+            [.hideLoading, .showReferences(.init(from: references))]
         )
     }
 
@@ -46,13 +59,11 @@ final class DiscoProfilePresenterTests: XCTestCase {
         let expectedError = NSError(domain: "find-reference", code: 0)
 
         sut.presentFindReferencesError(expectedError)
-        view.hideOverlaysCompletion?()
 
         XCTAssertEqual(
             view.receivedMessages,
             [
                 .hideLoading,
-                .hideOverlays,
                 .addingReferencesError(
                     DiscoProfileError.LoadReferencesError.errorTitle,
                     expectedError.localizedDescription
@@ -233,5 +244,15 @@ extension DiscoProfilePresenterTests {
         sections: [Section] = []
     ) -> DiscoProfile {
         DiscoProfile(disco: makeDisco(), references: references, section: sections)
+    }
+
+    private func makeSearchOutput(
+        references: [AlbumReference] = [],
+        hasMore: Bool = false
+    ) -> SearchReferencesPage {
+        SearchReferencesPage(
+            references: references,
+            hasMore: hasMore
+        )
     }
 }
