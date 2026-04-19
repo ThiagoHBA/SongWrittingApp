@@ -11,7 +11,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
 
         let navigationController = UINavigationController()
-        let viewController = DiscoListComposer.make(navigationController: navigationController)
+        let viewController = AppRootComposer.make(navigationController: navigationController)
         navigationController.setViewControllers([viewController], animated: false)
 
         let window = UIWindow(windowScene: windowScene)

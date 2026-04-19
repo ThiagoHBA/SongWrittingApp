@@ -38,6 +38,30 @@ final class ComposerMemoryLeakTests: XCTestCase {
         XCTAssertNil(weakSUT)
         XCTAssertNil(weakNavigationController)
     }
+
+    func test_onboardingComposer_make_doesNotLeak() {
+        weak var weakSUT: UIViewController?
+        weak var weakNavigationController: UINavigationController?
+
+        autoreleasepool {
+            let completeOnboardingUseCase = OnboardingStatusUseCaseSpy()
+            let createdNavigationController = UINavigationController()
+            var navigationController: UINavigationController? = createdNavigationController
+            var sut: UIViewController? = OnboardingComposer.make(
+                navigationController: createdNavigationController,
+                completeOnboardingUseCase: completeOnboardingUseCase
+            )
+
+            sut?.loadViewIfNeeded()
+            weakSUT = sut
+            weakNavigationController = navigationController
+            sut = nil
+            navigationController = nil
+        }
+
+        XCTAssertNil(weakSUT)
+        XCTAssertNil(weakNavigationController)
+    }
 }
 
 private extension ComposerMemoryLeakTests {
