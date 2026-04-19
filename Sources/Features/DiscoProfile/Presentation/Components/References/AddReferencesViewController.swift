@@ -2,10 +2,7 @@ import UIKit
 
 final class AddReferencesViewController: UIViewController, AlertPresentable {
     private var loadedReferences: [AlbumReferenceViewEntity] = [] {
-        didSet {
-            emptyStateLabel.isHidden = !loadedReferences.isEmpty
-            resultLabel.isHidden = loadedReferences.isEmpty
-        }
+        didSet { updateResultsHeader() }
     }
     private var canLoadMore = false
     private var isLoadingNextPage = false {
@@ -27,6 +24,7 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         didSet {
             guard isViewLoaded, oldValue != selectedProvider else { return }
             updateProviderMenu()
+            updateResultsHeader()
         }
     }
 
@@ -76,6 +74,7 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
     }()
 
     private let resultLabel = SWTextLabel(style: .sectionTitle)
+    private let resultProviderCaptionLabel = SWTextLabel(style: .caption, numberOfLines: 0)
 
     private let referencesList: UITableView = {
         let tableView = UITableView()
@@ -116,6 +115,7 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         stopLoadingMore()
         searchBar.text = nil
         
+        selectReferenceProvider?(provider)
         referencesList.reloadData()
         searchBar.becomeFirstResponder()
         clearSearch?()
@@ -191,6 +191,18 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
             "Provedor de busca: \($0.title)"
         } ?? "Selecionar provedor de busca"
     }
+
+    private func updateResultsHeader() {
+        guard isViewLoaded else { return }
+
+        let hasResults = !loadedReferences.isEmpty
+        emptyStateLabel.isHidden = hasResults
+        resultLabel.isHidden = !hasResults
+        resultProviderCaptionLabel.isHidden = !hasResults || selectedProvider == nil
+        resultProviderCaptionLabel.text = selectedProvider.map {
+            "Resultados carregados via \($0.title)."
+        }
+    }
 }
 
 extension AddReferencesViewController: ViewCoding {
@@ -203,9 +215,10 @@ extension AddReferencesViewController: ViewCoding {
         referencesList.separatorStyle = .none
         referencesList.tableFooterView = UIView(frame: .zero)
         resultLabel.text = "Resultados"
-        resultLabel.isHidden = true
+        resultProviderCaptionLabel.isHidden = true
         emptyStateLabel.configure(message: "Nenhuma referência por aqui!")
         updateProviderMenu()
+        updateResultsHeader()
     }
 
     func setupConstraints() {
@@ -232,12 +245,16 @@ extension AddReferencesViewController: ViewCoding {
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
             resultLabel.topAnchor.constraint(equalTo: selectedReferencesList.bottomAnchor, constant: SWSpacing.large),
 
+            resultProviderCaptionLabel.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: SWSpacing.xxSmall),
+            resultProviderCaptionLabel.leadingAnchor.constraint(equalTo: resultLabel.leadingAnchor),
+            resultProviderCaptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+
             emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateLabel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: SWSpacing.large),
             emptyStateLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -SWSpacing.large),
 
-            referencesList.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: SWSpacing.xSmall),
+            referencesList.topAnchor.constraint(equalTo: resultProviderCaptionLabel.bottomAnchor, constant: SWSpacing.xSmall),
             referencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             referencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             referencesList.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -246,6 +263,7 @@ extension AddReferencesViewController: ViewCoding {
 
     func addViewInHierarchy() {
         view.addSubview(resultLabel)
+        view.addSubview(resultProviderCaptionLabel)
         view.addSubview(searchStackView)
         searchStackView.addArrangedSubview(searchBar)
         searchStackView.addArrangedSubview(providerMenuButton)
