@@ -13,7 +13,12 @@ enum DiscoProfileComposer {
             tokenProvider: authorizationHandler
         )
 
-        let referenceSearchRepository = SpotifyReferenceSearchRepository(networkClient: authorizedClient)
+        let spotifyReferenceSearchRepository = SpotifyReferenceSearchRepository(networkClient: authorizedClient)
+        let lastFMReferenceSearchRepository = LastFMReferenceSearchRepository(networkClient: networkClient)
+        let referenceSearchRepository = ReferenceSearchStrategyRegistry(
+            spotify: spotifyReferenceSearchRepository,
+            lastFM: lastFMReferenceSearchRepository
+        )
         let coreDataStore = try? CoreDataDiscoStore()
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
         let discoProfileRepository = DiscoProfileRepositoryImpl(store: coreDataStore ?? discoStore)
@@ -36,6 +41,13 @@ enum DiscoProfileComposer {
 }
 
 extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func showSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        instance?.showSearchProviders(providers, selectedProvider: selectedProvider)
+    }
+
     func addingRecordsError(_ title: String, description: String) {
         instance?.addingRecordsError(title, description: description)
     }
@@ -82,6 +94,15 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
 }
 
 extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayLogic {
+    func showSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        DispatchQueue.main.async {
+            self.instance.showSearchProviders(providers, selectedProvider: selectedProvider)
+        }
+    }
+
     func startLoading() {
         DispatchQueue.main.async {
             self.instance.startLoading()

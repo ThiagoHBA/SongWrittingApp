@@ -79,11 +79,46 @@ final class AddReferencesViewControllerTests: XCTestCase {
         XCTAssertEqual(try numberOfRows(in: sut), 0)
         XCTAssertEqual(clearSearchCalls, 1)
     }
+
+    func test_providerSelection_clears_results_and_notifies_selected_provider() throws {
+        let sut = makeSUT()
+        var selectedProvider: SearchReferenceViewEntity?
+        sut.selectReferenceProvider = { selectedProvider = $0 }
+        sut.updateReferenceItems(.init(references: [makeReference()], hasMore: true))
+
+        sut.selectProvider(.init(from: .lastFM))
+
+        XCTAssertEqual(try numberOfRows(in: sut), 0)
+        XCTAssertEqual(selectedProvider, SearchReferenceViewEntity(from: .lastFM))
+        XCTAssertEqual(sut.selectedProvider, SearchReferenceViewEntity(from: .lastFM))
+    }
+
+    func test_viewDidLoad_renders_provider_menu_from_view_entities() throws {
+        let sut = makeSUT()
+        let navBar = try XCTUnwrap(sut.view.profileFindSubview(ofType: UINavigationBar.self))
+        let saveItem = try XCTUnwrap(navBar.items?.first?.rightBarButtonItem)
+        let searchBar = try searchBar(in: sut)
+        let providerButton = try XCTUnwrap(sut.view.profileFindSubview(ofType: SWIconButton.self))
+        let actions = try XCTUnwrap(providerButton.menu?.children as? [UIAction])
+
+        sut.view.layoutIfNeeded()
+
+        XCTAssertNotNil(saveItem)
+        XCTAssertEqual(actions.count, 2)
+        XCTAssertEqual(actions[0].title, "Spotify")
+        XCTAssertEqual(actions[1].title, "Last.fm")
+        XCTAssertEqual(actions[0].state, .on)
+        XCTAssertEqual(actions[1].state, .off)
+        XCTAssertTrue(providerButton.frame.minY >= searchBar.frame.maxY)
+        XCTAssertEqual(providerButton.accessibilityLabel, "Provedor de busca: Spotify")
+    }
 }
 
 private extension AddReferencesViewControllerTests {
     func makeSUT() -> AddReferencesViewController {
         let sut = AddReferencesViewController()
+        sut.searchProviders = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        sut.selectedProvider = SearchReferenceViewEntity(from: .spotify)
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = sut
         window.makeKeyAndVisible()

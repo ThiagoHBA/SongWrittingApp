@@ -18,7 +18,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         sut.loadViewIfNeeded()
 
-        XCTAssertEqual(interactor.receivedMessages, [.loadProfile(disco)])
+        XCTAssertEqual(interactor.receivedMessages, [.loadSearchProviders, .loadProfile(disco)])
     }
 
     func test_showProfile_withEmptySections_shows_empty_state() throws {
@@ -93,6 +93,20 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         XCTAssertEqual(interactor.receivedMessages, [.searchNewReferences("album")])
     }
 
+    func test_add_reference_sheet_provider_selection_forwards_to_interactor() throws {
+        let (sut, interactor, _, _) = makeSUT()
+        let selectedProvider = SearchReferenceViewEntity(from: .lastFM)
+
+        interactor.reset()
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        presentedViewController.selectReferenceProvider?(selectedProvider)
+
+        XCTAssertEqual(interactor.receivedMessages, [.selectReferenceProvider(selectedProvider)])
+    }
+
     func test_add_reference_sheet_loadMore_forwards_to_interactor() throws {
         let (sut, interactor, _, _) = makeSUT()
 
@@ -149,6 +163,40 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
         XCTAssertEqual(presentedViewController.selectedReferences, references)
+    }
+
+    func test_add_reference_sheet_reuses_last_selected_provider() throws {
+        let (sut, interactor, _, _) = makeSUT()
+        let selectedProvider = SearchReferenceViewEntity(from: .lastFM)
+
+        interactor.reset()
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let firstPresentation = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        firstPresentation.selectReferenceProvider?(selectedProvider)
+        sut.dismiss(animated: false)
+        wait(until: { sut.presentedViewController == nil })
+
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let secondPresentation = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        XCTAssertEqual(secondPresentation.selectedProvider, selectedProvider)
+    }
+
+    func test_showSearchProviders_updates_add_reference_sheet_configuration() throws {
+        let (sut, _, _, _) = makeSUT()
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: .lastFM)
+
+        sut.showSearchProviders(providers, selectedProvider: selectedProvider)
+        try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
+        wait(until: { sut.presentedViewController is AddReferencesViewController })
+
+        let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
+        XCTAssertEqual(presentedViewController.searchProviders, providers)
+        XCTAssertEqual(presentedViewController.selectedProvider, selectedProvider)
     }
 
     func test_add_section_button_presents_sheet() throws {

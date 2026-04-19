@@ -5,6 +5,7 @@ protocol DiscoProfileDisplayLogic: AnyObject {
     func startLoading()
     func hideLoading()
     func hideOverlays(completion: (() -> Void)?)
+    func showSearchProviders(_ providers: [SearchReferenceViewEntity], selectedProvider: SearchReferenceViewEntity)
     func showReferences(_ references: ReferenceSearchViewEntity)
     func showProfile(_ profile: DiscoProfileViewEntity)
     func updateReferences(_ references: [AlbumReferenceViewEntity])
@@ -25,6 +26,8 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
 
     private let interactor: DiscoProfileBusinessLogic
     private let disco: DiscoSummary
+    private var searchProviders: [SearchReferenceViewEntity] = []
+    private var selectedReferenceProvider: SearchReferenceViewEntity?
 
     private let banner: UIImageView = {
         let imageView = UIImageView()
@@ -74,8 +77,15 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
 
     private lazy var referenceViewController: AddReferencesViewController = {
         let sheet = AddReferencesViewController()
+        sheet.searchProviders = searchProviders
+        sheet.selectedProvider = selectedReferenceProvider
         sheet.searchReference = { [weak self] keywords in
             self?.interactor.searchNewReferences(keywords: keywords)
+        }
+        sheet.selectReferenceProvider = { [weak self] provider in
+            guard let self else { return }
+            self.selectedReferenceProvider = provider
+            self.interactor.selectReferenceProvider(provider)
         }
         sheet.loadMoreReferences = { [weak self] in
             self?.interactor.loadMoreReferences()
@@ -115,10 +125,14 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         super.viewDidLoad()
         buildLayout()
         configureAudio()
+        
+        interactor.loadSearchProviders()
         interactor.loadProfile(for: disco)
     }
 
     private func addReferenceTapped() {
+        referenceViewController.searchProviders = searchProviders
+        referenceViewController.selectedProvider = selectedReferenceProvider
         present(referenceViewController, animated: true)
     }
 
@@ -312,6 +326,16 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
 }
 
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
+    func showSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        searchProviders = providers
+        selectedReferenceProvider = selectedProvider
+        referenceViewController.searchProviders = providers
+        referenceViewController.selectedProvider = selectedProvider
+    }
+
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
         dismiss(animated: true) { [weak self] in
             guard let self else { return }

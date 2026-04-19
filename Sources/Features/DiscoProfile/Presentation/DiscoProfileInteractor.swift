@@ -1,7 +1,9 @@
 import Foundation
 
 protocol DiscoProfileBusinessLogic: AnyObject {
+    func loadSearchProviders()
     func searchNewReferences(keywords: String)
+    func selectReferenceProvider(_ provider: SearchReferenceViewEntity)
     func loadMoreReferences()
     func resetReferenceSearch()
     func loadProfile(for disco: DiscoSummary)
@@ -18,6 +20,7 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     private let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
     private let referencePageSize = 10
 
+    private var currentReferenceProvider: ReferenceProvider = .spotify
     private var loadedReferences: [AlbumReference] = []
     private var hasMoreReferencePages = false
     private var hasActiveReferenceSearch = false
@@ -39,6 +42,12 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
     }
 
+    func loadSearchProviders() {
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: currentReferenceProvider)
+        presenter?.presentSearchProviders(providers, selectedProvider: selectedProvider)
+    }
+
     func searchNewReferences(keywords: String) {
         let keywords = keywords.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -54,6 +63,17 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         hasMoreReferencePages = false
 
         requestFirstReferencesPage(for: keywords)
+    }
+
+    func selectReferenceProvider(_ provider: SearchReferenceViewEntity) {
+        guard let mappedProvider = ReferenceProvider(rawValue: provider.id),
+              currentReferenceProvider != mappedProvider else {
+            return
+        }
+
+        currentReferenceProvider = mappedProvider
+        resetReferenceSearch()
+        loadSearchProviders()
     }
 
     func loadMoreReferences() {
@@ -168,7 +188,8 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         searchReferencesUseCase.search(
             .init(
                 keywords: keywords,
-                pageSize: referencePageSize
+                pageSize: referencePageSize,
+                provider: currentReferenceProvider
             ),
             completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: true)
         )

@@ -11,6 +11,7 @@ import Foundation
 final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
     enum Message: Equatable {
         case presentLoading
+        case presentSearchProviders([SearchReferenceViewEntity], SearchReferenceViewEntity)
         case presentFoundReferences(SearchReferencesPage)
         case presentFindReferencesError(String)
         case presentLoadedProfile(DiscoProfile)
@@ -28,6 +29,13 @@ final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
 
     func presentLoading() {
         receivedMessages.append(.presentLoading)
+    }
+
+    func presentSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        receivedMessages.append(.presentSearchProviders(providers, selectedProvider))
     }
 
     func presentFoundReferences(_ references: SearchReferencesPage) {

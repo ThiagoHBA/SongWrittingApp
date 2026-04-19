@@ -2,6 +2,7 @@ import Foundation
 
 protocol DiscoProfilePresentationLogic: AnyObject {
     func presentLoading()
+    func presentSearchProviders(_ providers: [SearchReferenceViewEntity], selectedProvider: SearchReferenceViewEntity)
     func presentFoundReferences(_ references: SearchReferencesPage)
     func presentFindReferencesError(_ error: Error)
     func presentLoadedProfile(_ profile: DiscoProfile)
@@ -20,6 +21,13 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
 
     func presentLoading() {
         view?.startLoading()
+    }
+
+    func presentSearchProviders(
+        _ providers: [SearchReferenceViewEntity],
+        selectedProvider: SearchReferenceViewEntity
+    ) {
+        view?.showSearchProviders(providers, selectedProvider: selectedProvider)
     }
 
     func presentCreateSectionError(_ error: Error) {

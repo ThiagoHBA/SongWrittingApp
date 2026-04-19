@@ -11,6 +11,19 @@ final class DiscoProfilePresenterTests: XCTestCase {
         XCTAssertEqual(view.receivedMessages, [.startLoading])
     }
 
+    func test_presentSearchProviders_shows_provider_options_on_view() {
+        let (sut, view) = makeSUT()
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: .spotify)
+
+        sut.presentSearchProviders(providers, selectedProvider: selectedProvider)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [.showSearchProviders(providers, selectedProvider)]
+        )
+    }
+
     func test_presentCreateSectionError_hides_overlay_then_shows_error() {
         let (sut, view) = makeSUT()
 

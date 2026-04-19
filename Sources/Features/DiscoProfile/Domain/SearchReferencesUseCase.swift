@@ -14,6 +14,17 @@ enum SearchReferencesUseCaseError: LocalizedError, Equatable {
 struct SearchReferencesUseCaseInput: Equatable {
     let keywords: String
     let pageSize: Int
+    let provider: ReferenceProvider
+
+    init(
+        keywords: String,
+        pageSize: Int,
+        provider: ReferenceProvider = .spotify
+    ) {
+        self.keywords = keywords
+        self.pageSize = pageSize
+        self.provider = provider
+    }
 }
 
 typealias SearchReferencesUseCaseOutput = SearchReferencesPage

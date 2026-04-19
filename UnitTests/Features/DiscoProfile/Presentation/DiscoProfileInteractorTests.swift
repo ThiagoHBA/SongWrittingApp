@@ -3,6 +3,19 @@ import XCTest
 @testable import Main
 
 final class DiscoProfileInteractorTests: XCTestCase {
+    func test_loadSearchProviders_presents_all_providers_with_default_selection() {
+        let (sut, presenter, _, _, _, _, _) = makeSUT()
+        let providers = ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:))
+        let selectedProvider = SearchReferenceViewEntity(from: .spotify)
+
+        sut.loadSearchProviders()
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentSearchProviders(providers, selectedProvider)]
+        )
+    }
+
     func test_searchNewReferences_requests_loading_and_executes_useCase() {
         let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
 
@@ -38,6 +51,52 @@ final class DiscoProfileInteractorTests: XCTestCase {
         XCTAssertEqual(
             presenter.receivedMessages,
             [.presentLoading, .presentFindReferencesError(error.localizedDescription)]
+        )
+    }
+
+    func test_selectReferenceProvider_resets_search_reloads_providers_and_uses_selected_provider_on_next_search() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let selectedProvider = SearchReferenceViewEntity(from: .lastFM)
+
+        sut.searchNewReferences(keywords: "spotify")
+        sut.selectReferenceProvider(selectedProvider)
+        sut.searchNewReferences(keywords: "lastfm")
+
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [
+                .search(.init(keywords: "spotify", pageSize: 10)),
+                .reset,
+                .search(.init(keywords: "lastfm", pageSize: 10, provider: .lastFM))
+            ]
+        )
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [
+                .presentLoading,
+                .presentSearchProviders(
+                    ReferenceProvider.allCases.map(SearchReferenceViewEntity.init(from:)),
+                    selectedProvider
+                ),
+                .presentLoading
+            ]
+        )
+    }
+
+    func test_selectReferenceProvider_doesNotChange_state_for_invalid_provider_id() {
+        let (sut, presenter, searchUseCase, _, _, _, _) = makeSUT()
+        let invalidProvider = SearchReferenceViewEntity(id: 999, title: "Unknown", imagePath: "missing")
+
+        sut.selectReferenceProvider(invalidProvider)
+        sut.searchNewReferences(keywords: "any")
+
+        XCTAssertEqual(
+            presenter.receivedMessages,
+            [.presentLoading]
+        )
+        XCTAssertEqual(
+            searchUseCase.receivedMessages,
+            [.search(.init(keywords: "any", pageSize: 10))]
         )
     }
 

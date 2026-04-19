@@ -16,23 +16,45 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         didSet { updateSelectedReferenceItems(newItems: selectedReferences) }
     }
 
+    var searchProviders: [SearchReferenceViewEntity] = [] {
+        didSet {
+            guard isViewLoaded else { return }
+            updateProviderMenu()
+        }
+    }
+
+    var selectedProvider: SearchReferenceViewEntity? {
+        didSet {
+            guard isViewLoaded else { return }
+            updateProviderMenu()
+        }
+    }
+
     var searchReference: ((String) -> Void)?
+    var selectReferenceProvider: ((SearchReferenceViewEntity) -> Void)?
     var loadMoreReferences: (() -> Void)?
     var clearSearch: (() -> Void)?
     var saveReferences: (([AlbumReferenceViewEntity]) -> Void)?
 
+    private lazy var providerMenuButton = SWIconButton(
+        symbolName: "line.3.horizontal.decrease.circle",
+        accessibilityLabel: "Selecionar provedor de busca"
+    )
+
+    private lazy var saveButtonItem = UIBarButtonItem(
+        image: UIImage(systemName: "checkmark"),
+        style: .plain,
+        target: self,
+        action: #selector(saveReferencesTapped)
+    )
+
     private lazy var navBar: UINavigationBar = {
         let nav = UINavigationBar()
         let navigationItem = UINavigationItem(title: "Referências")
-        let saveButton = UIBarButtonItem(
-            title: "Save",
-            style: .plain,
-            target: self,
-            action: #selector(saveReferencesTapped)
-        )
-        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.rightBarButtonItem = saveButtonItem
         nav.items = [navigationItem]
         nav.translatesAutoresizingMaskIntoConstraints = false
+        nav.tintColor = SWColor.Accent.primary
         return nav
     }()
 
@@ -74,6 +96,19 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
 
     @objc private func saveReferencesTapped() {
         saveReferences?(selectedReferences)
+    }
+
+    func selectProvider(_ provider: SearchReferenceViewEntity) {
+        guard selectedProvider != provider else { return }
+
+        selectedProvider = provider
+        loadedReferences = []
+        canLoadMore = false
+        stopLoadingMore()
+        searchBar.text = nil
+        referencesList.reloadData()
+        clearSearch?()
+        selectReferenceProvider?(provider)
     }
 
     private func removeAddedReference(at index: Int) {
@@ -127,6 +162,25 @@ final class AddReferencesViewController: UIViewController, AlertPresentable {
         loadingFooterView.stopAnimating()
         referencesList.tableFooterView = UIView(frame: .zero)
     }
+
+    private func updateProviderMenu() {
+        let actions = searchProviders.map { provider in
+            UIAction(
+                title: provider.title,
+                image: providerImage(for: provider),
+                state: provider == selectedProvider ? .on : .off
+            ) { [weak self] _ in
+                self?.selectProvider(provider)
+            }
+        }
+
+        providerMenuButton.menu = UIMenu(title: "Provedores", options: .displayInline, children: actions)
+        providerMenuButton.showsMenuAsPrimaryAction = true
+        providerMenuButton.isEnabled = !searchProviders.isEmpty
+        providerMenuButton.accessibilityLabel = selectedProvider.map {
+            "Provedor de busca: \($0.title)"
+        } ?? "Selecionar provedor de busca"
+    }
 }
 
 extension AddReferencesViewController: ViewCoding {
@@ -141,6 +195,7 @@ extension AddReferencesViewController: ViewCoding {
         resultLabel.text = "Resultados"
         resultLabel.isHidden = true
         emptyStateLabel.configure(message: "Nenhuma referência por aqui!")
+        updateProviderMenu()
     }
 
     func setupConstraints() {
@@ -155,7 +210,12 @@ extension AddReferencesViewController: ViewCoding {
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(SWSpacing.xxxSmall + 2)),
             searchBar.heightAnchor.constraint(equalToConstant: 36),
 
-            selectedReferencesList.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: SWSpacing.xSmall),
+            providerMenuButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: SWSpacing.xSmall),
+            providerMenuButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+            providerMenuButton.widthAnchor.constraint(equalToConstant: SWSize.iconButton),
+            providerMenuButton.heightAnchor.constraint(equalToConstant: SWSize.iconButton),
+
+            selectedReferencesList.topAnchor.constraint(equalTo: providerMenuButton.bottomAnchor, constant: SWSpacing.xSmall),
             selectedReferencesList.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
             selectedReferencesList.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectedReferencesList.heightAnchor.constraint(equalToConstant: 36),
@@ -178,10 +238,17 @@ extension AddReferencesViewController: ViewCoding {
     func addViewInHierarchy() {
         view.addSubview(resultLabel)
         view.addSubview(searchBar)
+        view.addSubview(providerMenuButton)
         view.addSubview(referencesList)
         view.addSubview(selectedReferencesList)
         view.addSubview(navBar)
         view.addSubview(emptyStateLabel)
+    }
+}
+
+private extension AddReferencesViewController {
+    func providerImage(for provider: SearchReferenceViewEntity) -> UIImage? {
+        UIImage(named: provider.imagePath)
     }
 }
 
