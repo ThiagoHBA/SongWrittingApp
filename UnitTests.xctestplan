@@ -9,6 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:SongWrittingApp.xcodeproj",
+          "identifier" : "00F2F2562B238ECE0008F6F5",
+          "name" : "Main"
+        }
+      ]
+    },
     "performanceAntipatternCheckerEnabled" : true
   },
   "testTargets" : [

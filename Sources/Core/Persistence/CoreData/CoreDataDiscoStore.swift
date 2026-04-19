@@ -37,7 +37,20 @@ public final class CoreDataDiscoStore: DiscoStore {
         _ disco: DiscoStoreRecord,
         completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
     ) {
-        
+        let managedObjectContext = persistentContainer.viewContext
+        managedObjectContext.perform {
+            do {
+                let discoEntity = DiscoEntity(context: managedObjectContext)
+                discoEntity.id = disco.id
+                discoEntity.name = disco.name
+                discoEntity.coverImage = disco.coverImage
+
+                try managedObjectContext.save()
+                completion(.success(self.createDisco(from: discoEntity)))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
     
     public func getDiscos(
@@ -94,8 +107,16 @@ public final class CoreDataDiscoStore: DiscoStore {
                     return
                 }
                 newProfileEntity.disco = discoEntity
-                newProfileEntity.references = NSSet(array: [])
-                newProfileEntity.sections = NSSet(array: [])
+                newProfileEntity.references = NSSet(
+                    array: profile.references.map {
+                        self.createAlbumReferenceEntity(from: $0, in: managedObjectContext)
+                    }
+                )
+                newProfileEntity.sections = NSSet(
+                    array: profile.section.enumerated().map { index, section in
+                        self.createSectionEntity(section, index: index, in: managedObjectContext)
+                    }
+                )
                 
                 try managedObjectContext.save()
                 completion(.success(self.createDiscoProfile(from: newProfileEntity)))
@@ -110,30 +131,37 @@ public final class CoreDataDiscoStore: DiscoStore {
         completion: @escaping (Result<DiscoProfileStoreRecord, Error>) -> Void
     ) {
         let managedObjectContext = persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<DiscoProfileEntity> = DiscoProfileEntity.fetchRequest()
         managedObjectContext.perform {
             do {
-                var discoProfiles = try fetchRequest.execute()
-                let profiles = discoProfiles.map { discoEntity in
-                    self.createDiscoProfile(from: discoEntity)
-                }
-                guard let profileIndex = profiles.firstIndex(where: {
-                    $0.disco.id == profile.disco.id
-                }) else {
+                guard let existingProfile = try self.fetchDiscoProfileEntity(
+                    with: profile.disco.id,
+                    in: managedObjectContext
+                ) else {
                     completion(.failure(StorageError.cantLoadProfile))
                     return
                 }
                 
-                let updatedEntity = DiscoProfileEntity(context: managedObjectContext)
-                let discoEntity = try self.fetchDiscoEntity(with: profile.disco.id, in: managedObjectContext)
-                let updatedSections = profile.section.map {
-                    self.createSectionEntity($0, in: managedObjectContext)
+                guard let discoEntity = try self.fetchDiscoEntity(
+                    with: profile.disco.id,
+                    in: managedObjectContext
+                ) else {
+                    completion(.failure(StorageError.cantLoadDisco))
+                    return
                 }
-                updatedEntity.disco = discoEntity
-                updatedEntity.references = NSSet(array: [])
-                updatedEntity.sections = NSSet(array: updatedSections)
                 
-                discoProfiles[profileIndex] = updatedEntity
+                existingProfile.disco = discoEntity
+                existingProfile.references = NSSet(
+                    array: profile.references.map {
+                        self.createAlbumReferenceEntity(from: $0, in: managedObjectContext)
+                    }
+                )
+                existingProfile.sections = NSSet(
+                    array: profile.section.enumerated().map { index, section in
+                        self.createSectionEntity(section, index: index, in: managedObjectContext)
+                    }
+                )
+
+                try managedObjectContext.save()
                 completion(.success(profile))
             } catch {
                 completion(.failure(error))
@@ -174,7 +202,7 @@ extension CoreDataDiscoStore {
         )
         return DiscoProfileStoreRecord(
             disco: disco,
-            references: .init(albums: .init(items: [])),
+            references: [],
             section: []
         )
     }
@@ -195,7 +223,7 @@ extension CoreDataDiscoStore {
         
         return DiscoProfileStoreRecord(
             disco: disco,
-            references: .init(albums: .init(items: [])),
+            references: references,
             section: sections
         )
     }
@@ -219,7 +247,7 @@ extension CoreDataDiscoStore {
     
     private func createRecord(from recordEntity: RecordEntity) -> RecordStoreRecord {
         return RecordStoreRecord(
-            tag:  InstrumentTagStoreRecord.custom(recordEntity.tag ?? ""),
+            tag: instrumentTag(from: recordEntity.tag),
             audio: recordEntity.audio!
         )
     }
@@ -227,21 +255,25 @@ extension CoreDataDiscoStore {
     private func createAlbumReference(
         from albumEntity: AlbumReferenceEntity
     ) -> AlbumReferenceStoreRecord {
-        
-        return AlbumReferenceStoreRecord(albums: .init(items: []))
+        return AlbumReferenceStoreRecord(
+            name: albumEntity.name ?? "",
+            artist: albumEntity.artist ?? "",
+            releaseDate: albumEntity.releaseDate ?? "",
+            coverImage: albumEntity.coverImage ?? ""
+        )
     }
     
     private func createAlbumReferenceEntity(
         from albumReference: AlbumReferenceStoreRecord,
         in context: NSManagedObjectContext
     ) -> AlbumReferenceEntity {
-        //        let albumReferenceEntity = AlbumReferenceEntity(context: context)
-        //        albumReferenceEntity.name = albumReference.name
-        //        albumReferenceEntity.artist = albumReference.artist
-        //        albumReferenceEntity.releaseDate = albumReference.releaseDate
-        //        albumReferenceEntity.coverImage = albumReference.coverImage
-        
-        return .init()
+        let albumReferenceEntity = AlbumReferenceEntity(context: context)
+        albumReferenceEntity.name = albumReference.name
+        albumReferenceEntity.artist = albumReference.artist
+        albumReferenceEntity.releaseDate = albumReference.releaseDate
+        albumReferenceEntity.coverImage = albumReference.coverImage
+
+        return albumReferenceEntity
     }
     
     private func findSectionEntity(with identifier: String, context: NSManagedObjectContext) -> SectionEntity? {
@@ -260,11 +292,15 @@ extension CoreDataDiscoStore {
     
     private func createSectionEntity(
         _ section: SectionStoreRecord,
+        index: Int,
         in context: NSManagedObjectContext
     ) -> SectionEntity {
-        var sectionEntity = SectionEntity(context: context)
+        let sectionEntity = SectionEntity(context: context)
         sectionEntity.identifier = section.identifer
-        sectionEntity.records = NSSet(array: section.records.map { createRecordEntity(from: $0, in: context)})
+        sectionEntity.index = Int16(index)
+        sectionEntity.records = NSSet(
+            array: section.records.map { createRecordEntity(from: $0, in: context) }
+        )
         
         return sectionEntity
     }
@@ -292,5 +328,22 @@ extension CoreDataDiscoStore {
         record.audio = data.audio
         
         return record
+    }
+
+    private func instrumentTag(from storedValue: String?) -> InstrumentTagStoreRecord {
+        switch storedValue {
+        case "Guitarra":
+            return .guitar
+        case "Voz":
+            return .vocal
+        case "Bateria":
+            return .drums
+        case "Baixo":
+            return .bass
+        case .some(let value):
+            return .custom(value)
+        case .none:
+            return .custom("")
+        }
     }
 }

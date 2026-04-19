@@ -239,8 +239,10 @@ final class DiscoProfileInteractorTests: XCTestCase {
             [.presentLoading, .presentAddRecordError(error.localizedDescription)]
         )
     }
+}
 
-    private func makeSUT() -> (
+extension DiscoProfileInteractorTests {
+    typealias SutAndDoubles = (
         sut: DiscoProfileInteractor,
         presenter: DiscoProfilePresenterSpy,
         searchUseCase: SearchReferencesUseCaseSpy,
@@ -248,7 +250,9 @@ final class DiscoProfileInteractorTests: XCTestCase {
         addReferencesUseCase: AddDiscoNewReferenceUseCaseSpy,
         addSectionUseCase: AddNewSectionToDiscoUseCaseSpy,
         addRecordUseCase: AddNewRecordToSessionUseCaseSpy
-    ) {
+    )
+
+    private func makeSUT() -> SutAndDoubles {
         let searchUseCase = SearchReferencesUseCaseSpy()
         let loadUseCase = GetDiscoProfileUseCaseSpy()
         let addReferencesUseCase = AddDiscoNewReferenceUseCaseSpy()
@@ -293,177 +297,5 @@ final class DiscoProfileInteractorTests: XCTestCase {
         sections: [Section] = []
     ) -> DiscoProfile {
         DiscoProfile(disco: makeDisco(), references: references, section: sections)
-    }
-}
-
-private final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
-    enum Message: Equatable {
-        case presentLoading
-        case presentFoundReferences([AlbumReference])
-        case presentFindReferencesError(String)
-        case presentLoadedProfile(DiscoProfile)
-        case presentLoadProfileError(String)
-        case presentAddedReferences(DiscoProfile)
-        case presentAddReferencesError(String)
-        case presentAddedSection(DiscoProfile)
-        case presentAddSectionError(String)
-        case presentAddedRecord(DiscoProfile)
-        case presentAddRecordError(String)
-        case presentCreateSectionError(String)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func presentLoading() {
-        receivedMessages.append(.presentLoading)
-    }
-
-    func presentFoundReferences(_ references: [AlbumReference]) {
-        receivedMessages.append(.presentFoundReferences(references))
-    }
-
-    func presentFindReferencesError(_ error: Error) {
-        receivedMessages.append(.presentFindReferencesError(error.localizedDescription))
-    }
-
-    func presentLoadedProfile(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentLoadedProfile(profile))
-    }
-
-    func presentLoadProfileError(_ error: Error) {
-        receivedMessages.append(.presentLoadProfileError(error.localizedDescription))
-    }
-
-    func presentAddedReferences(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedReferences(profile))
-    }
-
-    func presentAddReferencesError(_ error: Error) {
-        receivedMessages.append(.presentAddReferencesError(error.localizedDescription))
-    }
-
-    func presentAddedSection(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedSection(profile))
-    }
-
-    func presentAddSectionError(_ error: Error) {
-        receivedMessages.append(.presentAddSectionError(error.localizedDescription))
-    }
-
-    func presentAddedRecord(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedRecord(profile))
-    }
-
-    func presentAddRecordError(_ error: Error) {
-        receivedMessages.append(.presentAddRecordError(error.localizedDescription))
-    }
-
-    func presentCreateSectionError(_ error: Error) {
-        receivedMessages.append(.presentCreateSectionError(error.localizedDescription))
-    }
-}
-
-private final class SearchReferencesUseCaseSpy: SearchReferencesUseCase {
-    enum Message: Equatable {
-        case search(SearchReferencesUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<SearchReferencesUseCaseOutput, Error>) -> Void)?
-
-    func search(
-        _ input: SearchReferencesUseCaseInput,
-        completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.search(input))
-        self.completion = completion
-    }
-
-    func completeSearch(with result: Result<SearchReferencesUseCaseOutput, Error>) {
-        completion?(result)
-    }
-}
-
-private final class GetDiscoProfileUseCaseSpy: GetDiscoProfileUseCase {
-    enum Message: Equatable {
-        case load(GetDiscoProfileUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<GetDiscoProfileUseCaseOutput, Error>) -> Void)?
-
-    func load(
-        _ input: GetDiscoProfileUseCaseInput,
-        completion: @escaping (Result<GetDiscoProfileUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.load(input))
-        self.completion = completion
-    }
-
-    func completeLoad(with result: Result<GetDiscoProfileUseCaseOutput, Error>) {
-        completion?(result)
-    }
-}
-
-private final class AddDiscoNewReferenceUseCaseSpy: AddDiscoNewReferenceUseCase {
-    enum Message: Equatable {
-        case addReferences(AddDiscoNewReferenceUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<AddDiscoNewReferenceUseCaseOutput, Error>) -> Void)?
-
-    func addReferences(
-        _ input: AddDiscoNewReferenceUseCaseInput,
-        completion: @escaping (Result<AddDiscoNewReferenceUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.addReferences(input))
-        self.completion = completion
-    }
-
-    func completeAddReferences(with result: Result<AddDiscoNewReferenceUseCaseOutput, Error>) {
-        completion?(result)
-    }
-}
-
-private final class AddNewSectionToDiscoUseCaseSpy: AddNewSectionToDiscoUseCase {
-    enum Message: Equatable {
-        case addSection(AddNewSectionToDiscoUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void)?
-
-    func addSection(
-        _ input: AddNewSectionToDiscoUseCaseInput,
-        completion: @escaping (Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.addSection(input))
-        self.completion = completion
-    }
-
-    func completeAddSection(with result: Result<AddNewSectionToDiscoUseCaseOutput, Error>) {
-        completion?(result)
-    }
-}
-
-private final class AddNewRecordToSessionUseCaseSpy: AddNewRecordToSessionUseCase {
-    enum Message: Equatable {
-        case addRecord(AddNewRecordToSessionUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<AddNewRecordToSessionUseCaseOutput, Error>) -> Void)?
-
-    func addRecord(
-        _ input: AddNewRecordToSessionUseCaseInput,
-        completion: @escaping (Result<AddNewRecordToSessionUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.addRecord(input))
-        self.completion = completion
-    }
-
-    func completeAddRecord(with result: Result<AddNewRecordToSessionUseCaseOutput, Error>) {
-        completion?(result)
     }
 }

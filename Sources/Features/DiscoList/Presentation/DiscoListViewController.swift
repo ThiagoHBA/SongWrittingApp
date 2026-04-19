@@ -15,53 +15,41 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
 
     private var discos: [DiscoListViewEntity] = [] {
         didSet {
-            emptyStateLabel.isHidden = !discos.isEmpty
+            emptyStateView.isHidden = !discos.isEmpty
         }
     }
 
     private var isLoading = false
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Seus Discos"
-        label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private lazy var addDiscoButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "plus.circle.fill"), for: .normal)
-        button.contentVerticalAlignment = .fill
-        button.contentHorizontalAlignment = .fill
-        button.addTarget(self, action: #selector(addDiscoButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(
-            DiscoTableViewCell.self,
-            forCellReuseIdentifier: DiscoTableViewCell.identifier
+            SWDiscoListItemCell.self,
+            forCellReuseIdentifier: SWDiscoListItemCell.identifier
         )
-        tableView.showsVerticalScrollIndicator = true
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = .clear
+        tableView.contentInset = UIEdgeInsets(
+            top: SWSpacing.small,
+            left: 0,
+            bottom: SWSpacing.large,
+            right: 0
+        )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
 
-    private let emptyStateLabel: UILabel = {
-        let label = UILabel()
-        label.text = """
-        Você ainda não possui nenhum disco!
-        Adicione um novo disco utilizando o ícone acima.
-        """
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.isHidden = true
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let emptyStateView: SWMessageView = {
+        let view = SWMessageView()
+        view.configure(
+            message: """
+            Você ainda não possui nenhum disco!
+            Adicione um novo disco utilizando o ícone acima.
+            """
+        )
+        view.isHidden = true
+        return view
     }()
 
     init(interactor: DiscoListBusinessLogic) {
@@ -77,10 +65,21 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         interactor.loadDiscos()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
     @objc private func addDiscoButtonTapped() {
         let sheet = CreateDiscoViewController()
-        sheet.sheetPresentationController?.detents = [.medium()]
-        sheet.createDiscoTapped = interactor.createDisco
+        
+        sheet.createDiscoTapped = { [weak self] name, cover in
+            self?.interactor.createDisco(
+                name: name,
+                image: cover
+            )
+        }
+        
         present(sheet, animated: true)
     }
 
@@ -88,13 +87,15 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         let placeholder = DiscoListViewEntity(
             id: UUID(),
             name: "",
-            coverImage: UIImage(named: "vinil_image_example")?.pngData() ?? Data()
+            coverImage: UIImage(named: "vinil_image_example")?.pngData() ?? Data(),
+            entityType: .placeholder
         )
-        discos = Array(repeating: placeholder, count: 4)
+        
+        discos.append(contentsOf: Array(repeating: placeholder, count: 4))
     }
 
     private func removePlaceholders() {
-        discos.removeAll(where: { $0.name.isEmpty })
+        discos.removeAll(where: { $0.entityType == .placeholder })
     }
 }
 
@@ -138,30 +139,27 @@ extension DiscoListViewController: DiscoListDisplayLogic {
 
 extension DiscoListViewController: ViewCoding {
     func additionalConfiguration() {
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = SWColor.Background.screen
+        title = "Meus Discos"
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addDiscoButtonTapped)
+        )
+        navigationItem.rightBarButtonItem?.accessibilityLabel = "Adicionar disco"
         tableView.delegate = self
         tableView.dataSource = self
     }
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            titleLabel.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor,
-                constant: 32
-            ),
+            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
+            emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
 
-            addDiscoButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            addDiscoButton.widthAnchor.constraint(equalToConstant: 40),
-            addDiscoButton.heightAnchor.constraint(equalToConstant: 40),
-            addDiscoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-
-            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -169,10 +167,8 @@ extension DiscoListViewController: ViewCoding {
     }
 
     func addViewInHierarchy() {
-        view.addSubview(titleLabel)
         view.addSubview(tableView)
-        view.addSubview(addDiscoButton)
-        view.addSubview(emptyStateLabel)
+        view.addSubview(emptyStateView)
     }
 }
 
@@ -186,20 +182,25 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: DiscoTableViewCell.identifier,
+            withIdentifier: SWDiscoListItemCell.identifier,
             for: indexPath
-        ) as? DiscoTableViewCell else {
+        ) as? SWDiscoListItemCell else {
             return UITableViewCell()
         }
 
-        cell.selectionStyle = .none
-        cell.setTemplateWithSubviews(isLoading, viewBackgroundColor: .systemBackground)
-        cell.configure(with: discos[indexPath.row])
+        let disco = discos[indexPath.row]
+        cell.setTemplateWithSubviews(isLoading, viewBackgroundColor: SWColor.Background.screen)
+        cell.configure(
+            with: SWDiscoListItemContent(
+                title: disco.name,
+                coverImage: UIImage(data: disco.coverImage)
+            )
+        )
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        DiscoTableViewCell.heigth
+        SWDiscoListItemCell.height
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

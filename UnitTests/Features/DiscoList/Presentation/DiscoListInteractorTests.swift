@@ -114,20 +114,24 @@ final class DiscoListInteractorTests: XCTestCase {
 
     func test_showProfile_routes_with_disco_summary() {
         let (sut, _, _, _, router) = makeSUT()
-        let disco = DiscoListViewEntity(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
+        let disco = DiscoListViewEntity(id: UUID(), name: "Any", coverImage: Data("cover".utf8), entityType: .disco)
 
         sut.showProfile(of: disco)
 
         XCTAssertEqual(router.receivedMessages, [.showProfile(disco.toSummary())])
     }
+}
 
-    private func makeSUT() -> (
+extension DiscoListInteractorTests {
+    typealias SutAndDoubles = (
         sut: DiscoListInteractor,
         presenter: DiscoListPresenterSpy,
         getDiscosUseCase: GetDiscosUseCaseSpy,
         createDiscoUseCase: CreateNewDiscoUseCaseSpy,
         router: DiscoListRouterSpy
-    ) {
+    )
+
+    private func makeSUT() -> SutAndDoubles {
         let getDiscosUseCase = GetDiscosUseCaseSpy()
         let createDiscoUseCase = CreateNewDiscoUseCaseSpy()
         let presenter = DiscoListPresenterSpy()
@@ -139,96 +143,5 @@ final class DiscoListInteractorTests: XCTestCase {
         sut.presenter = presenter
         sut.router = router
         return (sut, presenter, getDiscosUseCase, createDiscoUseCase, router)
-    }
-}
-
-private final class DiscoListPresenterSpy: DiscoListPresentationLogic {
-    enum Message: Equatable {
-        case presentLoading
-        case presentLoadedDiscos([DiscoSummary])
-        case presentLoadDiscoError(String)
-        case presentCreatedDisco(DiscoSummary)
-        case presentCreateDiscoFailure(String)
-        case presentCreateDiscoError(String)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func presentLoading() {
-        receivedMessages.append(.presentLoading)
-    }
-
-    func presentLoadedDiscos(_ discos: [DiscoSummary]) {
-        receivedMessages.append(.presentLoadedDiscos(discos))
-    }
-
-    func presentLoadDiscoError(_ error: Error) {
-        receivedMessages.append(.presentLoadDiscoError(error.localizedDescription))
-    }
-
-    func presentCreatedDisco(_ disco: DiscoSummary) {
-        receivedMessages.append(.presentCreatedDisco(disco))
-    }
-
-    func presentCreateDiscoFailure(_ error: Error) {
-        receivedMessages.append(.presentCreateDiscoFailure(error.localizedDescription))
-    }
-
-    func presentCreateDiscoError(_ error: Error) {
-        receivedMessages.append(.presentCreateDiscoError(error.localizedDescription))
-    }
-}
-
-private final class DiscoListRouterSpy: DiscoListRouting {
-    enum Message: Equatable {
-        case showProfile(DiscoSummary)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func showProfile(of disco: DiscoSummary) {
-        receivedMessages.append(.showProfile(disco))
-    }
-}
-
-private final class GetDiscosUseCaseSpy: GetDiscosUseCase {
-    enum Message: Equatable {
-        case load(GetDiscosUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<GetDiscosUseCaseOutput, Error>) -> Void)?
-
-    func load(
-        _ input: GetDiscosUseCaseInput,
-        completion: @escaping (Result<GetDiscosUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.load(input))
-        self.completion = completion
-    }
-
-    func completeLoad(with result: Result<GetDiscosUseCaseOutput, Error>) {
-        completion?(result)
-    }
-}
-
-private final class CreateNewDiscoUseCaseSpy: CreateNewDiscoUseCase {
-    enum Message: Equatable {
-        case create(CreateNewDiscoUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-    private var completion: ((Result<CreateNewDiscoUseCaseOutput, Error>) -> Void)?
-
-    func create(
-        _ input: CreateNewDiscoUseCaseInput,
-        completion: @escaping (Result<CreateNewDiscoUseCaseOutput, Error>) -> Void
-    ) {
-        receivedMessages.append(.create(input))
-        self.completion = completion
-    }
-
-    func completeCreate(with result: Result<CreateNewDiscoUseCaseOutput, Error>) {
-        completion?(result)
     }
 }

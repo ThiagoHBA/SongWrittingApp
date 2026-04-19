@@ -3,20 +3,10 @@ import UIKit
 final class AddSectionViewController: UIViewController {
     var addSectionTapped: ((String) -> Void)?
 
-    let sectionField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Ex: Minha nova seção"
-        textField.borderStyle = .roundedRect
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        return textField
-    }()
-
-    private let sectionTitle: UILabel = {
-        let label = UILabel()
-        label.text = "Título"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let sectionField = SWLabeledTextFieldView(
+        title: "Título",
+        placeholder: "Ex: Minha nova seção"
+    )
 
     private lazy var navBar: UINavigationBar = {
         let nav = UINavigationBar()
@@ -26,13 +16,9 @@ final class AddSectionViewController: UIViewController {
         return nav
     }()
 
-    private lazy var createSessionButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("Criar Seção", for: .normal)
-        button.layer.cornerRadius = 16
+    private lazy var createSessionButton: SWPrimaryButton = {
+        let button = SWPrimaryButton(title: "Criar Seção")
         button.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
 
@@ -42,7 +28,7 @@ final class AddSectionViewController: UIViewController {
     }
 
     @objc private func createTapped() {
-        addSectionTapped?(sectionField.text ?? "")
+        addSectionTapped?(sectionField.text)
     }
 }
 
@@ -56,25 +42,23 @@ extension AddSectionViewController: ViewCoding {
             navBar.topAnchor.constraint(equalTo: view.topAnchor),
             navBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            navBar.heightAnchor.constraint(equalToConstant: 46),
+            navBar.heightAnchor.constraint(equalToConstant: SWSize.navigationBarHeight),
 
-            sectionTitle.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 32),
-            sectionTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            sectionField.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: SWSpacing.xLarge),
+            sectionField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
+            sectionField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            sectionField.topAnchor.constraint(equalTo: sectionTitle.bottomAnchor, constant: 6),
-            sectionField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            sectionField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-
-            createSessionButton.topAnchor.constraint(equalTo: sectionField.bottomAnchor, constant: 24),
+            createSessionButton.topAnchor.constraint(equalTo: sectionField.bottomAnchor, constant: SWSpacing.large),
             createSessionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            createSessionButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4)
+            createSessionButton.leadingAnchor.constraint(equalTo: sectionField.leadingAnchor),
+            createSessionButton.trailingAnchor.constraint(equalTo: sectionField.trailingAnchor),
+            createSessionButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight)
         ])
     }
 
     func addViewInHierarchy() {
         view.addSubview(sectionField)
         view.addSubview(createSessionButton)
-        view.addSubview(sectionTitle)
         view.addSubview(navBar)
     }
 }
