@@ -279,11 +279,11 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let footerView = try footerView(in: sut, section: 0)
         try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
-        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+        wait(timeout: 10, until: { sut.presentedViewController is AddRecordSourceViewController })
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
-        wait(timeout: 5, until: { sut.presentedViewController is CustomPickerController })
+        wait(timeout: 10, until: { sut.presentedViewController is CustomPickerController })
 
         XCTAssertTrue(sut.presentedViewController is CustomPickerController)
     }

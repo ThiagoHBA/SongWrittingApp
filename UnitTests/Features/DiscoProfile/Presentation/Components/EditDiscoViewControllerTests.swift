@@ -42,7 +42,7 @@ final class EditDiscoViewControllerTests: XCTestCase {
 
         let deleteButton = try XCTUnwrap(sut.view.profileFindButton(accessibilityLabel: "Deletar Disco"))
 
-        XCTAssertEqual(deleteButton.backgroundColor, .systemRed)
+        XCTAssertEqual(deleteButton.backgroundColor, SWColor.Destructive.primary)
     }
 
     func test_deleteButton_calls_deleteDiscoTapped_when_tapped() throws {

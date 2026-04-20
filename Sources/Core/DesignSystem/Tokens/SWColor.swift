@@ -24,6 +24,10 @@ enum SWColor {
         static let primary = UIColor.systemBlue
         static let emphasisBackground = UIColor.tertiarySystemFill
     }
+    
+    enum Destructive {
+         static let primary = UIColor.systemRed
+     }
 
     enum Border {
         static let subtle = UIColor.separator
