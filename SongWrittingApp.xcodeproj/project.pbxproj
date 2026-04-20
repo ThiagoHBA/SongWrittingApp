@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00A017D32F96E72D00C49825 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A017D22F96E72D00C49825 /* SongWrittingMacros */; };
+		00A1B2E12F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A1B2E02F969696002A2437 /* SongWrittingMacros */; };
+		00E76B672F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00E76B662F969696002A2437 /* SongWrittingMacros */; };
 		1A9A4B682FD0000100ABCD01 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9A4B692FD0000100ABCD01 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00A1B2E12F969696002A2437 /* SongWrittingMacros in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00A017D32F96E72D00C49825 /* SongWrittingMacros in Frameworks */,
+				00E76B672F969696002A2437 /* SongWrittingMacros in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +151,9 @@
 				00A1B2C42F91C17900E6A87F /* IntegrationTests */,
 			);
 			name = IntegrationTests;
+			packageProductDependencies = (
+				00A1B2E02F969696002A2437 /* SongWrittingMacros */,
+			);
 			productName = IntegrationTests;
 			productReference = 00A1B2C52B24CD020008F6F5 /* IntegrationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -191,6 +200,10 @@
 				0028ABE22F91C17900E6A87F /* UnitTests */,
 			);
 			name = UnitTests;
+			packageProductDependencies = (
+				00E76B662F969696002A2437 /* SongWrittingMacros */,
+				00A017D22F96E72D00C49825 /* SongWrittingMacros */,
+			);
 			productName = UnitTests;
 			productReference = 00F2F2AE2B24CD020008F6F5 /* UnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -248,6 +261,7 @@
 			mainGroup = 00F2F1C12B2373980008F6F5;
 			packageReferences = (
 				1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */,
 			);
 			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
 			projectDirPath = "";
@@ -750,6 +764,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ThiagoHBA/SongWrittingAppMacros";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -761,6 +783,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		00A017D22F96E72D00C49825 /* SongWrittingMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */;
+			productName = SongWrittingMacros;
+		};
+		00A1B2E02F969696002A2437 /* SongWrittingMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SongWrittingMacros;
+		};
+		00E76B662F969696002A2437 /* SongWrittingMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SongWrittingMacros;
+		};
 		1A9A4B692FD0000100ABCD01 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */;

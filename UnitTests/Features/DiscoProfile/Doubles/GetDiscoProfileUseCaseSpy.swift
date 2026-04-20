@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class GetDiscoProfileUseCaseSpy: GetDiscoProfileUseCase {
-    enum Message: Equatable {
-        case load(GetDiscoProfileUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completion: ((Result<GetDiscoProfileUseCaseOutput, Error>) -> Void)?
 
+    @SWSpyMethodTracker
     func load(
         _ input: GetDiscoProfileUseCaseInput,
         completion: @escaping (Result<GetDiscoProfileUseCaseOutput, Error>) -> Void

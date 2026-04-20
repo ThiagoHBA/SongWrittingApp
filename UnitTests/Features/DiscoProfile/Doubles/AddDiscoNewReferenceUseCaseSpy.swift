@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class AddDiscoNewReferenceUseCaseSpy: AddDiscoNewReferenceUseCase {
-    enum Message: Equatable {
-        case addReferences(AddDiscoNewReferenceUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completion: ((Result<AddDiscoNewReferenceUseCaseOutput, Error>) -> Void)?
 
+    @SWSpyMethodTracker
     func addReferences(
         _ input: AddDiscoNewReferenceUseCaseInput,
         completion: @escaping (Result<AddDiscoNewReferenceUseCaseOutput, Error>) -> Void

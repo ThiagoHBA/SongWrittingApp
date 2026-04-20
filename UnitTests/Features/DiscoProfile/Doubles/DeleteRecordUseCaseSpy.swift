@@ -1,14 +1,12 @@
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DeleteRecordUseCaseSpy: DeleteRecordUseCase {
-    enum Message: Equatable {
-        case deleteRecord(DeleteRecordUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completions: [(Result<DiscoProfile, Error>) -> Void] = []
 
+    @SWSpyMethodTracker
     func deleteRecord(
         _ input: DeleteRecordUseCaseInput,
         completion: @escaping (Result<DeleteRecordUseCaseOutput, Error>) -> Void

@@ -6,19 +6,15 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class SearchReferencesUseCaseSpy: SearchReferencesUseCase {
-    enum Message: Equatable {
-        case search(SearchReferencesUseCaseInput)
-        case loadMore
-        case reset
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var searchCompletions: [(Result<SearchReferencesUseCaseOutput, Error>) -> Void] = []
     private var loadMoreCompletions: [(Result<SearchReferencesUseCaseOutput, Error>) -> Void] = []
 
+    @SWSpyMethodTracker
     func search(
         _ input: SearchReferencesUseCaseInput,
         completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
@@ -27,6 +23,7 @@ final class SearchReferencesUseCaseSpy: SearchReferencesUseCase {
         searchCompletions.append(completion)
     }
 
+    @SWSpyMethodTracker
     func loadMore(
         completion: @escaping (Result<SearchReferencesUseCaseOutput, Error>) -> Void
     ) {
@@ -34,9 +31,7 @@ final class SearchReferencesUseCaseSpy: SearchReferencesUseCase {
         loadMoreCompletions.append(completion)
     }
 
-    func reset() {
-        receivedMessages.append(.reset)
-    }
+    func reset() {  }
 
     func completeSearch(
         with result: Result<SearchReferencesUseCaseOutput, Error>,

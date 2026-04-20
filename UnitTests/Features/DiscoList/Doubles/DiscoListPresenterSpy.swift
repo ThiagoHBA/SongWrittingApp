@@ -6,51 +6,17 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DiscoListPresenterSpy: DiscoListPresentationLogic {
-    enum Message: Equatable {
-        case presentLoading
-        case presentLoadedDiscos([DiscoSummary])
-        case presentLoadDiscoError(String)
-        case presentCreatedDisco(DiscoSummary)
-        case presentCreateDiscoFailure(String)
-        case presentCreateDiscoError(String)
-        case presentDeletedDisco(DiscoSummary)
-        case presentDeleteDiscoError(String)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func presentLoading() {
-        receivedMessages.append(.presentLoading)
-    }
-
-    func presentLoadedDiscos(_ discos: [DiscoSummary]) {
-        receivedMessages.append(.presentLoadedDiscos(discos))
-    }
-
-    func presentLoadDiscoError(_ error: Error) {
-        receivedMessages.append(.presentLoadDiscoError(error.localizedDescription))
-    }
-
-    func presentCreatedDisco(_ disco: DiscoSummary) {
-        receivedMessages.append(.presentCreatedDisco(disco))
-    }
-
-    func presentCreateDiscoFailure(_ error: Error) {
-        receivedMessages.append(.presentCreateDiscoFailure(error.localizedDescription))
-    }
-
-    func presentCreateDiscoError(_ error: Error) {
-        receivedMessages.append(.presentCreateDiscoError(error.localizedDescription))
-    }
-
-    func presentDeletedDisco(_ disco: DiscoSummary) {
-        receivedMessages.append(.presentDeletedDisco(disco))
-    }
-
-    func presentDeleteDiscoError(_ error: Error) {
-        receivedMessages.append(.presentDeleteDiscoError(error.localizedDescription))
-    }
+    func presentLoading() {}
+    func presentLoadedDiscos(_ discos: [DiscoSummary]) {}
+    func presentLoadDiscoError(_ error: Error) {}
+    func presentCreatedDisco(_ disco: DiscoSummary) {}
+    func presentCreateDiscoFailure(_ error: Error) {}
+    func presentCreateDiscoError(_ error: Error) {}
+    func presentDeletedDisco(_ disco: DiscoSummary) {}
+    func presentDeleteDiscoError(_ error: Error) {}
 }

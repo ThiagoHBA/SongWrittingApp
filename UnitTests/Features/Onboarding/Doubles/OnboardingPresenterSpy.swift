@@ -1,14 +1,8 @@
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class OnboardingPresenterSpy: OnboardingPresentationLogic {
-    enum Message: Equatable {
-        case presentPages
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func presentPages() {
-        receivedMessages.append(.presentPages)
-    }
+    func presentPages() { }
 }

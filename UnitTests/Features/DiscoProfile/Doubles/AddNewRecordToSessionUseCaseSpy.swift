@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class AddNewRecordToSessionUseCaseSpy: AddNewRecordToSessionUseCase {
-    enum Message: Equatable {
-        case addRecord(AddNewRecordToSessionUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completion: ((Result<AddNewRecordToSessionUseCaseOutput, Error>) -> Void)?
 
+    @SWSpyMethodTracker
     func addRecord(
         _ input: AddNewRecordToSessionUseCaseInput,
         completion: @escaping (Result<AddNewRecordToSessionUseCaseOutput, Error>) -> Void

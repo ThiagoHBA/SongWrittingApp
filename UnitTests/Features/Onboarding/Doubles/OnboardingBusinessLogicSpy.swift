@@ -1,28 +1,14 @@
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class OnboardingBusinessLogicSpy: OnboardingBusinessLogic {
-    enum Message: Equatable {
-        case loadOnboarding
-        case skip
-        case finish
-    }
+    func loadOnboarding() { }
 
-    private(set) var receivedMessages: [Message] = []
+    func skip() { }
 
-    func loadOnboarding() {
-        receivedMessages.append(.loadOnboarding)
-    }
+    func finish() {  }
 
-    func skip() {
-        receivedMessages.append(.skip)
-    }
-
-    func finish() {
-        receivedMessages.append(.finish)
-    }
-
-    func reset() {
-        receivedMessages.removeAll()
-    }
+    func reset() { }
 }

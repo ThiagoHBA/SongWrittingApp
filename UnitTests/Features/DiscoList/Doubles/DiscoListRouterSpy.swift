@@ -6,16 +6,10 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DiscoListRouterSpy: DiscoListRouting {
-    enum Message: Equatable {
-        case showProfile(DiscoSummary)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    func showProfile(of disco: DiscoSummary) {
-        receivedMessages.append(.showProfile(disco))
-    }
+    func showProfile(of disco: DiscoSummary) {}
 }
