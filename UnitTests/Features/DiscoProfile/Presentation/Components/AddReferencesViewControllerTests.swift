@@ -10,7 +10,7 @@ final class AddReferencesViewControllerTests: XCTestCase {
 
         sut.updateReferenceItems(.init(references: references, hasMore: false))
 
-        XCTAssertEqual(try numberOfRows(in: sut), 2)
+        XCTAssertEqual(try sut.numberOfRows(), 2)
     }
 
     func test_willDisplay_requests_next_page_once_when_near_bottom() throws {
@@ -28,7 +28,7 @@ final class AddReferencesViewControllerTests: XCTestCase {
             )
         )
 
-        let tableView = try tableView(in: sut)
+        let tableView = try sut.tableView()
         let searchBar = try searchBar(in: sut)
         searchBar.text = "album"
 
@@ -46,7 +46,7 @@ final class AddReferencesViewControllerTests: XCTestCase {
             .init(references: [makeReference(name: "A"), makeReference(name: "B")], hasMore: true)
         )
 
-        let tableView = try tableView(in: sut)
+        let tableView = try sut.tableView()
         let searchBar = try searchBar(in: sut)
         searchBar.text = "album"
 
@@ -72,11 +72,11 @@ final class AddReferencesViewControllerTests: XCTestCase {
         sut.clearSearch = { clearSearchCalls += 1 }
         sut.updateReferenceItems(.init(references: [makeReference()], hasMore: true))
 
-        let searchBar = try XCTUnwrap(sut.view.profileFindSubview(ofType: UISearchBar.self))
+        let searchBar = try XCTUnwrap(sut.view.findSubview(ofType: UISearchBar.self))
 
         sut.searchBar(searchBar, textDidChange: "")
 
-        XCTAssertEqual(try numberOfRows(in: sut), 0)
+        XCTAssertEqual(try sut.numberOfRows(), 0)
         XCTAssertEqual(clearSearchCalls, 1)
     }
 
@@ -88,17 +88,17 @@ final class AddReferencesViewControllerTests: XCTestCase {
 
         sut.selectProvider(.init(from: .lastFM))
 
-        XCTAssertEqual(try numberOfRows(in: sut), 0)
+        XCTAssertEqual(try sut.numberOfRows(), 0)
         XCTAssertEqual(selectedProvider, SearchReferenceViewEntity(from: .lastFM))
         XCTAssertEqual(sut.selectedProvider, SearchReferenceViewEntity(from: .lastFM))
     }
 
     func test_viewDidLoad_renders_provider_menu_from_view_entities() throws {
         let sut = makeSUT()
-        let navBar = try XCTUnwrap(sut.view.profileFindSubview(ofType: UINavigationBar.self))
+        let navBar = try XCTUnwrap(sut.view.findSubview(ofType: UINavigationBar.self))
         let saveItem = try XCTUnwrap(navBar.items?.first?.rightBarButtonItem)
         let searchBar = try searchBar(in: sut)
-        let providerButton = try XCTUnwrap(sut.view.profileFindSubview(ofType: SWIconButton.self))
+        let providerButton = try XCTUnwrap(sut.view.findSubview(ofType: SWIconButton.self))
         let actions = try XCTUnwrap(providerButton.menu?.children as? [UIAction])
 
         sut.view.layoutIfNeeded()
@@ -139,33 +139,8 @@ private extension AddReferencesViewControllerTests {
         )
     }
 
-    func tableView(in sut: AddReferencesViewController) throws -> UITableView {
-        try XCTUnwrap(sut.view.profileFindSubview(ofType: UITableView.self))
-    }
-
     func searchBar(in sut: AddReferencesViewController) throws -> UISearchBar {
-        try XCTUnwrap(sut.view.profileFindSubview(ofType: UISearchBar.self))
+        try XCTUnwrap(sut.view.findSubview(ofType: UISearchBar.self))
     }
 
-    func numberOfRows(in sut: AddReferencesViewController) throws -> Int {
-        let tableView = try tableView(in: sut)
-        tableView.layoutIfNeeded()
-        return tableView.numberOfRows(inSection: 0)
-    }
-}
-
-private extension UIView {
-    func profileFindSubview<T: UIView>(ofType type: T.Type) -> T? {
-        if let typedView = self as? T {
-            return typedView
-        }
-
-        for subview in subviews {
-            if let typedView = subview.profileFindSubview(ofType: type) {
-                return typedView
-            }
-        }
-
-        return nil
-    }
 }

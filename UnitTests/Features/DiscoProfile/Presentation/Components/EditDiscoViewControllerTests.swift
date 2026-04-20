@@ -20,7 +20,7 @@ final class EditDiscoViewControllerTests: XCTestCase {
     func test_viewDidLoad_renders_navigation_bar_with_edit_title() throws {
         let sut = makeSUT()
 
-        let navBar = try XCTUnwrap(sut.view.profileFindSubview(ofType: UINavigationBar.self))
+        let navBar = try XCTUnwrap(sut.view.findSubview(ofType: UINavigationBar.self))
 
         XCTAssertEqual(navBar.items?.first?.title, "Editar Disco")
     }
@@ -31,7 +31,7 @@ final class EditDiscoViewControllerTests: XCTestCase {
         sut.saveNameTapped = { receivedName = $0 }
         sut.nameField.text = "Updated Name"
 
-        let saveButton = try XCTUnwrap(sut.view.profileFindButton(accessibilityLabel: "Salvar"))
+        let saveButton = try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Salvar"))
         saveButton.sendActions(for: .touchUpInside)
 
         XCTAssertEqual(receivedName, "Updated Name")
@@ -40,7 +40,7 @@ final class EditDiscoViewControllerTests: XCTestCase {
     func test_deleteButton_is_red() throws {
         let sut = makeSUT()
 
-        let deleteButton = try XCTUnwrap(sut.view.profileFindButton(accessibilityLabel: "Deletar Disco"))
+        let deleteButton = try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Deletar Disco"))
 
         XCTAssertEqual(deleteButton.backgroundColor, SWColor.Destructive.primary)
     }
@@ -50,7 +50,7 @@ final class EditDiscoViewControllerTests: XCTestCase {
         var deleteCallCount = 0
         sut.deleteDiscoTapped = { deleteCallCount += 1 }
 
-        let deleteButton = try XCTUnwrap(sut.view.profileFindButton(accessibilityLabel: "Deletar Disco"))
+        let deleteButton = try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Deletar Disco"))
         deleteButton.sendActions(for: .touchUpInside)
 
         XCTAssertEqual(deleteCallCount, 1)
@@ -66,23 +66,5 @@ private extension EditDiscoViewControllerTests {
         window.makeKeyAndVisible()
         sut.loadViewIfNeeded()
         return sut
-    }
-}
-
-private extension UIView {
-    func profileFindSubview<T: UIView>(ofType type: T.Type) -> T? {
-        if let typedView = self as? T { return typedView }
-        for subview in subviews {
-            if let typedView = subview.profileFindSubview(ofType: type) { return typedView }
-        }
-        return nil
-    }
-
-    func profileFindButton(accessibilityLabel label: String) -> UIButton? {
-        if let button = self as? UIButton, button.accessibilityLabel == label { return button }
-        for subview in subviews {
-            if let button = subview.profileFindButton(accessibilityLabel: label) { return button }
-        }
-        return nil
     }
 }

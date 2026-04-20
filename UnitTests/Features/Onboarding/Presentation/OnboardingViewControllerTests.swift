@@ -118,7 +118,7 @@ private extension OnboardingViewControllerTests {
     }
 
     func primaryButton(in sut: OnboardingViewController) throws -> UIButton {
-        try XCTUnwrap(sut.view.findButton(withAccessibilityLabel: "Ação principal onboarding"))
+        try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Ação principal onboarding"))
     }
 
     func label(in view: UIView, identifier: String) throws -> UILabel {
@@ -130,51 +130,7 @@ private extension OnboardingViewControllerTests {
     }
 
     func tapSkipButton(on sut: OnboardingViewController) throws {
-        try XCTUnwrap(sut.view.findButton(withAccessibilityLabel: "Pular onboarding"))
+        try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Pular onboarding"))
             .sendActions(for: .touchUpInside)
-    }
-}
-
-private extension UIView {
-    func findSubview<T: UIView>(ofType type: T.Type) -> T? {
-        if let typedView = self as? T {
-            return typedView
-        }
-
-        for subview in subviews {
-            if let typedView = subview.findSubview(ofType: type) {
-                return typedView
-            }
-        }
-
-        return nil
-    }
-
-    func findButton(withAccessibilityLabel accessibilityLabel: String) -> UIButton? {
-        if let button = self as? UIButton, button.accessibilityLabel == accessibilityLabel {
-            return button
-        }
-
-        for subview in subviews {
-            if let button = subview.findButton(withAccessibilityLabel: accessibilityLabel) {
-                return button
-            }
-        }
-
-        return nil
-    }
-
-    func findLabel(withIdentifier identifier: String) -> UILabel? {
-        if let label = self as? UILabel, label.accessibilityIdentifier == identifier {
-            return label
-        }
-
-        for subview in subviews {
-            if let label = subview.findLabel(withIdentifier: identifier) {
-                return label
-            }
-        }
-
-        return nil
     }
 }
