@@ -21,6 +21,8 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
         case addNewRecord(DiscoSummary, String, URL)
         case updateDiscoName(DiscoSummary, String)
         case deleteDisco(DiscoSummary)
+        case deleteSection(DiscoSummary, String)
+        case deleteRecord(DiscoSummary, String, URL)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -67,6 +69,14 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
 
     func deleteDisco(_ disco: DiscoSummary) {
         receivedMessages.append(.deleteDisco(disco))
+    }
+
+    func deleteSection(in disco: DiscoSummary, sectionIdentifier: String) {
+        receivedMessages.append(.deleteSection(disco, sectionIdentifier))
+    }
+
+    func deleteRecord(in disco: DiscoSummary, sectionIdentifier: String, audioURL: URL) {
+        receivedMessages.append(.deleteRecord(disco, sectionIdentifier, audioURL))
     }
 
     func reset() {

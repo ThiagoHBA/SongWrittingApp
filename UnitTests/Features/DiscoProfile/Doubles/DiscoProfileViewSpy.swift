@@ -26,6 +26,8 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
         case discoDeleted
         case updatingDiscoError(String, String)
         case deletingDiscoError(String, String)
+        case deletingSectionError(String, String)
+        case deletingRecordError(String, String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -97,5 +99,13 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
 
     func deletingDiscoError(_ title: String, description: String) {
         receivedMessages.append(.deletingDiscoError(title, description))
+    }
+
+    func deletingSectionError(_ title: String, description: String) {
+        receivedMessages.append(.deletingSectionError(title, description))
+    }
+
+    func deletingRecordError(_ title: String, description: String) {
+        receivedMessages.append(.deletingRecordError(title, description))
     }
 }

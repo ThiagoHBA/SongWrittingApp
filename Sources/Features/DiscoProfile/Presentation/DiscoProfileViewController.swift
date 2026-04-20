@@ -18,6 +18,8 @@ protocol DiscoProfileDisplayLogic: AnyObject {
     func discoDeleted()
     func updatingDiscoError(_ title: String, description: String)
     func deletingDiscoError(_ title: String, description: String)
+    func deletingSectionError(_ title: String, description: String)
+    func deletingRecordError(_ title: String, description: String)
 }
 
 final class DiscoProfileViewController: UIViewController, AlertPresentable {
@@ -67,11 +69,17 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         return view
     }()
 
+    private static let sectionTitleCellIdentifier = "SectionTitleCell"
+
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
             SWRecordListItemCell.self,
             forCellReuseIdentifier: SWRecordListItemCell.identifier
+        )
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: DiscoProfileViewController.sectionTitleCellIdentifier
         )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -217,6 +225,8 @@ extension DiscoProfileViewController: ViewCoding {
         tableView.dataSource = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.sectionHeaderTopPadding = 0
+
         emptyStateLabel.configure(
             message: """
             Você ainda não adicionou nenhuma seção!
@@ -279,32 +289,36 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        SWRecordListItemCell.height
+        indexPath.row == 0 ? SWSpacing.xLarge : SWRecordListItemCell.height
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        discoProfile?.section[section].records.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = SWTextLabel(style: .caption)
-        label.text = discoProfile?.section[section].identifer
-
-        let container = UIView()
-        container.addSubview(label)
-
-        NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: container.topAnchor),
-            label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: SWSpacing.small),
-            label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -SWSpacing.small),
-            label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -SWSpacing.xxxSmall)
-        ])
-
-        return container
+        let recordCount = discoProfile?.section[section].records.count ?? 0
+        return recordCount + 1
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        SWSpacing.xLarge
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        guard let section = discoProfile?.section[indexPath.section] else { return nil }
+
+        if indexPath.row == 0 {
+            let deleteAction = UIContextualAction(style: .destructive, title: "Deletar") { [weak self] _, _, completion in
+                guard let self else { completion(false); return }
+                self.interactor.deleteSection(in: self.disco, sectionIdentifier: section.identifer)
+                completion(true)
+            }
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        }
+
+        let record = section.records[indexPath.row - 1]
+        let deleteAction = UIContextualAction(style: .destructive, title: "Deletar") { [weak self] _, _, completion in
+            guard let self else { completion(false); return }
+            self.interactor.deleteRecord(in: self.disco, sectionIdentifier: section.identifer, audioURL: record.audio)
+            completion(true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -333,13 +347,44 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: DiscoProfileViewController.sectionTitleCellIdentifier,
+                for: indexPath
+            )
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+
+            let labelTag = 1
+            let label: SWTextLabel
+            
+            if let existing = cell.contentView.viewWithTag(labelTag) as? SWTextLabel {
+                label = existing
+            } else {
+                let newLabel = SWTextLabel(style: .caption)
+                newLabel.tag = labelTag
+                cell.contentView.addSubview(newLabel)
+                NSLayoutConstraint.activate([
+                    newLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                    newLabel.leadingAnchor.constraint(equalTo: cell.contentView.leadingAnchor, constant: SWSpacing.small),
+                    newLabel.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -SWSpacing.small),
+                    newLabel.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor, constant: -SWSpacing.xxxSmall)
+                ])
+                label = newLabel
+            }
+            
+            label.text = discoProfile?.section[indexPath.section].identifer
+            
+            return cell
+        }
+
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: SWRecordListItemCell.identifier
         ) as? SWRecordListItemCell else {
             return UITableViewCell()
         }
 
-        guard let currentItem = discoProfile?.section[indexPath.section].records[indexPath.row] else {
+        guard let currentItem = discoProfile?.section[indexPath.section].records[indexPath.row - 1] else {
             return UITableViewCell()
         }
 
@@ -433,6 +478,14 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     func deletingDiscoError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+
+    func deletingSectionError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+
+    func deletingRecordError(_ title: String, description: String) {
         showAlert(title: title, message: description, dismissed: nil)
     }
 }

@@ -118,6 +118,31 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
         }
     }
 
+    func deleteRecord(
+        _ input: DeleteRecordUseCaseInput,
+        completion: @escaping (Result<DeleteRecordUseCaseOutput, Error>) -> Void
+    ) {
+        mutateProfile(for: input.disco, completion: completion) { profile in
+            guard let sectionIndex = profile.section.firstIndex(where: { $0.identifer == input.sectionIdentifier }) else {
+                throw DiscoProfileRepositoryError.cantFindSection
+            }
+            var profile = profile
+            profile.section[sectionIndex].records.removeAll { $0.audio == input.audioURL }
+            return profile
+        }
+    }
+
+    func deleteSection(
+        _ input: DeleteSectionUseCaseInput,
+        completion: @escaping (Result<DeleteSectionUseCaseOutput, Error>) -> Void
+    ) {
+        mutateProfile(for: input.disco, completion: completion) { profile in
+            var profile = profile
+            profile.section.removeAll { $0.identifer == input.sectionIdentifier }
+            return profile
+        }
+    }
+
     func delete(
         _ input: DeleteDiscoUseCaseInput,
         completion: @escaping (Result<DeleteDiscoUseCaseOutput, Error>) -> Void

@@ -12,6 +12,8 @@ protocol DiscoProfileBusinessLogic: AnyObject {
     func addNewRecord(in disco: DiscoSummary, to sectionIdentifier: String, audioFileURL: URL)
     func updateDiscoName(disco: DiscoSummary, newName: String)
     func deleteDisco(_ disco: DiscoSummary)
+    func deleteSection(in disco: DiscoSummary, sectionIdentifier: String)
+    func deleteRecord(in disco: DiscoSummary, sectionIdentifier: String, audioURL: URL)
 }
 
 final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
@@ -22,6 +24,8 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     private let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
     private let updateDiscoNameUseCase: UpdateDiscoNameUseCase
     private let deleteDiscoUseCase: DeleteDiscoUseCase
+    private let deleteSectionUseCase: DeleteSectionUseCase
+    private let deleteRecordUseCase: DeleteRecordUseCase
 
     private var currentReferenceProvider: ReferenceProvider = .spotify
     private var loadedReferences: [AlbumReference] = []
@@ -38,7 +42,9 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase,
         addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase,
         updateDiscoNameUseCase: UpdateDiscoNameUseCase,
-        deleteDiscoUseCase: DeleteDiscoUseCase
+        deleteDiscoUseCase: DeleteDiscoUseCase,
+        deleteSectionUseCase: DeleteSectionUseCase,
+        deleteRecordUseCase: DeleteRecordUseCase
     ) {
         self.searchReferencesUseCase = searchReferencesUseCase
         self.getDiscoProfileUseCase = getDiscoProfileUseCase
@@ -47,6 +53,8 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
         self.updateDiscoNameUseCase = updateDiscoNameUseCase
         self.deleteDiscoUseCase = deleteDiscoUseCase
+        self.deleteSectionUseCase = deleteSectionUseCase
+        self.deleteRecordUseCase = deleteRecordUseCase
     }
 
     func loadSearchProviders() {
@@ -209,6 +217,38 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
                 self.presenter?.presentDiscoDeleted()
             case .failure(let error):
                 self.presenter?.presentDeleteDiscoError(error)
+            }
+        }
+    }
+
+    func deleteSection(in disco: DiscoSummary, sectionIdentifier: String) {
+        presenter?.presentLoading()
+
+        let input = DeleteSectionUseCaseInput(disco: disco, sectionIdentifier: sectionIdentifier)
+        deleteSectionUseCase.deleteSection(input) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let profile):
+                self.presenter?.presentSectionDeleted(profile)
+            case .failure(let error):
+                self.presenter?.presentDeleteSectionError(error)
+            }
+        }
+    }
+
+    func deleteRecord(in disco: DiscoSummary, sectionIdentifier: String, audioURL: URL) {
+        presenter?.presentLoading()
+
+        let input = DeleteRecordUseCaseInput(disco: disco, sectionIdentifier: sectionIdentifier, audioURL: audioURL)
+        deleteRecordUseCase.deleteRecord(input) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let profile):
+                self.presenter?.presentRecordDeleted(profile)
+            case .failure(let error):
+                self.presenter?.presentDeleteRecordError(error)
             }
         }
     }

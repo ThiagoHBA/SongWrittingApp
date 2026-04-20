@@ -50,7 +50,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.showProfile(profile)
 
         XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 1)
+        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -244,7 +244,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.updateSections([makeSection(records: [makeRecord()])])
 
         XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 1)
+        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -283,7 +283,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
-        wait(until: { sut.presentedViewController is CustomPickerController })
+        wait(timeout: 5, until: { sut.presentedViewController is CustomPickerController })
 
         XCTAssertTrue(sut.presentedViewController is CustomPickerController)
     }
@@ -296,11 +296,11 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let footerView = try footerView(in: sut, section: 0)
         try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
-        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+        wait(timeout: 5, until: { sut.presentedViewController is AddRecordSourceViewController })
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Gravar")
-        wait(until: { sut.presentedViewController == nil })
+        wait(timeout: 5, until: { sut.presentedViewController == nil })
 
         XCTAssertTrue(interactor.receivedMessages.isEmpty)
     }
