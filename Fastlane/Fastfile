@@ -18,8 +18,7 @@ platform :ios do
       html_report: true,
       json_report: true,
       minimum_coverage_percentage: 60.0,
-      include_targets: "Main.app",
-      exclude_targets: "SDWebImage.framework"
+      include_targets: "Main.app"
     )
 
     lane :coverage do
