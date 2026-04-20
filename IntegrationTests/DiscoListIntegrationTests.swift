@@ -108,7 +108,8 @@ extension DiscoListIntegrationTests {
         let presenter = DiscoListPresenterSpy()
         let sut = DiscoListInteractor(
             getDiscosUseCase: repository,
-            createNewDiscoUseCase: repository
+            createNewDiscoUseCase: repository,
+            deleteDiscoUseCase: repository
         )
         sut.presenter = presenter
         return (sut, presenter, store)

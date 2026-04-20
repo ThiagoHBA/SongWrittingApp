@@ -16,6 +16,8 @@ final class DiscoListPresenterSpy: DiscoListPresentationLogic {
         case presentCreatedDisco(DiscoSummary)
         case presentCreateDiscoFailure(String)
         case presentCreateDiscoError(String)
+        case presentDeletedDisco(DiscoSummary)
+        case presentDeleteDiscoError(String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -42,5 +44,13 @@ final class DiscoListPresenterSpy: DiscoListPresentationLogic {
 
     func presentCreateDiscoError(_ error: Error) {
         receivedMessages.append(.presentCreateDiscoError(error.localizedDescription))
+    }
+
+    func presentDeletedDisco(_ disco: DiscoSummary) {
+        receivedMessages.append(.presentDeletedDisco(disco))
+    }
+
+    func presentDeleteDiscoError(_ error: Error) {
+        receivedMessages.append(.presentDeleteDiscoError(error.localizedDescription))
     }
 }

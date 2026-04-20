@@ -14,7 +14,8 @@ enum AppRootComposer {
     static func make(
         navigationController: UINavigationController,
         getOnboardingStatusUseCase: GetOnboardingStatusUseCase,
-        completeOnboardingUseCase: CompleteOnboardingUseCase
+        completeOnboardingUseCase: CompleteOnboardingUseCase,
+        container: AppContainer = AppContainer()
     ) -> UIViewController {
         guard getOnboardingStatusUseCase.load(.init()) else {
             return OnboardingComposer.make(
@@ -23,7 +24,7 @@ enum AppRootComposer {
             )
         }
 
-        return DiscoListComposer.make(navigationController: navigationController)
+        return DiscoListComposer.make(navigationController: navigationController, container: container)
     }
 }
 

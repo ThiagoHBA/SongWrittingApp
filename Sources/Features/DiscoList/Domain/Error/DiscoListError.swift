@@ -24,4 +24,10 @@ enum DiscoListError: Error {
             "Erro ao carregar discos"
         }
     }
+
+    enum DeleteDiscoError {
+        static var errorTitle: String {
+            "Erro ao deletar disco"
+        }
+    }
 }

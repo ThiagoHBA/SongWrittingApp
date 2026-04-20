@@ -1,7 +1,8 @@
 import UIKit
 
 enum DiscoProfileComposer {
-    static func make(with disco: DiscoSummary) -> UIViewController {
+    static func make(with disco: DiscoSummary, container: AppContainer = AppContainer()) -> UIViewController {
+        let repository = container.discoProfileRepository
         let networkClient = NetworkClientImpl()
         let secureClient = SecureClientImpl(server: SpotifyReferencesConstants.secureStorageServer)
         let authorizationHandler = SpotifyAuthorizationHandlerImpl(
@@ -19,25 +20,18 @@ enum DiscoProfileComposer {
             spotify: spotifyReferenceSearchRepository,
             lastFM: lastFMReferenceSearchRepository
         )
-        let coreDataStore = try? CoreDataDiscoStore()
-        let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let fileManagerService = FileManagerServiceImpl()
-        let discoProfileRepository = DiscoProfileRepositoryImpl(
-            store: coreDataStore ?? discoStore,
-            fileManagerService: fileManagerService
-        )
 
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
             searchReferencesUseCase: referenceSearchRepository,
-            getDiscoProfileUseCase: discoProfileRepository,
-            addDiscoNewReferenceUseCase: discoProfileRepository,
-            addNewSectionToDiscoUseCase: discoProfileRepository,
-            addNewRecordToSessionUseCase: discoProfileRepository,
-            updateDiscoNameUseCase: discoProfileRepository,
-            deleteDiscoUseCase: discoProfileRepository,
-            deleteSectionUseCase: discoProfileRepository,
-            deleteRecordUseCase: discoProfileRepository
+            getDiscoProfileUseCase: repository,
+            addDiscoNewReferenceUseCase: repository,
+            addNewSectionToDiscoUseCase: repository,
+            addNewRecordToSessionUseCase: repository,
+            updateDiscoNameUseCase: repository,
+            deleteDiscoUseCase: repository,
+            deleteSectionUseCase: repository,
+            deleteRecordUseCase: repository
         )
         let viewController = DiscoProfileViewController(disco: disco, interactor: interactor)
 

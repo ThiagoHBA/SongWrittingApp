@@ -1,3 +1,10 @@
+//
+//  DiscoListPresenter.swift
+//  Main
+//
+//  Created by Thiago Henrique on 20/04/26.
+//
+
 import Foundation
 
 protocol DiscoListPresentationLogic: AnyObject {
@@ -7,6 +14,8 @@ protocol DiscoListPresentationLogic: AnyObject {
     func presentCreatedDisco(_ disco: DiscoSummary)
     func presentCreateDiscoFailure(_ error: Error)
     func presentCreateDiscoError(_ error: Error)
+    func presentDeletedDisco(_ disco: DiscoSummary)
+    func presentDeleteDiscoError(_ error: Error)
 }
 
 final class DiscoListPresenter: DiscoListPresentationLogic {
@@ -53,5 +62,16 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
                 error.localizedDescription
             )
         }
+    }
+
+    func presentDeletedDisco(_ disco: DiscoSummary) {
+        view?.removeDisco(DiscoListViewEntity(from: disco))
+    }
+
+    func presentDeleteDiscoError(_ error: Error) {
+        view?.deleteDiscoError(
+            DiscoListError.DeleteDiscoError.errorTitle,
+            error.localizedDescription
+        )
     }
 }

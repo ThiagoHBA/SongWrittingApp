@@ -101,6 +101,32 @@ final class DiscoListPresenterTests: XCTestCase {
             ]
         )
     }
+
+    func test_presentDeletedDisco_removes_disco_from_view() {
+        let (sut, view) = makeSUT()
+        let disco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
+
+        sut.presentDeletedDisco(disco)
+
+        XCTAssertEqual(view.receivedMessages, [.removeDisco(DiscoListViewEntity(from: disco))])
+    }
+
+    func test_presentDeleteDiscoError_shows_error_on_view() {
+        let (sut, view) = makeSUT()
+        let error = NSError(domain: "any", code: 0, userInfo: [NSLocalizedDescriptionKey: "delete-error"])
+
+        sut.presentDeleteDiscoError(error)
+
+        XCTAssertEqual(
+            view.receivedMessages,
+            [
+                .deleteDiscoError(
+                    DiscoListError.DeleteDiscoError.errorTitle,
+                    error.localizedDescription
+                )
+            ]
+        )
+    }
 }
 
 extension DiscoListPresenterTests {

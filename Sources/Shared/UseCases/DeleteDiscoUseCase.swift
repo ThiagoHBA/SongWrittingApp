@@ -1,3 +1,10 @@
+//
+//  DeleteDiscoUseCase.swift
+//  Main
+//
+//  Created by Thiago Henrique on 20/04/26.
+//
+
 import Foundation
 
 struct DeleteDiscoUseCaseInput: Equatable {

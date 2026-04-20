@@ -17,6 +17,8 @@ final class DiscoListViewSpy: DiscoListDisplayLogic {
         case showNewDisco(DiscoListViewEntity)
         case createDiscoError(String, String)
         case loadDiscoError(String, String)
+        case removeDisco(DiscoListViewEntity)
+        case deleteDiscoError(String, String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -49,5 +51,13 @@ final class DiscoListViewSpy: DiscoListDisplayLogic {
 
     func loadDiscoError(_ title: String, _ description: String) {
         receivedMessages.append(.loadDiscoError(title, description))
+    }
+
+    func removeDisco(_ disco: DiscoListViewEntity) {
+        receivedMessages.append(.removeDisco(disco))
+    }
+
+    func deleteDiscoError(_ title: String, _ description: String) {
+        receivedMessages.append(.deleteDiscoError(title, description))
     }
 }
