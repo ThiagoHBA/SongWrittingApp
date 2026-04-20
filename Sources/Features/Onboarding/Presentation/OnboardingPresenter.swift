@@ -15,9 +15,10 @@ final class OnboardingPresenter: OnboardingPresentationLogic {
                 imageSource: .asset(name: "onboarding_app_icon")
             ),
             OnboardingPageViewEntity(
-                title: "Em breve",
-                message: "Conteúdo desta etapa será adicionado futuramente.",
-                imageSource: .system(name: "music.note.list")
+                title: "Crie seus discos",
+                message: "Crie e visualize seus projetos de composição musical",
+                imageSource: .gif(name: "Onboard_Instruction_01"),
+                imageScale: 0.8
             ),
             OnboardingPageViewEntity(
                 title: "Em breve",

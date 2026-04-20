@@ -203,7 +203,7 @@ private extension OnboardingViewController {
         pageViewController.setViewControllers(
             [controller],
             direction: direction,
-            animated: false
+            animated: true
         )
         currentPageIndex = index
     }
