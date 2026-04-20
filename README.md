@@ -2,7 +2,7 @@
 
 # 🎶 SongWritingStudio
 
-![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/YourUser/your_gist_id/raw/coverage_badge.json)
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ThiagoHBA/591fb2a8ad5a53abefc115f035d03162/raw/coverage_badge.json)
 
 # 1 - Contexto
 
