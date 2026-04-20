@@ -25,6 +25,7 @@ final class EditDiscoViewController: UIViewController {
         let navigationItem = UINavigationItem(title: "Editar Disco")
         nav.items = [navigationItem]
         nav.backgroundColor = .clear
+        nav.isTranslucent = false
         nav.translatesAutoresizingMaskIntoConstraints = false
         return nav
     }()
@@ -67,6 +68,7 @@ extension EditDiscoViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = .systemBackground
         modalPresentationStyle = .overCurrentContext
+        navigationController?.topViewController?.extendedLayoutIncludesOpaqueBars = false
     }
 
     func setupConstraints() {
