@@ -351,7 +351,7 @@ extension DiscoProfileViewController: ViewCoding {
             descriptionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             descriptionLabel.trailingAnchor.constraint(equalTo: projectName.trailingAnchor),
 
-            referenceSection.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
+            referenceSection.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: SWSpacing.large),
             referenceSection.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.xSmall),
 
