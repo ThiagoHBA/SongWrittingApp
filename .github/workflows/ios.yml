@@ -33,19 +33,32 @@ jobs:
           name: coverage-report
           path: coverage_output/
 
+      - name: Debug Coverage JSON
+        run: cat coverage_output/report.json
+
       - name: Publish Coverage on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const json = JSON.parse(fs.readFileSync('coverage_output/report.json', 'utf8'));
-            const pct = json.coverage_percentage.toFixed(2);
+            const raw = fs.readFileSync('coverage_output/report.json', 'utf8');
+            const json = JSON.parse(raw);
+
+            const pct = (
+              json.coverage_percentage ??
+              json.covered_percent ??
+              json.targets?.[0]?.coverage ??
+              0
+            );
+
+            const formatted = (parseFloat(pct) * (pct <= 1 ? 100 : 1)).toFixed(2);
+
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## Code Coverage: ${pct}%`
+              body: `## Code Coverage: ${formatted}%`
             })
       - name: Update Coverage Badge Gist
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
