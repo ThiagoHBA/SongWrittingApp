@@ -36,7 +36,23 @@ final class OnboardingPresenterTests: XCTestCase {
                 title: "Crie seus discos",
                 message: "Crie e visualize seus projetos de composição musical",
                 imageSource: .gif(name: "Onboard_Instruction_01"),
-                imageScale: 0.8
+                imageScale: 0.7
+            )
+        )
+    }
+    
+    func test_presentPages_displays_expected_third_page_content() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        XCTAssertEqual(
+            view.receivedPages.first?[2],
+            OnboardingPageViewEntity(
+                title: "Organize sua composição",
+                message: "Crie seções para sua composição e agrupe referências!",
+                imageSource: .gif(name: "Onboard_instruction_02"),
+                imageScale: 0.7
             )
         )
     }
