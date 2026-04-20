@@ -18,19 +18,30 @@ platform :ios do
       html_report: true,
       json_report: true,
       minimum_coverage_percentage: 60.0,
-      include_targets: "Main.app",
-      json_report_path: "coverage_output/report.json"
+      include_targets: "Main.app"
     )
 
-    report = JSON.parse(File.read("coverage_output/report.json"))
-    coverage_pct = report["coverage_percentage"].to_f / 100
+    report_path = Dir.glob("coverage_output/tmp/report.json*").first
 
-    File.write("coverage_output/coverage_badge.json", JSON.generate({
-      schemaVersion: 1,
-      label: "coverage",
-      message: "#{(coverage_pct * 100).round(1)}%",
-      color: coverage_pct > 0.7 ? "brightgreen" : coverage_pct > 0.5 ? "yellow" : "red"
-    }))
+    if report_path
+      report = JSON.parse(File.read(report_path))
+      coverage_pct = report["coverage_percentage"].to_f / 100
+
+      File.write("coverage_output/coverage_badge.json", JSON.generate({
+        schemaVersion: 1,
+        label: "coverage",
+        message: "#{(coverage_pct * 100).round(1)}%",
+        color: coverage_pct > 0.8 ? "brightgreen" : coverage_pct > 0.6 ? "yellow" : "red"
+      }))
+    else
+      UI.important("skipping badge generation")
+
+      File.write("coverage_output/coverage_badge.json", JSON.generate({
+        schemaVersion: 1,
+        label: "coverage",
+        message: "N/A",
+        color: "lightgrey"
+      }))
+    end
   end
-
 end
