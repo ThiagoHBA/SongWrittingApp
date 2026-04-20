@@ -74,6 +74,11 @@ final class SWRecordListItemCell: UITableViewCell {
     func configure(with content: SWRecordListItemContent) {
         iconView.image = content.iconImage
         playerView.player = makePlayer(for: content.audioURL)
+
+        isAccessibilityElement = false
+        iconContainerView.isAccessibilityElement = true
+        iconContainerView.accessibilityLabel = "Ícone da gravação"
+        iconContainerView.accessibilityTraits = .image
     }
 
     private func makePlayer(for audioURL: URL) -> AVAudioPlayer? {

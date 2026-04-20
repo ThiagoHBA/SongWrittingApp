@@ -74,6 +74,11 @@ final class SWDiscoListItemCell: UITableViewCell {
     func configure(with content: SWDiscoListItemContent) {
         coverImageView.image = content.coverImage
         titleLabel.text = content.title
+
+        isAccessibilityElement = true
+        accessibilityLabel = "Disco: \(content.title)"
+        accessibilityHint = "Toque  para ver detalhes"
+        accessibilityTraits = .button
     }
 }
 

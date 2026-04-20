@@ -22,6 +22,7 @@ final class SWTextLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
         lineBreakMode = .byWordWrapping
         self.numberOfLines = numberOfLines
+        adjustsFontForContentSizeCategory = true
         apply(style: style)
     }
 
