@@ -36,7 +36,7 @@ final class OnboardingPresenterTests: XCTestCase {
                 title: "Crie seus discos",
                 message: "Crie e visualize seus projetos de composição musical",
                 imageSource: .gif(name: "Onboard_Instruction_01"),
-                imageScale: 0.6
+                imageScale: 0.8
             )
         )
     }
