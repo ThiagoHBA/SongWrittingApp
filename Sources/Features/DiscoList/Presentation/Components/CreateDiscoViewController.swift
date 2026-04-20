@@ -73,10 +73,7 @@ extension CreateDiscoViewController: ViewCoding {
             formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: SWSpacing.xSmall),
             formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
             formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
-            formView.bottomAnchor.constraint(
-                lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor,
-                constant: -SWSpacing.large
-            )
+            formView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 

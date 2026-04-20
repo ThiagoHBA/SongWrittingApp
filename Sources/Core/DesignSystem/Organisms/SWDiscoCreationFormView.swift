@@ -34,11 +34,9 @@ final class SWDiscoCreationFormView: UIView {
 
     init(content: SWDiscoCreationFormContent = .default) {
         coverButton = SWCoverButton(title: content.coverButtonTitle)
-        nameFieldView = SWLabeledTextFieldView(
-            title: content.nameLabel,
-            placeholder: content.namePlaceholder
-        )
+        nameFieldView = SWLabeledTextFieldView(title: content.nameLabel, placeholder: content.namePlaceholder)
         super.init(frame: .zero)
+        
         translatesAutoresizingMaskIntoConstraints = false
 
         titleLabel.text = content.title
@@ -67,28 +65,18 @@ final class SWDiscoCreationFormView: UIView {
             nameFieldView.leadingAnchor.constraint(equalTo: leadingAnchor),
             nameFieldView.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            submitButton.topAnchor.constraint(equalTo: nameFieldView.bottomAnchor, constant: SWSpacing.xLarge),
+            submitButton.topAnchor.constraint(
+                greaterThanOrEqualTo: nameFieldView.bottomAnchor,
+                constant: SWSpacing.xLarge
+            ),
             submitButton.leadingAnchor.constraint(equalTo: leadingAnchor),
             submitButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            submitButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
-            submitButton.bottomAnchor.constraint(equalTo: bottomAnchor)
+            submitButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -SWSpacing.large),
+            submitButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight)
         ])
     }
 
     required init?(coder: NSCoder) { nil }
-
-    override var intrinsicContentSize: CGSize {
-        CGSize(
-            width: UIView.noIntrinsicMetric,
-            height: titleLabel.font.lineHeight
-                + SWSpacing.xLarge
-                + SWSize.creationCoverHeight
-                + SWSpacing.large
-                + nameFieldView.intrinsicContentSize.height
-                + SWSpacing.xLarge
-                + SWSize.primaryButtonHeight
-        )
-    }
 
     var discoName: String {
         nameFieldView.text
