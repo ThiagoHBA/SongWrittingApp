@@ -9,7 +9,8 @@ platform :ios do
       device: "iPhone 16",
       code_coverage: true,
       output_directory: "test_output",
-      result_bundle: true
+      result_bundle: true,
+      xcargs: "-skipMacroValidation"
     )
 
     xcov(
