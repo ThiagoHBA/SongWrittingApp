@@ -27,6 +27,10 @@ final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
         case presentUpdateDiscoNameError(String)
         case presentDiscoDeleted
         case presentDeleteDiscoError(String)
+        case presentSectionDeleted(DiscoProfile)
+        case presentDeleteSectionError(String)
+        case presentRecordDeleted(DiscoProfile)
+        case presentDeleteRecordError(String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -100,5 +104,21 @@ final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
 
     func presentDeleteDiscoError(_ error: Error) {
         receivedMessages.append(.presentDeleteDiscoError(error.localizedDescription))
+    }
+
+    func presentSectionDeleted(_ profile: DiscoProfile) {
+        receivedMessages.append(.presentSectionDeleted(profile))
+    }
+
+    func presentDeleteSectionError(_ error: Error) {
+        receivedMessages.append(.presentDeleteSectionError(error.localizedDescription))
+    }
+
+    func presentRecordDeleted(_ profile: DiscoProfile) {
+        receivedMessages.append(.presentRecordDeleted(profile))
+    }
+
+    func presentDeleteRecordError(_ error: Error) {
+        receivedMessages.append(.presentDeleteRecordError(error.localizedDescription))
     }
 }

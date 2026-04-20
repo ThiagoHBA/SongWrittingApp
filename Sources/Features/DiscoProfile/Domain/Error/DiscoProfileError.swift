@@ -51,4 +51,16 @@ enum DiscoProfileError: Error {
             "Erro ao deletar disco"
         }
     }
+
+    enum DeletingSectionError {
+        static var errorTitle: String {
+            "Erro ao deletar seção"
+        }
+    }
+
+    enum DeletingRecordError {
+        static var errorTitle: String {
+            "Erro ao deletar gravação"
+        }
+    }
 }

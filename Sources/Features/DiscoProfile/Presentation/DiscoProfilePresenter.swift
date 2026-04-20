@@ -18,6 +18,10 @@ protocol DiscoProfilePresentationLogic: AnyObject {
     func presentUpdateDiscoNameError(_ error: Error)
     func presentDiscoDeleted()
     func presentDeleteDiscoError(_ error: Error)
+    func presentSectionDeleted(_ profile: DiscoProfile)
+    func presentDeleteSectionError(_ error: Error)
+    func presentRecordDeleted(_ profile: DiscoProfile)
+    func presentDeleteRecordError(_ error: Error)
 }
 
 final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
@@ -150,5 +154,31 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
                 description: error.localizedDescription
             )
         }
+    }
+
+    func presentSectionDeleted(_ profile: DiscoProfile) {
+        view?.hideLoading()
+        view?.updateSections(profile.section.map(SectionViewEntity.init(from:)))
+    }
+
+    func presentDeleteSectionError(_ error: Error) {
+        view?.hideLoading()
+        view?.deletingSectionError(
+            DiscoProfileError.DeletingSectionError.errorTitle,
+            description: error.localizedDescription
+        )
+    }
+
+    func presentRecordDeleted(_ profile: DiscoProfile) {
+        view?.hideLoading()
+        view?.updateSections(profile.section.map(SectionViewEntity.init(from:)))
+    }
+
+    func presentDeleteRecordError(_ error: Error) {
+        view?.hideLoading()
+        view?.deletingRecordError(
+            DiscoProfileError.DeletingRecordError.errorTitle,
+            description: error.localizedDescription
+        )
     }
 }

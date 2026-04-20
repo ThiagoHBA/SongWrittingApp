@@ -35,7 +35,9 @@ enum DiscoProfileComposer {
             addNewSectionToDiscoUseCase: discoProfileRepository,
             addNewRecordToSessionUseCase: discoProfileRepository,
             updateDiscoNameUseCase: discoProfileRepository,
-            deleteDiscoUseCase: discoProfileRepository
+            deleteDiscoUseCase: discoProfileRepository,
+            deleteSectionUseCase: discoProfileRepository,
+            deleteRecordUseCase: discoProfileRepository
         )
         let viewController = DiscoProfileViewController(disco: disco, interactor: interactor)
 
@@ -112,6 +114,14 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
 
     func deletingDiscoError(_ title: String, description: String) {
         instance?.deletingDiscoError(title, description: description)
+    }
+
+    func deletingSectionError(_ title: String, description: String) {
+        instance?.deletingSectionError(title, description: description)
+    }
+
+    func deletingRecordError(_ title: String, description: String) {
+        instance?.deletingRecordError(title, description: description)
     }
 }
 
@@ -212,6 +222,18 @@ extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayL
     func deletingDiscoError(_ title: String, description: String) {
         DispatchQueue.main.async {
             self.instance.deletingDiscoError(title, description: description)
+        }
+    }
+
+    func deletingSectionError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.instance.deletingSectionError(title, description: description)
+        }
+    }
+
+    func deletingRecordError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.instance.deletingRecordError(title, description: description)
         }
     }
 }

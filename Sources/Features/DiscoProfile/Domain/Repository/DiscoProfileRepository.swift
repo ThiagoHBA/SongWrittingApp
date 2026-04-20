@@ -6,4 +6,6 @@ protocol DiscoProfileRepository:
     AddNewSectionToDiscoUseCase,
     AddNewRecordToSessionUseCase,
     UpdateDiscoNameUseCase,
-    DeleteDiscoUseCase {}
+    DeleteDiscoUseCase,
+    DeleteSectionUseCase,
+    DeleteRecordUseCase {}

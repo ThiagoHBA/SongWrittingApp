@@ -50,7 +50,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.showProfile(profile)
 
         XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 1)
+        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -244,7 +244,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.updateSections([makeSection(records: [makeRecord()])])
 
         XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 1)
+        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -256,6 +256,53 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         let footerView = try footerView(in: sut, section: 0)
 
         XCTAssertNotNil(footerView.profileFindButton(accessibilityLabel: "Adicionar gravação"))
+    }
+
+    func test_add_record_button_presents_source_sheet() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+        interactor.reset()
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        XCTAssertTrue(sut.presentedViewController is AddRecordSourceViewController)
+        XCTAssertEqual(interactor.receivedMessages, [])
+    }
+
+    func test_add_record_source_sheet_upload_presents_documentPicker() throws {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
+        try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
+        wait(timeout: 5, until: { sut.presentedViewController is CustomPickerController })
+
+        XCTAssertTrue(sut.presentedViewController is CustomPickerController)
+    }
+
+    func test_add_record_source_sheet_record_presents_audio_recorder_without_interactor_messages() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+        interactor.reset()
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(timeout: 5, until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
+        try tapButton(in: sourceSheet.view, accessibilityLabel: "Gravar")
+        wait(timeout: 5, until: { sut.presentedViewController is AudioRecordingViewController })
+
+        XCTAssertTrue(interactor.receivedMessages.isEmpty)
     }
 
     func test_documentPicker_forwards_new_custom_record_to_interactor() throws {
