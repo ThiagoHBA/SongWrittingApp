@@ -4,7 +4,7 @@ import XCTest
 
 final class DiscoProfileRepositoryImplTests: XCTestCase {
     func test_loadProfile_fetches_profiles_first() {
-        let (sut, store) = makeSUT()
+        let (sut, store, _) = makeSUT()
         let disco = makeDisco()
 
         sut.load(disco) { _ in }
@@ -15,7 +15,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
     }
 
     func test_loadProfile_creates_profile_when_missing() {
-        let (sut, store) = makeSUT()
+        let (sut, store, _) = makeSUT()
         let disco = makeDisco()
         let createdProfile = makeEmptyProfileRecord(for: disco)
         var receivedProfile: DiscoProfile?
@@ -37,7 +37,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
     }
 
     func test_loadProfile_returns_existing_profile_when_found() {
-        let (sut, store) = makeSUT()
+        let (sut, store, _) = makeSUT()
         let disco = makeDisco()
         let existingProfile = makeProfileRecord(for: disco)
         var receivedProfile: DiscoProfile?
@@ -55,7 +55,7 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
     }
 
     func test_addSection_updates_profile_with_new_section() throws {
-        let (sut, store) = makeSUT()
+        let (sut, store, _) = makeSUT()
         let disco = makeDisco()
         let section = try Section(identifer: "Verse", records: [])
         let existingProfile = makeEmptyProfileRecord(for: disco)
@@ -83,16 +83,16 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
     }
 
     func test_addRecord_fails_when_target_section_cannot_be_found() throws {
-        let (sut, store) = makeSUT()
+        let (sut, store, _) = makeSUT()
         let disco = makeDisco()
-        let section = try Section(
-            identifer: "Verse",
-            records: [.init(tag: .bass, audio: URL(string: "https://example.com/audio")!)]
-        )
         let existingProfile = makeEmptyProfileRecord(for: disco)
         var receivedError: Error?
 
-        sut.addRecord(.init(disco: disco, section: section)) { result in
+        sut.addRecord(.init(
+            disco: disco,
+            sectionIdentifier: "Verse",
+            audioFileURL: URL(fileURLWithPath: "/tmp/audio.m4a")
+        )) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }
@@ -107,10 +107,44 @@ final class DiscoProfileRepositoryImplTests: XCTestCase {
         )
     }
 
-    private func makeSUT() -> (sut: DiscoProfileRepositoryImpl, store: DiscoProfileStoreSpy) {
+    func test_addRecord_persists_file_and_updates_section() throws {
+        let (sut, store, fileManagerService) = makeSUT()
+        let disco = makeDisco()
+        let audioFileURL = URL(fileURLWithPath: "/tmp/audio.m4a")
+        let existingProfile = makeProfileRecord(for: disco)
+        let persistedAudioURL = URL(fileURLWithPath: "/Documents/audio.m4a")
+        var receivedProfile: DiscoProfile?
+
+        fileManagerService.persistFileResult = .success(persistedAudioURL)
+
+        sut.addRecord(.init(
+            disco: disco,
+            sectionIdentifier: "Chorus",
+            audioFileURL: audioFileURL
+        )) { result in
+            if case let .success(profile) = result {
+                receivedProfile = profile
+            }
+        }
+
+        store.getProfilesCompletion?(.success([existingProfile]))
+        let expectedUpdatedProfile = try XCTUnwrap(store.receivedMessages.last?.updatedProfile)
+        store.updateProfileCompletion?(.success(expectedUpdatedProfile))
+
+        XCTAssertEqual(fileManagerService.receivedMessages, [.persistFile(audioFileURL)])
+        XCTAssertEqual(expectedUpdatedProfile.section.first?.records.last?.audio, persistedAudioURL)
+        XCTAssertEqual(receivedProfile?.section.first?.records.last?.audio, persistedAudioURL)
+    }
+
+    private func makeSUT() -> (
+        sut: DiscoProfileRepositoryImpl,
+        store: DiscoProfileStoreSpy,
+        fileManagerService: FileManagerServiceSpy
+    ) {
         let store = DiscoProfileStoreSpy()
-        let sut = DiscoProfileRepositoryImpl(store: store)
-        return (sut, store)
+        let fileManagerService = FileManagerServiceSpy()
+        let sut = DiscoProfileRepositoryImpl(store: store, fileManagerService: fileManagerService)
+        return (sut, store, fileManagerService)
     }
 
     private func makeDisco() -> DiscoSummary {
@@ -199,5 +233,39 @@ private final class DiscoProfileStoreSpy: DiscoStore {
     ) {
         receivedMessages.append(.updateProfile(profile))
         updateProfileCompletion = completion
+    }
+
+    func updateDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
+    ) {}
+
+    func deleteDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {}
+}
+
+private final class FileManagerServiceSpy: FileManagerService {
+    enum Message: Equatable {
+        case persistFile(URL)
+    }
+
+    private(set) var receivedMessages: [Message] = []
+    var persistFileResult: Result<URL, Error>?
+
+    func persistFile(at sourceURL: URL) throws -> URL {
+        receivedMessages.append(.persistFile(sourceURL))
+        return try persistFileResult?.get() ?? sourceURL
+    }
+}
+
+private extension DiscoProfileStoreSpy.Message {
+    var updatedProfile: DiscoProfileStoreRecord? {
+        guard case let .updateProfile(profile) = self else {
+            return nil
+        }
+
+        return profile
     }
 }

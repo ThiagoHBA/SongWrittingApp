@@ -16,9 +16,11 @@ private enum DiscoProfileRepositoryError: LocalizedError {
 
 final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
     private let store: DiscoStore
+    private let fileManagerService: FileManagerService
 
-    init(store: DiscoStore) {
+    init(store: DiscoStore, fileManagerService: FileManagerService) {
         self.store = store
+        self.fileManagerService = fileManagerService
     }
 
     func load(
@@ -83,14 +85,51 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
     ) {
         mutateProfile(for: input.disco, completion: completion) { profile in
             guard let sectionIndex = profile.section.firstIndex(
-                where: { $0.identifer == input.section.identifer }
+                where: { $0.identifer == input.sectionIdentifier }
             ) else {
                 throw DiscoProfileRepositoryError.cantFindSection
             }
 
+            let persistedAudioURL = try self.fileManagerService.persistFile(at: input.audioFileURL)
             var profile = profile
-            profile.section[sectionIndex] = input.section
+            profile.section[sectionIndex].records.append(
+                Record(tag: .custom(""), audio: persistedAudioURL)
+            )
             return profile
+        }
+    }
+
+    func updateName(
+        _ input: UpdateDiscoNameUseCaseInput,
+        completion: @escaping (Result<UpdateDiscoNameUseCaseOutput, Error>) -> Void
+    ) {
+        let updatedRecord = DiscoStoreRecord(
+            id: input.disco.id,
+            name: input.newName,
+            coverImage: input.disco.coverImage
+        )
+        store.updateDisco(updatedRecord) { result in
+            switch result {
+            case .success(let record):
+                completion(.success(DiscoSummary(id: record.id, name: record.name, coverImage: record.coverImage)))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func delete(
+        _ input: DeleteDiscoUseCaseInput,
+        completion: @escaping (Result<DeleteDiscoUseCaseOutput, Error>) -> Void
+    ) {
+        let record = DiscoProfileStoreMapper.storeDisco(from: input.disco)
+        store.deleteDisco(record) { result in
+            switch result {
+            case .success:
+                completion(.success(input.disco))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 

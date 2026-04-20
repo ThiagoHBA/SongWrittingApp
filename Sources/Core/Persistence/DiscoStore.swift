@@ -30,4 +30,14 @@ public protocol DiscoStore {
         _ profile: DiscoProfileStoreRecord,
         completion: @escaping (Result<DiscoProfileStoreRecord, Error>) -> Void
     )
+
+    func updateDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
+    )
+
+    func deleteDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<Void, Error>) -> Void
+    )
 }

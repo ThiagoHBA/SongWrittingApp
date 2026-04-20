@@ -61,10 +61,33 @@ public final class InMemoryDiscoStore: DiscoStore {
             completion(.failure(StorageError.cantLoadProfile))
             return
         }
-        
+
         database.profiles[profileIndex] = profile
         completion(.success(profile))
     }
-    
-    
+
+    public func updateDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
+    ) {
+        guard let index = database.discos.firstIndex(where: { $0.id == disco.id }) else {
+            completion(.failure(StorageError.cantLoadDisco))
+            return
+        }
+        database.discos[index] = disco
+        completion(.success(disco))
+    }
+
+    public func deleteDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        guard let index = database.discos.firstIndex(where: { $0.id == disco.id }) else {
+            completion(.failure(StorageError.cantDeleteDisco))
+            return
+        }
+        database.discos.remove(at: index)
+        database.profiles.removeAll { $0.disco.id == disco.id }
+        completion(.success(()))
+    }
 }

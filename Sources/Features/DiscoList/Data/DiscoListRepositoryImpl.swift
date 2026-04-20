@@ -73,6 +73,18 @@ final class DiscoListRepositoryImpl: DiscoListRepository {
         _ input: DeleteDiscoUseCaseInput,
         completion: @escaping (Result<DeleteDiscoUseCaseOutput, Error>) -> Void
     ) {
-        completion(.failure(DiscoListRepositoryError.deleteNotImplemented))
+        let record = DiscoStoreRecord(
+            id: input.disco.id,
+            name: input.disco.name,
+            coverImage: input.disco.coverImage
+        )
+        store.deleteDisco(record) { result in
+            switch result {
+            case .success:
+                completion(.success(input.disco))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }

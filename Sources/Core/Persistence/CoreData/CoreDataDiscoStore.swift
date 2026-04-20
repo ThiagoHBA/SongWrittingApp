@@ -126,6 +126,49 @@ public final class CoreDataDiscoStore: DiscoStore {
         }
     }
     
+    public func updateDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
+    ) {
+        let managedObjectContext = persistentContainer.viewContext
+        managedObjectContext.perform {
+            do {
+                guard let entity = try self.fetchDiscoEntity(with: disco.id, in: managedObjectContext) else {
+                    completion(.failure(StorageError.cantLoadDisco))
+                    return
+                }
+                entity.name = disco.name
+                try managedObjectContext.save()
+                completion(.success(self.createDisco(from: entity)))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public func deleteDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        let managedObjectContext = persistentContainer.viewContext
+        managedObjectContext.perform {
+            do {
+                if let profileEntity = try self.fetchDiscoProfileEntity(with: disco.id, in: managedObjectContext) {
+                    managedObjectContext.delete(profileEntity)
+                }
+                guard let discoEntity = try self.fetchDiscoEntity(with: disco.id, in: managedObjectContext) else {
+                    completion(.failure(StorageError.cantDeleteDisco))
+                    return
+                }
+                managedObjectContext.delete(discoEntity)
+                try managedObjectContext.save()
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
     public func updateProfile(
         _ profile: DiscoProfileStoreRecord,
         completion: @escaping (Result<DiscoProfileStoreRecord, Error>) -> Void

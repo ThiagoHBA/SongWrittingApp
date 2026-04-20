@@ -14,6 +14,10 @@ protocol DiscoProfileDisplayLogic: AnyObject {
     func addingSectionError(_ title: String, description: String)
     func loadingProfileError(_ title: String, description: String)
     func addingRecordsError(_ title: String, description: String)
+    func discoNameUpdated(_ disco: DiscoSummary)
+    func discoDeleted()
+    func updatingDiscoError(_ title: String, description: String)
+    func deletingDiscoError(_ title: String, description: String)
 }
 
 final class DiscoProfileViewController: UIViewController, AlertPresentable {
@@ -25,7 +29,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     }
 
     private let interactor: DiscoProfileBusinessLogic
-    private let disco: DiscoSummary
+    private var disco: DiscoSummary
     private var searchProviders: [SearchReferenceViewEntity] = []
     private var selectedReferenceProvider: SearchReferenceViewEntity?
 
@@ -113,6 +117,20 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         return sheet
     }()
 
+    private lazy var editDiscoViewController: EditDiscoViewController = {
+        let sheet = EditDiscoViewController()
+        sheet.discoName = disco.name
+        sheet.saveNameTapped = { [weak self] newName in
+            guard let self else { return }
+            self.interactor.updateDiscoName(disco: self.disco, newName: newName)
+        }
+        sheet.deleteDiscoTapped = { [weak self] in
+            guard let self else { return }
+            self.interactor.deleteDisco(self.disco)
+        }
+        return sheet
+    }()
+
     init(disco: DiscoSummary, interactor: DiscoProfileBusinessLogic) {
         self.disco = disco
         self.interactor = interactor
@@ -125,9 +143,22 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         super.viewDidLoad()
         buildLayout()
         configureAudio()
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "pencil"),
+            style: .plain,
+            target: self,
+            action: #selector(editDiscTapped)
+        )
         interactor.loadSearchProviders()
         interactor.loadProfile(for: disco)
+    }
+
+    @objc private func editDiscTapped() {
+        editDiscoViewController.discoName = disco.name
+        editDiscoViewController.sheetPresentationController?.detents = [
+            .custom { context in context.maximumDetentValue * 0.5 }
+        ]
+        present(editDiscoViewController, animated: true)
     }
 
     private func addReferenceTapped() {
@@ -164,7 +195,8 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
 
     private func configureAudio() {
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback)
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
         } catch {
             showAlert(
                 title: "Problemas com o áudio",
@@ -176,7 +208,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             )
         }
     }
-    
+
     deinit {
         debugPrint("Deallocating viewController...")
     }
@@ -220,7 +252,7 @@ extension DiscoProfileViewController: ViewCoding {
             referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            sectionHeaderView.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: SWSpacing.xLarge),
+            sectionHeaderView.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: SWSpacing.xSmall),
             sectionHeaderView.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
             sectionHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
@@ -228,7 +260,7 @@ extension DiscoProfileViewController: ViewCoding {
             emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
             emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            tableView.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
+            tableView.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: SWSpacing.xxxSmall),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -257,16 +289,16 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         discoProfile?.section[section].records.count ?? 0
     }
-
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = SWTextLabel(style: .sectionTitle)
+        let label = SWTextLabel(style: .caption)
         label.text = discoProfile?.section[section].identifer
 
         let container = UIView()
         container.addSubview(label)
 
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: container.topAnchor, constant: SWSpacing.small),
+            label.topAnchor.constraint(equalTo: container.topAnchor),
             label.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: SWSpacing.small),
             label.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -SWSpacing.small),
             label.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -SWSpacing.xxxSmall)
@@ -276,7 +308,7 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        44
+        SWSpacing.xLarge
     }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -298,7 +330,7 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        64
+        SWSize.iconButton
     }
 
     func tableView(
@@ -390,6 +422,23 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     func showReferences(_ references: ReferenceSearchViewEntity) {
         referenceViewController.updateReferenceItems(references)
     }
+
+    func discoNameUpdated(_ disco: DiscoSummary) {
+        self.disco = disco
+        projectName.text = disco.name
+    }
+
+    func discoDeleted() {
+        navigationController?.popViewController(animated: true)
+    }
+
+    func updatingDiscoError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
+
+    func deletingDiscoError(_ title: String, description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
+    }
 }
 
 private extension DiscoProfileViewController {
@@ -430,17 +479,14 @@ extension DiscoProfileViewController: UIDocumentPickerDelegate {
     ) {
         guard let url = urls.first,
               let customPicker = controller as? CustomPickerController,
-              var section = customPicker.section else {
+              let section = customPicker.section else {
             return
         }
 
-        section.records.append(.init(tag: .custom, audio: url))
         interactor.addNewRecord(
             in: disco,
-            to: SectionViewEntity(
-                identifer: section.identifer,
-                records: section.records
-            )
+            to: section.identifer,
+            audioFileURL: url
         )
     }
 }

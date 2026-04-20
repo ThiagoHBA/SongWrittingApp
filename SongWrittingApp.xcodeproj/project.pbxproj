@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		008673A62F95535B008D3BBA /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 008673A52F95535B008D3BBA /* SongWrittingMacros */; };
 		1A9A4B682FD0000100ABCD01 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9A4B692FD0000100ABCD01 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
@@ -65,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				008673A62F95535B008D3BBA /* SongWrittingMacros in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +433,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CZS8ZCUDW;
+				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Main/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SongWritingStudio;
@@ -465,6 +464,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8CZS8ZCUDW;
+				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Main/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SongWritingStudio;
@@ -637,10 +637,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		008673A52F95535B008D3BBA /* SongWrittingMacros */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SongWrittingMacros;
-		};
 		1A9A4B692FD0000100ABCD01 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */;

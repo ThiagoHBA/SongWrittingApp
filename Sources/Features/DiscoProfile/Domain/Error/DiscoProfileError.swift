@@ -39,4 +39,16 @@ enum DiscoProfileError: Error {
             "Erro ao adicionar gravação"
         }
     }
+
+    enum UpdateDiscoNameError {
+        static var errorTitle: String {
+            "Erro ao atualizar nome"
+        }
+    }
+
+    enum DeleteDiscoError {
+        static var errorTitle: String {
+            "Erro ao deletar disco"
+        }
+    }
 }

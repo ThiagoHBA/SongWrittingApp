@@ -15,7 +15,7 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let payload = try JSONEncoder().encode(makeDTO(startIndex: 0, totalResults: 21))
         var receivedResult: SearchReferencesUseCaseOutput?
 
-        sut.search(.init(keywords: "any request", pageSize: 10, provider: .lastFM)) { result in
+        sut.search(.init(keywords: "any request",  provider: .lastFM)) { result in
             if case let .success(output) = result {
                 receivedResult = output
             }
@@ -56,7 +56,7 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let firstPayload = try JSONEncoder().encode(makeDTO(startIndex: 0, totalResults: 21))
         let secondPayload = try JSONEncoder().encode(makeDTO(startIndex: 10, totalResults: 21))
 
-        sut.search(.init(keywords: "any request", pageSize: 10, provider: .lastFM)) { _ in }
+        sut.search(.init(keywords: "any request",  provider: .lastFM)) { _ in }
         networkClient.makeRequestCompletion?(.success(firstPayload))
         sut.loadMore { _ in }
 
@@ -92,7 +92,7 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let (sut, _) = makeSUT()
         var receivedError: SearchReferencesUseCaseError?
 
-        sut.search(.init(keywords: "any request", pageSize: 10, provider: .lastFM)) { _ in }
+        sut.search(.init(keywords: "any request",  provider: .lastFM)) { _ in }
         sut.reset()
         sut.loadMore { result in
             if case let .failure(error as SearchReferencesUseCaseError) = result {
@@ -108,8 +108,8 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let oldPayload = try JSONEncoder().encode(makeDTO(startIndex: 0, totalResults: 21))
         let newPayload = try JSONEncoder().encode(makeDTO(startIndex: 0, totalResults: 21))
 
-        sut.search(.init(keywords: "old request", pageSize: 10, provider: .lastFM)) { _ in }
-        sut.search(.init(keywords: "new request", pageSize: 10, provider: .lastFM)) { _ in }
+        sut.search(.init(keywords: "old request",  provider: .lastFM)) { _ in }
+        sut.search(.init(keywords: "new request",  provider: .lastFM)) { _ in }
         networkClient.completeRequest(at: 0, with: .success(oldPayload))
         networkClient.completeRequest(at: 1, with: .success(newPayload))
 
@@ -132,7 +132,7 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let (sut, networkClient) = makeSUT()
         var receivedError: Error?
 
-        sut.search(.init(keywords: "any request", pageSize: 10, provider: .lastFM)) { result in
+        sut.search(.init(keywords: "any request",  provider: .lastFM)) { result in
             if case let .failure(error) = result {
                 receivedError = error
             }
@@ -148,7 +148,7 @@ final class LastFMReferenceSearchRepositoryTests: XCTestCase {
         let expectedError = NSError(domain: "network", code: 0)
         var receivedError: NSError?
 
-        sut.search(.init(keywords: "any request", pageSize: 10, provider: .lastFM)) { result in
+        sut.search(.init(keywords: "any request",  provider: .lastFM)) { result in
             if case let .failure(error as NSError) = result {
                 receivedError = error
             }

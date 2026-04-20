@@ -77,10 +77,12 @@ final class SWRecordListItemCell: UITableViewCell {
     }
 
     private func makePlayer(for audioURL: URL) -> AVAudioPlayer? {
-        guard let audioData = try? Data(contentsOf: audioURL) else { return nil }
+        let isSecurityScoped = audioURL.startAccessingSecurityScopedResource()
+        defer { if isSecurityScoped { audioURL.stopAccessingSecurityScopedResource() } }
 
-        let player = try? AVAudioPlayer(data: audioData)
+        let player = try? AVAudioPlayer(contentsOf: audioURL)
         player?.numberOfLoops = 0
+        player?.prepareToPlay()
         return player
     }
 }

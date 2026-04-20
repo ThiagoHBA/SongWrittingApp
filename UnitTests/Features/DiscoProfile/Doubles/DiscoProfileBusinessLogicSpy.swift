@@ -18,7 +18,9 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
         case loadProfile(DiscoSummary)
         case addNewReferences(DiscoSummary, [AlbumReferenceViewEntity])
         case addNewSection(DiscoSummary, SectionViewEntity)
-        case addNewRecord(DiscoSummary, SectionViewEntity)
+        case addNewRecord(DiscoSummary, String, URL)
+        case updateDiscoName(DiscoSummary, String)
+        case deleteDisco(DiscoSummary)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -55,8 +57,16 @@ final class DiscoProfileBusinessLogicSpy: DiscoProfileBusinessLogic {
         receivedMessages.append(.addNewSection(disco, section))
     }
 
-    func addNewRecord(in disco: DiscoSummary, to section: SectionViewEntity) {
-        receivedMessages.append(.addNewRecord(disco, section))
+    func addNewRecord(in disco: DiscoSummary, to sectionIdentifier: String, audioFileURL: URL) {
+        receivedMessages.append(.addNewRecord(disco, sectionIdentifier, audioFileURL))
+    }
+
+    func updateDiscoName(disco: DiscoSummary, newName: String) {
+        receivedMessages.append(.updateDiscoName(disco, newName))
+    }
+
+    func deleteDisco(_ disco: DiscoSummary) {
+        receivedMessages.append(.deleteDisco(disco))
     }
 
     func reset() {
