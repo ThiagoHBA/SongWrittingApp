@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class UpdateDiscoNameUseCaseSpy: UpdateDiscoNameUseCase {
-    enum Message: Equatable {
-        case updateName(UpdateDiscoNameInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completions: [(Result<DiscoSummary, Error>) -> Void] = []
 
+    @SWSpyMethodTracker
     func updateName(
         _ input: UpdateDiscoNameUseCaseInput,
         completion: @escaping (Result<UpdateDiscoNameUseCaseOutput, Error>) -> Void

@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class AddNewSectionToDiscoUseCaseSpy: AddNewSectionToDiscoUseCase {
-    enum Message: Equatable {
-        case addSection(AddNewSectionToDiscoUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completion: ((Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void)?
 
+    @SWSpyMethodTracker
     func addSection(
         _ input: AddNewSectionToDiscoUseCaseInput,
         completion: @escaping (Result<AddNewSectionToDiscoUseCaseOutput, Error>) -> Void

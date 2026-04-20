@@ -6,41 +6,18 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
-    enum Message: Equatable {
-        case startLoading
-        case hideLoading
-        case hideOverlays
-        case showSearchProviders([SearchReferenceViewEntity], SearchReferenceViewEntity)
-        case showReferences(ReferenceSearchViewEntity)
-        case showProfile(DiscoProfileViewEntity)
-        case updateReferences([AlbumReferenceViewEntity])
-        case updateSections([SectionViewEntity])
-        case addingReferencesError(String, String)
-        case addingSectionError(String, String)
-        case loadingProfileError(String, String)
-        case addingRecordsError(String, String)
-        case discoNameUpdated(DiscoSummary)
-        case discoDeleted
-        case updatingDiscoError(String, String)
-        case deletingDiscoError(String, String)
-        case deletingSectionError(String, String)
-        case deletingRecordError(String, String)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     var hideOverlaysCompletion: (() -> Void)?
 
-    func startLoading() {
-        receivedMessages.append(.startLoading)
-    }
 
-    func hideLoading() {
-        receivedMessages.append(.hideLoading)
-    }
+    func startLoading() {  }
+    func hideLoading() {  }
 
+    @SWSpyMethodTracker
     func hideOverlays(completion: (() -> Void)?) {
         receivedMessages.append(.hideOverlays)
         hideOverlaysCompletion = completion
@@ -49,63 +26,20 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
     func showSearchProviders(
         _ providers: [SearchReferenceViewEntity],
         selectedProvider: SearchReferenceViewEntity
-    ) {
-        receivedMessages.append(.showSearchProviders(providers, selectedProvider))
-    }
+    ) { }
 
-    func showReferences(_ references: ReferenceSearchViewEntity) {
-        receivedMessages.append(.showReferences(references))
-    }
-
-    func showProfile(_ profile: DiscoProfileViewEntity) {
-        receivedMessages.append(.showProfile(profile))
-    }
-
-    func updateReferences(_ references: [AlbumReferenceViewEntity]) {
-        receivedMessages.append(.updateReferences(references))
-    }
-
-    func updateSections(_ sections: [SectionViewEntity]) {
-        receivedMessages.append(.updateSections(sections))
-    }
-
-    func addingReferencesError(_ title: String, description: String) {
-        receivedMessages.append(.addingReferencesError(title, description))
-    }
-
-    func addingSectionError(_ title: String, description: String) {
-        receivedMessages.append(.addingSectionError(title, description))
-    }
-
-    func loadingProfileError(_ title: String, description: String) {
-        receivedMessages.append(.loadingProfileError(title, description))
-    }
-
-    func addingRecordsError(_ title: String, description: String) {
-        receivedMessages.append(.addingRecordsError(title, description))
-    }
-
-    func discoNameUpdated(_ disco: DiscoSummary) {
-        receivedMessages.append(.discoNameUpdated(disco))
-    }
-
-    func discoDeleted() {
-        receivedMessages.append(.discoDeleted)
-    }
-
-    func updatingDiscoError(_ title: String, description: String) {
-        receivedMessages.append(.updatingDiscoError(title, description))
-    }
-
-    func deletingDiscoError(_ title: String, description: String) {
-        receivedMessages.append(.deletingDiscoError(title, description))
-    }
-
-    func deletingSectionError(_ title: String, description: String) {
-        receivedMessages.append(.deletingSectionError(title, description))
-    }
-
-    func deletingRecordError(_ title: String, description: String) {
-        receivedMessages.append(.deletingRecordError(title, description))
-    }
+    func showReferences(_ references: ReferenceSearchViewEntity) { }
+    func showProfile(_ profile: DiscoProfileViewEntity) {}
+    func updateReferences(_ references: [AlbumReferenceViewEntity]) { }
+    func updateSections(_ sections: [SectionViewEntity]) { }
+    func addingReferencesError(_ title: String, description: String) { }
+    func addingSectionError(_ title: String, description: String) {}
+    func loadingProfileError(_ title: String, description: String) {}
+    func addingRecordsError(_ title: String, description: String) {}
+    func discoNameUpdated(_ disco: DiscoSummary) { }
+    func discoDeleted() {}
+    func updatingDiscoError(_ title: String, description: String) {}
+    func deletingDiscoError(_ title: String, description: String) {  }
+    func deletingSectionError(_ title: String, description: String) {}
+    func deletingRecordError(_ title: String, description: String) {  }
 }

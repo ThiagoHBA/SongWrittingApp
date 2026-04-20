@@ -6,119 +6,35 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DiscoProfilePresenterSpy: DiscoProfilePresentationLogic {
-    enum Message: Equatable {
-        case presentLoading
-        case presentSearchProviders([SearchReferenceViewEntity], SearchReferenceViewEntity)
-        case presentFoundReferences(SearchReferencesPage)
-        case presentFindReferencesError(String)
-        case presentLoadedProfile(DiscoProfile)
-        case presentLoadProfileError(String)
-        case presentAddedReferences(DiscoProfile)
-        case presentAddReferencesError(String)
-        case presentAddedSection(DiscoProfile)
-        case presentAddSectionError(String)
-        case presentAddedRecord(DiscoProfile)
-        case presentAddRecordError(String)
-        case presentCreateSectionError(String)
-        case presentDiscoNameUpdated(DiscoSummary)
-        case presentUpdateDiscoNameError(String)
-        case presentDiscoDeleted
-        case presentDeleteDiscoError(String)
-        case presentSectionDeleted(DiscoProfile)
-        case presentDeleteSectionError(String)
-        case presentRecordDeleted(DiscoProfile)
-        case presentDeleteRecordError(String)
-    }
 
-    private(set) var receivedMessages: [Message] = []
-
-    func presentLoading() {
-        receivedMessages.append(.presentLoading)
-    }
-
+    func presentLoading() { }
     func presentSearchProviders(
         _ providers: [SearchReferenceViewEntity],
         selectedProvider: SearchReferenceViewEntity
-    ) {
-        receivedMessages.append(.presentSearchProviders(providers, selectedProvider))
-    }
+    ) {}
 
-    func presentFoundReferences(_ references: SearchReferencesPage) {
-        receivedMessages.append(.presentFoundReferences(references))
-    }
-
-    func presentFindReferencesError(_ error: Error) {
-        receivedMessages.append(.presentFindReferencesError(error.localizedDescription))
-    }
-
-    func presentLoadedProfile(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentLoadedProfile(profile))
-    }
-
-    func presentLoadProfileError(_ error: Error) {
-        receivedMessages.append(.presentLoadProfileError(error.localizedDescription))
-    }
-
-    func presentAddedReferences(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedReferences(profile))
-    }
-
-    func presentAddReferencesError(_ error: Error) {
-        receivedMessages.append(.presentAddReferencesError(error.localizedDescription))
-    }
-
-    func presentAddedSection(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedSection(profile))
-    }
-
-    func presentAddSectionError(_ error: Error) {
-        receivedMessages.append(.presentAddSectionError(error.localizedDescription))
-    }
-
-    func presentAddedRecord(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentAddedRecord(profile))
-    }
-
-    func presentAddRecordError(_ error: Error) {
-        receivedMessages.append(.presentAddRecordError(error.localizedDescription))
-    }
-
-    func presentCreateSectionError(_ error: Error) {
-        receivedMessages.append(.presentCreateSectionError(error.localizedDescription))
-    }
-
-    func presentDiscoNameUpdated(_ disco: DiscoSummary) {
-        receivedMessages.append(.presentDiscoNameUpdated(disco))
-    }
-
-    func presentUpdateDiscoNameError(_ error: Error) {
-        receivedMessages.append(.presentUpdateDiscoNameError(error.localizedDescription))
-    }
-
-    func presentDiscoDeleted() {
-        receivedMessages.append(.presentDiscoDeleted)
-    }
-
-    func presentDeleteDiscoError(_ error: Error) {
-        receivedMessages.append(.presentDeleteDiscoError(error.localizedDescription))
-    }
-
-    func presentSectionDeleted(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentSectionDeleted(profile))
-    }
-
-    func presentDeleteSectionError(_ error: Error) {
-        receivedMessages.append(.presentDeleteSectionError(error.localizedDescription))
-    }
-
-    func presentRecordDeleted(_ profile: DiscoProfile) {
-        receivedMessages.append(.presentRecordDeleted(profile))
-    }
-
-    func presentDeleteRecordError(_ error: Error) {
-        receivedMessages.append(.presentDeleteRecordError(error.localizedDescription))
-    }
+    func presentFoundReferences(_ references: SearchReferencesPage) {}
+    func presentFindReferencesError(_ error: Error) { }
+    func presentLoadedProfile(_ profile: DiscoProfile) {}
+    func presentLoadProfileError(_ error: Error) { }
+    func presentAddedReferences(_ profile: DiscoProfile) {}
+    func presentAddReferencesError(_ error: Error) {}
+    func presentAddedSection(_ profile: DiscoProfile) { }
+    func presentAddSectionError(_ error: Error) { }
+    func presentAddedRecord(_ profile: DiscoProfile) { }
+    func presentAddRecordError(_ error: Error) { }
+    func presentCreateSectionError(_ error: Error) { }
+    func presentDiscoNameUpdated(_ disco: DiscoSummary) { }
+    func presentUpdateDiscoNameError(_ error: Error) { }
+    func presentDiscoDeleted() { }
+    func presentDeleteDiscoError(_ error: Error) { }
+    func presentSectionDeleted(_ profile: DiscoProfile) { }
+    func presentDeleteSectionError(_ error: Error) { }
+    func presentRecordDeleted(_ profile: DiscoProfile) {  }
+    func presentDeleteRecordError(_ error: Error) {}
 }
