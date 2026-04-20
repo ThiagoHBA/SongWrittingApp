@@ -248,10 +248,13 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         XCTAssertNotNil(footerView.profileFindButton(accessibilityLabel: "Adicionar gravação"))
     }
 
-    func test_documentPicker_forwards_new_custom_record_to_interactor() {
+    func test_documentPicker_forwards_new_custom_record_to_interactor() throws {
         let disco = makeDisco()
         let (sut, interactor, _, _) = makeSUT(disco: disco)
-        let url = URL(fileURLWithPath: "/tmp/audio.m4a")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("audio.m4a")
+        try? "test".write(to: url, atomically: true, encoding: .utf8)
+        defer { try? FileManager.default.removeItem(at: url) }
+
         let originalSection = makeSection(records: [])
         let pickerController = CustomPickerController(forOpeningContentTypes: [UTType.audio])
         pickerController.section = originalSection
@@ -259,18 +262,15 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         interactor.reset()
         sut.documentPicker(pickerController, didPickDocumentsAt: [url])
 
-        XCTAssertEqual(
-            interactor.receivedMessages,
-            [
-                .addNewRecord(
-                    disco,
-                    SectionViewEntity(
-                        identifer: originalSection.identifer,
-                        records: [.init(tag: .custom, audio: url)]
-                    )
-                )
-            ]
-        )
+        guard let firstMessage = interactor.receivedMessages.first,
+              case let .addNewRecord(receivedDisco, receivedSectionIdentifier, receivedAudioURL) = firstMessage else {
+            XCTFail("Expected .addNewRecord message")
+            return
+        }
+
+        XCTAssertEqual(receivedDisco, disco)
+        XCTAssertEqual(receivedSectionIdentifier, originalSection.identifer)
+        XCTAssertEqual(receivedAudioURL, url)
     }
 
     func test_hideOverlays_dismisses_presented_sheet_and_executes_completion() throws {

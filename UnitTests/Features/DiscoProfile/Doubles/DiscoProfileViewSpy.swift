@@ -22,6 +22,10 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
         case addingSectionError(String, String)
         case loadingProfileError(String, String)
         case addingRecordsError(String, String)
+        case discoNameUpdated(DiscoSummary)
+        case discoDeleted
+        case updatingDiscoError(String, String)
+        case deletingDiscoError(String, String)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -77,5 +81,21 @@ final class DiscoProfileViewSpy: DiscoProfileDisplayLogic {
 
     func addingRecordsError(_ title: String, description: String) {
         receivedMessages.append(.addingRecordsError(title, description))
+    }
+
+    func discoNameUpdated(_ disco: DiscoSummary) {
+        receivedMessages.append(.discoNameUpdated(disco))
+    }
+
+    func discoDeleted() {
+        receivedMessages.append(.discoDeleted)
+    }
+
+    func updatingDiscoError(_ title: String, description: String) {
+        receivedMessages.append(.updatingDiscoError(title, description))
+    }
+
+    func deletingDiscoError(_ title: String, description: String) {
+        receivedMessages.append(.deletingDiscoError(title, description))
     }
 }

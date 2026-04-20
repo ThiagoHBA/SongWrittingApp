@@ -9,7 +9,9 @@ protocol DiscoProfileBusinessLogic: AnyObject {
     func loadProfile(for disco: DiscoSummary)
     func addNewReferences(for disco: DiscoSummary, references: [AlbumReferenceViewEntity])
     func addNewSection(for disco: DiscoSummary, section: SectionViewEntity)
-    func addNewRecord(in disco: DiscoSummary, to section: SectionViewEntity)
+    func addNewRecord(in disco: DiscoSummary, to sectionIdentifier: String, audioFileURL: URL)
+    func updateDiscoName(disco: DiscoSummary, newName: String)
+    func deleteDisco(_ disco: DiscoSummary)
 }
 
 final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
@@ -18,7 +20,8 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
     private let addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase
     private let addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase
     private let addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
-    private let referencePageSize = 10
+    private let updateDiscoNameUseCase: UpdateDiscoNameUseCase
+    private let deleteDiscoUseCase: DeleteDiscoUseCase
 
     private var currentReferenceProvider: ReferenceProvider = .spotify
     private var loadedReferences: [AlbumReference] = []
@@ -33,13 +36,17 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         getDiscoProfileUseCase: GetDiscoProfileUseCase,
         addDiscoNewReferenceUseCase: AddDiscoNewReferenceUseCase,
         addNewSectionToDiscoUseCase: AddNewSectionToDiscoUseCase,
-        addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase
+        addNewRecordToSessionUseCase: AddNewRecordToSessionUseCase,
+        updateDiscoNameUseCase: UpdateDiscoNameUseCase,
+        deleteDiscoUseCase: DeleteDiscoUseCase
     ) {
         self.searchReferencesUseCase = searchReferencesUseCase
         self.getDiscoProfileUseCase = getDiscoProfileUseCase
         self.addDiscoNewReferenceUseCase = addDiscoNewReferenceUseCase
         self.addNewSectionToDiscoUseCase = addNewSectionToDiscoUseCase
         self.addNewRecordToSessionUseCase = addNewRecordToSessionUseCase
+        self.updateDiscoNameUseCase = updateDiscoNameUseCase
+        self.deleteDiscoUseCase = deleteDiscoUseCase
     }
 
     func loadSearchProviders() {
@@ -155,29 +162,54 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         }
     }
 
-    func addNewRecord(in disco: DiscoSummary, to section: SectionViewEntity) {
+    func addNewRecord(in disco: DiscoSummary, to sectionIdentifier: String, audioFileURL: URL) {
         presenter?.presentLoading()
-        
-        do {
-            let section = try section.mapToDomain()
-            
-            let input = AddNewRecordToSessionUseCaseInput(
-                disco: disco,
-                section: section
-            )
-            
-            addNewRecordToSessionUseCase.addRecord(input) { [weak self] result in
-                guard let self else { return }
 
-                switch result {
-                case .success(let profile):
-                    self.presenter?.presentAddedRecord(profile)
-                case .failure(let error):
-                    self.presenter?.presentAddRecordError(error)
-                }
+        let input = AddNewRecordToSessionUseCaseInput(
+            disco: disco,
+            sectionIdentifier: sectionIdentifier,
+            audioFileURL: audioFileURL
+        )
+
+        addNewRecordToSessionUseCase.addRecord(input) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let profile):
+                self.presenter?.presentAddedRecord(profile)
+            case .failure(let error):
+                self.presenter?.presentAddRecordError(error)
             }
-        } catch {
-            self.presenter?.presentAddRecordError(error)
+        }
+    }
+
+    func updateDiscoName(disco: DiscoSummary, newName: String) {
+        presenter?.presentLoading()
+
+        updateDiscoNameUseCase.updateName(.init(disco: disco, newName: newName)) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let updatedDisco):
+                self.presenter?.presentDiscoNameUpdated(updatedDisco)
+            case .failure(let error):
+                self.presenter?.presentUpdateDiscoNameError(error)
+            }
+        }
+    }
+
+    func deleteDisco(_ disco: DiscoSummary) {
+        presenter?.presentLoading()
+
+        deleteDiscoUseCase.delete(.init(disco: disco)) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success:
+                self.presenter?.presentDiscoDeleted()
+            case .failure(let error):
+                self.presenter?.presentDeleteDiscoError(error)
+            }
         }
     }
 
@@ -188,7 +220,6 @@ final class DiscoProfileInteractor: DiscoProfileBusinessLogic {
         searchReferencesUseCase.search(
             .init(
                 keywords: keywords,
-                pageSize: referencePageSize,
                 provider: currentReferenceProvider
             ),
             completion: handleReferencesResult(requestID: requestID, shouldReplaceLoadedReferences: true)

@@ -29,7 +29,7 @@ final class LastFMReferenceSearchRepository: ReferenceSearchRepository {
     ) {
         session = .init(
             keywords: input.keywords,
-            pageSize: input.pageSize,
+            pageSize: 10,
             nextPage: 1,
             hasMore: false
         )

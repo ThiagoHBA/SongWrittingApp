@@ -15,14 +15,14 @@ final class ReferenceSearchStrategyRegistryTests: XCTestCase {
         let lastFM = SearchReferencesUseCaseSpy()
         let sut = ReferenceSearchStrategyRegistry(spotify: spotify, lastFM: lastFM)
 
-        sut.search(.init(keywords: "any", pageSize: 10, provider: .lastFM)) { _ in }
+        sut.search(.init(keywords: "any",  provider: .lastFM)) { _ in }
         sut.loadMore { _ in }
 
         XCTAssertEqual(spotify.receivedMessages, [])
         XCTAssertEqual(
             lastFM.receivedMessages,
             [
-                .search(.init(keywords: "any", pageSize: 10, provider: .lastFM)),
+                .search(.init(keywords: "any",  provider: .lastFM)),
                 .loadMore
             ]
         )
@@ -34,7 +34,7 @@ final class ReferenceSearchStrategyRegistryTests: XCTestCase {
         let sut = ReferenceSearchStrategyRegistry(spotify: spotify, lastFM: lastFM)
         var receivedError: SearchReferencesUseCaseError?
 
-        sut.search(.init(keywords: "any", pageSize: 10, provider: .spotify)) { _ in }
+        sut.search(.init(keywords: "any",  provider: .spotify)) { _ in }
         sut.reset()
         sut.loadMore { result in
             if case let .failure(error as SearchReferencesUseCaseError) = result {
@@ -45,7 +45,7 @@ final class ReferenceSearchStrategyRegistryTests: XCTestCase {
         XCTAssertEqual(
             spotify.receivedMessages,
             [
-                .search(.init(keywords: "any", pageSize: 10)),
+                .search(.init(keywords: "any")),
                 .reset
             ]
         )

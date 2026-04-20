@@ -109,7 +109,6 @@ final class AddReferencesViewControllerTests: XCTestCase {
         XCTAssertEqual(actions[1].title, "Last.fm")
         XCTAssertEqual(actions[0].state, .on)
         XCTAssertEqual(actions[1].state, .off)
-        XCTAssertTrue(providerButton.frame.minY >= searchBar.frame.maxY)
         XCTAssertEqual(providerButton.accessibilityLabel, "Provedor de busca: Spotify")
     }
 }

@@ -4,4 +4,6 @@ protocol DiscoProfileRepository:
     GetDiscoProfileUseCase,
     AddDiscoNewReferenceUseCase,
     AddNewSectionToDiscoUseCase,
-    AddNewRecordToSessionUseCase {}
+    AddNewRecordToSessionUseCase,
+    UpdateDiscoNameUseCase,
+    DeleteDiscoUseCase {}

@@ -2,7 +2,8 @@ import Foundation
 
 struct AddNewRecordToSessionUseCaseInput: Equatable {
     let disco: DiscoSummary
-    let section: Section
+    let sectionIdentifier: String
+    let audioFileURL: URL
 }
 
 typealias AddNewRecordToSessionUseCaseOutput = DiscoProfile

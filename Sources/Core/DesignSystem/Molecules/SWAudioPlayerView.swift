@@ -10,7 +10,12 @@ import UIKit
 
 final class SWAudioPlayerView: UIView {
     var player: AVAudioPlayer? {
-        didSet { configureForCurrentPlayer() }
+        willSet {
+            player?.stop()
+        }
+        didSet {
+            configureForCurrentPlayer()
+        }
     }
 
     private var displayLink: CADisplayLink?
@@ -146,10 +151,11 @@ final class SWAudioPlayerView: UIView {
     }
 
     private func formattedDuration(for value: TimeInterval) -> String {
-        let date = Date(timeIntervalSinceReferenceDate: value)
-        let formatter = DateFormatter()
-        formatter.dateFormat = "mm:ss"
-        return formatter.string(from: date)
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: value) ?? "00:00"
     }
 }
 

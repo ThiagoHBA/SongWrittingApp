@@ -39,7 +39,7 @@ final class SWReferenceSectionView: UIView {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = SWSpacing.large
+        stackView.spacing = 0
         return stackView
     }()
 
@@ -69,7 +69,6 @@ final class SWReferenceSectionView: UIView {
         stackView.addArrangedSubview(headerView)
         stackView.addArrangedSubview(emptyStateView)
         stackView.addArrangedSubview(scrollView)
-
         scrollView.addSubview(avatarStackView)
 
         NSLayoutConstraint.activate([
@@ -103,7 +102,7 @@ final class SWReferenceSectionView: UIView {
 
         return CGSize(
             width: UIView.noIntrinsicMetric,
-            height: headerView.intrinsicContentSize.height + SWSpacing.large + contentHeight
+            height: headerView.intrinsicContentSize.height + contentHeight
         )
     }
 

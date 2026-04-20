@@ -14,6 +14,10 @@ protocol DiscoProfilePresentationLogic: AnyObject {
     func presentAddedRecord(_ profile: DiscoProfile)
     func presentAddRecordError(_ error: Error)
     func presentCreateSectionError(_ error: Error)
+    func presentDiscoNameUpdated(_ disco: DiscoSummary)
+    func presentUpdateDiscoNameError(_ error: Error)
+    func presentDiscoDeleted()
+    func presentDeleteDiscoError(_ error: Error)
 }
 
 final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
@@ -109,6 +113,40 @@ final class DiscoProfilePresenter: DiscoProfilePresentationLogic {
         view?.hideOverlays { [weak self] in
             self?.view?.addingRecordsError(
                 DiscoProfileError.AddingRecordsError.errorTitle,
+                description: error.localizedDescription
+            )
+        }
+    }
+
+    func presentDiscoNameUpdated(_ disco: DiscoSummary) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            self?.view?.discoNameUpdated(disco)
+        }
+    }
+
+    func presentUpdateDiscoNameError(_ error: Error) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            self?.view?.updatingDiscoError(
+                DiscoProfileError.UpdateDiscoNameError.errorTitle,
+                description: error.localizedDescription
+            )
+        }
+    }
+
+    func presentDiscoDeleted() {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            self?.view?.discoDeleted()
+        }
+    }
+
+    func presentDeleteDiscoError(_ error: Error) {
+        view?.hideLoading()
+        view?.hideOverlays { [weak self] in
+            self?.view?.deletingDiscoError(
+                DiscoProfileError.DeleteDiscoError.errorTitle,
                 description: error.localizedDescription
             )
         }

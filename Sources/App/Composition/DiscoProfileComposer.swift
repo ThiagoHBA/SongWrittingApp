@@ -21,7 +21,11 @@ enum DiscoProfileComposer {
         )
         let coreDataStore = try? CoreDataDiscoStore()
         let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let discoProfileRepository = DiscoProfileRepositoryImpl(store: coreDataStore ?? discoStore)
+        let fileManagerService = FileManagerServiceImpl()
+        let discoProfileRepository = DiscoProfileRepositoryImpl(
+            store: coreDataStore ?? discoStore,
+            fileManagerService: fileManagerService
+        )
 
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
@@ -29,7 +33,9 @@ enum DiscoProfileComposer {
             getDiscoProfileUseCase: discoProfileRepository,
             addDiscoNewReferenceUseCase: discoProfileRepository,
             addNewSectionToDiscoUseCase: discoProfileRepository,
-            addNewRecordToSessionUseCase: discoProfileRepository
+            addNewRecordToSessionUseCase: discoProfileRepository,
+            updateDiscoNameUseCase: discoProfileRepository,
+            deleteDiscoUseCase: discoProfileRepository
         )
         let viewController = DiscoProfileViewController(disco: disco, interactor: interactor)
 
@@ -90,6 +96,22 @@ extension WeakReferenceProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisp
 
     func showReferences(_ references: ReferenceSearchViewEntity) {
         instance?.showReferences(references)
+    }
+
+    func discoNameUpdated(_ disco: DiscoSummary) {
+        instance?.discoNameUpdated(disco)
+    }
+
+    func discoDeleted() {
+        instance?.discoDeleted()
+    }
+
+    func updatingDiscoError(_ title: String, description: String) {
+        instance?.updatingDiscoError(title, description: description)
+    }
+
+    func deletingDiscoError(_ title: String, description: String) {
+        instance?.deletingDiscoError(title, description: description)
     }
 }
 
@@ -166,6 +188,30 @@ extension MainQueueProxy: DiscoProfileDisplayLogic where T: DiscoProfileDisplayL
     func addingRecordsError(_ title: String, description: String) {
         DispatchQueue.main.async {
             self.instance.addingRecordsError(title, description: description)
+        }
+    }
+
+    func discoNameUpdated(_ disco: DiscoSummary) {
+        DispatchQueue.main.async {
+            self.instance.discoNameUpdated(disco)
+        }
+    }
+
+    func discoDeleted() {
+        DispatchQueue.main.async {
+            self.instance.discoDeleted()
+        }
+    }
+
+    func updatingDiscoError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.instance.updatingDiscoError(title, description: description)
+        }
+    }
+
+    func deletingDiscoError(_ title: String, description: String) {
+        DispatchQueue.main.async {
+            self.instance.deletingDiscoError(title, description: description)
         }
     }
 }

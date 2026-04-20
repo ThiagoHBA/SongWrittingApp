@@ -11,4 +11,5 @@ enum StorageError: LocalizedError, Equatable {
     case cantFindModel
     case cantLoadDisco
     case cantLoadProfile
+    case cantDeleteDisco
 }

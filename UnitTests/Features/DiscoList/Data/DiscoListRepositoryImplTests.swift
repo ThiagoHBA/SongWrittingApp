@@ -61,21 +61,29 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         XCTAssertEqual(receivedDisco, DiscoSummary(id: passedRecord.id, name: "New", coverImage: expectedImage))
     }
 
-    func test_deleteDisco_returns_migration_error() {
-        let (sut, _) = makeSUT()
+    func test_deleteDisco_calls_store_deleteDisco() {
+        let (sut, store) = makeSUT()
         let disco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data())
 
-        var receivedError: Error?
-        sut.delete(.init(disco: disco)) { result in
-            if case let .failure(error) = result {
-                receivedError = error
-            }
-        }
+        sut.delete(.init(disco: disco)) { _ in }
 
         XCTAssertEqual(
-            receivedError?.localizedDescription,
-            "A exclusão de discos ainda não foi migrada para a nova arquitetura"
+            store.receivedMessages,
+            [.deleteDisco(DiscoStoreRecord(id: disco.id, name: disco.name, coverImage: disco.coverImage))]
         )
+    }
+
+    func test_deleteDisco_onSuccess_returns_deleted_disco() {
+        let (sut, store) = makeSUT()
+        let disco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data())
+        var receivedDisco: DiscoSummary?
+
+        sut.delete(.init(disco: disco)) { result in
+            if case let .success(deleted) = result { receivedDisco = deleted }
+        }
+        store.deleteDiscoCompletion?(.success(()))
+
+        XCTAssertEqual(receivedDisco, disco)
     }
 
     private func makeSUT() -> (sut: DiscoListRepositoryImpl, store: DiscoStoreSpy) {
@@ -89,6 +97,7 @@ private final class DiscoStoreSpy: DiscoStore {
     enum Message: Equatable {
         case getDiscos
         case createDisco(DiscoStoreRecord)
+        case deleteDisco(DiscoStoreRecord)
         case getProfiles
         case createProfile(DiscoProfileStoreRecord)
         case updateProfile(DiscoProfileStoreRecord)
@@ -98,6 +107,7 @@ private final class DiscoStoreSpy: DiscoStore {
 
     var getDiscosCompletion: ((Result<[DiscoStoreRecord], Error>) -> Void)?
     var createDiscoCompletion: ((Result<DiscoStoreRecord, Error>) -> Void)?
+    var deleteDiscoCompletion: ((Result<Void, Error>) -> Void)?
     var getProfilesCompletion: ((Result<[DiscoProfileStoreRecord], Error>) -> Void)?
     var createProfileCompletion: ((Result<DiscoProfileStoreRecord, Error>) -> Void)?
     var updateProfileCompletion: ((Result<DiscoProfileStoreRecord, Error>) -> Void)?
@@ -134,5 +144,18 @@ private final class DiscoStoreSpy: DiscoStore {
     ) {
         receivedMessages.append(.updateProfile(profile))
         updateProfileCompletion = completion
+    }
+
+    func updateDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
+    ) {}
+
+    func deleteDisco(
+        _ disco: DiscoStoreRecord,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        receivedMessages.append(.deleteDisco(disco))
+        deleteDiscoCompletion = completion
     }
 }

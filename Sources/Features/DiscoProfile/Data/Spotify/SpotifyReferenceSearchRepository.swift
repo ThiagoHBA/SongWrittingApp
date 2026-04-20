@@ -30,7 +30,7 @@ final class SpotifyReferenceSearchRepository: ReferenceSearchRepository {
     ) {
         session = .init(
             keywords: input.keywords,
-            pageSize: input.pageSize,
+            pageSize: 10,
             nextOffset: 0,
             hasMore: false
         )
