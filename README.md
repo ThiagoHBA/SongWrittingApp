@@ -2,6 +2,8 @@
 
 # 🎶 SongWritingStudio
 
+![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/YourUser/your_gist_id/raw/coverage_badge.json)
+
 # 1 - Contexto
 
 ## Processo de idealização

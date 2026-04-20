@@ -67,8 +67,8 @@ final class EditDiscoViewController: UIViewController {
 extension EditDiscoViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = .systemBackground
-        modalPresentationStyle = .overCurrentContext
-        navigationController?.topViewController?.extendedLayoutIncludesOpaqueBars = false
+//        modalPresentationStyle = .overCurrentContext
+//        navigationController?.topViewController?.extendedLayoutIncludesOpaqueBars = false
     }
 
     func setupConstraints() {

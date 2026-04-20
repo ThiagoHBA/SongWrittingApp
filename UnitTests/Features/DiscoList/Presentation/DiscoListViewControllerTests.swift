@@ -11,13 +11,16 @@ import XCTest
 
 @MainActor
 final class DiscoListViewControllerTests: XCTestCase {
-    func test_viewDidLoad_requests_discos_and_configures_navigation() throws {
+    func test_viewDidAppear_requests_discos_and_configures_navigation() throws {
         let (sut, interactor, navigationController, _) = makeSUT(loadView: false)
 
         sut.loadViewIfNeeded()
+        interactor.reset()
+        appear(sut)
 
         XCTAssertEqual(interactor.receivedMessages, [.loadDiscos])
         XCTAssertEqual(sut.title, "Meus Discos")
+        XCTAssertTrue(navigationController.navigationBar.prefersLargeTitles)
         XCTAssertEqual(
             navigationController.topViewController?.navigationItem.rightBarButtonItem?.accessibilityLabel,
             "Adicionar disco"
@@ -232,6 +235,11 @@ private extension DiscoListViewControllerTests {
         }
 
         XCTAssertTrue(condition())
+    }
+
+    func appear(_ sut: UIViewController, animated: Bool = false) {
+        sut.beginAppearanceTransition(true, animated: animated)
+        sut.endAppearanceTransition()
     }
 }
 
