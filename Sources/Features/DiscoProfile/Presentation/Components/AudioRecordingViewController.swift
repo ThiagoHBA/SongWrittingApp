@@ -33,6 +33,7 @@ final class AudioRecordingViewController: UIViewController, AlertPresentable {
 
     private lazy var saveButton: SWPrimaryButton = {
         let btn = SWPrimaryButton(title: "Salvar")
+        btn.accessibilityLabel = "Salvar"
         btn.addTarget(self, action: #selector(saveTapped), for: .touchUpInside)
         return btn
     }()
@@ -177,22 +178,22 @@ final class AudioRecordingViewController: UIViewController, AlertPresentable {
 
     private func applyState() {
         switch state {
-        case .recording:
-            statusLabel.isHidden = false
-            stopButton.isHidden = false
-            saveButton.isHidden = true
-            cancelButton.isHidden = true
-        case .stopped:
-            statusLabel.isHidden = true
-            stopButton.isHidden = true
-            saveButton.isHidden = false
-            cancelButton.isHidden = false
+            case .recording:
+                statusLabel.isHidden = false
+                stopButton.isHidden = false
+                saveButton.isHidden = true
+                cancelButton.isHidden = true
+            case .stopped:
+                statusLabel.isHidden = true
+                stopButton.isHidden = true
+                saveButton.isHidden = false
+                cancelButton.isHidden = false
         }
     }
 
     private func configureSheetPresentation() {
         guard let sheet = sheetPresentationController else { return }
-        sheet.detents = [.custom { context in context.maximumDetentValue * 0.4 }]
+        sheet.detents = [.custom { context in context.maximumDetentValue * 0.5 }]
         sheet.prefersGrabberVisible = true
         sheet.prefersScrollingExpandsWhenScrolledToEdge = false
         sheet.preferredCornerRadius = SWRadius.large
@@ -221,27 +222,28 @@ extension AudioRecordingViewController: ViewCoding {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            timerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: SWSpacing.xLarge),
+            timerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: SWSpacing.small),
 
             statusLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             statusLabel.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: SWSpacing.xxSmall),
 
-            controlsContainer.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: SWSpacing.xLarge),
+            controlsContainer.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: SWSpacing.small),
             controlsContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
             controlsContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
-            controlsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -SWSpacing.large),
+            controlsContainer.heightAnchor.constraint(greaterThanOrEqualToConstant: SWSize.recordRowHeight),
+            controlsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -SWSpacing.medium),
             controlsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             stopButton.centerXAnchor.constraint(equalTo: controlsContainer.centerXAnchor),
             stopButton.topAnchor.constraint(equalTo: controlsContainer.topAnchor),
             stopButton.widthAnchor.constraint(equalToConstant: SWSize.iconButton),
-            stopButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
+            stopButton.heightAnchor.constraint(lessThanOrEqualToConstant: SWSize.iconButton),
             stopButton.bottomAnchor.constraint(equalTo: controlsContainer.bottomAnchor),
 
             saveButton.leadingAnchor.constraint(equalTo: controlsContainer.leadingAnchor),
+            saveButton.topAnchor.constraint(equalTo: controlsContainer.topAnchor),
             saveButton.trailingAnchor.constraint(equalTo: controlsContainer.trailingAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
-            saveButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -SWSpacing.small),
 
             cancelButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: SWSpacing.medium),
             cancelButton.centerXAnchor.constraint(equalTo: controlsContainer.centerXAnchor),

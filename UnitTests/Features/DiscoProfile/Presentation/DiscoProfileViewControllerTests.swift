@@ -288,7 +288,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         XCTAssertTrue(sut.presentedViewController is CustomPickerController)
     }
 
-    func test_add_record_source_sheet_record_dismisses_without_interactor_messages() throws {
+    func test_add_record_source_sheet_record_presents_audio_recorder_without_interactor_messages() throws {
         let (sut, interactor, _, _) = makeSUT()
 
         sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
@@ -300,7 +300,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Gravar")
-        wait(timeout: 5, until: { sut.presentedViewController == nil })
+        wait(timeout: 5, until: { sut.presentedViewController is AudioRecordingViewController })
 
         XCTAssertTrue(interactor.receivedMessages.isEmpty)
     }
