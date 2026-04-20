@@ -16,12 +16,12 @@ enum AppRootComposer {
         getOnboardingStatusUseCase: GetOnboardingStatusUseCase,
         completeOnboardingUseCase: CompleteOnboardingUseCase
     ) -> UIViewController {
-        guard getOnboardingStatusUseCase.load(.init()) else {
+//        guard getOnboardingStatusUseCase.load(.init()) else {
             return OnboardingComposer.make(
                 navigationController: navigationController,
                 completeOnboardingUseCase: completeOnboardingUseCase
             )
-        }
+//        }
 
         return DiscoListComposer.make(navigationController: navigationController)
     }

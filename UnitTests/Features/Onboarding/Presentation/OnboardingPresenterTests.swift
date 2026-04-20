@@ -24,6 +24,22 @@ final class OnboardingPresenterTests: XCTestCase {
             )
         )
     }
+
+    func test_presentPages_displays_expected_second_page_content() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        XCTAssertEqual(
+            view.receivedPages.first?[1],
+            OnboardingPageViewEntity(
+                title: "Crie seus discos",
+                message: "Crie e visualize seus projetos de composição musical",
+                imageSource: .gif(name: "Onboard_Instruction_01"),
+                imageScale: 0.6
+            )
+        )
+    }
 }
 
 private extension OnboardingPresenterTests {

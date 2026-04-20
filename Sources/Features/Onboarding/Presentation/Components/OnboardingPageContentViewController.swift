@@ -1,4 +1,5 @@
 import UIKit
+import SDWebImage
 
 final class OnboardingPageContentViewController: UIViewController {
     private let page: OnboardingPageViewEntity
@@ -21,12 +22,22 @@ final class OnboardingPageContentViewController: UIViewController {
         return stackView
     }()
 
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
+    private let imageView: SDAnimatedImageView = {
+        let imageView = SDAnimatedImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.accessibilityIdentifier = "onboarding.page.image"
+        imageView.layer.cornerRadius = SWRadius.medium
+        imageView.clipsToBounds = true
         return imageView
+    }()
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        indicator.color = SWColor.Accent.primary
+        return indicator
     }()
 
     private let titleLabel: SWTextLabel = {
@@ -65,6 +76,7 @@ extension OnboardingPageContentViewController: ViewCoding {
         contentStackView.addArrangedSubview(textStackView)
         textStackView.addArrangedSubview(titleLabel)
         textStackView.addArrangedSubview(messageLabel)
+        imageView.addSubview(activityIndicator)
     }
 
     func setupConstraints() {
@@ -74,7 +86,10 @@ extension OnboardingPageContentViewController: ViewCoding {
             contentStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 
             imageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4),
+            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: page.imageScale ?? 0.4),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
 
             textStackView.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
             textStackView.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
@@ -97,6 +112,22 @@ private extension OnboardingPageContentViewController {
         case .system(let name):
             imageView.image = UIImage(systemName: name)
             imageView.tintColor = SWColor.Accent.primary
+        case .gif(let name):
+            activityIndicator.startAnimating()
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                guard let data = NSDataAsset(name: name)?.data,
+                      let animatedImage = SDAnimatedImage(data: data) else {
+                    DispatchQueue.main.async {
+                        self?.activityIndicator.stopAnimating()
+                    }
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    self?.imageView.image = animatedImage
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
         }
     }
 }
