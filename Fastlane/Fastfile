@@ -21,7 +21,8 @@ platform :ios do
       include_targets: "Main.app"
     )
 
-    report_path = Dir.glob("coverage_output/tmp/report.json*").first
+    report_path = Dir.glob("coverage_output/tmp/*")
+                 .find { |file| File.file?(file) && File.basename(file).start_with?("report.json") }
 
     if report_path
       report = JSON.parse(File.read(report_path))
