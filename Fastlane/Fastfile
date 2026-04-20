@@ -1,0 +1,35 @@
+default_platform(:ios)
+
+platform :ios do
+
+  desc "Run tests and get coverage"
+  lane :coverage do
+    run_tests(
+      scheme: "Main",
+      device: "iPhone 16",
+      code_coverage: true,
+      output_directory: "test_output",
+      result_bundle: true
+    )
+
+    xcov(
+      scheme: "Main",
+      output_directory: "coverage_output",
+      html_report: true,
+      json_report: true,
+      minimum_coverage_percentage: 60.0,
+      include_targets: "Main.app"
+    )
+
+    lane :coverage do
+        coverage_pct = Actions.lane_context[SharedValues::XCOV_COVERAGE]
+        File.write("coverage_badge.json", JSON.generate({
+          schemaVersion: 1,
+          label: "coverage",
+          message: "#{(coverage_pct * 100).round(1)}%",
+          color: coverage_pct > 0.8 ? "brightgreen" : coverage_pct > 0.6 ? "yellow" : "red"
+        }))
+      end
+  end
+
+end

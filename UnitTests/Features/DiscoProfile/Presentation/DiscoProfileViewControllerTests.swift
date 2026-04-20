@@ -12,6 +12,16 @@ import XCTest
 
 @MainActor
 final class DiscoProfileViewControllerTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        UIView.setAnimationsEnabled(false)
+    }
+
+    override func tearDown() {
+        UIView.setAnimationsEnabled(true)
+        super.tearDown()
+    }
+    
     func test_viewDidLoad_requests_profile_for_disc() {
         let disco = makeDisco()
         let (sut, interactor, _, _) = makeSUT(disco: disco, loadView: false)
@@ -372,6 +382,8 @@ extension DiscoProfileViewControllerTests {
         disco: DiscoSummary = DiscoSummary(id: UUID(), name: "Any Disco", coverImage: Data("cover".utf8)),
         loadView: Bool = true
     ) -> SutAndDoubles {
+        UIView.setAnimationsEnabled(false)
+        
         let interactor = DiscoProfileBusinessLogicSpy()
         let sut = DiscoProfileViewController(disco: disco, interactor: interactor)
         let navigationController = UINavigationController(rootViewController: sut)
@@ -467,15 +479,19 @@ private extension DiscoProfileViewControllerTests {
 
     func wait(
         timeout: TimeInterval = 1,
-        until condition: () -> Bool
+        until condition: () -> Bool,
+        file: StaticString = #file,
+        line: UInt = #line
     ) {
-        let timeoutDate = Date().addingTimeInterval(timeout)
-
-        while !condition() && timeoutDate.timeIntervalSinceNow > 0 {
-            RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.01))
+        let deadline = Date().addingTimeInterval(timeout)
+        
+        while !condition() {
+            if Date() > deadline {
+                XCTFail("Condition not met within \(timeout)s", file: file, line: line)
+                return
+            }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.05))
         }
-
-        XCTAssertTrue(condition())
     }
 }
 

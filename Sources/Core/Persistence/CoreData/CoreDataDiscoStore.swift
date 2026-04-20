@@ -37,7 +37,7 @@ public final class CoreDataDiscoStore: DiscoStore {
         _ disco: DiscoStoreRecord,
         completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
     ) {
-        let managedObjectContext = persistentContainer.viewContext
+        let managedObjectContext = persistentContainer.newBackgroundContext()
         managedObjectContext.perform {
             do {
                 let discoEntity = DiscoEntity(context: managedObjectContext)
