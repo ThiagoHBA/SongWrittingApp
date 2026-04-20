@@ -3,13 +3,13 @@ import UIKit
 enum DiscoListComposer {
     static func make(
         navigationController: UINavigationController,
-        container: AppContainer = AppContainer()
+        container: DiscoListContainer = DiscoListContainer(app: .shared)
     ) -> UIViewController {
-        let repository = DiscoListRepositoryImpl(store: container.discoStore)
+        let repository = container.repository
 
         let getDiscosUseCase = repository
         let createNewDiscoUseCase = repository
-        let deleteDiscoUseCase: DeleteDiscoUseCase = container.discoProfileRepository
+        let deleteDiscoUseCase = container.deleteDiscoUseCase
 
         let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
@@ -22,7 +22,10 @@ enum DiscoListComposer {
         let router = DiscoListRouter(
             navigationController: navigationController,
             discoProfileViewController: { disco in
-                DiscoProfileComposer.make(with: disco, container: container)
+                DiscoProfileComposer.make(
+                    with: disco,
+                    container: container.discoProfileContainer
+                )
             }
         )
 

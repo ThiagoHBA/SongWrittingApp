@@ -2,12 +2,15 @@ import UIKit
 
 enum AppRootComposer {
     static func make(navigationController: UINavigationController) -> UIViewController {
-        let onboardingStatusRepository = makeOnboardingStatusRepository()
+        let appContainer = AppContainer.shared
+        let onboardingContainer = OnboardingContainer(app: appContainer)
+        let onboardingStatusRepository = onboardingContainer.onboardingStatusRepository
 
         return make(
             navigationController: navigationController,
             getOnboardingStatusUseCase: onboardingStatusRepository,
-            completeOnboardingUseCase: onboardingStatusRepository
+            completeOnboardingUseCase: onboardingStatusRepository,
+            appContainer: appContainer
         )
     }
 
@@ -15,21 +18,19 @@ enum AppRootComposer {
         navigationController: UINavigationController,
         getOnboardingStatusUseCase: GetOnboardingStatusUseCase,
         completeOnboardingUseCase: CompleteOnboardingUseCase,
-        container: AppContainer = AppContainer()
+        appContainer: AppContainer = .shared
     ) -> UIViewController {
         guard getOnboardingStatusUseCase.load(.init()) else {
             return OnboardingComposer.make(
                 navigationController: navigationController,
-                completeOnboardingUseCase: completeOnboardingUseCase
+                completeOnboardingUseCase: completeOnboardingUseCase,
+                container: OnboardingContainer(app: appContainer)
             )
         }
 
-        return DiscoListComposer.make(navigationController: navigationController, container: container)
-    }
-}
-
-private extension AppRootComposer {
-    static func makeOnboardingStatusRepository() -> OnboardingStatusRepository {
-        UserDefaultsOnboardingStatusRepository(client: UserDefaultsClientImpl())
+        return DiscoListComposer.make(
+            navigationController: navigationController,
+            container: DiscoListContainer(app: appContainer)
+        )
     }
 }

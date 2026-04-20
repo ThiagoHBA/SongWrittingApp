@@ -4,6 +4,11 @@ import XCTest
 
 @MainActor
 final class AppRootComposerTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        AppContainer.setShared(makeInMemoryContainer())
+    }
+
     func test_make_returns_onboarding_when_user_has_not_completed_it() {
         let navigationController = UINavigationController()
         let useCase = OnboardingStatusUseCaseSpy()
@@ -34,5 +39,9 @@ final class AppRootComposerTests: XCTestCase {
         XCTAssertTrue(sut is DiscoListViewController)
         XCTAssertEqual(useCase.loadCallCount, 1)
         XCTAssertEqual(useCase.receivedLoadInputs, [.init()])
+    }
+
+    private func makeInMemoryContainer() -> AppContainer {
+        try! AppContainer(storage: .inMemory())
     }
 }

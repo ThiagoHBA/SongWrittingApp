@@ -1,29 +1,14 @@
 import UIKit
 
 enum DiscoProfileComposer {
-    static func make(with disco: DiscoSummary, container: AppContainer = AppContainer()) -> UIViewController {
-        let repository = container.discoProfileRepository
-        let networkClient = NetworkClientImpl()
-        let secureClient = SecureClientImpl(server: SpotifyReferencesConstants.secureStorageServer)
-        let authorizationHandler = SpotifyAuthorizationHandlerImpl(
-            networkClient: networkClient,
-            secureClient: secureClient
-        )
-        let authorizedClient = AuthorizationDecorator(
-            client: networkClient,
-            tokenProvider: authorizationHandler
-        )
-
-        let spotifyReferenceSearchRepository = SpotifyReferenceSearchRepository(networkClient: authorizedClient)
-        let lastFMReferenceSearchRepository = LastFMReferenceSearchRepository(networkClient: networkClient)
-        let referenceSearchRepository = ReferenceSearchStrategyRegistry(
-            spotify: spotifyReferenceSearchRepository,
-            lastFM: lastFMReferenceSearchRepository
-        )
-
+    static func make(
+        with disco: DiscoSummary,
+        container: DiscoProfileContainer = DiscoProfileContainer(app: .shared)
+    ) -> UIViewController {
+        let repository = container.repository
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
-            searchReferencesUseCase: referenceSearchRepository,
+            searchReferencesUseCase: container.referenceSearchRepository,
             getDiscoProfileUseCase: repository,
             addDiscoNewReferenceUseCase: repository,
             addNewSectionToDiscoUseCase: repository,

@@ -3,6 +3,11 @@ import XCTest
 @testable import Main
 
 final class ComposerMemoryLeakTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        AppContainer.setShared(makeInMemoryContainer())
+    }
+
     func test_discoProfileComposer_make_doesNotLeak() {
         weak var weakSUT: UIViewController?
 
@@ -71,5 +76,9 @@ private extension ComposerMemoryLeakTests {
             name: "Any Disco",
             coverImage: Data("cover".utf8)
         )
+    }
+
+    func makeInMemoryContainer() -> AppContainer {
+        try! AppContainer(storage: .inMemory())
     }
 }

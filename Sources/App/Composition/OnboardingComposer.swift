@@ -3,7 +3,8 @@ import UIKit
 enum OnboardingComposer {
     static func make(
         navigationController: UINavigationController,
-        completeOnboardingUseCase: CompleteOnboardingUseCase
+        completeOnboardingUseCase: CompleteOnboardingUseCase,
+        container: OnboardingContainer = OnboardingContainer(app: .shared)
     ) -> UIViewController {
         let presenter = OnboardingPresenter()
         let interactor = OnboardingInteractor(completeOnboardingUseCase: completeOnboardingUseCase)
@@ -11,7 +12,10 @@ enum OnboardingComposer {
         let router = OnboardingRouter(
             navigationController: navigationController,
             mainAppViewController: {
-                DiscoListComposer.make(navigationController: navigationController)
+                DiscoListComposer.make(
+                    navigationController: navigationController,
+                    container: DiscoListContainer(app: container.app)
+                )
             }
         )
 
