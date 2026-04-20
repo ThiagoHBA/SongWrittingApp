@@ -21,7 +21,10 @@ platform :ios do
       include_targets: "Main.app"
     )
 
-    report = JSON.parse(File.read("coverage_output/report.json"))
+    report_path = Dir.glob("coverage_output/**/report.json").first
+    UI.user_error!("Coverage report not found!") unless report_path
+
+    report = JSON.parse(File.read(report_path))
     coverage_pct = report["coverage_percentage"].to_f / 100
 
     File.write("coverage_output/coverage_badge.json", JSON.generate({
