@@ -229,20 +229,21 @@ extension AudioRecordingViewController: ViewCoding {
             controlsContainer.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: SWSpacing.xLarge),
             controlsContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
             controlsContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
+            controlsContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -SWSpacing.large),
             controlsContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             stopButton.centerXAnchor.constraint(equalTo: controlsContainer.centerXAnchor),
             stopButton.topAnchor.constraint(equalTo: controlsContainer.topAnchor),
             stopButton.widthAnchor.constraint(equalToConstant: SWSize.iconButton),
-            stopButton.heightAnchor.constraint(equalToConstant: SWSize.iconButton),
+            stopButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
             stopButton.bottomAnchor.constraint(equalTo: controlsContainer.bottomAnchor),
 
-            saveButton.topAnchor.constraint(equalTo: controlsContainer.topAnchor),
             saveButton.leadingAnchor.constraint(equalTo: controlsContainer.leadingAnchor),
             saveButton.trailingAnchor.constraint(equalTo: controlsContainer.trailingAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
+            saveButton.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -SWSpacing.small),
 
-            cancelButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: SWSpacing.xxSmall),
+            cancelButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: SWSpacing.medium),
             cancelButton.centerXAnchor.constraint(equalTo: controlsContainer.centerXAnchor),
             cancelButton.bottomAnchor.constraint(equalTo: controlsContainer.bottomAnchor)
         ])
