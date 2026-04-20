@@ -186,11 +186,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     @objc private func addNewRecordToSection(_ sender: UIButton) {
         guard let section = discoProfile?.section[sender.tag] else { return }
 
-        let document = CustomPickerController(forOpeningContentTypes: [.audio])
-        document.section = section
-        document.delegate = self
-        document.allowsMultipleSelection = false
-        present(document, animated: true)
+        presentAddRecordSourceSheet(for: section)
     }
 
     private func configureAudio() {
@@ -442,6 +438,27 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
 }
 
 private extension DiscoProfileViewController {
+    func presentAddRecordSourceSheet(for section: SectionViewEntity) {
+        let sheet = AddRecordSourceViewController()
+        sheet.onRecordTap = { [weak sheet] in
+            sheet?.dismiss(animated: true)
+        }
+        sheet.onUploadTap = { [weak self, weak sheet] in
+            sheet?.dismiss(animated: true) { [weak self] in
+                self?.presentDocumentPicker(for: section)
+            }
+        }
+        present(sheet, animated: true)
+    }
+
+    func presentDocumentPicker(for section: SectionViewEntity) {
+        let document = CustomPickerController(forOpeningContentTypes: [.audio])
+        document.section = section
+        document.delegate = self
+        document.allowsMultipleSelection = false
+        present(document, animated: true)
+    }
+
     func updateEmptyStateVisibility() {
         emptyStateLabel.isHidden = !(discoProfile?.section.isEmpty ?? true)
     }

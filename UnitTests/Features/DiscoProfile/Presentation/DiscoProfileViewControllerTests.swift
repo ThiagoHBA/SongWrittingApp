@@ -248,6 +248,53 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         XCTAssertNotNil(footerView.profileFindButton(accessibilityLabel: "Adicionar gravação"))
     }
 
+    func test_add_record_button_presents_source_sheet() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+        interactor.reset()
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        XCTAssertTrue(sut.presentedViewController is AddRecordSourceViewController)
+        XCTAssertEqual(interactor.receivedMessages, [])
+    }
+
+    func test_add_record_source_sheet_upload_presents_documentPicker() throws {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
+        try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
+        wait(until: { sut.presentedViewController is CustomPickerController })
+
+        XCTAssertTrue(sut.presentedViewController is CustomPickerController)
+    }
+
+    func test_add_record_source_sheet_record_dismisses_without_interactor_messages() throws {
+        let (sut, interactor, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+        interactor.reset()
+
+        let footerView = try footerView(in: sut, section: 0)
+        try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
+        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+
+        let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
+        try tapButton(in: sourceSheet.view, accessibilityLabel: "Gravar")
+        wait(until: { sut.presentedViewController == nil })
+
+        XCTAssertTrue(interactor.receivedMessages.isEmpty)
+    }
+
     func test_documentPicker_forwards_new_custom_record_to_interactor() throws {
         let disco = makeDisco()
         let (sut, interactor, _, _) = makeSUT(disco: disco)
