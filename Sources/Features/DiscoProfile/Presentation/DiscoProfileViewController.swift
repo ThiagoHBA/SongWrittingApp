@@ -440,8 +440,10 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
 private extension DiscoProfileViewController {
     func presentAddRecordSourceSheet(for section: SectionViewEntity) {
         let sheet = AddRecordSourceViewController()
-        sheet.onRecordTap = { [weak sheet] in
-            sheet?.dismiss(animated: true)
+        sheet.onRecordTap = { [weak self, weak sheet] in
+            sheet?.dismiss(animated: true) { [weak self] in
+                self?.presentAudioRecording(for: section)
+            }
         }
         sheet.onUploadTap = { [weak self, weak sheet] in
             sheet?.dismiss(animated: true) { [weak self] in
@@ -449,6 +451,19 @@ private extension DiscoProfileViewController {
             }
         }
         present(sheet, animated: true)
+    }
+
+    func presentAudioRecording(for section: SectionViewEntity) {
+        let recorder = AudioRecordingViewController()
+        recorder.onSave = { [weak self] recordedURL in
+            guard let self else { return }
+            self.interactor.addNewRecord(
+                in: self.disco,
+                to: section.identifer,
+                audioFileURL: recordedURL
+            )
+        }
+        present(recorder, animated: true)
     }
 
     func presentDocumentPicker(for section: SectionViewEntity) {
