@@ -14,8 +14,10 @@ final class SWPrimaryButton: UIButton {
         backgroundColor = SWColor.Accent.primary
         setTitleColor(SWColor.Content.inverse, for: .normal)
         titleLabel?.font = SWTypography.button
+        titleLabel?.adjustsFontForContentSizeCategory = true
         layer.cornerRadius = SWRadius.medium
         setTitle(title, for: .normal)
+        accessibilityTraits = .button
     }
 
     required init?(coder: NSCoder) { nil }

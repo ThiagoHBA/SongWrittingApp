@@ -57,6 +57,7 @@ final class EditDiscoViewController: UIViewController {
         button.backgroundColor = SWColor.Destructive.primary
         button.layer.cornerRadius = SWRadius.medium
         button.titleLabel?.font = SWTypography.button
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.translatesAutoresizingMaskIntoConstraints = false
         button.accessibilityLabel = "Deletar Disco"
         button.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)

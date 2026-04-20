@@ -26,6 +26,8 @@ final class SWAudioPlayerView: UIView {
         button.tintColor = SWColor.Accent.primary
         button.setImage(UIImage(systemName: "play.fill"), for: .normal)
         button.addTarget(self, action: #selector(togglePlayback), for: .touchUpInside)
+        button.accessibilityLabel = "Reproduzir áudio"
+        button.accessibilityTraits = .button
         return button
     }()
 
@@ -36,10 +38,16 @@ final class SWAudioPlayerView: UIView {
         slider.maximumTrackTintColor = SWColor.Border.subtle
         slider.setThumbImage(UIImage(), for: .normal)
         slider.isUserInteractionEnabled = false
+        slider.isAccessibilityElement = true
+        slider.accessibilityLabel = "Progresso da reprodução"
         return slider
     }()
 
-    private let durationLabel = SWTextLabel(style: .caption)
+    private let durationLabel: SWTextLabel = {
+        let label = SWTextLabel(style: .caption)
+        label.isAccessibilityElement = false
+        return label
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,6 +114,7 @@ final class SWAudioPlayerView: UIView {
         guard let player, player.duration > 0 else {
             progressBar.setValue(0, animated: false)
             durationLabel.text = "00:00"
+            progressBar.accessibilityValue = "0 segundos"
             return
         }
 
@@ -113,6 +122,7 @@ final class SWAudioPlayerView: UIView {
         let playbackProgress = Float(player.currentTime / player.duration)
         progressBar.setValue(playbackProgress, animated: true)
         durationLabel.text = formattedDuration(for: remainingDuration)
+        progressBar.accessibilityValue = "\(Int(player.currentTime)) segundos de \(Int(player.duration))"
     }
 
     private func configureForCurrentPlayer() {
@@ -123,12 +133,14 @@ final class SWAudioPlayerView: UIView {
         guard let player else {
             durationLabel.text = "00:00"
             updatePlaybackButton(isPlaying: false)
+            progressBar.accessibilityValue = "Sem áudio"
             return
         }
 
         player.delegate = self
         durationLabel.text = formattedDuration(for: player.duration)
         updatePlaybackButton(isPlaying: player.isPlaying)
+        progressBar.accessibilityValue = "0 segundos de \(Int(player.duration))"
 
         if player.isPlaying {
             startUpdatingPlaybackStatus()
@@ -148,6 +160,7 @@ final class SWAudioPlayerView: UIView {
 
     private func updatePlaybackButton(isPlaying: Bool) {
         playButton.setImage(UIImage(systemName: isPlaying ? "pause.fill" : "play.fill"), for: .normal)
+        playButton.accessibilityLabel = isPlaying ? "Pausar áudio" : "Reproduzir áudio"
     }
 
     private func formattedDuration(for value: TimeInterval) -> String {
@@ -166,5 +179,6 @@ extension SWAudioPlayerView: AVAudioPlayerDelegate {
         updatePlaybackButton(isPlaying: false)
         progressBar.setValue(0, animated: false)
         durationLabel.text = formattedDuration(for: player.duration)
+        progressBar.accessibilityValue = "0 segundos de \(Int(player.duration))"
     }
 }
