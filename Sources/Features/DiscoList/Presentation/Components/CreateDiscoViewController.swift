@@ -66,6 +66,7 @@ final class CreateDiscoViewController: UIViewController {
 extension CreateDiscoViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = SWColor.Background.screen
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
     }
 
     func setupConstraints() {
@@ -73,7 +74,7 @@ extension CreateDiscoViewController: ViewCoding {
             formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: SWSpacing.xSmall),
             formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
             formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
-            formView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            formView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
 

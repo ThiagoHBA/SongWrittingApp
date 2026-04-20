@@ -67,8 +67,7 @@ final class EditDiscoViewController: UIViewController {
 extension EditDiscoViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = .systemBackground
-//        modalPresentationStyle = .overCurrentContext
-//        navigationController?.topViewController?.extendedLayoutIncludesOpaqueBars = false
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
     }
 
     func setupConstraints() {
@@ -91,7 +90,10 @@ extension EditDiscoViewController: ViewCoding {
             deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.medium),
             deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.medium),
-            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -SWSpacing.large),
+            deleteButton.bottomAnchor.constraint(
+                equalTo: view.keyboardLayoutGuide.topAnchor,
+                constant: -SWSpacing.large
+            ),
             deleteButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight)
         ])
     }
