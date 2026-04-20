@@ -62,6 +62,10 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
     override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         interactor.loadDiscos()
     }
 
