@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import SongWrittingMacros
 @testable import Main
 
 final class DiscoListRepositoryImplTests: XCTestCase {
@@ -90,72 +91,5 @@ final class DiscoListRepositoryImplTests: XCTestCase {
         let store = DiscoStoreSpy()
         let sut = DiscoListRepositoryImpl(store: store)
         return (sut, store)
-    }
-}
-
-private final class DiscoStoreSpy: DiscoStore {
-    enum Message: Equatable {
-        case getDiscos
-        case createDisco(DiscoStoreRecord)
-        case deleteDisco(DiscoStoreRecord)
-        case getProfiles
-        case createProfile(DiscoProfileStoreRecord)
-        case updateProfile(DiscoProfileStoreRecord)
-    }
-
-    private(set) var receivedMessages: [Message] = []
-
-    var getDiscosCompletion: ((Result<[DiscoStoreRecord], Error>) -> Void)?
-    var createDiscoCompletion: ((Result<DiscoStoreRecord, Error>) -> Void)?
-    var deleteDiscoCompletion: ((Result<Void, Error>) -> Void)?
-    var getProfilesCompletion: ((Result<[DiscoProfileStoreRecord], Error>) -> Void)?
-    var createProfileCompletion: ((Result<DiscoProfileStoreRecord, Error>) -> Void)?
-    var updateProfileCompletion: ((Result<DiscoProfileStoreRecord, Error>) -> Void)?
-
-    func getDiscos(completion: @escaping (Result<[DiscoStoreRecord], Error>) -> Void) {
-        receivedMessages.append(.getDiscos)
-        getDiscosCompletion = completion
-    }
-
-    func createDisco(
-        _ disco: DiscoStoreRecord,
-        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
-    ) {
-        receivedMessages.append(.createDisco(disco))
-        createDiscoCompletion = completion
-    }
-
-    func getProfiles(completion: @escaping (Result<[DiscoProfileStoreRecord], Error>) -> Void) {
-        receivedMessages.append(.getProfiles)
-        getProfilesCompletion = completion
-    }
-
-    func createProfile(
-        _ profile: DiscoProfileStoreRecord,
-        completion: @escaping (Result<DiscoProfileStoreRecord, Error>) -> Void
-    ) {
-        receivedMessages.append(.createProfile(profile))
-        createProfileCompletion = completion
-    }
-
-    func updateProfile(
-        _ profile: DiscoProfileStoreRecord,
-        completion: @escaping (Result<DiscoProfileStoreRecord, Error>) -> Void
-    ) {
-        receivedMessages.append(.updateProfile(profile))
-        updateProfileCompletion = completion
-    }
-
-    func updateDisco(
-        _ disco: DiscoStoreRecord,
-        completion: @escaping (Result<DiscoStoreRecord, Error>) -> Void
-    ) {}
-
-    func deleteDisco(
-        _ disco: DiscoStoreRecord,
-        completion: @escaping (Result<Void, Error>) -> Void
-    ) {
-        receivedMessages.append(.deleteDisco(disco))
-        deleteDiscoCompletion = completion
     }
 }

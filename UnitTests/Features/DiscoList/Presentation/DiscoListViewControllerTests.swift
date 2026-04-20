@@ -116,7 +116,7 @@ final class DiscoListViewControllerTests: XCTestCase {
         let presentedViewController = try XCTUnwrap(sut.presentedViewController as? CreateDiscoViewController)
         presentedViewController.createDiscoTapped?("Any", nil, image)
 
-        XCTAssertEqual(interactor.receivedMessages, [.createDisco(name: "Any", description: nil, image: image)])
+        XCTAssertEqual(interactor.receivedMessages, [.createDisco("Any", nil, image)])
     }
 
     func test_hideOverlays_dismisses_presented_sheet_and_executes_completion() throws {

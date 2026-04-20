@@ -6,16 +6,14 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class CreateNewDiscoUseCaseSpy: CreateNewDiscoUseCase {
-    enum Message: Equatable {
-        case create(CreateNewDiscoUseCaseInput)
-    }
-
-    private(set) var receivedMessages: [Message] = []
     private var completion: ((Result<CreateNewDiscoUseCaseOutput, Error>) -> Void)?
 
+    @SWSpyMethodTracker
     func create(
         _ input: CreateNewDiscoUseCaseInput,
         completion: @escaping (Result<CreateNewDiscoUseCaseOutput, Error>) -> Void

@@ -33,6 +33,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             updateEmptyStateVisibility()
             tableView.reloadData()
             updateTableViewHeight()
+            playButton.isHidden = (discoProfile?.section.count ?? 0) < 1
         }
     }
 
@@ -88,6 +89,15 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             self?.addReferenceTapped()
         }
         return section
+    }()
+    
+    private lazy var playButton: UIBarButtonItem = {
+        UIBarButtonItem(
+            image: UIImage(systemName: "play.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(playDiscoTapped)
+        )
     }()
 
     private lazy var sectionHeaderView: SWHeaderActionView = {
@@ -188,12 +198,17 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         super.viewDidLoad()
         buildLayout()
         configureAudio()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "pencil"),
-            style: .plain,
-            target: self,
-            action: #selector(editDiscTapped)
-        )
+        
+        navigationItem.rightBarButtonItems = [
+            playButton,
+            UIBarButtonItem(
+                image: UIImage(systemName: "pencil"),
+                style: .plain,
+                target: self,
+                action: #selector(editDiscTapped)
+            )
+        ]
+        
         interactor.loadSearchProviders()
         interactor.loadProfile(for: disco)
     }
@@ -209,6 +224,10 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             .custom { context in context.maximumDetentValue * 0.5 }
         ]
         present(editDiscoViewController, animated: true)
+    }
+    
+    @objc private func playDiscoTapped() {
+        guard let sections = discoProfile?.section else { return }
     }
 
     private func addReferenceTapped() {

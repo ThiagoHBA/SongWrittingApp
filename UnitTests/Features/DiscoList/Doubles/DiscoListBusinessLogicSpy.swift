@@ -6,34 +6,18 @@
 //
 
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
-    enum Message: Equatable {
-        case loadDiscos
-        case createDisco(name: String, description: String?, image: Data)
-        case showProfile(DiscoListViewEntity)
-        case deleteDisco(DiscoListViewEntity)
-    }
+    func loadDiscos() {}
+    func createDisco(name: String, description: String?, image: Data) {}
+    func showProfile(of disco: DiscoListViewEntity) {}
+    func deleteDisco(_ disco: DiscoListViewEntity) {}
+}
 
-    private(set) var receivedMessages: [Message] = []
-
-    func loadDiscos() {
-        receivedMessages.append(.loadDiscos)
-    }
-
-    func createDisco(name: String, description: String?, image: Data) {
-        receivedMessages.append(.createDisco(name: name, description: description, image: image))
-    }
-
-    func showProfile(of disco: DiscoListViewEntity) {
-        receivedMessages.append(.showProfile(disco))
-    }
-
-    func deleteDisco(_ disco: DiscoListViewEntity) {
-        receivedMessages.append(.deleteDisco(disco))
-    }
-
+extension DiscoListBusinessLogicSpy {
     func reset() {
         receivedMessages.removeAll()
     }
