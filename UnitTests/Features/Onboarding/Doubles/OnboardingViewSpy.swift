@@ -1,10 +1,8 @@
 import Foundation
+import SongWrittingMacros
 @testable import Main
 
+@SWSpy
 final class OnboardingViewSpy: OnboardingDisplayLogic {
-    private(set) var receivedPages: [[OnboardingPageViewEntity]] = []
-
-    func showPages(_ pages: [OnboardingPageViewEntity]) {
-        receivedPages.append(pages)
-    }
+    func showPages(_ pages: [OnboardingPageViewEntity]) { }
 }
