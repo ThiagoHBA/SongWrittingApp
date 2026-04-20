@@ -44,7 +44,7 @@ final class DiscoListInteractorTests: XCTestCase {
     func test_createDisco_rejects_empty_name() {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
 
-        sut.createDisco(name: "", image: Data("image".utf8))
+        sut.createDisco(name: "", description: nil, image: Data("image".utf8))
 
         XCTAssertEqual(
             presenter.receivedMessages,
@@ -61,7 +61,7 @@ final class DiscoListInteractorTests: XCTestCase {
     func test_createDisco_rejects_empty_image() {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
 
-        sut.createDisco(name: "Any", image: Data())
+        sut.createDisco(name: "Any", description: nil, image: Data())
 
         XCTAssertEqual(
             presenter.receivedMessages,
@@ -78,9 +78,9 @@ final class DiscoListInteractorTests: XCTestCase {
     func test_createDisco_requests_loading_and_executes_useCase_when_input_is_valid() throws {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
         let image = Data("valid-image".utf8)
-        let expectedDisco = try XCTUnwrap(try? Disco(name: "Any", image: image))
+        let expectedDisco = try XCTUnwrap(try? Disco(name: "Any", description: nil, image: image))
 
-        sut.createDisco(name: "Any", image: image)
+        sut.createDisco(name: "Any", description: nil, image: image)
 
         XCTAssertEqual(presenter.receivedMessages, [.presentLoading])
         XCTAssertEqual(createDiscoUseCase.receivedMessages, [.create(expectedDisco)])
@@ -90,7 +90,7 @@ final class DiscoListInteractorTests: XCTestCase {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
         let createdDisco = DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
 
-        sut.createDisco(name: createdDisco.name, image: createdDisco.coverImage)
+        sut.createDisco(name: createdDisco.name, description: nil, image: createdDisco.coverImage)
         createDiscoUseCase.completeCreate(with: .success(createdDisco))
 
         XCTAssertEqual(
@@ -103,7 +103,7 @@ final class DiscoListInteractorTests: XCTestCase {
         let (sut, presenter, _, createDiscoUseCase, _) = makeSUT()
         let error = NSError(domain: "any", code: 0, userInfo: [NSLocalizedDescriptionKey: "create-error"])
 
-        sut.createDisco(name: "Any", image: Data("cover".utf8))
+        sut.createDisco(name: "Any", description: nil, image: Data("cover".utf8))
         createDiscoUseCase.completeCreate(with: .failure(error))
 
         XCTAssertEqual(

@@ -10,7 +10,7 @@ import UIKit
 final class SWLabeledTextFieldView: UIView {
     private let minimumHeight: CGFloat = 48
     private let titleLabel = SWTextLabel(style: .label)
-    private let textField: SWTextField
+    let textField: SWTextField
 
     init(title: String, placeholder: String) {
         textField = SWTextField(placeholder: placeholder)

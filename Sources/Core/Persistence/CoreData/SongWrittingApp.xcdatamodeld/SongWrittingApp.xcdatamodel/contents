@@ -9,6 +9,7 @@
     </entity>
     <entity name="DiscoEntity" representedClassName="DiscoEntity" syncable="YES">
         <attribute name="coverImage" optional="YES" attributeType="Binary"/>
+        <attribute name="discoDescription" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DiscoProfileEntity" inverseName="disco" inverseEntity="DiscoProfileEntity"/>

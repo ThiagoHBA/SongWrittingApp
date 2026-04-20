@@ -77,9 +77,10 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
     @objc private func addDiscoButtonTapped() {
         let sheet = CreateDiscoViewController()
         
-        sheet.createDiscoTapped = { [weak self] name, cover in
+        sheet.createDiscoTapped = { [weak self] name, description, cover in
             self?.interactor.createDisco(
                 name: name,
+                description: description,
                 image: cover
             )
         }

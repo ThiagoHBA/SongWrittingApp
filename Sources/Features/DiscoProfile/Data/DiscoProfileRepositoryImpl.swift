@@ -106,12 +106,18 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
         let updatedRecord = DiscoStoreRecord(
             id: input.disco.id,
             name: input.newName,
+            description: input.disco.description,
             coverImage: input.disco.coverImage
         )
         store.updateDisco(updatedRecord) { result in
             switch result {
             case .success(let record):
-                completion(.success(DiscoSummary(id: record.id, name: record.name, coverImage: record.coverImage)))
+                completion(.success(DiscoSummary(
+                    id: record.id,
+                    name: record.name,
+                    description: record.description,
+                    coverImage: record.coverImage
+                )))
             case .failure(let error):
                 completion(.failure(error))
             }

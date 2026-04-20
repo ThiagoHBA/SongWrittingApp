@@ -28,6 +28,7 @@ final class DiscoEntity: NSManagedObject {
     }
 
     @NSManaged var coverImage: Data?
+    @NSManaged var discoDescription: String?
     @NSManaged var id: UUID?
     @NSManaged var name: String?
     @NSManaged var profile: DiscoProfileEntity?

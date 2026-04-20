@@ -2,7 +2,7 @@ import Foundation
 
 protocol DiscoListBusinessLogic: AnyObject {
     func loadDiscos()
-    func createDisco(name: String, image: Data)
+    func createDisco(name: String, description: String?, image: Data)
     func showProfile(of disco: DiscoListViewEntity)
 }
 
@@ -35,12 +35,12 @@ final class DiscoListInteractor: DiscoListBusinessLogic {
         }
     }
 
-    func createDisco(name: String, image: Data) {
+    func createDisco(name: String, description: String?, image: Data) {
         presenter?.presentLoading()
-        
+
         do {
-            let disco = try Disco(name: name, image: image)
-            
+            let disco = try Disco(name: name, description: description, image: image)
+
             createNewDiscoUseCase.create(disco) { [weak self] result in
                 guard let self else { return }
 

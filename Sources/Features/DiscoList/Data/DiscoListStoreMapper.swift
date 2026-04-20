@@ -5,6 +5,7 @@ enum DiscoListStoreMapper {
         DiscoSummary(
             id: storeRecord.id,
             name: storeRecord.name,
+            description: storeRecord.description,
             coverImage: storeRecord.coverImage
         )
     }
@@ -13,6 +14,7 @@ enum DiscoListStoreMapper {
         DiscoStoreRecord(
             id: disco.id,
             name: disco.name,
+            description: disco.description,
             coverImage: disco.coverImage
         )
     }

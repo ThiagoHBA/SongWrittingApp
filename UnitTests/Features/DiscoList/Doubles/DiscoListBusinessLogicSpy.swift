@@ -11,7 +11,7 @@ import Foundation
 final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
     enum Message: Equatable {
         case loadDiscos
-        case createDisco(name: String, image: Data)
+        case createDisco(name: String, description: String?, image: Data)
         case showProfile(DiscoListViewEntity)
     }
 
@@ -21,8 +21,8 @@ final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
         receivedMessages.append(.loadDiscos)
     }
 
-    func createDisco(name: String, image: Data) {
-        receivedMessages.append(.createDisco(name: name, image: image))
+    func createDisco(name: String, description: String?, image: Data) {
+        receivedMessages.append(.createDisco(name: name, description: description, image: image))
     }
 
     func showProfile(of disco: DiscoListViewEntity) {

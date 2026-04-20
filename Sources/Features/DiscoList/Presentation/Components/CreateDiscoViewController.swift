@@ -2,7 +2,7 @@ import PhotosUI
 import UIKit
 
 final class CreateDiscoViewController: UIViewController {
-    var createDiscoTapped: ((String, Data) -> Void)?
+    var createDiscoTapped: ((String, String?, Data) -> Void)?
 
     private lazy var formView: SWDiscoCreationFormView = {
         let view = SWDiscoCreationFormView()
@@ -39,10 +39,12 @@ final class CreateDiscoViewController: UIViewController {
 
     @objc private func buttonTapped() {
         let name = formView.discoName
+        let descriptionText = formView.discoDescription
+        let description: String? = descriptionText.isEmpty ? nil : descriptionText
         let imageData = formView.selectedCoverImage?.pngData()
             ?? UIImage(named: "vinil_image_example")?.pngData()
             ?? Data()
-        createDiscoTapped?(name, imageData)
+        createDiscoTapped?(name, description, imageData)
     }
 
     @objc private func pickImageButton() {
@@ -54,7 +56,7 @@ final class CreateDiscoViewController: UIViewController {
 
         sheetPresentationController.detents = [
             .custom { context in
-                context.maximumDetentValue * 0.7
+                context.maximumDetentValue * 0.85
             }
         ]
         sheetPresentationController.prefersGrabberVisible = true

@@ -41,7 +41,6 @@ final class EditDiscoViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Deletar Disco", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemRed
         button.layer.cornerRadius = SWRadius.medium
         button.titleLabel?.font = SWTypography.button
         button.translatesAutoresizingMaskIntoConstraints = false

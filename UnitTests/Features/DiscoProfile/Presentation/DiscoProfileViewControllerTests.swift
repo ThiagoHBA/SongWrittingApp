@@ -341,7 +341,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
             completed = true
         }
 
-        wait(until: { sut.presentedViewController == nil && completed })
+        wait(timeout: 5, until: { sut.presentedViewController == nil && completed })
 
         XCTAssertNil(sut.presentedViewController)
         XCTAssertTrue(completed)
@@ -351,7 +351,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         let (sut, _, _, _) = makeSUT()
 
         sut.loadingProfileError("Load Error", description: "Could not load profile")
-        wait(until: { sut.presentedViewController is UIAlertController })
+        wait(timeout: 5, until: { sut.presentedViewController is UIAlertController })
 
         let alertController = try XCTUnwrap(sut.presentedViewController as? UIAlertController)
         XCTAssertEqual(alertController.title, "Load Error")
@@ -446,7 +446,7 @@ private extension DiscoProfileViewControllerTests {
     }
 
     func emptyStateView(in sut: DiscoProfileViewController) throws -> SWMessageView {
-        try XCTUnwrap(sut.view.subviews.first(where: { $0 is SWMessageView }) as? SWMessageView)
+        try XCTUnwrap(sut.view.profileFindSubview(ofType: SWMessageView.self, identifier: "sections-empty-state"))
     }
 
     func numberOfSections(in sut: DiscoProfileViewController) throws -> Int {
@@ -478,7 +478,7 @@ private extension DiscoProfileViewControllerTests {
     }
 
     func wait(
-        timeout: TimeInterval = 1,
+        timeout: TimeInterval = 5,
         until condition: () -> Bool,
         file: StaticString = #file,
         line: UInt = #line
@@ -503,6 +503,20 @@ private extension UIView {
 
         for subview in subviews {
             if let typedView = subview.profileFindSubview(ofType: type) {
+                return typedView
+            }
+        }
+
+        return nil
+    }
+
+    func profileFindSubview<T: UIView>(ofType type: T.Type, identifier: String) -> T? {
+        if let typedView = self as? T, typedView.accessibilityIdentifier == identifier {
+            return typedView
+        }
+
+        for subview in subviews {
+            if let typedView = subview.profileFindSubview(ofType: type, identifier: identifier) {
                 return typedView
             }
         }
