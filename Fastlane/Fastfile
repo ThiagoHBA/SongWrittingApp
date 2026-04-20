@@ -21,7 +21,8 @@ platform :ios do
       include_targets: "Main.app"
     )
 
-    coverage_pct = Actions.lane_context[SharedValues::XCOV_COVERAGE]
+    report = JSON.parse(File.read("coverage_output/report.json"))
+    coverage_pct = report["coverage_percentage"].to_f / 100
 
     File.write("coverage_output/coverage_badge.json", JSON.generate({
       schemaVersion: 1,
