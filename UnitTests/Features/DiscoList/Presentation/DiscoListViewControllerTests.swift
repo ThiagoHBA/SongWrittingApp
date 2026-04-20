@@ -32,7 +32,7 @@ final class DiscoListViewControllerTests: XCTestCase {
 
         sut.startLoading()
 
-        XCTAssertEqual(try renderedRows(in: sut), 4)
+        XCTAssertEqual(try sut.numberOfRows(), 4)
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -42,7 +42,7 @@ final class DiscoListViewControllerTests: XCTestCase {
         sut.startLoading()
         sut.hideLoading()
 
-        XCTAssertEqual(try renderedRows(in: sut), 0)
+        XCTAssertEqual(try sut.numberOfRows(), 0)
         XCTAssertFalse(try emptyStateView(in: sut).isHidden)
     }
 
@@ -55,7 +55,7 @@ final class DiscoListViewControllerTests: XCTestCase {
 
         sut.showDiscos(discos)
 
-        XCTAssertEqual(try renderedRows(in: sut), 2)
+        XCTAssertEqual(try sut.numberOfRows(), 2)
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -64,7 +64,7 @@ final class DiscoListViewControllerTests: XCTestCase {
 
         sut.showDiscos([])
 
-        XCTAssertEqual(try renderedRows(in: sut), 0)
+        XCTAssertEqual(try sut.numberOfRows(), 0)
         XCTAssertFalse(try emptyStateView(in: sut).isHidden)
     }
 
@@ -76,7 +76,7 @@ final class DiscoListViewControllerTests: XCTestCase {
         sut.showDiscos([existingDisco])
         sut.showNewDisco(newDisco)
 
-        XCTAssertEqual(try renderedRows(in: sut), 2)
+        XCTAssertEqual(try sut.numberOfRows(), 2)
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -87,7 +87,7 @@ final class DiscoListViewControllerTests: XCTestCase {
         interactor.reset()
         sut.showDiscos([disco])
 
-        let tableView = try tableView(in: sut)
+        let tableView = try sut.tableView()
         sut.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
 
         XCTAssertEqual(interactor.receivedMessages, [.showProfile(disco)])
@@ -114,9 +114,9 @@ final class DiscoListViewControllerTests: XCTestCase {
         wait(until: { sut.presentedViewController is CreateDiscoViewController })
 
         let presentedViewController = try XCTUnwrap(sut.presentedViewController as? CreateDiscoViewController)
-        presentedViewController.createDiscoTapped?("Any", image)
+        presentedViewController.createDiscoTapped?("Any", nil, image)
 
-        XCTAssertEqual(interactor.receivedMessages, [.createDisco(name: "Any", image: image)])
+        XCTAssertEqual(interactor.receivedMessages, [.createDisco(name: "Any", description: nil, image: image)])
     }
 
     func test_hideOverlays_dismisses_presented_sheet_and_executes_completion() throws {
@@ -195,18 +195,8 @@ private extension DiscoListViewControllerTests {
         DiscoListViewEntity(id: id, name: name, coverImage: coverImage, entityType: .disco)
     }
 
-    func tableView(in sut: DiscoListViewController) throws -> UITableView {
-        try XCTUnwrap(sut.view.findSubview(ofType: UITableView.self))
-    }
-
     func emptyStateView(in sut: DiscoListViewController) throws -> SWMessageView {
         try XCTUnwrap(sut.view.findSubview(ofType: SWMessageView.self))
-    }
-
-    func renderedRows(in sut: DiscoListViewController) throws -> Int {
-        let tableView = try tableView(in: sut)
-        tableView.layoutIfNeeded()
-        return tableView.numberOfRows(inSection: 0)
     }
 
     func tapAddDiscoButton(on sut: DiscoListViewController) throws {
@@ -224,37 +214,8 @@ private extension DiscoListViewControllerTests {
         )
     }
 
-    func wait(
-        timeout: TimeInterval = 1,
-        until condition: () -> Bool
-    ) {
-        let timeoutDate = Date().addingTimeInterval(timeout)
-
-        while !condition() && timeoutDate.timeIntervalSinceNow > 0 {
-            RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.01))
-        }
-
-        XCTAssertTrue(condition())
-    }
-
     func appear(_ sut: UIViewController, animated: Bool = false) {
         sut.beginAppearanceTransition(true, animated: animated)
         sut.endAppearanceTransition()
-    }
-}
-
-private extension UIView {
-    func findSubview<T: UIView>(ofType type: T.Type) -> T? {
-        if let typedView = self as? T {
-            return typedView
-        }
-
-        for subview in subviews {
-            if let typedView = subview.findSubview(ofType: type) {
-                return typedView
-            }
-        }
-
-        return nil
     }
 }

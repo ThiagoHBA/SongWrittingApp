@@ -43,6 +43,7 @@ public final class CoreDataDiscoStore: DiscoStore {
                 let discoEntity = DiscoEntity(context: managedObjectContext)
                 discoEntity.id = disco.id
                 discoEntity.name = disco.name
+                discoEntity.discoDescription = disco.description
                 discoEntity.coverImage = disco.coverImage
 
                 try managedObjectContext.save()
@@ -275,6 +276,7 @@ extension CoreDataDiscoStore {
         return DiscoStoreRecord(
             id: discoEntity.id ?? UUID(),
             name: discoEntity.name ?? "",
+            description: discoEntity.discoDescription,
             coverImage: discoEntity.coverImage ?? Data()
         )
     }

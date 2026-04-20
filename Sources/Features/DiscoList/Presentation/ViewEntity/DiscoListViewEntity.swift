@@ -5,15 +5,17 @@ struct DiscoListViewEntity: Equatable {
         case placeholder
         case disco
     }
-    
+
     let id: UUID
     let name: String
+    let description: String?
     let coverImage: Data
     let entityType: DiscoListEntityType
 
-    init(id: UUID, name: String, coverImage: Data, entityType: DiscoListEntityType) {
+    init(id: UUID, name: String, description: String? = nil, coverImage: Data, entityType: DiscoListEntityType) {
         self.id = id
         self.name = name
+        self.description = description
         self.coverImage = coverImage
         self.entityType = entityType
     }
@@ -21,11 +23,12 @@ struct DiscoListViewEntity: Equatable {
     init(from disco: DiscoSummary) {
         self.id = disco.id
         self.name = disco.name
+        self.description = disco.description
         self.coverImage = disco.coverImage
         self.entityType = .disco
     }
 
     func toSummary() -> DiscoSummary {
-        DiscoSummary(id: id, name: name, coverImage: coverImage)
+        DiscoSummary(id: id, name: name, description: description, coverImage: coverImage)
     }
 }

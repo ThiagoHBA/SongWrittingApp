@@ -52,6 +52,7 @@ final class DiscoListRepositoryImpl: DiscoListRepository {
                 let disco = DiscoStoreRecord(
                     id: UUID(),
                     name: input.name,
+                    description: input.description,
                     coverImage: input.image
                 )
 

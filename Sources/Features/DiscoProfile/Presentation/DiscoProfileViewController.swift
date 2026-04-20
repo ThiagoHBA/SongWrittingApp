@@ -23,10 +23,16 @@ protocol DiscoProfileDisplayLogic: AnyObject {
 }
 
 final class DiscoProfileViewController: UIViewController, AlertPresentable {
+    private enum Layout {
+        static let bannerHeightMultiplier: CGFloat = 0.3
+        static let projectNameTopSpacing: CGFloat = 8
+    }
+
     private var discoProfile: DiscoProfileViewEntity? {
         didSet {
             updateEmptyStateVisibility()
             tableView.reloadData()
+            updateTableViewHeight()
         }
     }
 
@@ -34,6 +40,36 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     private var disco: DiscoSummary
     private var searchProviders: [SearchReferenceViewEntity] = []
     private var selectedReferenceProvider: SearchReferenceViewEntity?
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let contentBackgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private let bannerSpacer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
+
+    private var tableViewHeightConstraint: NSLayoutConstraint?
+    private var bannerHeightConstraint: NSLayoutConstraint?
 
     private let banner: UIImageView = {
         let imageView = UIImageView()
@@ -44,6 +80,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     }()
 
     private let projectName = SWTextLabel(style: .heroTitle, numberOfLines: 0)
+    private let descriptionLabel = SWTextLabel(style: .body, numberOfLines: 0)
 
     private lazy var referenceSection: SWReferenceSectionView = {
         let section = SWReferenceSectionView()
@@ -161,6 +198,11 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         interactor.loadProfile(for: disco)
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTableViewHeight()
+    }
+
     @objc private func editDiscTapped() {
         editDiscoViewController.discoName = disco.name
         editDiscoViewController.sheetPresentationController?.detents = [
@@ -179,6 +221,13 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
         discoProfile = profile
         referenceSection.configure(with: makeReferenceSectionContent(from: profile.references))
         referenceViewController.selectedReferences = profile.references
+
+        if let text = profile.disco.description, !text.isEmpty {
+            descriptionLabel.text = text
+            descriptionLabel.isHidden = false
+        } else {
+            descriptionLabel.isHidden = true
+        }
     }
 
     private func addSectionTapped() {
@@ -221,11 +270,18 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
 extension DiscoProfileViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = .systemBackground
+        scrollView.delegate = self
+        scrollView.backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        contentBackgroundView.backgroundColor = .systemBackground
+        bannerSpacer.backgroundColor = .clear
+        banner.layer.zPosition = -1
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.sectionHeaderTopPadding = 0
+        tableView.isScrollEnabled = false
 
         emptyStateLabel.configure(
             message: """
@@ -233,6 +289,7 @@ extension DiscoProfileViewController: ViewCoding {
             Adicione uma seção clicando no icone de adicionar seção acima
             """
         )
+        emptyStateLabel.accessibilityIdentifier = "sections-empty-state"
         referenceSection.configure(with: makeReferenceSectionContent(from: []))
 
         if let bannerImage = UIImage(data: disco.coverImage) {
@@ -241,45 +298,91 @@ extension DiscoProfileViewController: ViewCoding {
             banner.image = UIImage(named: "AppIcon")
         }
         projectName.text = disco.name
+        if let text = disco.description, !text.isEmpty {
+            descriptionLabel.text = text
+            descriptionLabel.isHidden = false
+        } else {
+            descriptionLabel.isHidden = true
+        }
     }
 
     func setupConstraints() {
+        let heightConstraint = tableView.heightAnchor.constraint(equalToConstant: 0)
+        let bannerHeightConstraint = banner.heightAnchor.constraint(
+            equalTo: view.heightAnchor,
+            multiplier: Layout.bannerHeightMultiplier
+        )
+
+        tableViewHeightConstraint = heightConstraint
+        self.bannerHeightConstraint = bannerHeightConstraint
+
         NSLayoutConstraint.activate([
             banner.topAnchor.constraint(equalTo: view.topAnchor),
             banner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             banner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            banner.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            bannerHeightConstraint,
 
-            projectName.topAnchor.constraint(equalTo: banner.bottomAnchor, constant: SWSpacing.xxSmall),
-            projectName.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
-            projectName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            referenceSection.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
-            referenceSection.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
-            referenceSection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+
+            bannerSpacer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            bannerSpacer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bannerSpacer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bannerSpacer.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1),
+
+            contentBackgroundView.topAnchor.constraint(equalTo: bannerSpacer.bottomAnchor),
+            contentBackgroundView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            contentBackgroundView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            contentBackgroundView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            projectName.topAnchor.constraint(equalTo: bannerSpacer.bottomAnchor, constant: Layout.projectNameTopSpacing),
+            projectName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: SWSpacing.xSmall),
+            projectName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.xSmall),
+
+            descriptionLabel.topAnchor.constraint(equalTo: projectName.bottomAnchor, constant: SWSpacing.xxxSmall),
+            descriptionLabel.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: projectName.trailingAnchor),
+
+            referenceSection.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: SWSpacing.xxxSmall + 2),
+            referenceSection.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor),
+            referenceSection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.xSmall),
 
             sectionHeaderView.topAnchor.constraint(equalTo: referenceSection.bottomAnchor, constant: SWSpacing.xSmall),
-            sectionHeaderView.leadingAnchor.constraint(equalTo: projectName.leadingAnchor),
-            sectionHeaderView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+            sectionHeaderView.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor),
+            sectionHeaderView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.xSmall),
 
             emptyStateLabel.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: 80),
-            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
-            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: SWSpacing.xSmall),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.xSmall),
 
             tableView.topAnchor.constraint(equalTo: sectionHeaderView.bottomAnchor, constant: SWSpacing.xxxSmall),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            heightConstraint
         ])
     }
 
     func addViewInHierarchy() {
-        view.addSubview(tableView)
         view.addSubview(banner)
-        view.addSubview(projectName)
-        view.addSubview(referenceSection)
-        view.addSubview(sectionHeaderView)
-        view.addSubview(emptyStateLabel)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(bannerSpacer)
+        contentView.addSubview(contentBackgroundView)
+        contentView.addSubview(projectName)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(referenceSection)
+        contentView.addSubview(sectionHeaderView)
+        contentView.addSubview(emptyStateLabel)
+        contentView.addSubview(tableView)
     }
 }
 
@@ -398,6 +501,13 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
     }
 }
 
+extension DiscoProfileViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let stretchOffset = max(-(scrollView.contentOffset.y + scrollView.adjustedContentInset.top), 0)
+        bannerHeightConstraint?.constant = stretchOffset
+    }
+}
+
 extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     func showSearchProviders(
         _ providers: [SearchReferenceViewEntity],
@@ -491,6 +601,16 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
 }
 
 private extension DiscoProfileViewController {
+    func updateTableViewHeight() {
+        tableView.layoutIfNeeded()
+        let contentHeight = tableView.contentSize.height
+
+        guard tableViewHeightConstraint?.constant != contentHeight else { return }
+
+        tableViewHeightConstraint?.constant = contentHeight
+        view.layoutIfNeeded()
+    }
+
     func presentAddRecordSourceSheet(for section: SectionViewEntity) {
         let sheet = AddRecordSourceViewController()
         sheet.onRecordTap = { [weak self, weak sheet] in

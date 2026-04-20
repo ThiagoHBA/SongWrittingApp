@@ -6,6 +6,7 @@ enum DiscoProfileStoreMapper {
             disco: DiscoSummary(
                 id: storeRecord.disco.id,
                 name: storeRecord.disco.name,
+                description: storeRecord.disco.description,
                 coverImage: storeRecord.disco.coverImage
             ),
             references: storeRecord.references.map(albumReference(from:)),
@@ -22,7 +23,7 @@ enum DiscoProfileStoreMapper {
     }
 
     static func storeDisco(from disco: DiscoSummary) -> DiscoStoreRecord {
-        DiscoStoreRecord(id: disco.id, name: disco.name, coverImage: disco.coverImage)
+        DiscoStoreRecord(id: disco.id, name: disco.name, description: disco.description, coverImage: disco.coverImage)
     }
 
     static func storeReference(from reference: AlbumReference) -> AlbumReferenceStoreRecord {

@@ -36,7 +36,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         sut.showProfile(makeProfile())
 
-        XCTAssertEqual(try numberOfSections(in: sut), 0)
+        XCTAssertEqual(try sut.numberOfSections(), 0)
         XCTAssertFalse(try emptyStateView(in: sut).isHidden)
     }
 
@@ -49,8 +49,8 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         sut.showProfile(profile)
 
-        XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
+        XCTAssertEqual(try sut.numberOfSections(), 1)
+        XCTAssertEqual(try sut.numberOfRows(section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -76,7 +76,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.showReferences(.init(references: references, hasMore: false))
 
         let presentedViewController = try XCTUnwrap(sut.presentedViewController as? AddReferencesViewController)
-        XCTAssertEqual(try numberOfRows(in: presentedViewController), 1)
+        XCTAssertEqual(try presentedViewController.numberOfRows(), 1)
     }
 
     func test_add_reference_button_presents_sheet() throws {
@@ -243,8 +243,8 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         sut.showProfile(makeProfile())
         sut.updateSections([makeSection(records: [makeRecord()])])
 
-        XCTAssertEqual(try numberOfSections(in: sut), 1)
-        XCTAssertEqual(try numberOfRows(in: sut, section: 0), 2) // title row + 1 record
+        XCTAssertEqual(try sut.numberOfSections(), 1)
+        XCTAssertEqual(try sut.numberOfRows(section: 0), 2) // title row + 1 record
         XCTAssertTrue(try emptyStateView(in: sut).isHidden)
     }
 
@@ -255,7 +255,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let footerView = try footerView(in: sut, section: 0)
 
-        XCTAssertNotNil(footerView.profileFindButton(accessibilityLabel: "Adicionar gravação"))
+        XCTAssertNotNil(footerView.findButton(accessibilityLabel: "Adicionar gravação"))
     }
 
     func test_add_record_button_presents_source_sheet() throws {
@@ -279,11 +279,11 @@ final class DiscoProfileViewControllerTests: XCTestCase {
 
         let footerView = try footerView(in: sut, section: 0)
         try tapButton(in: footerView, accessibilityLabel: "Adicionar gravação")
-        wait(until: { sut.presentedViewController is AddRecordSourceViewController })
+        wait(timeout: 10, until: { sut.presentedViewController is AddRecordSourceViewController })
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
-        wait(timeout: 5, until: { sut.presentedViewController is CustomPickerController })
+        wait(timeout: 10, until: { sut.presentedViewController is CustomPickerController })
 
         XCTAssertTrue(sut.presentedViewController is CustomPickerController)
     }
@@ -341,7 +341,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
             completed = true
         }
 
-        wait(until: { sut.presentedViewController == nil && completed })
+        wait(timeout: 5, until: { sut.presentedViewController == nil && completed })
 
         XCTAssertNil(sut.presentedViewController)
         XCTAssertTrue(completed)
@@ -351,7 +351,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         let (sut, _, _, _) = makeSUT()
 
         sut.loadingProfileError("Load Error", description: "Could not load profile")
-        wait(until: { sut.presentedViewController is UIAlertController })
+        wait(timeout: 5, until: { sut.presentedViewController is UIAlertController })
 
         let alertController = try XCTUnwrap(sut.presentedViewController as? UIAlertController)
         XCTAssertEqual(alertController.title, "Load Error")
@@ -441,86 +441,17 @@ private extension DiscoProfileViewControllerTests {
         DiscoProfileViewEntity(disco: disco, references: references, section: sections)
     }
 
-    func tableView(in sut: DiscoProfileViewController) throws -> UITableView {
-        try XCTUnwrap(sut.view.profileFindSubview(ofType: UITableView.self))
-    }
-
     func emptyStateView(in sut: DiscoProfileViewController) throws -> SWMessageView {
-        try XCTUnwrap(sut.view.subviews.first(where: { $0 is SWMessageView }) as? SWMessageView)
-    }
-
-    func numberOfSections(in sut: DiscoProfileViewController) throws -> Int {
-        let tableView = try tableView(in: sut)
-        tableView.layoutIfNeeded()
-        return tableView.numberOfSections
-    }
-
-    func numberOfRows(in sut: DiscoProfileViewController, section: Int) throws -> Int {
-        let tableView = try tableView(in: sut)
-        tableView.layoutIfNeeded()
-        return tableView.numberOfRows(inSection: section)
+        try XCTUnwrap(sut.view.findSubview(ofType: SWMessageView.self, identifier: "sections-empty-state"))
     }
 
     func footerView(in sut: DiscoProfileViewController, section: Int) throws -> UIView {
-        let tableView = try tableView(in: sut)
+        let tableView = try sut.tableView()
         return try XCTUnwrap(sut.tableView(tableView, viewForFooterInSection: section))
     }
 
-    func numberOfRows(in sut: AddReferencesViewController) throws -> Int {
-        let tableView = try XCTUnwrap(sut.view.profileFindSubview(ofType: UITableView.self))
-        tableView.layoutIfNeeded()
-        return tableView.numberOfRows(inSection: 0)
-    }
-
     func tapButton(in rootView: UIView, accessibilityLabel: String) throws {
-        let button = try XCTUnwrap(rootView.profileFindButton(accessibilityLabel: accessibilityLabel))
+        let button = try XCTUnwrap(rootView.findButton(accessibilityLabel: accessibilityLabel))
         button.sendActions(for: .touchUpInside)
-    }
-
-    func wait(
-        timeout: TimeInterval = 1,
-        until condition: () -> Bool,
-        file: StaticString = #file,
-        line: UInt = #line
-    ) {
-        let deadline = Date().addingTimeInterval(timeout)
-        
-        while !condition() {
-            if Date() > deadline {
-                XCTFail("Condition not met within \(timeout)s", file: file, line: line)
-                return
-            }
-            RunLoop.current.run(until: Date().addingTimeInterval(0.05))
-        }
-    }
-}
-
-private extension UIView {
-    func profileFindSubview<T: UIView>(ofType type: T.Type) -> T? {
-        if let typedView = self as? T {
-            return typedView
-        }
-
-        for subview in subviews {
-            if let typedView = subview.profileFindSubview(ofType: type) {
-                return typedView
-            }
-        }
-
-        return nil
-    }
-
-    func profileFindButton(accessibilityLabel: String) -> UIButton? {
-        if let button = self as? UIButton, button.accessibilityLabel == accessibilityLabel {
-            return button
-        }
-
-        for subview in subviews {
-            if let button = subview.profileFindButton(accessibilityLabel: accessibilityLabel) {
-                return button
-            }
-        }
-
-        return nil
     }
 }

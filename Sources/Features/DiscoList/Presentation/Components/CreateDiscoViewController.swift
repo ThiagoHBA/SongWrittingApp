@@ -2,7 +2,20 @@ import PhotosUI
 import UIKit
 
 final class CreateDiscoViewController: UIViewController {
-    var createDiscoTapped: ((String, Data) -> Void)?
+    var createDiscoTapped: ((String, String?, Data) -> Void)?
+
+    private let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.keyboardDismissMode = .interactive
+        return view
+    }()
+
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private lazy var formView: SWDiscoCreationFormView = {
         let view = SWDiscoCreationFormView()
@@ -39,10 +52,12 @@ final class CreateDiscoViewController: UIViewController {
 
     @objc private func buttonTapped() {
         let name = formView.discoName
+        let descriptionText = formView.discoDescription
+        let description: String? = descriptionText.isEmpty ? nil : descriptionText
         let imageData = formView.selectedCoverImage?.pngData()
             ?? UIImage(named: "vinil_image_example")?.pngData()
             ?? Data()
-        createDiscoTapped?(name, imageData)
+        createDiscoTapped?(name, description, imageData)
     }
 
     @objc private func pickImageButton() {
@@ -54,7 +69,7 @@ final class CreateDiscoViewController: UIViewController {
 
         sheetPresentationController.detents = [
             .custom { context in
-                context.maximumDetentValue * 0.7
+                context.maximumDetentValue * 0.85
             }
         ]
         sheetPresentationController.prefersGrabberVisible = true
@@ -71,15 +86,29 @@ extension CreateDiscoViewController: ViewCoding {
 
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            formView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: SWSpacing.xSmall),
-            formView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.large),
-            formView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.large),
-            formView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: SWSpacing.xSmall),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.frameLayoutGuide.heightAnchor),
+
+            formView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            formView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: SWSpacing.large),
+            formView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -SWSpacing.large),
+            formView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 
     func addViewInHierarchy() {
-        view.addSubview(formView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubview(formView)
     }
 }
 
