@@ -1,43 +1,22 @@
 import UIKit
 
 enum DiscoProfileComposer {
-    static func make(with disco: DiscoSummary) -> UIViewController {
-        let networkClient = NetworkClientImpl()
-        let secureClient = SecureClientImpl(server: SpotifyReferencesConstants.secureStorageServer)
-        let authorizationHandler = SpotifyAuthorizationHandlerImpl(
-            networkClient: networkClient,
-            secureClient: secureClient
-        )
-        let authorizedClient = AuthorizationDecorator(
-            client: networkClient,
-            tokenProvider: authorizationHandler
-        )
-
-        let spotifyReferenceSearchRepository = SpotifyReferenceSearchRepository(networkClient: authorizedClient)
-        let lastFMReferenceSearchRepository = LastFMReferenceSearchRepository(networkClient: networkClient)
-        let referenceSearchRepository = ReferenceSearchStrategyRegistry(
-            spotify: spotifyReferenceSearchRepository,
-            lastFM: lastFMReferenceSearchRepository
-        )
-        let coreDataStore = try? CoreDataDiscoStore()
-        let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let fileManagerService = FileManagerServiceImpl()
-        let discoProfileRepository = DiscoProfileRepositoryImpl(
-            store: coreDataStore ?? discoStore,
-            fileManagerService: fileManagerService
-        )
-
+    static func make(
+        with disco: DiscoSummary,
+        container: DiscoProfileContainer = DiscoProfileContainer(app: .shared)
+    ) -> UIViewController {
+        let repository = container.repository
         let presenter = DiscoProfilePresenter()
         let interactor = DiscoProfileInteractor(
-            searchReferencesUseCase: referenceSearchRepository,
-            getDiscoProfileUseCase: discoProfileRepository,
-            addDiscoNewReferenceUseCase: discoProfileRepository,
-            addNewSectionToDiscoUseCase: discoProfileRepository,
-            addNewRecordToSessionUseCase: discoProfileRepository,
-            updateDiscoNameUseCase: discoProfileRepository,
-            deleteDiscoUseCase: discoProfileRepository,
-            deleteSectionUseCase: discoProfileRepository,
-            deleteRecordUseCase: discoProfileRepository
+            searchReferencesUseCase: container.referenceSearchRepository,
+            getDiscoProfileUseCase: repository,
+            addDiscoNewReferenceUseCase: repository,
+            addNewSectionToDiscoUseCase: repository,
+            addNewRecordToSessionUseCase: repository,
+            updateDiscoNameUseCase: repository,
+            deleteDiscoUseCase: repository,
+            deleteSectionUseCase: repository,
+            deleteRecordUseCase: repository
         )
         let viewController = DiscoProfileViewController(disco: disco, interactor: interactor)
 

@@ -13,6 +13,7 @@ final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
         case loadDiscos
         case createDisco(name: String, description: String?, image: Data)
         case showProfile(DiscoListViewEntity)
+        case deleteDisco(DiscoListViewEntity)
     }
 
     private(set) var receivedMessages: [Message] = []
@@ -27,6 +28,10 @@ final class DiscoListBusinessLogicSpy: DiscoListBusinessLogic {
 
     func showProfile(of disco: DiscoListViewEntity) {
         receivedMessages.append(.showProfile(disco))
+    }
+
+    func deleteDisco(_ disco: DiscoListViewEntity) {
+        receivedMessages.append(.deleteDisco(disco))
     }
 
     func reset() {

@@ -2,25 +2,31 @@ import UIKit
 
 enum DiscoListComposer {
     static func make(
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        container: DiscoListContainer = DiscoListContainer(app: .shared)
     ) -> UIViewController {
-        let coreDataStore = try? CoreDataDiscoStore()
-        let discoStore = InMemoryDiscoStore(database: InMemoryDatabase.instance)
-        let repository = DiscoListRepositoryImpl(store: coreDataStore ?? discoStore)
+        let repository = container.repository
 
         let getDiscosUseCase = repository
         let createNewDiscoUseCase = repository
+        let deleteDiscoUseCase = container.deleteDiscoUseCase
 
         let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
-            createNewDiscoUseCase: createNewDiscoUseCase
+            createNewDiscoUseCase: createNewDiscoUseCase,
+            deleteDiscoUseCase: deleteDiscoUseCase
         )
         let presenter = DiscoListPresenter()
         let viewController = DiscoListViewController(interactor: interactor)
 
         let router = DiscoListRouter(
             navigationController: navigationController,
-            discoProfileViewController: DiscoProfileComposer.make
+            discoProfileViewController: { disco in
+                DiscoProfileComposer.make(
+                    with: disco,
+                    container: container.discoProfileContainer
+                )
+            }
         )
 
         interactor.router = router
@@ -58,6 +64,14 @@ extension WeakReferenceProxy: DiscoListDisplayLogic where T: DiscoListDisplayLog
 
     func loadDiscoError(_ title: String, _ description: String) {
         instance?.loadDiscoError(title, description)
+    }
+
+    func removeDisco(_ disco: DiscoListViewEntity) {
+        instance?.removeDisco(disco)
+    }
+
+    func deleteDiscoError(_ title: String, _ description: String) {
+        instance?.deleteDiscoError(title, description)
     }
 }
 
@@ -101,6 +115,18 @@ extension MainQueueProxy: DiscoListDisplayLogic where T: DiscoListDisplayLogic {
     func loadDiscoError(_ title: String, _ description: String) {
         DispatchQueue.main.async {
             self.instance.loadDiscoError(title, description)
+        }
+    }
+
+    func removeDisco(_ disco: DiscoListViewEntity) {
+        DispatchQueue.main.async {
+            self.instance.removeDisco(disco)
+        }
+    }
+
+    func deleteDiscoError(_ title: String, _ description: String) {
+        DispatchQueue.main.async {
+            self.instance.deleteDiscoError(title, description)
         }
     }
 }

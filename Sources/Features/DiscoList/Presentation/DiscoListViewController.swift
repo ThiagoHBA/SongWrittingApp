@@ -1,3 +1,10 @@
+//
+//  DiscoListViewController.swift
+//  Main
+//
+//  Created by Thiago Henrique on 20/04/26.
+//
+
 import UIKit
 
 protocol DiscoListDisplayLogic: AnyObject {
@@ -8,6 +15,8 @@ protocol DiscoListDisplayLogic: AnyObject {
     func showNewDisco(_ disco: DiscoListViewEntity)
     func createDiscoError(_ title: String, _ description: String)
     func loadDiscoError(_ title: String, _ description: String)
+    func removeDisco(_ disco: DiscoListViewEntity)
+    func deleteDiscoError(_ title: String, _ description: String)
 }
 
 final class DiscoListViewController: UIViewController, AlertPresentable {
@@ -63,7 +72,7 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         super.viewDidLoad()
         buildLayout()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         interactor.loadDiscos()
@@ -76,7 +85,7 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
 
     @objc private func addDiscoButtonTapped() {
         let sheet = CreateDiscoViewController()
-        
+
         sheet.createDiscoTapped = { [weak self] name, description, cover in
             self?.interactor.createDisco(
                 name: name,
@@ -84,7 +93,7 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
                 image: cover
             )
         }
-        
+
         present(sheet, animated: true)
     }
 
@@ -95,12 +104,25 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
             coverImage: UIImage(named: "vinil_image_example")?.pngData() ?? Data(),
             entityType: .placeholder
         )
-        
+
         discos.append(contentsOf: Array(repeating: placeholder, count: 4))
     }
 
     private func removePlaceholders() {
         discos.removeAll(where: { $0.entityType == .placeholder })
+    }
+
+    private func showDeleteConfirmation(for disco: DiscoListViewEntity) {
+        let alert = UIAlertController(
+            title: "Deletar Disco",
+            message: "Tem certeza que deseja deletar \"\(disco.name)\"? Esta ação não pode ser desfeita.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancelar", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Deletar", style: .destructive) { [weak self] _ in
+            self?.interactor.deleteDisco(disco)
+        })
+        present(alert, animated: true)
     }
 }
 
@@ -139,6 +161,15 @@ extension DiscoListViewController: DiscoListDisplayLogic {
     func showNewDisco(_ disco: DiscoListViewEntity) {
         discos.append(disco)
         showDiscos(discos)
+    }
+
+    func removeDisco(_ disco: DiscoListViewEntity) {
+        discos.removeAll(where: { $0.id == disco.id })
+        tableView.reloadData()
+    }
+
+    func deleteDiscoError(_ title: String, _ description: String) {
+        showAlert(title: title, message: description, dismissed: nil)
     }
 }
 
@@ -210,5 +241,25 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor.showProfile(of: discos[indexPath.row])
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        let disco = discos[indexPath.row]
+        guard disco.entityType == .disco else { return nil }
+
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self] _ in
+            let deleteAction = UIAction(
+                title: "Deletar",
+                image: UIImage(systemName: "trash"),
+                attributes: .destructive
+            ) { [weak self] _ in
+                self?.showDeleteConfirmation(for: disco)
+            }
+            return UIMenu(title: "", children: [deleteAction])
+        }
     }
 }
