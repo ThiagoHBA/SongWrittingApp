@@ -24,6 +24,7 @@ final class EditDiscoViewController: UIViewController {
         let nav = UINavigationBar()
         let navigationItem = UINavigationItem(title: "Editar Disco")
         nav.items = [navigationItem]
+        nav.backgroundColor = .clear
         nav.translatesAutoresizingMaskIntoConstraints = false
         return nav
     }()
@@ -65,6 +66,7 @@ final class EditDiscoViewController: UIViewController {
 extension EditDiscoViewController: ViewCoding {
     func additionalConfiguration() {
         view.backgroundColor = .systemBackground
+        modalPresentationStyle = .overCurrentContext
     }
 
     func setupConstraints() {
@@ -78,15 +80,16 @@ extension EditDiscoViewController: ViewCoding {
             nameField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.xSmall),
             nameField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.xSmall),
 
-            saveButton.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: SWSpacing.large),
             saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            saveButton.leadingAnchor.constraint(equalTo: nameField.leadingAnchor),
-            saveButton.trailingAnchor.constraint(equalTo: nameField.trailingAnchor),
+            saveButton.leadingAnchor.constraint(equalTo: deleteButton.leadingAnchor),
+            saveButton.trailingAnchor.constraint(equalTo: deleteButton.trailingAnchor),
+            saveButton.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -SWSpacing.xxSmall),
             saveButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight),
 
-            deleteButton.topAnchor.constraint(equalTo: saveButton.bottomAnchor, constant: SWSpacing.small),
-            deleteButton.leadingAnchor.constraint(equalTo: nameField.leadingAnchor),
-            deleteButton.trailingAnchor.constraint(equalTo: nameField.trailingAnchor),
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: SWSpacing.medium),
+            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -SWSpacing.medium),
+            deleteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -SWSpacing.large),
             deleteButton.heightAnchor.constraint(equalToConstant: SWSize.primaryButtonHeight)
         ])
     }
