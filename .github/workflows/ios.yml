@@ -45,7 +45,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## 📊 Code Coverage: ${pct}%`
+              body: `## Code Coverage: ${pct}%`
             })
       - name: Update Coverage Badge Gist
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
