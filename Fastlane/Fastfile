@@ -21,15 +21,14 @@ platform :ios do
       include_targets: "Main.app"
     )
 
-    lane :coverage do
-        coverage_pct = Actions.lane_context[SharedValues::XCOV_COVERAGE]
-        File.write("coverage_badge.json", JSON.generate({
-          schemaVersion: 1,
-          label: "coverage",
-          message: "#{(coverage_pct * 100).round(1)}%",
-          color: coverage_pct > 0.8 ? "brightgreen" : coverage_pct > 0.6 ? "yellow" : "red"
-        }))
-      end
+    coverage_pct = Actions.lane_context[SharedValues::XCOV_COVERAGE]
+
+    File.write("coverage_output/coverage_badge.json", JSON.generate({
+      schemaVersion: 1,
+      label: "coverage",
+      message: "#{(coverage_pct * 100).round(1)}%",
+      color: coverage_pct > 0.7 ? "brightgreen" : coverage_pct > 0.5 ? "yellow" : "red"
+    }))
   end
 
 end
