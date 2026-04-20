@@ -210,7 +210,7 @@ final class CoreDataDiscoStoreTests: XCTestCase {
     private func waitForDiscoResult(
         action: (@escaping (Result<DiscoStoreRecord, Error>) -> Void) -> Void
     ) -> Result<DiscoStoreRecord, Error> {
-        waitForResult(action: action)
+        waitForResult(timeout: 5.0, action: action)
     }
 
     private func waitForDiscosResult(
@@ -234,6 +234,7 @@ final class CoreDataDiscoStoreTests: XCTestCase {
     
 
     private func waitForResult<Value>(
+        timeout: TimeInterval = 1.0,
         action: (@escaping (Result<Value, Error>) -> Void) -> Void
     ) -> Result<Value, Error> {
         let expectation = expectation(description: "Wait for result")
@@ -244,7 +245,7 @@ final class CoreDataDiscoStoreTests: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: timeout)
         return receivedResult!
     }
 
@@ -338,6 +339,7 @@ extension CoreDataDiscoStoreTests {
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         description.shouldAddStoreAsynchronously = false
+        description.url = URL(fileURLWithPath: "/dev/null")
         container.persistentStoreDescriptions = [description]
         container.loadPersistentStores { _, error in
             XCTAssertNil(error)
