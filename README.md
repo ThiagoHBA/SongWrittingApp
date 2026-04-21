@@ -8,14 +8,15 @@
 
 ## Processo de idealização
 
-O processo de idealização da aplicação se deu a partir da utilização de parte da metodologia CBL (Challenge Based Learning). Onde busquei levantar questionamentos acerca de possiveis aplicações em que eu me identificasse e que auxiliariam em alguma atividade do meu dia a dia. Após o processo de pesquisa e reflexão, decidi desenvolver uma aplicação visando auxiliar o processo de composição musical. 
+O SongWrittingApp foi idealizado a partir de uma necessidade pessoal de organizar projetos e audios, no contexto de composição musical. Aplicativos como o Voice Memos, nativo do iPhone, são ótimos para armazenar as gravações porém não permitem uma separação clara das seções do áudio, por serem idealizados para serem utilizados como aplicativos de gravação generalistas. O SongWrittingApp busca trazer uma solução especializada para o contexto de compositores/bandas que gostariam de obter uma melhor organização dos seus projetos, separando por seção e agrupando referências.
 
-Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar partes do fluxo de composição musical, sendo essas:
+Atualmente, as principais funcionalidades do aplicativo são:
 
-- Iniciar um projeto de composição
+- Iniciar um projeto de composição (Disco)
 - Buscar referências para o projeto
 - Gravar o áudio dos instrumentos
 - Organizar os audios em seções dentro da música (Introdução, Verso, Refrão, etc.)
+- Reproduzir todos os audios das seções em sequência
 
 ### Linguagem Ubiqua
     Disco: Projeto de composição.
@@ -38,7 +39,8 @@ Devido a isso, as funcionalidades planejadas para a aplicação visam auxiliar p
 - Remover seções adicionadas ao profile
 - Organizar as seções adicionadas
 - Adicionar gravações em seções específicas do profile
-- Remover gravações nas seções
+- Remover gravações nas 
+- Reproduzir o áudio das seções
 
 
 # 2 - Estruturação da aplicação
@@ -55,7 +57,6 @@ Estrutura atual do repositório:
 
 Visando garantir uma melhor visualização da estrutura do sistema, construí um diagrama simples demonstrando as relações entre as entidades do projeto:
 
-
 <img width="780" alt="Screenshot 2023-12-13 at 01 54 37" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/0e6c83c8-4549-4502-b7e1-421526877c62">
 
 Dessa forma, a entidade de Disco é referênciada pelo DiscoProfile em uma relação one-to-one, onde esse possui uma relação one-to-many com as entidades de Album Reference e Section.
@@ -63,14 +64,40 @@ Sendo essas possuindo também suas respectivas relações com as entidades demon
 
 ## Decisões Estruturais
 
-1. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile correspondente se deu pensando em garantir uma maior velocidade de carregamento no momento da listagem
-dos discos, tanto por conta da menor quantidade de banda solicitada, em casos de requisições remotas, quanto por quantidade de dados necessários.
+### Arquitetura e organização
 
-2. Decidi utilizar Clean Architecture para organizar e arquitetar a comunicação entre as diferentes partes do sistema. Essa decisão e se deu pela facilidade da arquitetura em desacoplar e reusar componentes de uma camada com responsabilidade específica sem interferir em outras camadas com outras responsabilidades. Essa facilidade foi definida como um requisito por mim para explorar as diferentes formas que uma tecnologia ou framework pode realizar uma mesma ação. Como por exemplo URLSession e Alamofire para requisições de APIs. Além da utilização como show case para aspectos importantes no desenvolvimento de aplicações como testes unitários.
+1. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile se deu pensando em garantir maior velocidade de carregamento no momento da listagem dos discos. A listagem trabalha com uma entidade resumida (`DiscoSummary`) e carrega apenas os dados necessários para apresentação da lista, enquanto informações mais detalhadas, como seções, gravações e referências, ficam concentradas no profile. Essa separação reduz o volume de "banda" necessária, possibilitando uma maior velocidade no carregamento dos dados.
 
-3. A implementação foi consolidada em uma única árvore principal em `Sources`, mantendo a separação por responsabilidades em `App`, `Core` e `Features`. O diretório `Main` ficou responsável apenas pelos recursos do aplicativo. Essa organização preserva a separação arquitetural sem manter árvores paralelas com o mesmo papel.
+2. A aplicação foi estruturada seguindo princípios de Clean Architecture, separando regras de negócio, apresentação, dados e infraestrutura. Os Use Cases são expostos por protocolos e representam as fronteiras mais estáveis, permitindo que detalhes como CoreData, URLSession, Keychain, UserDefaults e FileManager sejam substituídos ou testados por meio de abstrações. Essa decisão também foi tomada buscando testes unitários focados em comportamento, pois Interactors, Presenters, Repositories, etc, podem ser exercitados sem depender diretamente de frameworks do sistema.
 
-4. Para buscar e adicionar novas referências ao DiscoProfile decidi utilizar a API do [Spotify](https://developer.spotify.com/documentation/web-api/reference/). Por conta da documentação clara e bom uso do padrão REST. Ela também se mostrou um bom show case para requisitos comuns em APIs como RefreshTokens.
+3. A implementação foi consolidada em uma única árvore principal em `Sources`, mantendo a separação por responsabilidade: em `App`, `Core` e `Features`. 
+
+   - `Sources/App` concentra ciclo de vida, composição e injeção de dependências
+   - `Sources/Core` concentra infraestrutura compartilhada, persistência, networking e design system
+   - `Sources/Features` concentra os fluxos de produto organizados por domínio
+   -  O diretório `Main` ficou responsável por recursos do aplicativo, como `Info.plist`, assets e `LaunchScreen`.
+
+### Composition Root
+
+4. A composição da aplicação foi centralizada em Containers e Composers (ou Factories). O `AppContainer` define as dependências globais da aplicação, enquanto containers específicos, como `DiscoListContainer`, `DiscoProfileContainer` e `OnboardingContainer`, montam os objetos necessários para cada feature. Isso foi feito buscando uma "modularização", de forma que a adição de novas funcionalidades no sistema seja facilitada. Os Composers conectam ViewController, Interactor, Presenter e Router. Essa abordagem reduz acoplamento, torna a inicialização mais explícita e facilita a criação de cenários de teste.
+
+5. Para a camada de apresentação, utilizei o padrão VIP associado a Router. O ViewController fica responsável por renderizar estado e capturar ações do usuário enquanto o Interactor coordena os Use Cases baseado nas interações do usuário. Após isso, o Presenter transforma respostas de domínio (vindas do interactor) em View Entities. O Router concentra navegações horizontais. Navegações verticais, como sheets e modais locais, foram tratadas como detalhes da UI quando não representam mudança real de fluxo.
+
+8. A composição utiliza proxies: O `WeakReferenceProxy` evita que Presenter mantenha a View viva indevidamente, enquanto o `MainQueueProxy` garante que chamadas de apresentação sejam entregues na main thread. Essa decisão mantém os Presenters simples e evita espalhar `DispatchQueue.main.async` pela lógica de apresentação.
+
+### Infraestrutura
+
+6.  A comunicação com infraestrutura foi "protegida" por interfaces próprias. O networking usa `Endpoint` e `NetworkClient`, a persistência usa `DiscoStore`, o Keychain usa `SecureClient`, o armazenamento de arquivos usa `FileManagerService` e o onboarding usa `UserDefaultsClient`. Além disso, existem implementações concretas como CoreData e stores em memória. Essa escolha permite alternar implementação sem alterar as features e torna possível testar fluxos com doubles.
+
+7. A busca de referências foi modelada com o uso do Design Pattern Strategy. O `ReferenceSearchStrategyRegistry` seleciona a implementação correta de acordo com o provedor escolhido, hoje contemplando Spotify e LastFM. A autorização do Spotify foi encapsulada em um Decorator (`AuthorizationDecorator`), responsável por adicionar o header de autorização e tentar novamente a requisição quando o token cacheado deixa de ser válido. Dessa forma, autenticação e escolha de provedor ficam fora do Use Case de busca, que permanece agnóstico ao detalhe de cada API.
+
+### Design System
+
+9. O projeto também possui uma estrutura própria de Design System, separando tokens, considere "SW" como uma abeviação para "SongWritting", (`SWColor`, `SWSpacing`, `SWTypography`, `SWRadius`, `SWSize`) e componentes reutilizáveis em Atoms, Molecules e Organisms. Essa organização dá consistência visual e reduz duplicação de estilo e facilita ajustes globais de UI. Dentro dessa camada também existem tratativas de acessibilidade, como labels, identifiers e suporte a Dynamic Type.
+
+### Testes
+
+10. Para reduzir boilerplate nos testes, o projeto utiliza um pacote de macros Swift (`SongWrittingAppMacros`), criado especificamente para esse projeto, para gerar spies e rastrear chamadas de métodos com anotações como `@SWSpy` e `@SWSpyMethodTracker`.
 
 ### Use Cases
 
