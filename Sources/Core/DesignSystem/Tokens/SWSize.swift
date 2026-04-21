@@ -11,6 +11,7 @@ enum SWSize {
     static let iconSmall: CGFloat = 18
     static let iconRegular: CGFloat = 22
     static let iconButton: CGFloat = 44
+    static let floatingActionButton: CGFloat = 56
     static let compactIconButton: CGFloat = 32
     static let textFieldHeight: CGFloat = 48
     static let primaryButtonHeight: CGFloat = 52

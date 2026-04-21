@@ -17,7 +17,7 @@ final class OnboardingPresenter: OnboardingPresentationLogic {
             OnboardingPageViewEntity(
                 title: "Crie seus discos",
                 message: "Crie e visualize seus projetos de composição musical",
-                imageSource: .gif(name: "Onboard_Instruction_01"),
+                imageSource: .gif(name: "Onboard_instruction_01"),
                 imageScale: 0.7
             ),
             OnboardingPageViewEntity(

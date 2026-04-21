@@ -281,6 +281,10 @@ private extension AddReferencesViewController {
 }
 
 extension AddReferencesViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         canLoadMore = false
         stopLoadingMore()

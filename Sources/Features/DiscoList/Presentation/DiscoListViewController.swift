@@ -44,9 +44,10 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         tableView.contentInset = UIEdgeInsets(
             top: SWSpacing.small,
             left: 0,
-            bottom: SWSpacing.large,
+            bottom: SWSize.floatingActionButton + SWSpacing.xLarge,
             right: 0
         )
+        tableView.scrollIndicatorInsets = tableView.contentInset
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -56,11 +57,19 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         view.configure(
             message: """
             Você ainda não possui nenhum disco!
-            Adicione um novo disco utilizando o ícone acima.
+            Adicione um novo disco utilizando o botão abaixo.
             """
         )
         view.isHidden = true
         return view
+    }()
+
+    private let addDiscoButton: SWIconButton = {
+        SWIconButton(
+            symbolName: "plus",
+            accessibilityLabel: "Adicionar disco",
+            style: .floatingAction
+        )
     }()
 
     init(interactor: DiscoListBusinessLogic) {
@@ -180,12 +189,8 @@ extension DiscoListViewController: ViewCoding {
         view.backgroundColor = SWColor.Background.screen
         title = "Meus Discos"
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addDiscoButtonTapped)
-        )
-        navigationItem.rightBarButtonItem?.accessibilityLabel = "Adicionar disco"
+        navigationItem.rightBarButtonItem = nil
+        addDiscoButton.addTarget(self, action: #selector(addDiscoButtonTapped), for: .touchUpInside)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -200,13 +205,19 @@ extension DiscoListViewController: ViewCoding {
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            addDiscoButton.widthAnchor.constraint(equalToConstant: SWSize.floatingActionButton),
+            addDiscoButton.heightAnchor.constraint(equalToConstant: SWSize.floatingActionButton),
+            addDiscoButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -SWSpacing.large),
+            addDiscoButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -SWSpacing.large)
         ])
     }
 
     func addViewInHierarchy() {
         view.addSubview(tableView)
         view.addSubview(emptyStateView)
+        view.addSubview(addDiscoButton)
     }
 }
 

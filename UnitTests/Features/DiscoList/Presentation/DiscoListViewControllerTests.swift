@@ -11,7 +11,7 @@ import XCTest
 
 @MainActor
 final class DiscoListViewControllerTests: XCTestCase {
-    func test_viewDidAppear_requests_discos_and_configures_navigation() throws {
+    func test_viewDidAppear_requests_discos_and_configures_add_disco_action() throws {
         let (sut, interactor, navigationController, _) = makeSUT(loadView: false)
 
         sut.loadViewIfNeeded()
@@ -21,10 +21,8 @@ final class DiscoListViewControllerTests: XCTestCase {
         XCTAssertEqual(interactor.receivedMessages, [.loadDiscos])
         XCTAssertEqual(sut.title, "Meus Discos")
         XCTAssertTrue(navigationController.navigationBar.prefersLargeTitles)
-        XCTAssertEqual(
-            navigationController.topViewController?.navigationItem.rightBarButtonItem?.accessibilityLabel,
-            "Adicionar disco"
-        )
+        XCTAssertNil(navigationController.topViewController?.navigationItem.rightBarButtonItem)
+        XCTAssertNotNil(try addDiscoButton(in: sut))
     }
 
     func test_startLoading_shows_placeholder_rows() throws {
@@ -200,18 +198,12 @@ private extension DiscoListViewControllerTests {
     }
 
     func tapAddDiscoButton(on sut: DiscoListViewController) throws {
-        let button = try XCTUnwrap(sut.navigationItem.rightBarButtonItem)
-        let target = try XCTUnwrap(button.target)
-        let action = try XCTUnwrap(button.action)
+        let button = try addDiscoButton(in: sut)
+        button.sendActions(for: .touchUpInside)
+    }
 
-        XCTAssertTrue(
-            UIApplication.shared.sendAction(
-                action,
-                to: target,
-                from: button,
-                for: nil
-            )
-        )
+    func addDiscoButton(in sut: DiscoListViewController) throws -> UIButton {
+        try XCTUnwrap(sut.view.findButton(accessibilityLabel: "Adicionar disco"))
     }
 
     func appear(_ sut: UIViewController, animated: Bool = false) {
