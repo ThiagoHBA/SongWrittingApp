@@ -152,7 +152,7 @@ As gravações são apresentadas por seção. Cada `RecordViewEntity` contém a 
 
 ### Thiago Batista
 
-Muito prazer! Me chamo Thiago, sou nascido e criado em Fortaleza. Sou apaixonado por música e computação e de vez enquando tento unir as duas coisas. Sou formado em Engenharia de Computação pelo Instituto Federal de Ciência, Educação e Tecnologia do Ceará (IFCE) e foi lá onde mergulhei de cabeça nas plataformas Apple por meio do Apple Developer Academy. Esse foi um projeto feito com muito carinho e espero que possa agregar de alguma forma!
+Muito prazer! Me chamo Thiago, sou nascido e criado em Fortaleza. Sou apaixonado por música e computação e de vez em quando tento unir as duas coisas. Sou formado em Engenharia de Computação pelo Instituto Federal de Ciência, Educação e Tecnologia do Ceará (IFCE) e foi lá onde mergulhei de cabeça nas plataformas Apple por meio do Apple Developer Academy. Esse foi um projeto feito com muito carinho e espero que possa agregar de alguma forma!
 
 Escute minha [banda](https://open.spotify.com/artist/0BKpQUL1TkiWZaKIY7zZ4n?si=n8WpjUBXTWatTmMgpUxfOA) e caso você queira conversar comigo, e seja muito bem vindo para fazer, vou deixar minhas redes de contato na seção abaixo. 
 
