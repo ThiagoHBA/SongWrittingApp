@@ -57,7 +57,7 @@ Estrutura atual do repositório:
 
 ## Aspectos técnicos
 
-ADecisões técnicas do projeto foram pensadas para manter a aplicação testável, modular e fácil de evoluir:
+Decisões técnicas do projeto que foram pensadas para manter a aplicação testável, modular e fácil de evoluir:
 
 | Área | Destaque |
 | --- | --- |
