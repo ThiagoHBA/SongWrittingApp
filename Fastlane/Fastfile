@@ -30,7 +30,7 @@ def write_coverage_badge(coverage_pct)
     schemaVersion: 1,
     label: "coverage",
     message: "#{coverage_pct.round(1)}%",
-    color: coverage_ratio > 0.8 ? "brightgreen" : coverage_ratio > 0.6 ? "yellow" : "red"
+    color: coverage_ratio > 0.7 ? "brightgreen" : coverage_ratio > 0.5 ? "yellow" : "red"
   }))
 end
 
