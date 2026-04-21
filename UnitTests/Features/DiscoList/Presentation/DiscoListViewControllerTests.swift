@@ -11,6 +11,16 @@ import XCTest
 
 @MainActor
 final class DiscoListViewControllerTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        UIView.setAnimationsEnabled(false)
+    }
+
+    override func tearDown() {
+        UIView.setAnimationsEnabled(true)
+        super.tearDown()
+    }
+
     func test_viewDidAppear_requests_discos_and_configures_add_disco_action() throws {
         let (sut, interactor, navigationController, _) = makeSUT(loadView: false)
 
@@ -122,13 +132,17 @@ final class DiscoListViewControllerTests: XCTestCase {
         var completed = false
 
         try tapAddDiscoButton(on: sut)
-        wait(until: { sut.presentedViewController is CreateDiscoViewController })
+        wait(until: {
+            sut.presentedViewController is CreateDiscoViewController
+                && sut.transitionCoordinator == nil
+                && sut.presentedViewController?.transitionCoordinator == nil
+        })
 
         sut.hideOverlays {
             completed = true
         }
 
-        wait(until: { sut.presentedViewController == nil && completed })
+        wait(until: { sut.presentedViewController == nil && sut.transitionCoordinator == nil && completed })
 
         XCTAssertNil(sut.presentedViewController)
         XCTAssertTrue(completed)
