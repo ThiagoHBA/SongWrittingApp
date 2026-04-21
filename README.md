@@ -130,31 +130,33 @@ As gravações são apresentadas por seção. Cada `RecordViewEntity` contém a 
 
 3. A navegação horizontal é concentrada no Router. A lista de discos usa `DiscoListRouter` para abrir o profile por `UINavigationController`, enquanto modais e sheets de criação, edição, busca de referências, criação de seção, gravação de áudio e seleção de arquivo permanecem como detalhes locais da UI. Assim, mudanças na forma de apresentar esses componentes não exigem alteração no fluxo principal de navegação.
 
-# 3 - O que eu adicionaria
+# 3 - Considerações / O que eu adicionaria
 
-1. Atualmente os textos da interface estão escritos direto no código, como títulos, mensagens de erro e labels de acessibilidade. Em uma continuação do projeto eu moveria esses textos para arquivos de localização, como `Localizable.strings`, começando por PT-BR e deixando o app preparado para outros idiomas no futuro.
+1. Esse projeto ainda está em desenvolvimnento e por enquanto está sendo tratado como um demonstrativo apenas. Por conta disso, o projeto foi pensado em permitir que com apenas o clone do repositório seja possível a utilização da aplicação. Dessa forma, o projeto expõe, conscientemente, chaves de API utilizadas na aplicação, como Spotify e LastFM 
 
-2. O projeto contém apenas um teste de integração para a listagem de discos, que foi adicioando apenas como base para a implementação de novos testes. Eu adicionaria mais testes cobrindo fluxos completos, como criar um disco, abrir o profile, adicionar referências, criar seções, adicionar gravações e deletar dados. Isso ajudaria a validar melhor a conversa entre Interactor, Use Case, Repository e Store. Além de cobrir outros diferentes tipos de teste como testes de aceitação, multação e de UI, que não possui nenhum teste adicionado ainda.
+2. Atualmente os textos da interface estão escritos direto no código, como títulos, mensagens de erro e labels de acessibilidade. Em uma continuação do projeto eu moveria esses textos para arquivos de localização, como `Localizable.strings`, começando por PT-BR e deixando o app preparado para outros idiomas no futuro.
 
-3. Spotify e LastFM já possuem repositórios próprios e testes unitários, mas eu adicionaria cenários para falhas mais específicas: token expirado, resposta sem imagem, paginação vazia, erro de rede, resposta malformada, etc.
+3. O projeto contém apenas um teste de integração para a listagem de discos, que foi adicioando apenas como base para a implementação de novos testes. Eu adicionaria mais testes cobrindo fluxos completos, como criar um disco, abrir o profile, adicionar referências, criar seções, adicionar gravações e deletar dados. Isso ajudaria a validar melhor a conversa entre Interactor, Use Case, Repository e Store. Além de cobrir outros diferentes tipos de teste como testes de aceitação, multação e de UI, que não possui nenhum teste adicionado ainda.
 
-4. Eu adicionaria uma camada simples de logs para erros de rede, persistência, gravação de áudio e leitura de arquivos. Isso facilitaria entender problemas que só aparecem no uso real do aplicativo.
+4. Spotify e LastFM já possuem repositórios próprios e testes unitários, mas eu adicionaria cenários para falhas mais específicas: token expirado, resposta sem imagem, paginação vazia, erro de rede, resposta malformada, etc.
 
-5. A gravação e reprodução já existem, mas eu adicionaria melhorias como renomear gravações, reordenar takes dentro de uma seção, mostrar duração com mais destaque, permitir pausar/continuar gravação e tratar melhor permissões de microfone e arquivos.
+5. Eu adicionaria uma camada simples de logs para erros de rede, persistência, gravação de áudio e leitura de arquivos. Isso facilitaria entender problemas que só aparecem no uso real do aplicativo.
 
-6. Em um eventual deploy para o Testflight e AppStore eu agregaria ao Fastlane lanes para lidar com os fluxos de CI/CD dessas plataformas.
+6. A gravação e reprodução já existem, mas eu adicionaria melhorias como renomear gravações, reordenar takes dentro de uma seção, mostrar duração com mais destaque, permitir pausar/continuar gravação e tratar melhor permissões de microfone e arquivos.
+
+7. Em um eventual deploy para o Testflight e AppStore eu agregaria ao Fastlane lanes para lidar com os fluxos de CI/CD dessas plataformas.
 
 # 4 - Quem sou eu?
 
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/56696275?v=4" width="300px;" alt=""/>
- <br />
- <sub><b>Thiago Batista</b></sub></a>
 
- Muito prazer! Me chamo Thiago, sou nascido e criado em Fortaleza. Sou apaixonado por música e computação e de vez enquando tento unir as duas coisas. Sou formado em Engenharia de Computação pelo Instituto Federal de Ciência, Educação e Tecnologia do Ceará (IFCE) e foi lá onde mergulhei de cabeça nas plataformas Apple por meio do Apple Developer Academy. Esse foi um projeto feito com muito carinho e espero que possa agregar de alguma forma!
+### Thiago Batista
 
- Caso você queira falar comigo, seja muito bem vindo para fazer, vou deixar minhas redes de contato na seção abaixo. 
+Muito prazer! Me chamo Thiago, sou nascido e criado em Fortaleza. Sou apaixonado por música e computação e de vez enquando tento unir as duas coisas. Sou formado em Engenharia de Computação pelo Instituto Federal de Ciência, Educação e Tecnologia do Ceará (IFCE) e foi lá onde mergulhei de cabeça nas plataformas Apple por meio do Apple Developer Academy. Esse foi um projeto feito com muito carinho e espero que possa agregar de alguma forma!
 
- Abraço! 
+Caso você queira conversar comigo, e seja muito bem vindo para fazer, vou deixar minhas redes de contato na seção abaixo. 
+
+Abraços 
 
 # 5 - Artefatos
 
