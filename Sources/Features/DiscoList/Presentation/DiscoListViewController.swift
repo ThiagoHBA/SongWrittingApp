@@ -231,6 +231,7 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(
             with: SWDiscoListItemContent(
                 title: disco.name,
+                description: disco.description,
                 coverImage: UIImage(data: disco.coverImage),
                 referenceCoverURLs: disco.referenceCovers
             )

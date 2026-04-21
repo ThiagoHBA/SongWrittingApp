@@ -10,11 +10,13 @@ import UIKit
 
 struct SWDiscoListItemContent {
     let title: String
+    let description: String?
     let coverImage: UIImage?
     let referenceCoverURLs: [URL]
 
-    init(title: String, coverImage: UIImage?, referenceCoverURLs: [URL] = []) {
+    init(title: String, description: String? = nil, coverImage: UIImage?, referenceCoverURLs: [URL] = []) {
         self.title = title
+        self.description = description
         self.coverImage = coverImage
         self.referenceCoverURLs = referenceCoverURLs
     }
@@ -45,6 +47,7 @@ final class SWDiscoListItemCell: UITableViewCell {
     }()
 
     private let titleLabel = SWTextLabel(style: .bodyStrong, numberOfLines: 2)
+    private let descriptionLabel = SWTextLabel(style: .caption, numberOfLines: 2)
 
     private let referencesScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -72,6 +75,7 @@ final class SWDiscoListItemCell: UITableViewCell {
         contentView.addSubview(cardView)
         cardView.addSubview(coverImageView)
         cardView.addSubview(titleLabel)
+        cardView.addSubview(descriptionLabel)
         cardView.addSubview(referencesScrollView)
         referencesScrollView.addSubview(referencesStack)
 
@@ -92,7 +96,11 @@ final class SWDiscoListItemCell: UITableViewCell {
             titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: SWSpacing.small),
             titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -SWSpacing.small),
 
-            referencesScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: SWSpacing.small),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: SWSpacing.xxxSmall),
+            descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+
+            referencesScrollView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: SWSpacing.small),
             referencesScrollView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: SWSpacing.small),
             referencesScrollView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -SWSpacing.small),
             referencesScrollView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -SWSpacing.small),
@@ -120,6 +128,7 @@ final class SWDiscoListItemCell: UITableViewCell {
     func configure(with content: SWDiscoListItemContent) {
         coverImageView.image = content.coverImage
         titleLabel.text = content.title
+        descriptionLabel.text = content.description ?? ""
 
         if content.referenceCoverURLs.isEmpty {
             referencesHeightConstraint.constant = 0
@@ -133,7 +142,11 @@ final class SWDiscoListItemCell: UITableViewCell {
         }
 
         isAccessibilityElement = true
-        accessibilityLabel = "Disco: \(content.title)"
+        if let description = content.description, !description.isEmpty {
+            accessibilityLabel = "Disco: \(content.title), \(description)"
+        } else {
+            accessibilityLabel = "Disco: \(content.title)"
+        }
         accessibilityHint = "Toque  para ver detalhes"
         accessibilityTraits = .button
     }
@@ -156,6 +169,6 @@ final class SWDiscoListItemCell: UITableViewCell {
 
 extension SWDiscoListItemCell: ShimmeringViewProtocol {
     var shimmeringAnimatedItems: [UIView] {
-        [coverImageView, titleLabel]
+        [coverImageView, titleLabel, descriptionLabel]
     }
 }
