@@ -1,8 +1,7 @@
 import XCTest
 @testable import Main
 
-final class DiscoListIntegrationTests: XCTestCase {
-
+final class DiscoListInMemoryDatabaseIntegrationTests: XCTestCase {
     func test_loadDiscos_shouldSucceed_whenStoreHasDiscos() {
         let (sut, presenter, store) = makeSUT()
         let discoRecord = DiscoStoreRecord(id: UUID(), name: "Test Disco", description: "Test Description", coverImage: Data("image".utf8))
@@ -76,7 +75,7 @@ final class DiscoListIntegrationTests: XCTestCase {
     }
 }
 
-extension DiscoListIntegrationTests {
+extension DiscoListInMemoryDatabaseIntegrationTests {
     private func makeSUT() -> (sut: DiscoListInteractor, presenter: DiscoListPresenterSpy, store: DiscoStore) {
         let database = InMemoryDatabase()
         let store = InMemoryDiscoStore(database: database)
