@@ -7,7 +7,10 @@ final class OnboardingPresenterTests: XCTestCase {
 
         sut.presentPages()
 
-        XCTAssertEqual(view.receivedPages.first?.count, 3)
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
+        XCTAssertEqual(pages.count, 3)
     }
 
     func test_presentPages_displays_expected_first_page_content() {
@@ -15,8 +18,11 @@ final class OnboardingPresenterTests: XCTestCase {
 
         sut.presentPages()
 
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
         XCTAssertEqual(
-            view.receivedPages.first?.first,
+            pages.first,
             OnboardingPageViewEntity(
                 title: "Bem vindo ao SongWrittingApp",
                 message: "Agrupe suas músicas, organize elas em seções e busque por referências",
@@ -30,8 +36,11 @@ final class OnboardingPresenterTests: XCTestCase {
 
         sut.presentPages()
 
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
         XCTAssertEqual(
-            view.receivedPages.first?[1],
+            pages[1],
             OnboardingPageViewEntity(
                 title: "Crie seus discos",
                 message: "Crie e visualize seus projetos de composição musical",
@@ -40,14 +49,17 @@ final class OnboardingPresenterTests: XCTestCase {
             )
         )
     }
-    
+
     func test_presentPages_displays_expected_third_page_content() {
         let (sut, view) = makeSUT()
 
         sut.presentPages()
 
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
         XCTAssertEqual(
-            view.receivedPages.first?[2],
+            pages[2],
             OnboardingPageViewEntity(
                 title: "Organize sua composição",
                 message: "Crie seções para sua composição e agrupe referências!",
