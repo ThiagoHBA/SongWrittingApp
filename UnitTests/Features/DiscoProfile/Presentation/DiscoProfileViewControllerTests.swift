@@ -335,13 +335,17 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         var completed = false
 
         try tapButton(in: sut.view, accessibilityLabel: "Adicionar seção")
-        wait(until: { sut.presentedViewController is AddSectionViewController })
+        wait(until: {
+            sut.presentedViewController is AddSectionViewController
+                && sut.transitionCoordinator == nil
+                && sut.presentedViewController?.transitionCoordinator == nil
+        })
 
         sut.hideOverlays {
             completed = true
         }
 
-        wait(timeout: 5, until: { sut.presentedViewController == nil && completed })
+        wait(until: { sut.presentedViewController == nil && sut.transitionCoordinator == nil && completed })
 
         XCTAssertNil(sut.presentedViewController)
         XCTAssertTrue(completed)
