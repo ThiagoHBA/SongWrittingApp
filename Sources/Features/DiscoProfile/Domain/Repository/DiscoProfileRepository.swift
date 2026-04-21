@@ -2,6 +2,7 @@ import Foundation
 
 protocol DiscoProfileRepository:
     GetDiscoProfileUseCase,
+    GetDiscoReferencesUseCase,
     AddDiscoNewReferenceUseCase,
     AddNewSectionToDiscoUseCase,
     AddNewRecordToSessionUseCase,

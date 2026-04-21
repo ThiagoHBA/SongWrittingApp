@@ -72,14 +72,15 @@ final class DiscoListPresenterTests: XCTestCase {
             DiscoSummary(id: UUID(), name: "One", coverImage: Data("1".utf8)),
             DiscoSummary(id: UUID(), name: "Two", coverImage: Data("2".utf8))
         ]
+        let loadedDiscos = discos.map { (disco: $0, references: [AlbumReference]()) }
 
-        sut.presentLoadedDiscos(discos)
+        sut.presentLoadedDiscos(loadedDiscos)
 
         XCTAssertEqual(
             view.receivedMessages,
             [
                 .hideLoading,
-                .showDiscos(discos.map(DiscoListViewEntity.init(from:)))
+                .showDiscos(loadedDiscos.map { DiscoListViewEntity(from: $0.disco, references: $0.references) })
             ]
         )
     }

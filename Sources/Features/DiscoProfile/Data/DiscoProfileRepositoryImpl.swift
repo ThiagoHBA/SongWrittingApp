@@ -149,6 +149,20 @@ final class DiscoProfileRepositoryImpl: DiscoProfileRepository {
         }
     }
 
+    func loadReferences(
+        _ input: GetDiscoReferencesUseCaseInput,
+        completion: @escaping (Result<GetDiscoReferencesUseCaseOutput, Error>) -> Void
+    ) {
+        load(input) { result in
+            switch result {
+            case .success(let profile):
+                completion(.success(profile.references))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     func delete(
         _ input: DeleteDiscoUseCaseInput,
         completion: @escaping (Result<DeleteDiscoUseCaseOutput, Error>) -> Void

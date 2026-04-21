@@ -10,14 +10,18 @@ final class DiscoListIntegrationTests: XCTestCase {
         store.createDisco(discoRecord) { _ in }
         sut.loadDiscos()
 
+        wait(until: { presenter.receivedMessages.count == 2 })
         XCTAssertEqual(presenter.receivedMessages, [
             .presentLoading,
             .presentLoadedDiscos([
-                DiscoSummary(
-                    id: discoRecord.id,
-                    name: "Test Disco",
-                    description: "Test Description",
-                    coverImage: discoRecord.coverImage
+                (
+                    disco: DiscoSummary(
+                        id: discoRecord.id,
+                        name: "Test Disco",
+                        description: "Test Description",
+                        coverImage: discoRecord.coverImage
+                    ),
+                    references: [AlbumReference]()
                 )
             ])
         ])
@@ -77,11 +81,16 @@ extension DiscoListIntegrationTests {
         let database = InMemoryDatabase()
         let store = InMemoryDiscoStore(database: database)
         let repository = DiscoListRepositoryImpl(store: store)
+        let discoProfileRepository = DiscoProfileRepositoryImpl(
+            store: store,
+            fileManagerService: FileManagerServiceImpl()
+        )
         let presenter = DiscoListPresenterSpy()
         let sut = DiscoListInteractor(
             getDiscosUseCase: repository,
             createNewDiscoUseCase: repository,
-            deleteDiscoUseCase: repository
+            deleteDiscoUseCase: discoProfileRepository,
+            getDiscoReferencesUseCase: discoProfileRepository
         )
         sut.presenter = presenter
         return (sut, presenter, store)

@@ -22,9 +22,10 @@ final class DiscoListInteractorTests: XCTestCase {
         sut.loadDiscos()
         getDiscosUseCase.completeLoad(with: .success(discos))
 
+        wait(until: { presenter.receivedMessages.count == 2 })
         XCTAssertEqual(
             presenter.receivedMessages,
-            [.presentLoading, .presentLoadedDiscos(discos)]
+            [.presentLoading, .presentLoadedDiscos(discos.map { (disco: $0, references: [AlbumReference]()) })]
         )
     }
 
@@ -166,12 +167,14 @@ extension DiscoListInteractorTests {
         let getDiscosUseCase = GetDiscosUseCaseSpy()
         let createDiscoUseCase = CreateNewDiscoUseCaseSpy()
         let deleteDiscoUseCase = DeleteDiscoUseCaseSpy()
+        let getDiscoReferencesUseCase = GetDiscoReferencesUseCaseSpy()
         let presenter = DiscoListPresenterSpy()
         let router = DiscoListRouterSpy()
         let sut = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
             createNewDiscoUseCase: createDiscoUseCase,
-            deleteDiscoUseCase: deleteDiscoUseCase
+            deleteDiscoUseCase: deleteDiscoUseCase,
+            getDiscoReferencesUseCase: getDiscoReferencesUseCase
         )
         sut.presenter = presenter
         sut.router = router

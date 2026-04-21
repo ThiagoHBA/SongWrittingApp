@@ -16,6 +16,7 @@ enum SWSize {
     static let primaryButtonHeight: CGFloat = 52
     static let navigationBarHeight: CGFloat = 46
     static let referenceAvatar: CGFloat = 80
+    static let referenceAvatarCompact: CGFloat = 40
     static let referenceSearchArtworkWidth: CGFloat = 140
     static let referenceSearchCellHeight: CGFloat = 200
     static let recordRowHeight: CGFloat = 90

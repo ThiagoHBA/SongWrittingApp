@@ -10,11 +10,13 @@ enum DiscoListComposer {
         let getDiscosUseCase = repository
         let createNewDiscoUseCase = repository
         let deleteDiscoUseCase = container.deleteDiscoUseCase
+        let getDiscoReferencesUseCase = container.getDiscoReferencesUseCase
 
         let interactor = DiscoListInteractor(
             getDiscosUseCase: getDiscosUseCase,
             createNewDiscoUseCase: createNewDiscoUseCase,
-            deleteDiscoUseCase: deleteDiscoUseCase
+            deleteDiscoUseCase: deleteDiscoUseCase,
+            getDiscoReferencesUseCase: getDiscoReferencesUseCase
         )
         let presenter = DiscoListPresenter()
         let viewController = DiscoListViewController(interactor: interactor)

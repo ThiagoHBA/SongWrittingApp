@@ -39,6 +39,8 @@ final class DiscoListViewController: UIViewController, AlertPresentable {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.backgroundColor = .clear
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = SWDiscoListItemCell.height
         tableView.contentInset = UIEdgeInsets(
             top: SWSpacing.small,
             left: 0,
@@ -229,14 +231,12 @@ extension DiscoListViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(
             with: SWDiscoListItemContent(
                 title: disco.name,
-                coverImage: UIImage(data: disco.coverImage)
+                description: disco.description,
+                coverImage: UIImage(data: disco.coverImage),
+                referenceCoverURLs: disco.referenceCovers
             )
         )
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        SWDiscoListItemCell.height
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

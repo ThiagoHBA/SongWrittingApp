@@ -1,3 +1,53 @@
+require "fileutils"
+require "json"
+require "shellwords"
+
+COVERAGE_OUTPUT_DIR = "coverage_output"
+COVERAGE_REPORT_PATH = File.join(COVERAGE_OUTPUT_DIR, "report.json")
+COVERAGE_BADGE_PATH = File.join(COVERAGE_OUTPUT_DIR, "coverage_badge.json")
+COVERAGE_TARGET_NAME = "Main.app"
+
+def coverage_percentage(report)
+  return report["coverage_percentage"].to_f if report.key?("coverage_percentage")
+  return report["covered_percent"].to_f if report.key?("covered_percent")
+
+  target = Array(report["targets"]).find { |item| item["name"] == COVERAGE_TARGET_NAME } || Array(report["targets"]).first
+  if target
+    return target["coverage"].to_f * 100 if target.key?("coverage")
+    return target["lineCoverage"].to_f * 100 if target.key?("lineCoverage")
+  end
+
+  return report["coverage"].to_f * 100 if report.key?("coverage")
+  return report["lineCoverage"].to_f * 100 if report.key?("lineCoverage")
+
+  0.0
+end
+
+def write_coverage_badge(coverage_pct)
+  coverage_ratio = coverage_pct / 100.0
+
+  File.write(COVERAGE_BADGE_PATH, JSON.generate({
+    schemaVersion: 1,
+    label: "coverage",
+    message: "#{coverage_pct.round(1)}%",
+    color: coverage_ratio > 0.8 ? "brightgreen" : coverage_ratio > 0.6 ? "yellow" : "red"
+  }))
+end
+
+def write_coverage_outputs(xcresult_path)
+  UI.user_error!("Missing xcresult bundle at #{xcresult_path}") unless xcresult_path && File.directory?(xcresult_path)
+
+  FileUtils.mkdir_p(COVERAGE_OUTPUT_DIR)
+
+  report = JSON.parse(
+    sh("xcrun xccov view --report --json #{Shellwords.escape(xcresult_path)}", log: false)
+  )
+  report["coverage_percentage"] = coverage_percentage(report)
+
+  File.write(COVERAGE_REPORT_PATH, JSON.pretty_generate(report))
+  write_coverage_badge(report["coverage_percentage"])
+end
+
 default_platform(:ios)
 
 platform :ios do
@@ -19,31 +69,10 @@ platform :ios do
       html_report: true,
       json_report: true,
       minimum_coverage_percentage: 60.0,
-      include_targets: "Main.app"
+      include_targets: COVERAGE_TARGET_NAME
     )
 
-    report_path = Dir.glob("coverage_output/tmp/*")
-                 .find { |file| File.file?(file) && File.basename(file).start_with?("report.json") }
-
-    if report_path
-      report = JSON.parse(File.read(report_path))
-      coverage_pct = report["coverage_percentage"].to_f / 100
-
-      File.write("coverage_output/coverage_badge.json", JSON.generate({
-        schemaVersion: 1,
-        label: "coverage",
-        message: "#{(coverage_pct * 100).round(1)}%",
-        color: coverage_pct > 0.8 ? "brightgreen" : coverage_pct > 0.6 ? "yellow" : "red"
-      }))
-    else
-      UI.important("skipping badge generation")
-
-      File.write("coverage_output/coverage_badge.json", JSON.generate({
-        schemaVersion: 1,
-        label: "coverage",
-        message: "N/A",
-        color: "lightgrey"
-      }))
-    end
+    xcresult_path = Actions.lane_context[SharedValues::SCAN_GENERATED_XCRESULT_PATH] || "test_output/Main.xcresult"
+    write_coverage_outputs(xcresult_path)
   end
 end

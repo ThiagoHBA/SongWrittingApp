@@ -16,4 +16,8 @@ final class DiscoListContainer {
     lazy var deleteDiscoUseCase: DeleteDiscoUseCase = {
         discoProfileContainer.repository
     }()
+
+    lazy var getDiscoReferencesUseCase: GetDiscoReferencesUseCase = {
+        discoProfileContainer.repository
+    }()
 }
