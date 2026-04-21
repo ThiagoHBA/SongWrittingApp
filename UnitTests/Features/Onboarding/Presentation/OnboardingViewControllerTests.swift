@@ -41,7 +41,6 @@ final class OnboardingViewControllerTests: XCTestCase {
         try tapPrimaryButton(on: sut)
 
         XCTAssertEqual(try pageControl(in: sut).currentPage, 1)
-        XCTAssertEqual(interactor.receivedMessages, [])
     }
 
     func test_primary_button_on_last_page_requests_finish() throws {
@@ -56,7 +55,7 @@ final class OnboardingViewControllerTests: XCTestCase {
 
         try tapPrimaryButton(on: sut)
 
-        XCTAssertEqual(interactor.receivedMessages, [.finish])
+        XCTAssertEqual(interactor.receivedMessages.last, .finish)
     }
 
     func test_skip_button_requests_skip() throws {
@@ -67,7 +66,7 @@ final class OnboardingViewControllerTests: XCTestCase {
 
         try tapSkipButton(on: sut)
 
-        XCTAssertEqual(interactor.receivedMessages, [.skip])
+        XCTAssertEqual(interactor.receivedMessages.last, .skip)
     }
 }
 

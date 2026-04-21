@@ -9,7 +9,7 @@ import Foundation
 
 protocol DiscoListPresentationLogic: AnyObject {
     func presentLoading()
-    func presentLoadedDiscos(_ discos: [DiscoSummary])
+    func presentLoadedDiscos(_ discos: [(disco: DiscoSummary, references: [AlbumReference])])
     func presentLoadDiscoError(_ error: Error)
     func presentCreatedDisco(_ disco: DiscoSummary)
     func presentCreateDiscoFailure(_ error: Error)
@@ -25,9 +25,15 @@ final class DiscoListPresenter: DiscoListPresentationLogic {
         view?.startLoading()
     }
 
-    func presentLoadedDiscos(_ discos: [DiscoSummary]) {
+    func presentLoadedDiscos(_ discos: [(disco: DiscoSummary, references: [AlbumReference])]) {
         view?.hideLoading()
-        view?.showDiscos(discos.map(DiscoListViewEntity.init(from:)))
+        view?.showDiscos(
+            discos.map {
+                DiscoListViewEntity(
+                    from: $0.disco,
+                    references: $0.references
+                )
+            })
     }
 
     func presentLoadDiscoError(_ error: Error) {
