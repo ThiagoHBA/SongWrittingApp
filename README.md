@@ -1,6 +1,6 @@
 <img width="360" alt="image" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/be64c901-d44e-4996-a199-9679223be611">
 
-# 🎶 SongWritingStudio
+# 🎶 SongWritingApp
 
 ![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/ThiagoHBA/591fb2a8ad5a53abefc115f035d03162/raw/coverage_badge.json)
 
