@@ -41,7 +41,7 @@ jobs:
         run: cat coverage_output/report.json
 
       - name: Publish Coverage on PR
-        if: github.event_name == 'pull_request'
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -59,14 +59,14 @@ jobs:
 
             const formatted = (parseFloat(pct) * (pct <= 1 ? 100 : 1)).toFixed(2);
 
-            github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `## Code Coverage: ${formatted}%`
             })
       - name: Update Coverage Badge Gist
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: ${{ github.event_name == 'push' && contains(fromJSON('["main", "developer"]'), github.ref_name) }}
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.GIST_TOKEN }}
