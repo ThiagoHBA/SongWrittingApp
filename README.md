@@ -8,7 +8,7 @@
 
 ## Processo de idealização
 
-O SongWrittingApp foi idealizado a partir de uma necessidade pessoal de organizar projetos e audios, no contexto de composição musical. Aplicativos como o Voice Memos, nativo do iPhone, são ótimos para armazenar as gravações porém não permitem uma separação clara das seções do áudio, por serem idealizados para serem utilizados como aplicativos de gravação generalistas. O SongWrittingApp busca trazer uma solução especializada para o contexto de compositores/bandas que gostariam de obter uma melhor organização dos seus projetos, separando por seção e agrupando referências.
+O SongWrittingApp foi idealizado a partir de uma necessidade pessoal de organizar projetos e audios no contexto de composição musical. No meu processo de composição de músicas com a minha banda, ter a possibilidade de gravar ideias que surgem em locais diverso além de linkar músicas/albuns que estou escutando com meus projetos é algo que não é suportado por apps como o Voice Memos, por serem idealizados para serem utilizados como aplicativos de gravação generalistas. O SongWrittingApp busca trazer uma solução especializada para o contexto de compositores/bandas, proporcionando uma melhor organização dos projetos, separando por seções e agrupando referências.
 
 Atualmente, as principais funcionalidades do aplicativo são:
 
@@ -75,7 +75,6 @@ Sendo essas possuindo também suas respectivas relações com as entidades demon
   
 3. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile se deu pensando em garantir maior velocidade de carregamento no momento da listagem dos discos. A listagem trabalha com uma entidade resumida (`DiscoSummary`) e carrega apenas os dados necessários para apresentação da lista, enquanto informações mais detalhadas, como seções, gravações e referências, ficam concentradas no profile. Essa separação reduz o volume de "banda" necessária, possibilitando uma maior velocidade no carregamento dos dados.
 
-
 ### Composition Root
 
 4. A composição da aplicação foi centralizada em Containers e Composers (ou Factories). O `AppContainer` define as dependências globais da aplicação, enquanto containers específicos, como `DiscoListContainer`, `DiscoProfileContainer` e `OnboardingContainer`, montam os objetos necessários para cada feature. Isso foi feito buscando uma "modularização", de forma que a adição de novas funcionalidades no sistema seja facilitada. Os Composers conectam ViewController, Interactor, Presenter e Router. Essa abordagem reduz acoplamento, torna a inicialização mais explícita e facilita a criação de testes.
@@ -120,25 +119,17 @@ As gravações são apresentadas por seção. Cada `RecordViewEntity` contém a 
 
 # 3 - O que eu adicionaria
 
-Por conta do tempo existiram algumas implementações que foram levantados como requisitos não funcionais por mim mas que não foram possíveis serem feitas ou que foram realizadas de forma incompleta.
+1. Atualmente os textos da interface estão escritos direto no código, como títulos, mensagens de erro e labels de acessibilidade. Em uma continuação do projeto eu moveria esses textos para arquivos de localização, como `Localizable.strings`, começando por PT-BR e deixando o app preparado para outros idiomas no futuro.
 
-1. Os testes unitários foram realizados a partir da proximidade da camada com as regras de negócio, logo, por conta do tempo, as camadas mais distantes da regra de negócio em si, como UI e Infra infelizmente não puderam ser cobertas por testes, apesarem de estarem prontas para isso. Porém, é possível encontrar os testes em sua completude para as features da aplicação na camada de apresentação e camada de dados.
+2. O projeto contém apenas um teste de integração para a listagem de discos, que foi adicioando apenas como base para a implementação de novos testes. Eu adicionaria mais testes cobrindo fluxos completos, como criar um disco, abrir o profile, adicionar referências, criar seções, adicionar gravações e deletar dados. Isso ajudaria a validar melhor a conversa entre Interactor, Use Case, Repository e Store. Além de cobrir outros diferentes tipos de teste como testes de aceitação, multação e de UI, que não possui nenhum teste adicionado ainda.
 
-2. Gostaria de adicionar testes unitários a framewoks padrões do sistema como CoreData ou URLSession. Isso não foi possível de ser explorado por conta do conflito entre finalizar detalhes da UI e atualizar os testes diante do tempo disponível. Porém, vou deixar um exemplo de [Código](https://github.com/ThiagoHBA/clean_arch_cloudkit_client/blob/develop/cloudkit-clientTests/Data/DAO/Task/TaskDAOTest.swift "Código") em que realizei os testes do framework CloudKit para exemplificar de que forma eu faria os testes.
+3. Spotify e LastFM já possuem repositórios próprios e testes unitários, mas eu adicionaria cenários para falhas mais específicas: token expirado, resposta sem imagem, paginação vazia, erro de rede, resposta malformada, etc.
 
-2. Alguns UseCases essencias para aplicação não foram possíveis de serem implementados por conta do tempo, como: os UseCases de Deleção de discos, deleção de seções e deleção de referências. Esses UseCases são importantes para a utilização do aplicativo e completude da aplicação acomo um todo.
-  
-3. Eu gostaria de ter explorado mais blibliotecas de terceiros comumente utilizadas em ambientes de desenvolvimento iOS, como Kingfisher para o carreamento das imagens e Alamofire para realizar requisições além do URLSession. Porém, como considerei isso um extra, foquei em implementar outras partes do sistema consideradas mais urgentes.
-  
-4. Gostaria de ter implementado também um exemplo de utilização de plataformas de métricas como Firebase Crashlytics, MixPanel, Amplitude, etc. Acredito que essa implementação demonstra bem a utilização e o potêncial da injeção de dependências no contexto do desenvolvimento.
+4. Eu adicionaria uma camada simples de logs para erros de rede, persistência, gravação de áudio e leitura de arquivos. Isso facilitaria entender problemas que só aparecem no uso real do aplicativo.
 
-5. Gostaria de ter utilizado rotinas de CI com code coverage para execução dos testes nos targets, por meio do Fastlane ou GitHub Actions, como fiz nesse [outro projeto](https://github.com/ThiagoHBA/clean_arch_cloudkit_client/actions).
+5. A gravação e reprodução já existem, mas eu adicionaria melhorias como renomear gravações, reordenar takes dentro de uma seção, mostrar duração com mais destaque, permitir pausar/continuar gravação e tratar melhor permissões de microfone e arquivos.
 
-6. Não consegui localizar as Strings utilizadas no sistema pelos Targets como implementei [nesse projeto](https://github.com/clio-app/clio-ios-app). Isso também foi considerado como um extra por mim, portanto, foquei na implementação de outras partes do sistema. 
-
-7. Gostaria de ter explorado mais aspectos de acessibilidade como VoiceOver, Dynamic Text e Reduce Motion. Como implementado [nesse projeto](https://github.com/bubble-jam-organization/bubble-jam)
-
-8. Gostaria de ter implementado paginação para as requisições da API do spotify para possibilitar com que fosse possível o carregamento de novas informações ao final do scroll da página, como implementei [nesse projeto](https://github.com/clio-app/clio-ios-app/blob/dev/clio-app/Source/Presentation/SingleDevice/SearchImage/SearchImageView.swift) com requisitos parecidos (Em um contexto de busca por informações).
+6. Em um eventual deploy para o Testflight e AppStore eu agregaria ao Fastlane lanes para lidar com os fluxos de CI/CD dessas plataformas.
 
 # 4 Artefatos
 
