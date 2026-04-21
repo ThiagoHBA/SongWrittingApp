@@ -1,0 +1,33 @@
+{
+  "originHash" : "aa60124f09515b94f5b25fea8abcc35f794024e4f75304d25df8ea2fd7f755ec",
+  "pins" : [
+    {
+      "identity" : "sdwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SDWebImage/SDWebImage.git",
+      "state" : {
+        "revision" : "2de3a496eaf6df9a1312862adcfd54acd73c39c0",
+        "version" : "5.21.7"
+      }
+    },
+    {
+      "identity" : "songwrittingappmacros",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ThiagoHBA/SongWrittingAppMacros",
+      "state" : {
+        "branch" : "main",
+        "revision" : "ee5ed77732fab151bcc1e47399e0b835e1dbb213"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}

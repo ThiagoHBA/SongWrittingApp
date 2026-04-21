@@ -1,0 +1,80 @@
+import XCTest
+@testable import Main
+
+final class OnboardingPresenterTests: XCTestCase {
+    func test_presentPages_displays_three_pages() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
+        XCTAssertEqual(pages.count, 3)
+    }
+
+    func test_presentPages_displays_expected_first_page_content() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
+        XCTAssertEqual(
+            pages.first,
+            OnboardingPageViewEntity(
+                title: "Bem vindo ao SongWrittingApp",
+                message: "Agrupe suas músicas, organize elas em seções e busque por referências",
+                imageSource: .asset(name: "onboarding_app_icon")
+            )
+        )
+    }
+
+    func test_presentPages_displays_expected_second_page_content() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
+        XCTAssertEqual(
+            pages[1],
+            OnboardingPageViewEntity(
+                title: "Crie seus discos",
+                message: "Crie e visualize seus projetos de composição musical",
+                imageSource: .gif(name: "Onboard_instruction_01"),
+                imageScale: 0.7
+            )
+        )
+    }
+
+    func test_presentPages_displays_expected_third_page_content() {
+        let (sut, view) = makeSUT()
+
+        sut.presentPages()
+
+        guard case .showPages(let pages) = view.receivedMessages.first else {
+            return XCTFail("Expected showPages message")
+        }
+        XCTAssertEqual(
+            pages[2],
+            OnboardingPageViewEntity(
+                title: "Organize sua composição",
+                message: "Crie seções para sua composição e agrupe referências!",
+                imageSource: .gif(name: "Onboard_instruction_02"),
+                imageScale: 0.7
+            )
+        )
+    }
+}
+
+private extension OnboardingPresenterTests {
+    func makeSUT() -> (sut: OnboardingPresenter, view: OnboardingViewSpy) {
+        let view = OnboardingViewSpy()
+        let sut = OnboardingPresenter()
+        sut.view = view
+        return (sut, view)
+    }
+}

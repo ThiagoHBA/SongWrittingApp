@@ -1,0 +1,45 @@
+{
+  "configurations" : [
+    {
+      "id" : "84086C0D-F3D2-4517-9016-D035C1F2E09B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:SongWrittingApp.xcodeproj",
+      "identifier" : "00F2F2562B238ECE0008F6F5",
+      "name" : "Main"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:SongWrittingApp.xcodeproj",
+        "identifier" : "00F2F30C2B24E7080008F6F5",
+        "name" : "UITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:SongWrittingApp.xcodeproj",
+        "identifier" : "00F2F2AD2B24CD020008F6F5",
+        "name" : "UnitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:SongWrittingApp.xcodeproj",
+        "identifier" : "00A1B2C32B24CD020008F6F5",
+        "name" : "IntegrationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

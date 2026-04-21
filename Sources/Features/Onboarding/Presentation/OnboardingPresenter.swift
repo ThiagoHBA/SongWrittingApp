@@ -1,0 +1,31 @@
+import Foundation
+
+protocol OnboardingPresentationLogic: AnyObject {
+    func presentPages()
+}
+
+final class OnboardingPresenter: OnboardingPresentationLogic {
+    var view: OnboardingDisplayLogic?
+
+    func presentPages() {
+        view?.showPages([
+            OnboardingPageViewEntity(
+                title: "Bem vindo ao SongWrittingApp",
+                message: "Agrupe suas músicas, organize elas em seções e busque por referências",
+                imageSource: .asset(name: "onboarding_app_icon")
+            ),
+            OnboardingPageViewEntity(
+                title: "Crie seus discos",
+                message: "Crie e visualize seus projetos de composição musical",
+                imageSource: .gif(name: "Onboard_instruction_01"),
+                imageScale: 0.7
+            ),
+            OnboardingPageViewEntity(
+                title: "Organize sua composição",
+                message: "Crie seções para sua composição e agrupe referências!",
+                imageSource: .gif(name: "Onboard_instruction_02"),
+                imageScale: 0.7
+            )
+        ])
+    }
+}

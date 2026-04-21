@@ -1,0 +1,195 @@
+import Foundation
+import XCTest
+@testable import Main
+
+final class DiscoProfileRepositoryImplTests: XCTestCase {
+    func test_loadProfile_fetches_profiles_first() {
+        let (sut, store, _) = makeSUT()
+        let disco = makeDisco()
+
+        sut.load(disco) { _ in }
+        store.getProfilesCompletion?(.success([]))
+        store.createProfileCompletion?(.success(makeEmptyProfileRecord(for: disco)))
+
+        XCTAssertEqual(store.receivedMessages.first, .getProfiles)
+    }
+
+    func test_loadProfile_creates_profile_when_missing() {
+        let (sut, store, _) = makeSUT()
+        let disco = makeDisco()
+        let createdProfile = makeEmptyProfileRecord(for: disco)
+        var receivedProfile: DiscoProfile?
+
+        sut.load(disco) { result in
+            if case let .success(profile) = result {
+                receivedProfile = profile
+            }
+        }
+
+        store.getProfilesCompletion?(.success([]))
+        store.createProfileCompletion?(.success(createdProfile))
+
+        XCTAssertEqual(
+            store.receivedMessages,
+            [.getProfiles, .createProfile(createdProfile)]
+        )
+        XCTAssertEqual(receivedProfile, DiscoProfileStoreMapper.profile(from: createdProfile))
+    }
+
+    func test_loadProfile_returns_existing_profile_when_found() {
+        let (sut, store, _) = makeSUT()
+        let disco = makeDisco()
+        let existingProfile = makeProfileRecord(for: disco)
+        var receivedProfile: DiscoProfile?
+
+        sut.load(disco) { result in
+            if case let .success(profile) = result {
+                receivedProfile = profile
+            }
+        }
+
+        store.getProfilesCompletion?(.success([existingProfile]))
+
+        XCTAssertEqual(store.receivedMessages, [.getProfiles])
+        XCTAssertEqual(receivedProfile, DiscoProfileStoreMapper.profile(from: existingProfile))
+    }
+
+    func test_addSection_updates_profile_with_new_section() throws {
+        let (sut, store, _) = makeSUT()
+        let disco = makeDisco()
+        let section = try Section(identifer: "Verse", records: [])
+        let existingProfile = makeEmptyProfileRecord(for: disco)
+        let updatedProfile = DiscoProfileStoreRecord(
+            disco: existingProfile.disco,
+            references: [],
+            section: [DiscoProfileStoreMapper.storeSection(from: section)]
+        )
+        var receivedProfile: DiscoProfile?
+
+        sut.addSection(.init(disco: disco, section: section)) { result in
+            if case let .success(profile) = result {
+                receivedProfile = profile
+            }
+        }
+
+        store.getProfilesCompletion?(.success([existingProfile]))
+        store.updateProfileCompletion?(.success(updatedProfile))
+
+        XCTAssertEqual(
+            store.receivedMessages,
+            [.getProfiles, .updateProfile(updatedProfile)]
+        )
+        XCTAssertEqual(receivedProfile?.section, [section])
+    }
+
+    func test_addRecord_fails_when_target_section_cannot_be_found() throws {
+        let (sut, store, _) = makeSUT()
+        let disco = makeDisco()
+        let existingProfile = makeEmptyProfileRecord(for: disco)
+        var receivedError: Error?
+
+        sut.addRecord(.init(
+            disco: disco,
+            sectionIdentifier: "Verse",
+            audioFileURL: URL(fileURLWithPath: "/tmp/audio.m4a")
+        )) { result in
+            if case let .failure(error) = result {
+                receivedError = error
+            }
+        }
+
+        store.getProfilesCompletion?(.success([existingProfile]))
+
+        XCTAssertEqual(store.receivedMessages, [.getProfiles])
+        XCTAssertEqual(
+            receivedError?.localizedDescription,
+            "Não foi possível encontrar a sessão para adição da gravação"
+        )
+    }
+
+    func test_addRecord_persists_file_and_updates_section() throws {
+        let (sut, store, fileManagerService) = makeSUT()
+        let disco = makeDisco()
+        let audioFileURL = URL(fileURLWithPath: "/tmp/audio.m4a")
+        let existingProfile = makeProfileRecord(for: disco)
+        let persistedAudioURL = URL(fileURLWithPath: "/Documents/audio.m4a")
+        var receivedProfile: DiscoProfile?
+
+        fileManagerService.persistFileResult = .success(persistedAudioURL)
+
+        sut.addRecord(.init(
+            disco: disco,
+            sectionIdentifier: "Chorus",
+            audioFileURL: audioFileURL
+        )) { result in
+            if case let .success(profile) = result {
+                receivedProfile = profile
+            }
+        }
+
+        store.getProfilesCompletion?(.success([existingProfile]))
+        let expectedUpdatedProfile = try XCTUnwrap(store.receivedMessages.last?.updatedProfile)
+        store.updateProfileCompletion?(.success(expectedUpdatedProfile))
+
+        XCTAssertEqual(fileManagerService.receivedMessages, [.persistFile(audioFileURL)])
+        XCTAssertEqual(expectedUpdatedProfile.section.first?.records.last?.audio, persistedAudioURL)
+        XCTAssertEqual(receivedProfile?.section.first?.records.last?.audio, persistedAudioURL)
+    }
+
+    private func makeSUT() -> (
+        sut: DiscoProfileRepositoryImpl,
+        store: DiscoProfileStoreSpy,
+        fileManagerService: FileManagerServiceSpy
+    ) {
+        let store = DiscoProfileStoreSpy()
+        let fileManagerService = FileManagerServiceSpy()
+        let sut = DiscoProfileRepositoryImpl(store: store, fileManagerService: fileManagerService)
+        return (sut, store, fileManagerService)
+    }
+
+    private func makeDisco() -> DiscoSummary {
+        DiscoSummary(id: UUID(), name: "Any", coverImage: Data("cover".utf8))
+    }
+
+    private func makeEmptyProfileRecord(for disco: DiscoSummary) -> DiscoProfileStoreRecord {
+        DiscoProfileStoreRecord(
+            disco: DiscoStoreRecord(id: disco.id, name: disco.name, coverImage: disco.coverImage),
+            references: [],
+            section: []
+        )
+    }
+
+    private func makeProfileRecord(for disco: DiscoSummary) -> DiscoProfileStoreRecord {
+        let section = SectionStoreRecord(
+            identifer: "Chorus",
+            records: [
+                RecordStoreRecord(
+                    tag: .guitar,
+                    audio: URL(string: "https://example.com/audio")!
+                )
+            ]
+        )
+        return DiscoProfileStoreRecord(
+            disco: DiscoStoreRecord(id: disco.id, name: disco.name, coverImage: disco.coverImage),
+            references: [
+                AlbumReferenceStoreRecord(
+                    name: "Album",
+                    artist: "Artist",
+                    releaseDate: "2024-01-01",
+                    coverImage: "https://example.com/image"
+                )
+            ],
+            section: [section]
+        )
+    }
+}
+
+private extension DiscoProfileStoreSpy.Message {
+    var updatedProfile: DiscoProfileStoreRecord? {
+        guard case let .updateProfile(profile) = self else {
+            return nil
+        }
+
+        return profile
+    }
+}
