@@ -100,15 +100,23 @@ Sendo essas possuindo também suas respectivas relações com as entidades demon
 
 ## Apresentação dos dados
 
-A camada de apresentação dos dados foi estabelecida por mim como a camada que vai lidar com respostas as interações do usuário e organizar os resultados a partir da utilização dos UseCases.
+A apresentação dos dados é organizada ao redor dos fluxos `DiscoList` (Listagem dos projetos de composição) e `DiscoProfile` (Detalhes da composição), mantendo a separação entre interação, conversão dos dados e mudanças de estado. O ViewController captura as ações do usuário e atualiza a interface, o Interactor orquestra os Use Cases, o Presenter transforma entidades de domínio em ViewEntities e o Router fica responsável pelas navegações horizontais.
 
-## Decisões
+Na listagem de discos, a tela trabalha com `DiscoListViewEntity`, que representa somente os dados necessários para a lista: identificador, nome, descrição, capa, capas das referências e tipo da entidade. Esse tipo também diferencia discos reais de placeholders usados no estado de loading. Ao carregar a lista, o Interactor busca os discos por meio de `GetDiscosUseCase` e, em seguida, busca as referências de cada disco com `GetDiscoReferencesUseCase`, permitindo que a célula apresente a capa do disco junto com um resumo das referências associadas ao Disco. A tela também trata estado vazio, criação de disco por sheet, exclusão e feedbacks de erro.
 
-1. Como Design Pattern para organizar a camada de apresentação eu utilizei o VIP (View, Interactor, Presenter). Levando em consideração que o usuário possui diversas interações e inputs de dados, como no momento da criação do disco, na adição de referências, seções, etc. O VIP se mostrou como uma solução viável devido a separação entre componentes para lidar as interações (Interactor) e com os resultados (Presenter), ao invés de outros patterns comuns, como MVP, MVC e MVVM que muitas vezes centralizam essa responsabilidade. Dessa forma, as camadas podem ficar melhor separadas e com responsabilidades mais específicas.
-   
-2. Para lidar com a navegação e envio de dados entre uma tela e outra, utilizei o padrão Router, comumente integrado ao VIP. Dessa forma, pude garantir que a navegação fosse arquitetada pela lógica de apresentação (Presenter) sem necessitar que a camada adicionasse dependencias como UIKit.
-  
-3. Atribui navegações verticais, como ModalSheet, como detalhes de implementação da camada de UI, dessa forma, deixando a responsabilidade do Router apenas das navegações horizontais. Essa decisão se deu por conta das diferentes formas de implementar a UI, visando blindar a camada de apresentação de mudanças toda vez que novas alterações fossem realizadas na UI.
+No detalhe do disco, a apresentação é feita a partir de `DiscoProfileViewEntity`, composto pelo resumo do disco, pelas referências (`AlbumReferenceViewEntity`) e pelas seções (`SectionViewEntity`) com suas gravações (`RecordViewEntity`). A tela exibe capa, nome, descrição, referências em lista horizontal e seções com suas gravações. Quando o usuário adiciona referências, cria seções, grava ou importa áudio, edita o nome do disco, remove seções/gravações ou deleta o disco, o Interactor chama o Use Case e o Presenter devolve um novo estado pronto para a UI.
+
+A busca de referências usa `SearchReferenceViewEntity` para representar os provedores disponíveis, hoje Spotify e Last.fm, e `ReferenceSearchViewEntity` para representar os resultados carregados e a indicação de próxima página. A seleção do provedor, o reset da busca e o carregamento incremental ficam no Interactor, enquanto o sheet de referências apenas apresenta o menu de provedores, a busca textual, a lista de resultados, as referências selecionadas e o botão de salvar.
+
+As gravações são apresentadas por seção. Cada `RecordViewEntity` contém a URL do áudio, possibilitando a reprodução. O profile monta uma fila com todas as gravações das seções e permite reproduzir o disco inteiro em sequência, destacando a gravação que está tocando no momento.
+
+### Decisões
+
+1. A camada de apresentação segue o Design Pattern VIP com contratos explícitos para cada feature. `DiscoListDisplayLogic` e `DiscoProfileDisplayLogic` expõem apenas os estados que a View precisa renderizar, enquanto `DiscoListBusinessLogic` e `DiscoProfileBusinessLogic` recebem as intenções do usuário. Isso evita que regras de orquestração fiquem misturadas com o UIKit.
+
+2. Os Presenters não enviam entidades de domínio diretamente para a UI. Eles convertem `DiscoSummary`, `DiscoProfile`, `AlbumReference`, `Section`, `Record` e páginas de busca em ViewEntities específicas. Essa decisão protege a UI de mudanças no domínio e permite adaptar dados para necessidades visuais, como placeholders, capas remotas de referências, estado de paginação, etc.
+
+3. A navegação horizontal é concentrada no Router. A lista de discos usa `DiscoListRouter` para abrir o profile por `UINavigationController`, enquanto modais e sheets de criação, edição, busca de referências, criação de seção, gravação de áudio e seleção de arquivo permanecem como detalhes locais da UI. Assim, mudanças na forma de apresentar esses componentes não exigem alteração no fluxo principal de navegação.
 
 # 3 - O que eu adicionaria
 
