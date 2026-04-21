@@ -55,6 +55,19 @@ Estrutura atual do repositório:
 - `Main`: recursos do app, `Info.plist` e `LaunchScreen`
 - `UnitTests` e `UITests`: suítes de teste ativas
 
+## Aspectos técnicos
+
+ADecisões técnicas do projeto foram pensadas para manter a aplicação testável, modular e fácil de evoluir:
+
+| Área | Destaque |
+| --- | --- |
+| Arquitetura | Clean Architecture com base em VIP/Clean Swift, Use Cases por protocolo e Composition Root |
+| Infraestrutura | Repositórios, stores abstratos, networking desacoplado, Keychain e persistência de arquivos |
+| Design Patterns | Strategy, Decorator, Proxy, Router, Repository e Mapper aplicados em pontos do app |
+| Macros | Pacote próprio de macros Swift para geração de spies e redução de boilerplate em testes |
+| UI e Design System | Tokens próprios, componentes reutilizáveis e layout UIKit programático |
+| Qualidade | Testes unitários, integração, memory leak tests, pipeline de CI com fastlane|
+
 <img width="780" alt="Screenshot 2023-12-13 at 01 54 37" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/0e6c83c8-4549-4502-b7e1-421526877c62">
 
 A entidade de Disco é referênciada pelo DiscoProfile em uma relação one-to-one, onde esse possui uma relação one-to-many com as entidades de Album Reference e Section.
