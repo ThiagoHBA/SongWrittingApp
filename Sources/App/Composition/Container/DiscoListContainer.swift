@@ -13,11 +13,22 @@ final class DiscoListContainer {
 
     lazy var discoProfileContainer = DiscoProfileContainer(app: app)
 
+    lazy var createNewDiscoUseCase: CreateNewDiscoUseCase = {
+        observabilityDecorator
+    }()
+
     lazy var deleteDiscoUseCase: DeleteDiscoUseCase = {
-        discoProfileContainer.repository
+        observabilityDecorator
     }()
 
     lazy var getDiscoReferencesUseCase: GetDiscoReferencesUseCase = {
         discoProfileContainer.repository
     }()
+
+    private lazy var observabilityDecorator = DiscoObservabilityDecorator(
+        createUseCase: repository,
+        deleteUseCase: discoProfileContainer.repository,
+        crashReporter: app.crashReporter,
+        analyticsReporter: app.analyticsReporter
+    )
 }

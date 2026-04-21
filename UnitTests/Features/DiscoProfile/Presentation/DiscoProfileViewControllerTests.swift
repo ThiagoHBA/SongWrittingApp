@@ -282,6 +282,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         wait(timeout: 10, until: { sut.presentedViewController is AddRecordSourceViewController })
 
         let sourceSheet = try XCTUnwrap(sut.presentedViewController as? AddRecordSourceViewController)
+        wait(timeout: 10, until: { sourceSheet.isReadyForInteraction })
         try tapButton(in: sourceSheet.view, accessibilityLabel: "Upload")
         wait(timeout: 10, until: { sut.presentedViewController is CustomPickerController })
 
@@ -510,5 +511,15 @@ private extension DiscoProfileViewControllerTests {
 
     func playButton(in sut: DiscoProfileViewController) -> UIBarButtonItem {
         sut.navigationItem.rightBarButtonItems![0]
+    }
+}
+
+private extension UIViewController {
+    var isReadyForInteraction: Bool {
+        isViewLoaded &&
+        view.window != nil &&
+        !isBeingPresented &&
+        !isBeingDismissed &&
+        transitionCoordinator == nil
     }
 }

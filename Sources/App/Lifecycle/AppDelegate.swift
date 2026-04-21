@@ -9,7 +9,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         FirebaseApp.configure()
         let crashReporter = FirebaseCrashReporter()
+        let analyticsReporter = FirebaseAnalyticsReporter()
         AppContainer.configureCrashReporterFactory { crashReporter }
+        AppContainer.configureAnalyticsReporterFactory { analyticsReporter }
         AppCrashReporterConfigurator.configure(crashReporter: crashReporter)
         return true
     }

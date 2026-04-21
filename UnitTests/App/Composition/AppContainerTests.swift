@@ -23,6 +23,7 @@ final class AppContainerTests: XCTestCase {
         XCTAssertTrue(sut.fileManagerService is FileManagerServiceImpl)
         XCTAssertTrue(sut.networkClient is NetworkClientImpl)
         XCTAssertTrue(sut.secureClient is SecureClientImpl)
+        XCTAssertTrue(sut.analyticsReporter is NoOpAnalyticsReporter)
     }
 
     func test_featureContainers_buildExpectedDependenciesFromRootContainer() {
@@ -34,8 +35,10 @@ final class AppContainerTests: XCTestCase {
 
         XCTAssertTrue(onboardingContainer.onboardingStatusRepository is UserDefaultsOnboardingStatusRepository)
         XCTAssertTrue(discoListContainer.repository is DiscoListRepositoryImpl)
-        XCTAssertTrue(discoListContainer.deleteDiscoUseCase is DiscoProfileRepositoryImpl)
+        XCTAssertTrue(discoListContainer.createNewDiscoUseCase is DiscoObservabilityDecorator)
+        XCTAssertTrue(discoListContainer.deleteDiscoUseCase is DiscoObservabilityDecorator)
         XCTAssertTrue(discoProfileContainer.repository is DiscoProfileRepositoryImpl)
+        XCTAssertTrue(discoListContainer.discoProfileContainer.repository is DiscoProfileRepositoryImpl)
         XCTAssertTrue(discoProfileContainer.spotifyAuthorizationHandler is SpotifyAuthorizationHandlerImpl)
         XCTAssertTrue(discoProfileContainer.referenceSearchRepository is ReferenceSearchStrategyRegistry)
     }

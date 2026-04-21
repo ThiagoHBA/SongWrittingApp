@@ -56,11 +56,26 @@ final class AddRecordSourceViewController: UIViewController {
     }
 
     @objc private func handleRecordTap() {
-        onRecordTap?()
+        performWhenTransitionCompletes { [weak self] in
+            self?.onRecordTap?()
+        }
     }
 
     @objc private func handleUploadTap() {
-        onUploadTap?()
+        performWhenTransitionCompletes { [weak self] in
+            self?.onUploadTap?()
+        }
+    }
+
+    private func performWhenTransitionCompletes(_ action: @escaping () -> Void) {
+        guard let transitionCoordinator else {
+            action()
+            return
+        }
+
+        transitionCoordinator.animate(alongsideTransition: nil) { _ in
+            action()
+        }
     }
 
     private func configureSheetPresentation() {

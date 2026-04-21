@@ -8,7 +8,7 @@ enum DiscoListComposer {
         let repository = container.repository
 
         let getDiscosUseCase = repository
-        let createNewDiscoUseCase = repository
+        let createNewDiscoUseCase = container.createNewDiscoUseCase
         let deleteDiscoUseCase = container.deleteDiscoUseCase
         let getDiscoReferencesUseCase = container.getDiscoReferencesUseCase
 
