@@ -98,24 +98,6 @@ Sendo essas possuindo também suas respectivas relações com as entidades demon
 
 10. Para reduzir boilerplate nos testes, o projeto utiliza um pacote de macros Swift (`SongWrittingAppMacros`), criado especificamente para esse projeto, para gerar spies e rastrear chamadas de métodos com anotações como `@SWSpy` e `@SWSpyMethodTracker`.
 
-### Use Cases
-
-Diante disso, estabeleci Use Cases necessários para a aplicação atender os requisitos. Esses foram idealizados para que se tornassem a base sólida da aplicação, ou seja, os principalmente os componentes que menos se alteram. Por conta disso, toda a utilização do Use Case se dá a partir de fronteiras, implementadas em código por meio de protocolos. 
-
-*Use Cases*
-
-<img width="961" alt="image" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/2f34854b-0e19-4800-afb5-13c51a864e7e">
-
-Diante dos UseCases estabelecidos, estabeleci as fronteiras a serem implementadas pelos serviços da camada de dados da aplicação:
-
-<img width="931" alt="image" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/90018922-20e3-4f49-b953-3b7eca06a036">
-
-O fluxo de implementação do serviço pode ser visto abaixo. A forma como o serviço de referencias está estruturado está de acordo com as necessidades referentes a API do Spotify, necessidade de autenticação, etc. Essas especificações da API foram tratadas como detalhes de implementação e não como regra de negócio do sistema. Por conta disso, o UseCase foi construido agnostico a necessidade de um RefreshToken ou não. 
-
-Porém, perceba que independente da forma como o serviço se estrutura, ou de que forma ele utiliza a camada de infraestrutura para capturar os dados, o use case não é afetado, cumprindo o objetivo da abstração.
-
-<img width="690" alt="image" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/ca0ddb41-2c6f-4c1a-9624-c4196b1d9426">
-
 ## Apresentação dos dados
 
 A camada de apresentação dos dados foi estabelecida por mim como a camada que vai lidar com respostas as interações do usuário e organizar os resultados a partir da utilização dos UseCases.
