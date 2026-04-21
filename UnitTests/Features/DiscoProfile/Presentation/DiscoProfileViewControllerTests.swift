@@ -166,7 +166,7 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         wait(until: { sut.presentedViewController is AddReferencesViewController })
 
         sut.updateReferences(references)
-        wait(until: { sut.presentedViewController == nil })
+        wait(until: { sut.presentedViewController == nil && sut.transitionCoordinator == nil })
 
         try tapButton(in: sut.view, accessibilityLabel: "Adicionar referência")
         wait(until: { sut.presentedViewController is AddReferencesViewController })

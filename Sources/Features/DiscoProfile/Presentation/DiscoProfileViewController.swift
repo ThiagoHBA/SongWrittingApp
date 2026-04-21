@@ -569,10 +569,11 @@ extension DiscoProfileViewController: DiscoProfileDisplayLogic {
     }
 
     func updateReferences(_ references: [AlbumReferenceViewEntity]) {
+        referenceSection.configure(with: makeReferenceSectionContent(from: references))
+        referenceViewController.selectedReferences = references
+
         dismiss(animated: true) { [weak self] in
-            guard let self else { return }
-            self.referenceSection.configure(with: self.makeReferenceSectionContent(from: references))
-            self.referenceViewController.selectedReferences = references
+            self?.view.layoutIfNeeded()
         }
     }
 
