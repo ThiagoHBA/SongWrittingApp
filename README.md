@@ -55,33 +55,32 @@ Estrutura atual do repositório:
 - `Main`: recursos do app, `Info.plist` e `LaunchScreen`
 - `UnitTests` e `UITests`: suítes de teste ativas
 
-Visando garantir uma melhor visualização da estrutura do sistema, construí um diagrama simples demonstrando as relações entre as entidades do projeto:
-
 <img width="780" alt="Screenshot 2023-12-13 at 01 54 37" src="https://github.com/ThiagoHBA/SongWrittingApp/assets/56696275/0e6c83c8-4549-4502-b7e1-421526877c62">
 
-Dessa forma, a entidade de Disco é referênciada pelo DiscoProfile em uma relação one-to-one, onde esse possui uma relação one-to-many com as entidades de Album Reference e Section.
+A entidade de Disco é referênciada pelo DiscoProfile em uma relação one-to-one, onde esse possui uma relação one-to-many com as entidades de Album Reference e Section.
 Sendo essas possuindo também suas respectivas relações com as entidades demonstradas na imagem.
 
 ## Decisões Estruturais
 
 ### Arquitetura e organização
 
-1. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile se deu pensando em garantir maior velocidade de carregamento no momento da listagem dos discos. A listagem trabalha com uma entidade resumida (`DiscoSummary`) e carrega apenas os dados necessários para apresentação da lista, enquanto informações mais detalhadas, como seções, gravações e referências, ficam concentradas no profile. Essa separação reduz o volume de "banda" necessária, possibilitando uma maior velocidade no carregamento dos dados.
+1. A aplicação foi estruturada seguindo princípios de Clean Architecture, separando regras de negócio, apresentação, dados e infraestrutura. Os Use Cases são expostos por protocolos e representam as fronteiras que permitem que frameworks como CoreData, URLSession, Keychain, UserDefaults e FileManager sejam substituídos/testados por meio de abstrações. Essa decisão também foi tomada buscando testes unitários focados em comportamento, pois Interactors, Presenters, Repositories, etc, podem ser exercitados sem depender diretamente de frameworks do sistema.
 
-2. A aplicação foi estruturada seguindo princípios de Clean Architecture, separando regras de negócio, apresentação, dados e infraestrutura. Os Use Cases são expostos por protocolos e representam as fronteiras mais estáveis, permitindo que detalhes como CoreData, URLSession, Keychain, UserDefaults e FileManager sejam substituídos ou testados por meio de abstrações. Essa decisão também foi tomada buscando testes unitários focados em comportamento, pois Interactors, Presenters, Repositories, etc, podem ser exercitados sem depender diretamente de frameworks do sistema.
-
-3. A implementação foi consolidada em uma única árvore principal em `Sources`, mantendo a separação por responsabilidade: em `App`, `Core` e `Features`. 
+2. A implementação foi consolidada em uma única árvore principal em `Sources`, mantendo a separação por responsabilidade: em `App`, `Core` e `Features`. 
 
    - `Sources/App` concentra ciclo de vida, composição e injeção de dependências
    - `Sources/Core` concentra infraestrutura compartilhada, persistência, networking e design system
    - `Sources/Features` concentra os fluxos de produto organizados por domínio
    -  O diretório `Main` ficou responsável por recursos do aplicativo, como `Info.plist`, assets e `LaunchScreen`.
+  
+3. A decisão de desacoplar a referência direta da entidade Disco ao seu DiscoProfile se deu pensando em garantir maior velocidade de carregamento no momento da listagem dos discos. A listagem trabalha com uma entidade resumida (`DiscoSummary`) e carrega apenas os dados necessários para apresentação da lista, enquanto informações mais detalhadas, como seções, gravações e referências, ficam concentradas no profile. Essa separação reduz o volume de "banda" necessária, possibilitando uma maior velocidade no carregamento dos dados.
+
 
 ### Composition Root
 
-4. A composição da aplicação foi centralizada em Containers e Composers (ou Factories). O `AppContainer` define as dependências globais da aplicação, enquanto containers específicos, como `DiscoListContainer`, `DiscoProfileContainer` e `OnboardingContainer`, montam os objetos necessários para cada feature. Isso foi feito buscando uma "modularização", de forma que a adição de novas funcionalidades no sistema seja facilitada. Os Composers conectam ViewController, Interactor, Presenter e Router. Essa abordagem reduz acoplamento, torna a inicialização mais explícita e facilita a criação de cenários de teste.
+4. A composição da aplicação foi centralizada em Containers e Composers (ou Factories). O `AppContainer` define as dependências globais da aplicação, enquanto containers específicos, como `DiscoListContainer`, `DiscoProfileContainer` e `OnboardingContainer`, montam os objetos necessários para cada feature. Isso foi feito buscando uma "modularização", de forma que a adição de novas funcionalidades no sistema seja facilitada. Os Composers conectam ViewController, Interactor, Presenter e Router. Essa abordagem reduz acoplamento, torna a inicialização mais explícita e facilita a criação de testes.
 
-5. Para a camada de apresentação, utilizei o padrão VIP associado a Router. O ViewController fica responsável por renderizar estado e capturar ações do usuário enquanto o Interactor coordena os Use Cases baseado nas interações do usuário. Após isso, o Presenter transforma respostas de domínio (vindas do interactor) em View Entities. O Router concentra navegações horizontais. Navegações verticais, como sheets e modais locais, foram tratadas como detalhes da UI quando não representam mudança real de fluxo.
+5. Para a camada de apresentação foi utilizado o padrão VIP associado a Router. O ViewController fica responsável por renderizar estado e capturar ações do usuário enquanto o Interactor coordena os Use Cases baseado nas interações do usuário (Recebidas pelo ViewController). Após isso, o Presenter transforma respostas de domínio (vindas do interactor) em View Entities. O Router concentra navegações horizontais. Navegações verticais, como sheets e modais locais, foram tratadas como detalhes da UI quando não representam mudança real de fluxo.
 
 8. A composição utiliza proxies: O `WeakReferenceProxy` evita que Presenter mantenha a View viva indevidamente, enquanto o `MainQueueProxy` garante que chamadas de apresentação sejam entregues na main thread. Essa decisão mantém os Presenters simples e evita espalhar `DispatchQueue.main.async` pela lógica de apresentação.
 
