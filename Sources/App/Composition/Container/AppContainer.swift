@@ -14,11 +14,16 @@ final class AppContainer {
     }
 
     private static let sharedFactory: () -> AppContainer = {
+        let crashReporter = crashReporterFactory()
         do {
-            return try AppContainer(storage: .persistent)
+            return try AppContainer(storage: .persistent, crashReporter: crashReporter)
         } catch {
             fatalError("Failed to bootstrap AppContainer: \(error)")
         }
+    }
+
+    private static var crashReporterFactory: () -> CrashReporting = {
+        NoOpCrashReporter()
     }
 
     private(set) static var shared = sharedFactory()
@@ -28,13 +33,15 @@ final class AppContainer {
     let fileManagerService: FileManagerService
     let networkClient: NetworkClient
     let secureClient: SecureClient
+    let crashReporter: CrashReporting
 
     init(
         storage: Storage,
         userDefaultsClient: UserDefaultsClient = UserDefaultsClientImpl(),
         fileManagerService: FileManagerService = FileManagerServiceImpl(),
         networkClient: NetworkClient = NetworkClientImpl(),
-        secureClient: SecureClient? = nil
+        secureClient: SecureClient? = nil,
+        crashReporter: CrashReporting = NoOpCrashReporter()
     ) throws {
         let discoStore = try Self.makeDiscoStore(for: storage)
         let secureClient = secureClient ?? SecureClientImpl(
@@ -46,6 +53,11 @@ final class AppContainer {
         self.fileManagerService = fileManagerService
         self.networkClient = networkClient
         self.secureClient = secureClient
+        self.crashReporter = crashReporter
+    }
+
+    static func configureCrashReporterFactory(_ factory: @escaping () -> CrashReporting) {
+        crashReporterFactory = factory
     }
 
     static func setShared(_ container: AppContainer) {

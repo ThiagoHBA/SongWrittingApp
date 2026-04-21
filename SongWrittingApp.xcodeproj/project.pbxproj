@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		008929F72F980F690086F833 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 008929F62F980F690086F833 /* FirebaseAnalytics */; };
+		008929F92F980F690086F833 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 008929F82F980F690086F833 /* FirebaseCore */; };
+		008929FB2F980F690086F833 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 008929FA2F980F690086F833 /* FirebaseCrashlytics */; };
 		00A017D32F96E72D00C49825 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A017D22F96E72D00C49825 /* SongWrittingMacros */; };
 		00A1B2E12F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A1B2E02F969696002A2437 /* SongWrittingMacros */; };
 		00E76B672F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00E76B662F969696002A2437 /* SongWrittingMacros */; };
@@ -76,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				008929F72F980F690086F833 /* FirebaseAnalytics in Frameworks */,
+				008929FB2F980F690086F833 /* FirebaseCrashlytics in Frameworks */,
+				008929F92F980F690086F833 /* FirebaseCore in Frameworks */,
 				1A9A4B682FD0000100ABCD01 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,6 +184,9 @@
 			name = Main;
 			packageProductDependencies = (
 				1A9A4B692FD0000100ABCD01 /* SDWebImage */,
+				008929F62F980F690086F833 /* FirebaseAnalytics */,
+				008929F82F980F690086F833 /* FirebaseCore */,
+				008929FA2F980F690086F833 /* FirebaseCrashlytics */,
 			);
 			productName = Main;
 			productReference = 00F2F2572B238ECE0008F6F5 /* Main.app */;
@@ -262,6 +271,7 @@
 			packageReferences = (
 				1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */,
+				008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
 			projectDirPath = "";
@@ -764,6 +774,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.1;
+			};
+		};
 		00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ThiagoHBA/SongWrittingAppMacros";
@@ -783,6 +801,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		008929F62F980F690086F833 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		008929F82F980F690086F833 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		008929FA2F980F690086F833 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		00A017D22F96E72D00C49825 /* SongWrittingMacros */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */;
