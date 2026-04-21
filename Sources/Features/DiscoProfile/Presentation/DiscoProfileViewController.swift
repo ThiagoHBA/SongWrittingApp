@@ -33,7 +33,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
             updateEmptyStateVisibility()
             tableView.reloadData()
             updateTableViewHeight()
-            playButton.isHidden = (discoProfile?.section.count ?? 0) < 1
+            playButton.isHidden = !(discoProfile?.section.contains { !$0.records.isEmpty } ?? false)
         }
     }
 
@@ -41,6 +41,12 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     private var disco: DiscoSummary
     private var searchProviders: [SearchReferenceViewEntity] = []
     private var selectedReferenceProvider: SearchReferenceViewEntity?
+
+    private var audioPlayer: AVAudioPlayer?
+    private var playbackQueue: [(indexPath: IndexPath, audioURL: URL)] = []
+    private var currentPlayingIndex: Int = 0
+    private var isPlayingDisco = false
+    private var currentHighlightedIndexPath: IndexPath?
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -227,7 +233,27 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     }
     
     @objc private func playDiscoTapped() {
+        if isPlayingDisco {
+            stopDiscoPlayback()
+            return
+        }
+
         guard let sections = discoProfile?.section else { return }
+
+        var queue: [(indexPath: IndexPath, audioURL: URL)] = []
+        for (sectionIndex, section) in sections.enumerated() {
+            for (recordIndex, record) in section.records.enumerated() {
+                queue.append((IndexPath(row: recordIndex + 1, section: sectionIndex), record.audio))
+            }
+        }
+
+        guard !queue.isEmpty else { return }
+
+        playbackQueue = queue
+        currentPlayingIndex = 0
+        isPlayingDisco = true
+        updateDiscoPlayButton(isPlaying: true)
+        playCurrentTrack()
     }
 
     private func addReferenceTapped() {
@@ -282,6 +308,7 @@ final class DiscoProfileViewController: UIViewController, AlertPresentable {
     }
 
     deinit {
+        audioPlayer?.stop()
         debugPrint("Deallocating viewController...")
     }
 }
@@ -516,6 +543,9 @@ extension DiscoProfileViewController: UITableViewDataSource, UITableViewDelegate
                 audioURL: currentItem.audio
             )
         )
+        cell.backgroundColor = (isPlayingDisco && currentHighlightedIndexPath == indexPath)
+            ? SWColor.Accent.emphasisBackground
+            : .clear
         return cell
     }
 }
@@ -680,6 +710,66 @@ private extension DiscoProfileViewController {
         )
     }
 
+    func playCurrentTrack() {
+        guard currentPlayingIndex < playbackQueue.count else {
+            stopDiscoPlayback()
+            return
+        }
+
+        let item = playbackQueue[currentPlayingIndex]
+
+        if let prev = currentHighlightedIndexPath {
+            tableView.cellForRow(at: prev)?.backgroundColor = .clear
+        }
+        currentHighlightedIndexPath = item.indexPath
+
+        scrollToPlayingCell(at: item.indexPath)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            guard let self, self.isPlayingDisco else { return }
+            self.tableView.cellForRow(at: item.indexPath)?.backgroundColor = SWColor.Accent.emphasisBackground
+        }
+
+        let isSecurityScoped = item.audioURL.startAccessingSecurityScopedResource()
+        defer { if isSecurityScoped { item.audioURL.stopAccessingSecurityScopedResource() } }
+
+        guard let player = try? AVAudioPlayer(contentsOf: item.audioURL) else {
+            currentPlayingIndex += 1
+            playCurrentTrack()
+            return
+        }
+
+        audioPlayer?.stop()
+        audioPlayer = player
+        player.delegate = self
+        player.numberOfLoops = 0
+        player.prepareToPlay()
+        player.play()
+    }
+
+    func stopDiscoPlayback() {
+        if let prev = currentHighlightedIndexPath {
+            tableView.cellForRow(at: prev)?.backgroundColor = .clear
+        }
+        currentHighlightedIndexPath = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
+        isPlayingDisco = false
+        playbackQueue = []
+        currentPlayingIndex = 0
+        updateDiscoPlayButton(isPlaying: false)
+    }
+
+    func scrollToPlayingCell(at indexPath: IndexPath) {
+        let cellRect = tableView.rectForRow(at: indexPath)
+        let rectInScrollView = tableView.convert(cellRect, to: scrollView)
+        scrollView.scrollRectToVisible(rectInScrollView, animated: true)
+    }
+
+    func updateDiscoPlayButton(isPlaying: Bool) {
+        playButton.image = UIImage(systemName: isPlaying ? "stop.fill" : "play.fill")
+    }
+
     func defineImageForTag(_ tag: InstrumentTagViewEntity) -> UIImage? {
         switch tag {
         case .guitar:
@@ -693,6 +783,14 @@ private extension DiscoProfileViewController {
         case .custom:
             return UIImage(systemName: "waveform.path")
         }
+    }
+}
+
+extension DiscoProfileViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        guard isPlayingDisco else { return }
+        currentPlayingIndex += 1
+        playCurrentTrack()
     }
 }
 

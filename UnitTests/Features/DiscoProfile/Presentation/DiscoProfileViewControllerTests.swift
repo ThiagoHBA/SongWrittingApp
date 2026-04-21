@@ -368,6 +368,59 @@ final class DiscoProfileViewControllerTests: XCTestCase {
         XCTAssertEqual(alertController.title, "Section Error")
         XCTAssertEqual(alertController.message, "Could not add section")
     }
+
+    // MARK: - Play Button Visibility
+
+    func test_showProfile_withNoSections_hidesPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: []))
+
+        XCTAssertTrue(playButton(in: sut).isHidden)
+    }
+
+    func test_showProfile_withSectionsButNoRecords_hidesPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [])]))
+
+        XCTAssertTrue(playButton(in: sut).isHidden)
+    }
+
+    func test_showProfile_withSectionContainingRecord_showsPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [makeRecord()])]))
+
+        XCTAssertFalse(playButton(in: sut).isHidden)
+    }
+
+    func test_showProfile_withMultipleSectionsOnlyOneWithRecord_showsPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+        let sections = [makeSection(records: []), makeSection(identifer: "Chorus", records: [makeRecord()])]
+
+        sut.showProfile(makeProfile(sections: sections))
+
+        XCTAssertFalse(playButton(in: sut).isHidden)
+    }
+
+    func test_updateSections_withRecords_showsPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: []))
+        sut.updateSections([makeSection(records: [makeRecord()])])
+
+        XCTAssertFalse(playButton(in: sut).isHidden)
+    }
+
+    func test_updateSections_removingAllRecords_hidesPlayButton() {
+        let (sut, _, _, _) = makeSUT()
+
+        sut.showProfile(makeProfile(sections: [makeSection(records: [makeRecord()])]))
+        sut.updateSections([makeSection(records: [])])
+
+        XCTAssertTrue(playButton(in: sut).isHidden)
+    }
 }
 
 extension DiscoProfileViewControllerTests {
@@ -453,5 +506,9 @@ private extension DiscoProfileViewControllerTests {
     func tapButton(in rootView: UIView, accessibilityLabel: String) throws {
         let button = try XCTUnwrap(rootView.findButton(accessibilityLabel: accessibilityLabel))
         button.sendActions(for: .touchUpInside)
+    }
+
+    func playButton(in sut: DiscoProfileViewController) -> UIBarButtonItem {
+        sut.navigationItem.rightBarButtonItems![0]
     }
 }
