@@ -1,4 +1,5 @@
 import Foundation
+import Networking
 
 struct GetReferencesEndpoint: Endpoint {
     var headers: [String: String]

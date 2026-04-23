@@ -13,7 +13,10 @@
 		00A017D32F96E72D00C49825 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A017D22F96E72D00C49825 /* SongWrittingMacros */; };
 		00A1B2E12F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00A1B2E02F969696002A2437 /* SongWrittingMacros */; };
 		00E76B672F969696002A2437 /* SongWrittingMacros in Frameworks */ = {isa = PBXBuildFile; productRef = 00E76B662F969696002A2437 /* SongWrittingMacros */; };
+		11ADFDCF681C4AAF98F36219 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 9D8C375CC12040B19B7FEFF2 /* Networking */; };
 		1A9A4B682FD0000100ABCD01 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1A9A4B692FD0000100ABCD01 /* SDWebImage */; };
+		45E880BC31D4426D8A679E6C /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 19D905E522704A1785024F4B /* Networking */; };
+		550EA4DE4C0E406E85928472 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = E8811BDB7747407B8CDF0C34 /* Networking */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00A1B2E12F969696002A2437 /* SongWrittingMacros in Frameworks */,
+				550EA4DE4C0E406E85928472 /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,7 @@
 				008929FB2F980F690086F833 /* FirebaseCrashlytics in Frameworks */,
 				008929F92F980F690086F833 /* FirebaseCore in Frameworks */,
 				1A9A4B682FD0000100ABCD01 /* SDWebImage in Frameworks */,
+				11ADFDCF681C4AAF98F36219 /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +97,7 @@
 			files = (
 				00A017D32F96E72D00C49825 /* SongWrittingMacros in Frameworks */,
 				00E76B672F969696002A2437 /* SongWrittingMacros in Frameworks */,
+				45E880BC31D4426D8A679E6C /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +165,7 @@
 			name = IntegrationTests;
 			packageProductDependencies = (
 				00A1B2E02F969696002A2437 /* SongWrittingMacros */,
+				E8811BDB7747407B8CDF0C34 /* Networking */,
 			);
 			productName = IntegrationTests;
 			productReference = 00A1B2C52B24CD020008F6F5 /* IntegrationTests.xctest */;
@@ -187,6 +194,7 @@
 				008929F62F980F690086F833 /* FirebaseAnalytics */,
 				008929F82F980F690086F833 /* FirebaseCore */,
 				008929FA2F980F690086F833 /* FirebaseCrashlytics */,
+				9D8C375CC12040B19B7FEFF2 /* Networking */,
 			);
 			productName = Main;
 			productReference = 00F2F2572B238ECE0008F6F5 /* Main.app */;
@@ -212,6 +220,7 @@
 			packageProductDependencies = (
 				00E76B662F969696002A2437 /* SongWrittingMacros */,
 				00A017D22F96E72D00C49825 /* SongWrittingMacros */,
+				19D905E522704A1785024F4B /* Networking */,
 			);
 			productName = UnitTests;
 			productReference = 00F2F2AE2B24CD020008F6F5 /* UnitTests.xctest */;
@@ -272,6 +281,7 @@
 				1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				00A017D12F96E72D00C49825 /* XCRemoteSwiftPackageReference "SongWrittingAppMacros" */,
 				008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E7E9C1839C0C4BA6A5C342BF /* XCLocalSwiftPackageReference "Packages/Networking" */,
 			);
 			productRefGroup = 00F2F1CB2B2373980008F6F5 /* Products */;
 			projectDirPath = "";
@@ -773,6 +783,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		E7E9C1839C0C4BA6A5C342BF /* XCLocalSwiftPackageReference "Packages/Networking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Networking;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		008929F52F980F690086F833 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -829,10 +846,25 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = SongWrittingMacros;
 		};
+		19D905E522704A1785024F4B /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7E9C1839C0C4BA6A5C342BF /* XCLocalSwiftPackageReference "Packages/Networking" */;
+			productName = Networking;
+		};
 		1A9A4B692FD0000100ABCD01 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 1A9A4B6A2FD0000100ABCD01 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		9D8C375CC12040B19B7FEFF2 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7E9C1839C0C4BA6A5C342BF /* XCLocalSwiftPackageReference "Packages/Networking" */;
+			productName = Networking;
+		};
+		E8811BDB7747407B8CDF0C34 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E7E9C1839C0C4BA6A5C342BF /* XCLocalSwiftPackageReference "Packages/Networking" */;
+			productName = Networking;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

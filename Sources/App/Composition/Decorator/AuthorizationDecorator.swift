@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Networking
 
 
 public final class AuthorizationDecorator: NetworkClient {

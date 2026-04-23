@@ -6,7 +6,6 @@
 //
 
 
-@testable import Main
 import Foundation
 
 final class URLSessionDataTaskSpy: URLSessionDataTask {

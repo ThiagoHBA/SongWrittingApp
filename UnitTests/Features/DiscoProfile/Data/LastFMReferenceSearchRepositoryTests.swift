@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+import Networking
 @testable import Main
 
 final class LastFMReferenceSearchRepositoryTests: XCTestCase {

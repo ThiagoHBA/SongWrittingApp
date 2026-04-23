@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import Networking
 @testable import Main
 
 final class SpotifyReferenceSearchRepositoryTests: XCTestCase {

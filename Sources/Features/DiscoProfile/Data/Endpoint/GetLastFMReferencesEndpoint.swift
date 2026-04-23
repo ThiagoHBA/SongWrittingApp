@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Networking
 
 struct GetLastFMReferencesEndpoint: Endpoint {
     var headers: [String: String] = [:]

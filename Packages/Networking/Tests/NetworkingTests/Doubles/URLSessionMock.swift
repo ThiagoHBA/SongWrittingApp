@@ -6,8 +6,8 @@
 //
 
 
-@testable import Main
 import Foundation
+import Networking
 
 final class URLSessionMock: URLSessionProtocol {
     var dataTask: URLSessionDataTaskSpy?

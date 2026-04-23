@@ -28,6 +28,9 @@ jobs:
       - name: Install Fastlane
         run: bundle install
 
+      - name: Run Package Tests
+        run: bundle exec fastlane package_tests
+
       - name: Run Tests & Coverage
         run: bundle exec fastlane coverage
 

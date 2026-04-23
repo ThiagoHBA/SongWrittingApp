@@ -5,8 +5,8 @@
 //  Created by Thiago Henrique on 18/04/26.
 //
 
-@testable import Main
 import Foundation
+import Networking
 
 struct EndpointDummy: Endpoint {
     var communicationProtocol: CommunicationProtocol = .HTTPS

@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-@testable import Main
+import Networking
 
 final class NetworkClientImplTests: XCTestCase {
     

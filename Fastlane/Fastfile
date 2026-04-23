@@ -52,6 +52,17 @@ default_platform(:ios)
 
 platform :ios do
 
+  desc "Run tests for all local SPM packages"
+  lane :package_tests do
+    packages_root = File.expand_path("../Packages", __dir__)
+    Dir.glob(File.join(packages_root, "*/Package.swift")).each do |manifest|
+      package_path = File.dirname(manifest)
+      package_name = File.basename(package_path)
+      UI.message("Testing package: #{package_name}")
+      sh("swift test --package-path #{Shellwords.escape(package_path)}")
+    end
+  end
+
   desc "Run tests and get coverage"
   lane :coverage do
     run_tests(
