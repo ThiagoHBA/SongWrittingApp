@@ -5,6 +5,7 @@
 //  Created by Thiago Henrique on 20/04/26.
 //
 
+import DesignSystem
 import UIKit
 
 protocol DiscoListDisplayLogic: AnyObject {

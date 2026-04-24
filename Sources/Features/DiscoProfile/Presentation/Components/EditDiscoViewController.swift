@@ -5,6 +5,7 @@
 //  Created by Thiago Henrique on 19/04/26.
 //
 
+import DesignSystem
 import UIKit
 
 final class EditDiscoViewController: UIViewController {

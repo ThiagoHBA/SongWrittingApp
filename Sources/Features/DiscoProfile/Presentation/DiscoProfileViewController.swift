@@ -1,4 +1,5 @@
 import AVFAudio
+import DesignSystem
 import UIKit
 
 protocol DiscoProfileDisplayLogic: AnyObject {

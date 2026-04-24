@@ -1,5 +1,6 @@
-import UIKit
+import DesignSystem
 import SDWebImage
+import UIKit
 
 final class OnboardingPageContentViewController: UIViewController {
     private let page: OnboardingPageViewEntity

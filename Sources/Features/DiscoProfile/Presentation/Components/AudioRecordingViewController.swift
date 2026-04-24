@@ -1,4 +1,5 @@
 import AVFoundation
+import DesignSystem
 import UIKit
 
 final class AudioRecordingViewController: UIViewController, AlertPresentable {
